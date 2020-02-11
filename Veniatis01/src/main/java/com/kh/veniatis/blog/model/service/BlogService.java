@@ -2,9 +2,9 @@ package com.kh.veniatis.blog.model.service;
 
 import java.util.ArrayList;
 
-import com.kh.veniatis0.blog.model.vo.BlogCate;
-import com.kh.veniatis0.blog.model.vo.BlogPost;
-import com.kh.veniatis0.blog.model.vo.Files;
+import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.Files;
 
 
 public interface BlogService {

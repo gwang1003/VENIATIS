@@ -27,7 +27,7 @@
 			<div class="cMain">
 				<article id="mContent" class="apply_intro">
 					<div class="apply_cont">
-						<h2 id="omcBody" class="tit_apply"><span class="font_normal">여러분의 아이디어를</span><span>크라우드펀딩을 통해 실현시켜 보세요</span></h2>
+						<h2 id="omcBody" class="tit_apply"><span class="font_normal">22여러분의 아이디어를</span><span>크라우드펀딩을 통해 실현시켜 보세요</span></h2>
 						<div class="select_type">
 							<div class="apply_support">
 								<span class="intro_img" id="crowdFunding"></span>

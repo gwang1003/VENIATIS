@@ -40,9 +40,58 @@
 <link rel="stylesheet" href="resources/css/guidecss.css">
 <script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="resources/js/commonUtil.js"></script>
-<script>
 
+<script>
+function sample4_execDaumPostcode() {
+    new daum.Postcode(
+            {
+               oncomplete : function(data) {
+                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                  // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                  var addr = ''; // 주소 변수
+                  var extraAddr = ''; // 참고항목 변수
+
+                  //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                  if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                     addr = data.roadAddress;
+                  } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                     addr = data.jibunAddress;
+                  }
+
+                  // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                  if (data.userSelectedType === 'R') {
+                     // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                     // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                     if (data.bname !== ''
+                           && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                     }
+                     // 건물명이 있고, 공동주택일 경우 추가한다.
+                     if (data.buildingName !== ''
+                           && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', '
+                              + data.buildingName
+                              : data.buildingName);
+                     }
+                     // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                     if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                     }
+                  }
+                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                  document.getElementById('postcode1').value = data.zonecode;
+                  document.getElementById("addr1").value = addr;
+                  // 커서를 상세주소 필드로 이동한다.
+                  document.getElementById("addr2")
+                        .focus();
+               }
+            }).open();
+   }
+<!--  // 우편번호 서비스 --> 
 
 </script>
 </head>
@@ -99,11 +148,29 @@
 								 <label for="inpPhoto" class="btn_edit">편집
 								<input	type="file" id="inpPhoto" name="inpPhoto" class="inp_photo"></label>
 								
+								<!-- 이미지 삽입 스크립트 -->
+								<script>
+								 $("#inpPhoto").change(function () {
+							            if (this.files && this.files[0]) {
+							                var reader = new FileReader();
+							                // 파일 내용을 읽어 들여 dataURL 형식의 문자열로 설정
+							                reader.readAsDataURL(this.files[0]);
+
+							                reader.onload = function () {
+							                    console.log(reader.result);
+							                    // div에 이미지 넣기
+							                    $("#img_profile").attr("src", reader.result);
+
+							                    $("#img_profile").html("<img src=" + reader.result + ">");
+							                }
+							            }
+							        });
+								</script>
+								
 									
 								
 							</div>
-							<p class="txt_edit">※프로젝트 개설자님의 사진은 프로젝트의 신뢰도를 높일 수 있습니다.(기업
-								로고 혹은 개인사진)</p>
+							<p class="txt_edit">※프로젝트 개설자님의 사진은 프로젝트의 신뢰도를 높일 수 있습니다.</p>
 							<p class="txt_edit2">※프로필 사진 권장 비율은 가로,세로 1:1입니다.</p>
 						</fieldset>
 
@@ -122,7 +189,7 @@
 					<fieldset class="fld_comm">
 						<ul>
 							<li class="box_info">
-								<p class="tit_name">개설자명(기업명)</p>
+								<p class="tit_name">개설자명</p>
 								<p class="txt_input">
 
 									<!-- 로그인 유저로부터 정보를 받아오기 -->
@@ -153,20 +220,22 @@
 							<li class="box_info box_post">
 								<ul>
 									<li class="box_info inner_post">
+									
+									
 										<p class="tit_name">주소<span class="txt_warning">*</span></p>
 										<p class="txt_input input_mini">
 											<label for="userPost" class="tf_comm">
-											 <input	type="text" id="userPost" class="tf_cont input_hold" 
+											 <input	type="text" id="postcode1" class="tf_cont input_hold" 
 											 readonly="readonly" name="userPost" value="" placeholder="우편번호">
 											</label>
 										</p>
-										<button type="button" id="zipbutton" class="btn_postsearch">우편번호	검색</button>
+										<button type="button" id="zipbutton" class="btn_postsearch"  onclick="sample4_execDaumPostcode()" >우편번호	검색</button>
 									</li>
 									<li class="box_info">
 										<p class="tit_name"></p>
 										<p class="txt_input input_full">
 											<label for="userAddr1" class="tf_comm"> 
-											 <input	type="text" id="userAddr1" class="tf_cont input_hold"
+											 <input	type="text" id="addr1" class="tf_cont input_hold"
 												readonly="readonly" name="userAddr1" value="" placeholder="기본주소">
 											</label>
 										</p>
@@ -176,12 +245,14 @@
 										<p class="txt_input input_full">
 											<label for="userAddr2" class="tf_comm">
 											
-											 <input type="text"	id="userAddr2" class="tf_cont" name="userAddr2" value="" placeholder="상세주소">
+											 <input type="text"	id="addr2" class="tf_cont" name="userAddr2" value="" placeholder="상세주소">
 											</label>
 										</p>
 									</li>
 								</ul>
 							</li>
+							
+						
 							<li class="box_info">
 								<p class="tit_name">홈페이지</p>
 								<p class="txt_input input_full">
@@ -201,35 +272,6 @@
 					<fieldset class="fld_comm">
 					
 						<ul>
-							<li class="box_info box_region">
-								<p class="tit_name">지역</p>
-								<div class="box_select">
-									<select class="select_sort" name="corpRegion" title="지역">
-										<option value="">선택</option>
-
-										<option value="AREA01">서울</option>
-										
-										<option value="AREA02">경기</option>
-
-										<option value="AREA03">인천</option>
-
-										<option value="AREA04">부산</option>									
-
-										<option value="AREA05">기타</option>
-
-									</select>
-								</div>
-							</li>
-							<li class="box_info box_sex">
-								<p class="tit_name">개설자성별</p>
-								<div class="box_select">
-									<select class="select_sort" name="userSex" title="개설자성별">
-										<option value="">선택</option>
-										<option value="M">남</option>
-										<option value="F">여</option>
-									</select>
-								</div>
-							</li>
 							<li class="box_info box_agreement">
 								<p class="tit_agreement">개인(기업)정보 수집ㆍ제공 활용 동의</p>
 								<div class="box_comm">
@@ -261,13 +303,23 @@
 	</div>
 			<div class="btn_area">
 				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> <input
-					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="javascript:location.href='projectStartPage_reward.do';">
+					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="checkOption()">
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp"/>
+	<script>
+	function checkOption(){
+		if($("#chkAccept").prop("checked")){
+		location.href='projectStartPage2.do';
+	
+		}else{
+			alert('개인(기업)정보 수집ㆍ제공 활용 동의를 확인해주세요.');
+		}
+	}
+	</script>
 	
 </body>
 </html>

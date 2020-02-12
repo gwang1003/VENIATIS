@@ -70,7 +70,7 @@
 								<label for="chkRegister2" class="chk_comm">
 									<input type="checkbox" id="chkRegister2" name="chkaAccept2" class="inp_chk">
 									<span class="chk_square"><span class="fa fa-check"></span></span>
-									<span class="txt_cont">언제 프로젝트를 진행하고, 리워드를 제공할 지 실행계획은 준비되었나요?</span>
+									<span class="txt_cont">언제 프로젝트를 진행하고, 리워드를 제공할 지 실행계획은 준비되었나요 ?</span>
 								</label>
 							</li>
 							

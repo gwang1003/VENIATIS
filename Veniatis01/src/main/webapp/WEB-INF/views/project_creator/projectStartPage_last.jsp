@@ -86,7 +86,7 @@
 
 	                <div class="sheet_info">
 	                	<div class="txt_area">
-	                		<span class="txt_desc"><span class="txt_warning">*</span>은 필수입력 항목입니다.1</span>
+	                		<span class="txt_desc"><span class="txt_warning">*</span>은 필수입력 항목입니다.</span>
 							<p class="link_area">
 								<a class="link_guide" href="/omc/download/apply/omc_reward_uploadguide_2019_2.pdf#page=18" title="업로드 가이드" target="_blank">업로드 가이드</a>
 								<a class="link_guide" href="/guide/maker/reward#project_guide" title="정산 가이드" target="_blank">정산 가이드</a>

@@ -79,13 +79,24 @@
                 </div>
             </div>
 			<footer class="reward_foot">
-				<button type="button" onclick="javascript:location.href='projectStartPage.do';" class="btn_sumbit" id="btn2">프로젝트 신청하기</button>
+				<button type="button" onclick="fn_check()" class="btn_sumbit" id="btn2">프로젝트 신청하기</button>
 			</footer>
 			</form>
         </article>
     </div>
     </div>
     <jsp:include page="../common/footer.jsp"/>
+    <script>
+    	function fn_check(){
+    		if($("#chkRegister1").prop("checked") && $("#chkRegister2").prop("checked")){
+    			
+    			location.href='projectStartPage2.do';
+    		
+    			}else{
+    				alert('크라우드펀딩 진행방식 준비여부에 체크해주세요.');
+    			}
+    	}
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+	<resultMap id="memberResultSet" type="Member">
+		<id property="mNo" column="M_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="mPwd" column="M_PWD"/>
+		<result property="mName" column="M_NAME"/>
+		<result property="mPhone" column="M_PHONE"/>
+		<result property="mEmail" column="M_EMAIL"/>
+		<result property="mAddress" column="M_ADDRESS"/>
+		<result property="mBirth" column="M_BIRTHDAY"/>
+		<result property="mInterest" column="M_INTERESTS"/>
+		<result property="mDate" column="M_CONN"/>
+	</resultMap>
+
+	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID=#{mId}
+	</select>
+	
+	<select id="selectOneUserId" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID=#{userId}
+	</select>
+	
+	
+	
+</mapper>

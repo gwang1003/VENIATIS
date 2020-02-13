@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="blogMapper">
+	<resultMap id="blogCateResultSet" type="BlogCate">
+		<id property="cateNo" column="B_CATE_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="bCateName" column="B_CATE_NAME"/>
+	</resultMap>
+	
+	<!-- 카테고리 이름 있는거.. -->
+	<resultMap type="BlogPost" id="BlogPostResultSet">
+		<id property="bNo" column="B_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property = "bContent" column="B_CONTENT"/>
+		<result property="bEnrollDate" column="B_ENROLLDATE"/>
+		<result property="bUpdateDate" column="B_UPDATEDATE"/>
+		<result property="bTag" column="B_TAG"/>
+		<result property="cateNo" column="B_CATE_NO"/>
+		<result property="uniNo" column="UNINO"/>
+		<result property="cateName" column="B_CATE_NAME"/>
+	</resultMap>
+	<!-- BlogPost만!! -->
+	<resultMap type="BlogPost" id="BlogPostResultSet1">
+		<id property="bNo" column="B_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property = "bContent" column="B_CONTENT"/>
+		<result property="bEnrollDate" column="B_ENROLLDATE"/>
+		<result property="bUpdateDate" column="B_UPDATEDATE"/>
+		<result property="bTag" column="B_TAG"/>
+		<result property="cateNo" column="B_CATE_NO"/>
+		<result property="uniNo" column="UNINO"/>	
+	</resultMap>
+	
+	<!-- chnageName까지..(썸네일가져오기용) -->
+	<resultMap type="BlogPost" id="BlogPostResultSet2">
+		<id property="bNo" column="B_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property = "bContent" column="B_CONTENT"/>
+		<result property="bEnrollDate" column="B_ENROLLDATE"/>
+		<result property="bUpdateDate" column="B_UPDATEDATE"/>
+		<result property="bTag" column="B_TAG"/>
+		<result property="cateNo" column="B_CATE_NO"/>
+		<result property="uniNo" column="UNINO"/>
+		<result property="cateName" column="B_CATE_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>		
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property = "pNo" column="P_NO"/>
+		<result property="wDate" column="WDATE"/>
+		<result property="content" column="CONTENT"/>
+	</resultMap>
+
+	<!-- 카테고리 목록 갖고오기 -->
+	<select id="selectCateList" resultMap="blogCateResultSet">
+		SELECT *
+		FROM BLOG_CATE
+		WHERE M_ID=#{mId}
+	</select>
+	
+	<!-- 게시글 목록갖고오기 -->
+	<select id="selectPostList2" resultMap="BlogPostResultSet2">		
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE M_ID=#{mId} 
+		ORDER BY B_ENROLLDATE DESC
+	</select>	
+	
+
+	<!-- 게시글목록 임시용 -->
+	<select id="selectPostList" resultMap="BlogPostResultSet">		
+        SELECT *
+        FROM BLOG_POST
+        WHERE M_ID=#{mId}
+        ORDER BY B_ENROLLDATE DESC
+	</select>	
+
+	<!-- 게시글한개조회! -->
+	<select id="selectPostDetail" parameterType="BlogPost" resultMap="BlogPostResultSet">
+		SELECT BP.* , BC.B_CATE_NAME
+		FROM BLOG_POST BP,BLOG_CATE BC
+		WHERE BP.M_ID=#{mId} 
+				AND BP.UNINO=#{uniNo}
+				AND BP.B_CATE_NO=BC.B_CATE_NO
+	</select>	
+
+	<!-- uniNo를 위해 MAXNUM 갖고오기 -->
+	<select id="selectUniNo"  parameterType="BlogPost" resultType="_int">
+		SELECT MAX(UNINO)
+		FROM BLOG_POST
+		WHERE M_ID=#{mId}
+	</select>
+
+
+
+	<!-- 글쓰기 -->
+	<insert id="insertPost" parameterType="BlogPost">
+		INSERT INTO BLOG_POST
+		VALUES(SEQ_BLOG_POST_NO.NEXTVAL,#{mId}, #{bTitle}, #{bContent}, SYSDATE,
+		SYSDATE,#{bTag}, #{cateNo}, #{uniNo})
+	</insert> 
+	
+	<!-- 스크랩위해 글번호를 통한 정보 갖고오기 - 블로그 -->
+	<select id="selectScrapPost" parameterType="BlogPost" resultMap="BlogPostResultSet1">
+		SELECT *
+		FROM BLOG_POST
+		WHERE B_NO=#{bNo}
+	</select>
+	
+
+	<!-- 카테고리별 갖고오기 -->
+	<select id="selectCatePostList" parameterType="BlogPost" resultMap="BlogPostResultSet2">
+	SELECT *
+	FROM BLOG_THUMB
+	WHERE B_CATE_NO=#{cateNo} AND M_ID=#{mId}
+	ORDER BY B_ENROLLDATE DESC
+	</select>
+	
+</mapper>

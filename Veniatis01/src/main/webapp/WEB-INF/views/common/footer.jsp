@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.fnb_comm {
+		margin:0;
+	}
+</style>
+
 </head>
 <body>
 <footer id="omcFoot">

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="filesMapper">
+	<resultMap type="Files" id="FilesResultSet">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property ="mNo" column="M_NO"/>
+		<result property="conNo" column="CON_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="orginName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+	</resultMap>
+	
+	<!-- changeName을통한 중복확인 -->
+	<select id="fileOverlapTest" parameterType="Files" resultMap="FilesResultSet">
+		SELECT *
+		FROM FILES
+		WHERE CHANGE_NAME=#{changeName} 
+	</select>	
+	
+	<!-- 블로그사진넣기 -->
+	<insert id="insertPostFile" parameterType="Files">
+		INSERT INTO FILES
+		VALUES(SEQ_FILES_NO.NEXTVAL,SEQ_BLOG_POST_NO.CURRVAL, null, null, null,
+		null,1, #{orginName}, #{changeName},#{filePath},SYSDATE,'Y',#{fileLevel})
+	</insert> 
+	
+	<!-- 썸네일 사진넣기 -->
+	<insert id="insertThumb" parameterType="Files">
+		INSERT INTO FILES
+		VALUES(SEQ_FILES_NO.NEXTVAL,SEQ_BLOG_POST_NO.CURRVAL, null, null, null,
+		null,1, #{orginName}, #{changeName},#{filePath},SYSDATE,'Y',1)
+	</insert> 
+	
+	<!-- 스크랩을 위한 썸네일 정보 갖고오기 -->
+	<select id="getScrapThumbPic" parameterType="Files" resultMap="FilesResultSet">
+		SELECT *
+		FROM FILES
+		WHERE FILE_LEVEL=1  AND B_NO=#{bNo}
+	</select>	
+	
+	
+	
+</mapper>

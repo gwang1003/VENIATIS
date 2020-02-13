@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="replyMapper">
+	<resultMap id="replyResultSet" type="Reply">
+		<id property="rNo" column="REPLY_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="wDate" column="WDATE"/>
+		<result property="rContent" column="CONTENT"/>
+		<result property="rWriter" column="M_NAME"/>
+	</resultMap>
+	<!-- 블로그 댓글 조회 -->
+	<select id="getReplyList" resultMap="replyResultSet">
+		SELECT *
+		FROM RLISTVIEW
+		WHERE B_NO=#{bNo}
+		ORDER BY WDATE ASC
+	</select>
+	
+	<!-- 블로그 댓글 작성 -->
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO REPLY
+		VALUES(SEQ_REPLY_NO.NEXTVAL,#{mNo}, #{bNo}, null, SYSDATE,
+		#{rContent})
+	</insert> 
+	
+	
+	<!-- 블로그 댓삭 -->
+	<delete id="blogDeleteReply" parameterType="Reply">
+		DELETE FROM REPLY
+	  	WHERE REPLY_NO = #{rNo}
+	</delete>
+	
+	
+</mapper>

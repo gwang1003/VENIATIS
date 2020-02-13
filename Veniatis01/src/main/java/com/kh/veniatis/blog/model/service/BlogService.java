@@ -61,6 +61,7 @@ public interface BlogService {
 
 	// 17. 카테고리별 갖고오기
 	ArrayList<BlogPost> selectCatePostList(BlogPost bp);
-	
+		// 18. 검색
+	ArrayList<BlogPost> searchPostList(BlogPost search);
 }
 */

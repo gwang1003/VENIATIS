@@ -50,6 +50,9 @@
 		<result property="changeName" column="CHANGE_NAME"/>		
 	</resultMap>
 	
+
+	
+	
 	<resultMap type="Reply" id="replyResultSet">
 		<id property="replyNo" column="REPLY_NO"/>
 		<result property="mNo" column="M_NO"/>
@@ -122,6 +125,17 @@
 	FROM BLOG_THUMB
 	WHERE B_CATE_NO=#{cateNo} AND M_ID=#{mId}
 	ORDER BY B_ENROLLDATE DESC
+	</select>
+	
+	<!--  -->
+	
+	<!-- 검색 -->
+	<select id="searchPostList" parameterType="BlogPost" resultMap="BlogPostResultSet2">
+SELECT *
+FROM BLOG_THUMB
+WHERE (B_TITLE LIKE '%' || #{searchValue} || '%' OR
+        B_CONTENT LIKE '%' || #{searchValue} || '%' ) AND 
+        M_ID=#{mId}
 	</select>
 	
 </mapper>

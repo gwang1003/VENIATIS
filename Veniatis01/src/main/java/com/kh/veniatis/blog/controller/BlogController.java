@@ -495,7 +495,35 @@ public class BlogController {
 			return "success";
 	}	
 	
-	
+		//검색용
+	@RequestMapping("bSearch.do")
+	public ModelAndView searchPostList(ModelAndView mv,
+			@RequestParam(value="page", required=false) Integer page,HttpServletRequest request,
+			 @RequestParam("userId") String userId,
+			 @RequestParam("searchValue") String searchValue) {
+		
+		Member m=mService.selectOneMember(userId);
+				
+		//유저아이디와 서치벨류 
+		BlogPost search = new BlogPost();
+		search.setmId(userId);
+		search.setSearchValue(searchValue);
+		
+		ArrayList<BlogPost> post = bService.searchPostList(search);
+
+		//카테고리 목록 갖고오기
+		ArrayList<BlogCate> cate = bService.selectCateList(userId);
+		
+		//포스트 목록 갖고오기
+		
+		mv.addObject("user",m);
+		mv.addObject("cate",cate);
+		mv.addObject("post",post);
+		mv.addObject("search",searchValue);
+		mv.setViewName("blogMainSearch");
+
+		return mv;
+	}
 	
 	
 	@RequestMapping("badmin.do")

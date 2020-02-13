@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="likesMapper">
+	<resultMap id="likesResultSet" type="Likes">
+		<id property="likeNo" column="LIKE_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+	</resultMap>
+
+<!-- 좋아요 횟수 조회 -->
+	<select id="selectLikeCount"  parameterType="Likes" resultType="_int">
+ 		SELECT COUNT(LIKE_NO) FROM LIKES WHERE B_NO=${bNo}
+	</select>
+
+<!-- 좋아요 넣기 -->
+	<insert id="insertLikes" parameterType="Likes">
+		INSERT INTO LIKES
+		VALUES (SEQ_LIKE_NO.NEXTVAL,${mNo},${bNo},null)
+	</insert> 
+
+<!-- 내가좋아요넣었는지 확인!! -->
+	<select id="selectMyLikes"  parameterType="Likes" resultType="_int">
+		SELECT COUNT(LIKE_NO) FROM LIKES WHERE B_NO=${bNo} AND M_NO=${mNo}
+	</select>
+
+
+<!-- 좋아요 취소 -->
+	<delete id="deleteLikes" parameterType="Likes">
+			DELETE FROM LIKES
+			WHERE B_NO=${bNo} AND M_NO=${mNo}
+	</delete>
+	
+
+</mapper>

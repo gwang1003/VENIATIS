@@ -50,7 +50,7 @@ s0.parentNode.insertBefore(s1,s0);
                                         <ul id="navigation">
 
 
-                                            <li><a href="#">후원하기 <i class="ti-angle-down"></i></a>
+                                            <li><a href="#">후원하기! <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li><a href="blog.html">개인</a></li>
                                                     <li><a href="single-blog.html">기업</a></li>

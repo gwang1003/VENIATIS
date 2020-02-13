@@ -120,5 +120,12 @@ public class BlogDao {
 		return (ArrayList)sqlSession.selectList("blogMapper.selectCatePostList",bp);
 	}
 	
+		//-----------------------------------------------------------------------------------
+	// 서치
+	public ArrayList<BlogPost> searchPostList(BlogPost search) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.searchPostList",search);
+	}
+	
 }
 */

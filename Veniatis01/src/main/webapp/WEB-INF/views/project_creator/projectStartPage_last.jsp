@@ -48,6 +48,7 @@
 		<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
 		
 		<header class="head_comm">
+		<br>
 					<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
 				</header>
 

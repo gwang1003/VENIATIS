@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +9,23 @@
     <title>Travelo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<style>
+	</style>
 
     <link rel="stylesheet" href="resources/css/blog.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+    <script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5e3c0216298c395d1ce685b1/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script> 
 </head>
 
 <body>
@@ -27,7 +39,7 @@
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
                                     <a href="index.html">
-                                        <img src="resources/common/logo.png" width="70%" height="70%" alt="">
+                                        <img src="resources/common/logo.png" width="60%" height="60%" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -35,44 +47,35 @@
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a class="active" href="index.html">home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a class="" href="travel_destination.html">Destination</a></l/li> <li><a
-                                                    href="#">pages <i class="ti-angle-down"></i></a>
+
+
+                                            <li><a href="#">후원하기! <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="destination_details.html">Destinations details</a></li>
-                                                    <li><a href="elements.html">elements</a></li>
+                                                    <li><a href="blog.html">개인</a></li>
+                                                    <li><a href="single-blog.html">기업</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.html">blog</a></li>
-                                                    <li><a href="single-blog.html">single-blog</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="contact.html">공모전</a></li>
+                                            <li><a href="contact.html">Blog</a></li>
+                                            <li><a href="contact.html">가이드</a></li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 d-none d-lg-block">
                                 <div class="social_wrap d-flex align-items-center justify-content-end">
-                                    <div class="number">
-                                        <p> <i class="fa fa-phone"></i> 10(256)-928 256</p>
-                                    </div>
+
                                     <div class="social_links d-none d-xl-block">
                                         <ul>
-                                            <li><a href="#"> <i class="fa fa-instagram"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-linkedin"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-google-plus"></i> </a></li>
+                                            <li><a href="#"> 로그인 </a></li>
+                                            <li><a href="#"> 회원가입 </a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="seach_icon">
                                 <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
-                                    <i class="fa fa-search"></i>
+                                    
                                 </a>
                             </div>
                             <div class="col-12">
@@ -100,5 +103,6 @@
     
     <script src="resources/js/blog.js" data-cf-settings="a1eea7649e67865af049505a-|49" defer=""></script>
 </body>
+
 
 </html>

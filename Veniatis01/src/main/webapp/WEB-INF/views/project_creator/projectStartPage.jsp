@@ -103,6 +103,7 @@ function sample4_execDaumPostcode() {
 		<div class="cMain">
 
 	<header class="head_comm">
+	<br>
 				<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
 			</header>
 

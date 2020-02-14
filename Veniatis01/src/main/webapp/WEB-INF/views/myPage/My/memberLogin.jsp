@@ -40,7 +40,7 @@
                                                 <div class="text-center">
                                                     <h1 class="h4 text-gray-900 mb-4">로그인</h1>
                                                 </div>
-                                                <form id="loginForm" action="<%= request.getContextPath() %>/LoginServlet" method="post" onsubmit="return validate();">
+                                                <form id="loginForm" action="login.do" method="post" onsubmit="return validate();">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-user"
                                                             name="userId" id="userId"

@@ -1546,7 +1546,6 @@ a:active, a:hover {
  select {
   padding: 0 45px 0 10px;
   background-color: #fff;
-  background-image: url(../project_creator/down-arrow.png);
   background-size : 50%;
   background-repeat: no-repeat;
   background-position: 100% 50%; } 

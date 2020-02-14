@@ -1,4 +1,4 @@
-/*package com.kh.veniatis.blog.controller;
+package com.kh.veniatis.blog.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,12 +57,12 @@ public class BlogController {
 	public ModelAndView blogList(ModelAndView mv,
 			@RequestParam(value="page", required=false) Integer page,HttpServletRequest request,
 			 @RequestParam("userId") String userId) {
-
-			Member m=mService.selectOneMember(userId);
+			System.out.println(userId);
+			Member m=mService.selectOneMember(userId); 
 			
 			//카테고리 목록 갖고오기
 			ArrayList<BlogCate> cate = bService.selectCateList(userId);
-			
+			System.out.println(cate);
 			//포스트 목록 갖고오기
 			ArrayList<BlogPost> post = bService.selectPostList(userId);
 			
@@ -70,7 +70,7 @@ public class BlogController {
 			mv.addObject("user",m);
 			mv.addObject("cate",cate);
 			mv.addObject("post",post);
-			mv.setViewName("blogMain2");
+			mv.setViewName("blog/blogMain2");
 		 
 		return mv;
 	}
@@ -99,7 +99,7 @@ public class BlogController {
 			mv.addObject("user",m);
 			mv.addObject("cate",cate);
 			mv.addObject("post",post);
-			mv.setViewName("blogMain2");
+			mv.setViewName("blog/blogMain2");
 		 
 		 
 		return mv;
@@ -147,7 +147,7 @@ public class BlogController {
 	        mv.addObject("myCate",cate);	//스크랩 전용 내 카테고리
 			mv.addObject("nowUser",nowUser); //현재 로그인하고 있는 유저 정보
 			 mv.addObject("likeDetail",l);	// 좋아요
-			 mv.setViewName("blogDetail2");	
+			 mv.setViewName("blog/blogDetail2");	
 				
 		return mv;
 	}	
@@ -159,7 +159,7 @@ public class BlogController {
         ArrayList<BlogCate> cate = bService.selectCateList(m.getmId());
         
         mv.addObject("cate",cate);
-        mv.setViewName("blogWrite");
+        mv.setViewName("blog/blogWrite");
         
 		return mv;
 	}
@@ -167,7 +167,7 @@ public class BlogController {
 	
 	@RequestMapping("write.do")
 	public String boardInsertView() {
-		return "blogWrite";
+		return "blog/blogWrite";
 	}
 	
 	
@@ -301,7 +301,7 @@ public class BlogController {
 		String ext = name.substring(name.lastIndexOf(".")+1);
 
 		// 파일 기본경로
-		 String defaultPath = getServletContext().getRealPath("/"); 
+		/* String defaultPath = getServletContext().getRealPath("/"); */
 		String defaultPath = request.getSession().getServletContext().getRealPath("resources");
 		// 파일 기본경로 _ 상세경로
 		String path = defaultPath + "\\upload" + File.separator;
@@ -520,7 +520,7 @@ public class BlogController {
 		mv.addObject("cate",cate);
 		mv.addObject("post",post);
 		mv.addObject("search",searchValue);
-		mv.setViewName("blogMainSearch");
+		mv.setViewName("blog/blogMainSearch");
 
 		return mv;
 	}
@@ -528,11 +528,27 @@ public class BlogController {
 	
 	@RequestMapping("badmin.do")
 	public String blogAdminView() {
-		return "blogAdmin";
+		return "blog/blogAdmin";
 	}
 	
-
+	
+	
+	// 블로그홈
+	@RequestMapping("blogHome.do")
+	public String blogHome() {
+		
+		// 좋아요 횟수 많은 게시글 수대로 갖고오기
+		// ArrayList<BlogPost> post = bService.selectPopularList();
+		return "blog/blogHome";
+	}
+	
+	@RequestMapping("loginPageGo.do")
+	public String test() {
+		
+		
+		return "blog/login";
+	}
+	
 	
 	
 }
-*/

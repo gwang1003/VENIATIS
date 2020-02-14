@@ -92,7 +92,7 @@ function validation(){
 
 <br>
 
-                             썸네일:
+                             썸네일: 
             <div id="represent" class="represent-img">
 				<img id="represent1" class="images" src="resources/buploadFiles/BasicThumbs.jpg" width="400px" height="300px">
 			</div>

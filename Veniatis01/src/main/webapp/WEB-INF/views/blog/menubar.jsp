@@ -12,7 +12,7 @@
 	<style>
 
 	</style>
-
+ 
     <link rel="stylesheet" href="resources/css/blog2.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

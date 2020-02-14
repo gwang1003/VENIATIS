@@ -12,7 +12,7 @@ public class BlogCate {
 		this.cateNo = cateNo;
 		this.mId = mId;
 		this.bCateName = bCateName;
-	}
+	} 
 
 	public int getCateNo() {
 		return cateNo;

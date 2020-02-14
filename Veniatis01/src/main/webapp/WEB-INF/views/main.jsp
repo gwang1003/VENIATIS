@@ -46,7 +46,7 @@
 
 </head>
 <body>
-
+<jsp:include page="common/menubar.jsp"></jsp:include>
     <!-- slider_area_start -->
     <div class="slider_area">
         <div class="slider_active owl-carousel">
@@ -530,7 +530,7 @@
                                 </div>
                                 <div class="single_insta">
                                     <a href="#">
-                                        <img src="test.jpg" alt="">
+                                        <img src="test.jpg" alt=""> 
                                     </a>
                                 </div>
                                 <div class="single_insta">

@@ -37,7 +37,7 @@
                 <div class="area_search" role="search">
                     <form action="" method="" class="ng-pristine ng-valid ng-valid-maxlength">
                         <fieldset>
-                            <legend class="blind">검색창</legend>
+                            <legend class="blind">검색창 </legend>
                             <div class="search">
 
                                 <input type="text" class="textbox ng-pristine ng-untouched ng-valid ng-empty ng-valid-maxlength"
@@ -326,9 +326,12 @@
                                         bg-image="" width="46" height="46" alt="프로필" class="no_image" src="resources/img/test.png"></span><span>로그인한인간</span></a>
                             </div>
                         <nav class="menu_my_blog" ng-show="loginCtrl.loggedIn">
-                            <a bg-nclick="hmp*s.myblog" ng-href="#" target="_blank"
-                                class="item" alt="내 블로그" href="#">내 블로그</a>
-                            <a bg-nclick="hmp*s.write" bg-ros-click="" ng-href="#"
+                <c:url var="blogMaina" value="blogMain2.do">
+					<c:param name="userId" value="${loginUser.mId }"/>
+				</c:url>
+                            <a 
+                                class="item" alt="내 블로그" href='${ blogMaina }>?userId=${loginUser.mId}'>내 블로그</a>
+                            <a 
                                 target="_blank" class="item" alt="관리하기" href="#">관리하기</a>
                         </nav>
                     </div>

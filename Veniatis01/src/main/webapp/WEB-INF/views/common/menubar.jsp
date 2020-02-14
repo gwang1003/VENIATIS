@@ -57,8 +57,8 @@ s0.parentNode.insertBefore(s1,s0);
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">공모전</a></li>
-                                            <li><a href="contact.html">Blog</a></li>
-                                            <li><a href="contact.html">가이드</a></li>
+                                            <li><a href="blogMain2.do?userId=${loginUser.mId }">Blog</a></li>
+                                            <li><a href="contact.html">가이드2</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -68,7 +68,7 @@ s0.parentNode.insertBefore(s1,s0);
 
                                     <div class="social_links d-none d-xl-block">
                                         <ul>
-                                            <li><a href="#"> 로그인 </a></li>
+                                            <li><a href="loginPageGo.do"> 로그인 </a></li>
                                             <li><a href="#"> 회원가입 </a></li>
                                         </ul>
                                     </div>

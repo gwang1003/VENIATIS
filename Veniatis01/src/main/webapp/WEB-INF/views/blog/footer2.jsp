@@ -10,7 +10,7 @@
 <body>
     <footer id="omcFoot">
     <div class="inner">
-        <h2 class="screen_out">약관메뉴</h2>
+        <h2 class="screen_out">약관메 뉴</h2>
         <ul class="fnb_comm">
             <li><a href="/company/vision" class="link_fnb">회사소개</a></li>
             <li><a href="/policy/rewardTerms" class="link_fnb">이용약관</a></li>

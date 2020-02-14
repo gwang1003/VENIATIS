@@ -69,7 +69,7 @@
                     <i class="fa fa-search"></i> 글 관리
                 </a>
                 <a href="#" class="list-group-item">
-                    <i class="fa fa-user"></i> 카테고리 관리
+                    <i class="fa fa-user"></i> 카테고리 관리 
                 </a>
                 <a href="#" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 그외

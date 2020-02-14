@@ -40,7 +40,7 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                     <!-- 목록 가져오긔 -->
-                   <h2>'${search }' 검색 결과</h2><br><br>                   
+                   <h2>'${search }' 검색  결과</h2><br><br>                   
                     <c:forEach var="p" items="${post}"> 
                 
                        <article class="blog_item">

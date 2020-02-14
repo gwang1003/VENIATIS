@@ -25,13 +25,13 @@
         height: 50px;
         border-radius:50%;
         /* border:1px solid silver; */
-        background: url(icon/chk.png) left center no-repeat; 
+        background: url(resources/project_user/check_gray_round.png) left center no-repeat; 
         background-size: contain;        
         vertical-align: middle; transition-duration: .3s;
     }
     .lab_select .chk_reward{ display:none;} 
     .lab_select .chk_reward:checked + .check-icon {
-        background-image: url(icon/check_mint.png); 
+        background-image: url(resources/project_user/check_mint.png); 
     }
     
 </style>

@@ -35,7 +35,7 @@
             <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
             		<h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그  입니다.</h1>
+            		${ user.mName } 님의 블로그 입니다.</h1>
             </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
@@ -58,7 +58,7 @@
                                 <a class="d-inline-block" href="${ detail }">
                                     <h2>${p.bTitle}</h2>
                                 </a>
-                                
+                                <p>${p.bTContent }</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i>${p.cateName}</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>

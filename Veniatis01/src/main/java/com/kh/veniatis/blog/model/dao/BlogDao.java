@@ -24,6 +24,7 @@ public class BlogDao {
 	
 	//카테고리목록 갖고오기
 	public ArrayList<BlogCate> selectCateList(String mId) {
+		System.out.println(mId+":");
 		return (ArrayList)sqlSession.selectList("blogMapper.selectCateList",mId);
 	}
 	
@@ -125,6 +126,24 @@ public class BlogDao {
 	public ArrayList<BlogPost> searchPostList(BlogPost search) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("blogMapper.searchPostList",search);
+	}
+	
+	//인기게시글 갖고오깅
+	public ArrayList<BlogPost> selectPopularList() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.popSelect1");
+	}
+
+	public ArrayList<BlogPost> selectPopularRealList(ArrayList<BlogPost> post) {
+		// TODO Auto-generated method stub
+		ArrayList<BlogPost> bp = new ArrayList<BlogPost>() ;
+		System.out.println("dd"+bp);
+		for(int i=0; i<post.size(); i++) {
+			int bNo=post.get(i).getbNo();
+			System.out.println(bNo);
+			bp.add(sqlSession.selectOne("blogMapper.popSelect2",bNo));
+		}
+		return bp;
 	}
 	
 }

@@ -82,7 +82,7 @@ function validation(){
  <jsp:include page="menubar.jsp"></jsp:include>
     <div class="container">
 
-<form action="blogInsert.do" method="post" id="frm" enctype="multipart/form-data">
+<form action="blogInsert.do" method="post" id="frm" enctype="multipart/form-data" onsubmit="values();">
 카테고리:
                                 <select name="cateNo">
                                 <c:forEach var="cate" items="${cate}">  
@@ -92,15 +92,15 @@ function validation(){
 
 <br>
 
-                             썸네일: 
+                             썸네일:
             <div id="represent" class="represent-img">
 				<img id="represent1" class="images" src="resources/buploadFiles/BasicThumbs.jpg" width="400px" height="300px">
 			</div>
                              
              <input type="file" name="represent" class="hidden" id="represent-btn" onchange="loadImg(this,1)">                            
+			<input type="hidden" name ="bTContent" id ="bTContent" value="">
 	<br>           
-
-<br>
+	<br>
 제목:<input type="text" name="bTitle" value=""><br><br>
 	<textarea name="bContent" id="smarteditor" rows="10" cols="100" style="width:766px; height:412px;"></textarea> 
 태그 (,로 분류): <input type ="text" name="bTag" value=""><br>
@@ -112,7 +112,7 @@ function validation(){
 $(function(){
     $("#represent").click(function(e){
        $("#represent-btn").click();
-    });
+    });   
  });
 
     function loadImg(value,num){
@@ -131,6 +131,13 @@ $(function(){
            reader.readAsDataURL(value.files[0]);
         }
     }
+    
+    function values(){
+    	var a=$("#smarteditor").val();
+    	
+    	document.getElementById('bTContent').value=a.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+    }
+
 </script>
 </body>
 

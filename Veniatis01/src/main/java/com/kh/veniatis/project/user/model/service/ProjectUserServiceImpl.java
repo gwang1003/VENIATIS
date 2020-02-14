@@ -15,7 +15,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	
 	@Override
 	public ArrayList<Project> selectList(int currentPage) {
-		// TODO Auto-generated method stub
 		return pud.selectList();
 	}
 

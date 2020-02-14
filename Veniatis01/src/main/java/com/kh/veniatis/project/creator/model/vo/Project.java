@@ -3,9 +3,9 @@ package com.kh.veniatis.project.creator.model.vo;
 import java.util.Date;
 
 public class Project {
-	private int pNo;	// 프로젝트 번호
-	private int creNo;	// 크리에이터 번호
-	private int pcNo;	// 프로젝트 카테고리
+	private int pNo;		// 프로젝트 번호
+	private int creNo;		// 크리에이터 번호
+	private int pcNo;		// 프로젝트 카테고리
 	private String pUrl;	
 	private String pTitle;
 	private String pText;

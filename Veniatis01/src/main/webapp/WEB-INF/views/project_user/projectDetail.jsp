@@ -36,7 +36,7 @@
                                 <a>카테고리명</a>
 
                             </span>
-                            <h1>${ project.pTitle } ** 프로젝트 제목 **</h1>
+                            <h1> ${ project.pTitle } ** 프로젝트 제목 **</h1>
                             <div class="project_sorting">
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>

@@ -2,12 +2,12 @@ package com.kh.veniatis.project.user.model.vo;
 
 public class Reward {
 	
-	private int rNo;	// 리워드 번호
-	private int pNo;	// 프로젝트 번호
-	private int rSeq;	// 리워드 순서
+	private int rNo;		// 리워드 번호
+	private int pNo;		// 프로젝트 번호
+	private int rSeq;		// 리워드 순서
 	private String rItem;	// 리워드 구성
-	private int rPrice;	// 리워드 금액
-	private int rCount;	// 수량
+	private int rPrice;		// 리워드 금액
+	private int rCount;		// 수량
 	private String rOption;	// 선택 옵션
 	private String rDelivery;	// 배송예정일
 	

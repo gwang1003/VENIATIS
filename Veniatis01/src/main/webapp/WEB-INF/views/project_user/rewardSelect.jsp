@@ -17,7 +17,7 @@
     <title>VENIATIS : 후원형</title>
 
 <style>
-    /* 체크박스 커스텀 */
+    /* 체크박스  커스텀 */
     .lab_select{ cursor: pointer;}
     .lab_select .check-icon {
         display: inline-block; 

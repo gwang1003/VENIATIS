@@ -21,7 +21,7 @@
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 	
-	<select id="selectList">
+	<select id="selectList" >
 		SELECT * FROM PROJECT;
 	</select>
 	

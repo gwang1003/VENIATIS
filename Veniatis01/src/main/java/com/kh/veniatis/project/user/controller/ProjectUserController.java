@@ -18,9 +18,6 @@ public class ProjectUserController {
 	
 	@RequestMapping("projectList.do")
 	public String ProjectList() {
-//		int pNo = 1;
-//		Project p = pus.selectProject(pNo);
-//		System.out.println("db확인 프로젝트 조회 : " + p);
 		return "project_user/projectList";
 	}
 	

@@ -14,6 +14,7 @@ public class ProjectUserDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
+	// 테스트용 메소드
 	public Project selectBoard(int pNo) {
 		return sqlSession.selectOne("puMapper.selectProject", pNo);
 	}

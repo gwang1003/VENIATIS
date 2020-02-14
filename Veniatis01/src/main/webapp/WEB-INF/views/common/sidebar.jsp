@@ -90,7 +90,7 @@
               <div id="collapsePages5" class="collapse " aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                   <a class="collapse-item" href="#" id="marketad">프로젝트 통계</a>
-                  <a class="collapse-item" href="#" id="marketad">수익 통계</a>
+                  <a class="collapse-item" href="revenue.do" id="marketad">수익 통계</a>
                 </div>
  
               </div>

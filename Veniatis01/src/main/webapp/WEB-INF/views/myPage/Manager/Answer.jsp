@@ -42,6 +42,9 @@
         color:black;
         border:0.5px solid ghostwhite;
       }
+      .col-md-6 {
+        display:none;
+      }
   </style>
 </head>
 <body>

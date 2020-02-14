@@ -25,4 +25,9 @@ public class ProjectUserController {
 	public String RewardOrderView() {
 		return "project_user/rewardOrder";
 	}
+	
+	@RequestMapping("rewardSuccess.do")
+	public String RewardSuccessView() {
+		return "project_user/rewardSuccess";
+	}
 }

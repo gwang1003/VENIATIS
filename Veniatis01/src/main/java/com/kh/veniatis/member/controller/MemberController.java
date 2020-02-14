@@ -1,4 +1,4 @@
-/*package com.kh.veniatis.member.controller;
+package com.kh.veniatis.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ public class MemberController {
 			// -> 이렇게만 작성하면 requestScope에만 담김
 			// 가장 위로 올라가서 @SessionAttributes라는 어노테이션을 추가한다. 
 			
-			return "login";
+			return "main";
 		} else {
 			// Exception을 이용하여 errorPage 연결
 
@@ -42,7 +42,7 @@ public class MemberController {
 			
 			// 에러페이지로 연결하는 방법 -> web.xml에 공용 에러 페이지를 등록하여
 			// 모든 예외가 발생 시 그 페이지가 뜨게끔 설정
-			return null;
+			return "main";
 		}
 		
 	}
@@ -59,4 +59,3 @@ public class MemberController {
 	}
 	
 }
-*/

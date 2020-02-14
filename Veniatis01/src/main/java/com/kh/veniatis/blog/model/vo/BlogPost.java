@@ -17,6 +17,7 @@ public class BlogPost {
 	private String cateName;
 	private String changeName;
 	private String searchValue;
+	private String bTContent;
 	
 	public BlogPost() {}
 
@@ -116,8 +117,17 @@ public class BlogPost {
 		this.searchValue = searchValue;
 	}
 
+	public String getbTContent() {
+		return bTContent;
+	}
+
+	public void setbTContent(String bTContent) {
+		this.bTContent = bTContent;
+	}
+
 	public BlogPost(int bNo, String mId, String bTitle, String bContent, Date bEnrollDate, Date bUpdateDate,
-			String bTag, int cateNo, int uniNo, String cateName, String changeName, String searchValue) {
+			String bTag, int cateNo, int uniNo, String cateName, String changeName, String searchValue,
+			String bTContent) {
 		super();
 		this.bNo = bNo;
 		this.mId = mId;
@@ -131,6 +141,7 @@ public class BlogPost {
 		this.cateName = cateName;
 		this.changeName = changeName;
 		this.searchValue = searchValue;
+		this.bTContent = bTContent;
 	}
 
 	@Override
@@ -138,8 +149,7 @@ public class BlogPost {
 		return "BlogPost [bNo=" + bNo + ", mId=" + mId + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bEnrollDate=" + bEnrollDate + ", bUpdateDate=" + bUpdateDate + ", bTag=" + bTag + ", cateNo="
 				+ cateNo + ", uniNo=" + uniNo + ", cateName=" + cateName + ", changeName=" + changeName
-				+ ", searchValue=" + searchValue + "]";
-	};
-
+				+ ", searchValue=" + searchValue + ", bTContent=" + bTContent + "]";
+	}
 	
 }

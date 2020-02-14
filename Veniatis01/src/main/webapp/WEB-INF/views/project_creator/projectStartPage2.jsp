@@ -7,46 +7,85 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#icon1{
- background-image:url("resources/project_creator/information.png");
-	  background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
-	 
+#icon1 {
+	background-image: url("resources/project_creator/information.png");
+	background-size: 70%;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
 
-#icon2{
- background-image:url("resources/project_creator/script.png");
-	 background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
+#icon2 {
+	background-image: url("resources/project_creator/script.png");
+	background-size: 70%;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
 
-#icon3{
- background-image:url("resources/project_creator/reward.png");
-	   background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
+#icon3 {
+	background-image: url("resources/project_creator/reward.png");
+	background-size: 70%;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
 
-#icon4{
- background-image:url("resources/project_creator/money.png");
-	  background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
+#icon4 {
+	background-image: url("resources/project_creator/money.png");
+	background-size: 70%;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
 
-.btn_search{
-margin-top:7px;
+.btn_search {
+	margin-top: 7px;
+}
+
+#red_icon {
+	background-image: url("resources/project_creator/cross.png");
+	background-size: 100%;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
 
 
 
+#box_select {
+
+	float: left;
+
+}
 </style>
-<link rel="stylesheet" href="resources/css/guidecss2.css">
+<link rel="stylesheet" href="resources/css/guidecss.css">
 <script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 <script src="resources/js/commonUtil.js"></script>
+<script>
+$(document).ready(function() {
+$("input[name=inputHashTag]").keydown(function (key) {
+
+    if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        if($("#inputHashTag").val().length==0){
+            alert("태그는 1글자 이상 입력해주세요.");
+            return false;
+        } else {
+            if($(".hashtag").length>4){
+                alert("태그는 5개까지 입력 가능합니다.");
+                return false;
+            } else {
+                $(".inner_hashtag").append("<div class='hashtag'><span>#"+$("#inputHashTag").val()+"</span><button type='button' class='ico_comm' id='red_icon'>X 아이콘</button></div>");
+                $("#inputHashTag").val('');
+                return false;
+            }
+        }
+    }
+
+});
+$(document).on("click", ".hashtag .ico_comm", function() {
+
+    $(this).parent('div').remove();
+    return false;
+});
+});
+</script>
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"/>
@@ -91,6 +130,7 @@ margin-top:7px;
 					</ol>
 					
 					<!-- 여기까지가 프로젝트 메뉴 -->
+					
 			<div class="sheet_info">
 				<!-- 개설자 정보 -->
 				<div class="form_area">
@@ -100,8 +140,8 @@ margin-top:7px;
 							<ul>
 								<li class="box_info">
 									<p class="tit_name">프로젝트 분야</p>
-									<div class="box_select">
-										<select class="select_sort" id="projectCate" name="projectCate" title="프로젝트 분야">	
+									<div id="box_select">
+										<select  id="projectCate" name="projectCate" title="프로젝트 분야">	
 											<option value="CATE_0001">공간/리빙</option>
 											<option value="CATE_0002">사회이슈</option>
 											<option value="CATE_0003">교육/출판</option>
@@ -217,7 +257,24 @@ margin-top:7px;
 										<p class="txt_notice">※ 이미지 삽입을 통해 gif파일 삽입이 가능합니다.</p>
 									</div>
 								</li>
+								<li class="box_info box_hashtag">
+												<ul>
+													<li>
+														<p class="tit_name">해시태그|(#)</p>
+														<div class="txt_input">
+															<label for="tfHashtag" class="tf_comm">
+																<input type="text" id="inputHashTag" name="inputHashTag" class="tf_cont">
+															</label>
+														</div>
+														<p class="txt_notice">※ 검색에 노출될 태그를 입력하고 엔터(최대 5개)</p>
+														<textarea name="tag" id="tag" style="display:none;"></textarea>
+													</li>
+													<li>
+														<div class="inner_hashtag"></div>
 							</ul>
+						</li>
+					</ul>
+				
 						</fieldset>
 					</form>
 				</div>
@@ -231,6 +288,7 @@ margin-top:7px;
 	</div>
 </div>
 </div>
+
 <jsp:include page="../common/footer.jsp"/>
 
 
@@ -238,19 +296,6 @@ margin-top:7px;
 
 <script>
 
-
-	/*<li class="box_info" id="file1">
-	 	<div id="file1div" class="add_file">
-	 		<p class="tit_name txt-right">이미지</p>
-	 			<div class="txt_input input_full">
-				 <input class="upload_name" id="uploadName1" disabled="disabled">
-	 			<label for="fileName1" class="btn_search">찾아보기</label>
-	 			<button class="btn_delete">삭제</button>
-	 			<input type="file" id="fileName1" name="subImage1" class="upload_hidden">
-	 		</div> 
-	 	</div>
-	 </li>*/
-	 // imgAdd하면 추가되는 부분 제작중 - 0212
 
 	$(document).on("change",".upload_hidden",function(){
         var changeHandler = this;

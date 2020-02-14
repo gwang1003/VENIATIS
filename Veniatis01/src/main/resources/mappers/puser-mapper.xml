@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="puMapper">
+	<resultMap id="projectResultSet" type="Project">
+		<id property="pNo" column="P_NO"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="pcNo" column="PC_NO"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="pHashTag" column="P_HASHTAG"/>
+		<result property="pStartDate" column="P_START_DATE"/>
+		<result property="pEndDate" column="P_END_DATE"/>
+		<result property="pTargetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="pSumAmount" column="P_SUM_AMOUNT"/>
+		<result property="pAccount" column="P_ACCOUNT"/>
+		<result property="pStatus" column="P_STATUS"/>
+	</resultMap>
+	
+	<select id="selectList">
+		SELECT * FROM PROJECT;
+	</select>
+	
+	<select id="selectProject" parameterType="_int" resultMap="projectResultSet">
+		SELECT * FROM PROJECT
+		WHERE P_NO = #{pNo}
+	</select>
+	
+</mapper>

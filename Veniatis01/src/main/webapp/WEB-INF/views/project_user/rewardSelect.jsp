@@ -34,6 +34,10 @@
         background-image: url(resources/project_user/check_mint.png); 
     }
     
+    .count_control{
+    	width:138px;
+    }
+    
 </style>
     
     <script type="text/javascript">

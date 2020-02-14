@@ -53,7 +53,7 @@ public class MemberController {
 		
 		status.setComplete();
 		// 세션의 상태를 확정 지어주는 메소드 호출이 필요함.
-		
+		System.out.println("asfas");
 		// return "home"; : forward 방식
 		return "redirect:home.do"; // redirect 방식
 	}

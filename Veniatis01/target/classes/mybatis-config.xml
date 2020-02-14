@@ -7,12 +7,21 @@
 		
 	</settings>	
 	<typeAliases>
-	
-		
+		<typeAlias type="com.kh.veniatis.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.veniatis.blog.model.vo.BlogCate" alias="BlogCate"/>
+		<typeAlias type="com.kh.veniatis.blog.model.vo.BlogPost" alias="BlogPost"/>
+		<typeAlias type="com.kh.veniatis.common.files.model.vo.Files" alias="Files"/>
+		<typeAlias type="com.kh.veniatis.common.likes.model.vo.Likes" alias="Likes"/>
+		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	
+		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Project" alias="Project"/>			
 		
 	</typeAliases>
 	<mappers>
-		
+		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/blog-mapper.xml"/>
+		<mapper resource="mappers/like-mapper.xml"/>
+		<mapper resource="mappers/reply-mapper.xml"/>
+		<mapper resource="mappers/files-mapper.xml"/>		
 	</mappers>
 
 </configuration>

@@ -1,4 +1,4 @@
-/*package com.kh.veniatis.blog.model.dao;
+package com.kh.veniatis.blog.model.dao;
 
 import java.util.ArrayList;
 
@@ -128,4 +128,3 @@ public class BlogDao {
 	}
 	
 }
-*/

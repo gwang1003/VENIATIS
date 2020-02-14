@@ -102,7 +102,44 @@ s0.parentNode.insertBefore(s1,s0);
         </div>
     </div>
     
-    <script src="resources/js/blog.js" data-cf-settings="a1eea7649e67865af049505a-|49" defer=""></script>
+
+        <script src="resources/main/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="resources/main/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="resources/main/js/popper.min.js"></script>
+    <script src="resources/main/js/bootstrap.min.js"></script>
+    <script src="resources/main/js/owl.carousel.min.js"></script>
+    <script src="resources/main/js/isotope.pkgd.min.js"></script>
+    <script src="resources/main/js/ajax-form.js"></script>
+    <script src="resources/main/js/waypoints.min.js"></script>
+    <script src="resources/main/js/jquery.counterup.min.js"></script>
+    <script src="resources/main/js/imagesloaded.pkgd.min.js"></script>
+    <script src="resources/main/js/scrollIt.js"></script>
+    <script src="resources/main/js/jquery.scrollUp.min.js"></script>
+    <script src="resources/main/js/wow.min.js"></script>
+    <script src="resources/main/js/nice-select.min.js"></script>
+    <script src="resources/main/js/jquery.slicknav.min.js"></script>
+    <script src="resources/main/js/jquery.magnific-popup.min.js"></script>
+    <script src="resources/main/js/plugins.js"></script>
+    <script src="resources/main/js/gijgo.min.js"></script>
+    <script src="resources/main/js/slick.min.js"></script>
+   
+
+    
+    <!--contact js-->
+    <script src="resources/main/js/contact.js"></script>
+    <script src="resources/main/js/jquery.ajaxchimp.min.js"></script>
+    <script src="resources/main/js/jquery.form.js"></script>
+    <script src="resources/main/js/jquery.validate.min.js"></script>
+    <script src="resources/main/js/mail-script.js"></script>
+    <script src="resources/main/js/main.js"></script>
+    <script>
+        $('#datepicker').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+             rightIcon: '<span class="fa fa-caret-down"></span>'
+         }
+        });
+    </script>
 </body>
 
 

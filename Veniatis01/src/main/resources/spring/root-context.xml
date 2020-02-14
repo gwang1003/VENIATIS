@@ -18,8 +18,8 @@
 	destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="spring"/>
-		<property name="password" value="spring"/>
+		<property name="username" value="veniatis"/>
+		<property name="password" value="veniatis"/>
 		<property name="defaultAutoCommit" value="false"/>
 	</bean>
 	
@@ -44,13 +44,14 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	<!-- Namespaces에서 aop 추가 -->
-	<aop:config proxy-target-class="true">
-		<aop:pointcut expression="execution(* com.kh.spring..*Impl.*(..))" 
-			id="serviceMethod"/>
+	<!-- namespace에서 aop 추가 -->
+	<!-- <aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* com.kh.veniatis..*Impl.*(..))" 
+		id="serviceMethod"/>
 		<aop:advisor id="transactionAdvisor" pointcut-ref="serviceMethod"
-			advice-ref="txAdvice"/>
-	</aop:config>
+		advice-ref="txAdvice"/>
+	</aop:config> -->
+	
 	
 	<!-- 마이바티스 sqlSession 등록하기 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">

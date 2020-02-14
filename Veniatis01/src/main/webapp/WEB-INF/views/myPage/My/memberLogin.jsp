@@ -43,12 +43,12 @@
                                                 <form id="loginForm" action="login.do" method="post" onsubmit="return validate();">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-user"
-                                                            name="userId" id="userId"
+                                                            name="mId" id="mId"
                                                             placeholder="아이디를 입력하세요">
                                                     </div>
                                                     <div class="form-group">
                                                         <input type="password" class="form-control form-control-user"
-                                                            name="userPwd" id="userPwd" placeholder="비밀번호를 입력하세요">
+                                                            name="mPwd" id="mPwd" placeholder="비밀번호를 입력하세요">
                                                     </div>
             
                                                     <button id="loginBtn" type="submit"

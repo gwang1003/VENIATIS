@@ -9,10 +9,10 @@ import com.kh.veniatis.member.model.vo.Member;
 
 @Repository("mDao") 
 public class MemberDao {
-	/*@Autowired
-	private SqlSessionTemplate sqlSession; */
+	@Autowired
+	SqlSessionTemplate sqlSession; 
 	
-	/*public Member selectMember(Member m) {
+	public Member selectMember(Member m) {
 
 		return sqlSession.selectOne("memberMapper.selectOne", m);
 	}
@@ -20,5 +20,5 @@ public class MemberDao {
 	
 	public Member selectOneMember(String userId) {
 		return sqlSession.selectOne("memberMapper.selectOneUserId",userId);
-	}*/
+	}
 }

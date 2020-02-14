@@ -1,4 +1,4 @@
-/*package com.kh.veniatis.blog.model.service;
+package com.kh.veniatis.blog.model.service;
 
 import java.util.ArrayList;
 
@@ -129,7 +129,12 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return bDao.selectCatePostList(bp);
 	}
+
+	@Override
+	public ArrayList<BlogPost> searchPostList(BlogPost search) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }
-*/

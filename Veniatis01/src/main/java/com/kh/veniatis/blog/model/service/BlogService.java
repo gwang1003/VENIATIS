@@ -1,4 +1,4 @@
-/*package com.kh.veniatis.blog.model.service;
+package com.kh.veniatis.blog.model.service;
 
 import java.util.ArrayList;
 
@@ -64,4 +64,3 @@ public interface BlogService {
 		// 18. 검색
 	ArrayList<BlogPost> searchPostList(BlogPost search);
 }
-*/

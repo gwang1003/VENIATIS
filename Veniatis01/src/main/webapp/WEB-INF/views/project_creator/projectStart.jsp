@@ -90,7 +90,7 @@
     	function fn_check(){
     		if($("#chkRegister1").prop("checked") && $("#chkRegister2").prop("checked")){
     			
-    			location.href='projectStartPage2.do';
+    			location.href='projectStartPage.do';
     		
     			}else{
     				alert('크라우드펀딩 진행방식 준비여부에 체크해주세요.');

@@ -144,13 +144,14 @@ margin-top:7px;
 											<div class="txt_input input_full">
 												<input class="upload_name" id='uploadName0'	disabled="disabled">
 												 <label for="fileName0"	class="btn_search">찾아보기</label>
-												  <input type="file" id="fileName0" name="mainImage_" class="upload_hidden"	>
+												  <input type="file" id="fileName0" name="mainImage_" class="upload_hidden">
 												
 												<p class="txt_notice">※ 프로젝트 목록 및 프로젝트 상세페이지 첫번째 노출되는
 													이미지입니다.</p>
 													
 											</div>
 										</li>
+										
 										<!-- <li class="box_info" id="file1">
 											<div id="file1div" class="add_file">
 												<p class="tit_name txt-right">이미지</p>
@@ -204,11 +205,7 @@ margin-top:7px;
 								</li>
 								<li class="box_info">
 									<p class="tit_agreement">
-										프로젝트 소개<span class="txt_warning">*</span> <span
-											style="float: right; margin-right: 33px;"> <span
-											style="font-size: .9em;">&#9654;</span>&nbsp;
-											<u class="manualForEditor" style="cursor: pointer;">에디터 사용법	설명</u>
-										</span>
+										프로젝트 소개<span class="txt_warning">*</span> 
 									<div id="contentArea">
 										<textarea id="content" name="projectInfo" cols="120" rows="20" placeholder="안내사진 or 텍스트 추가 요망"
 											style="resize: none; overflow-x: hidden;"></textarea>
@@ -228,13 +225,16 @@ margin-top:7px;
 			</div>
 			<div class="btn_area">
 				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> <input
-					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="javascript:location.href='projectStartPage_reward.do';">
+					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="fn_nextPage();">
 			</div>
 		</div>
 	</div>
 </div>
 </div>
 <jsp:include page="../common/footer.jsp"/>
+
+
+
 
 <script>
 
@@ -251,33 +251,191 @@ margin-top:7px;
 	 	</div>
 	 </li>*/
 	 // imgAdd하면 추가되는 부분 제작중 - 0212
-	function fn_imgAdd() {
-		 var i=1;
-		 var $ul =$("#file_area");
-		 var $li =$("<li class='box_info' id='file"+i+"'>");
-		 var $div1 = $("<div id='file"+i+"div' class='add_file'>");
-		 var $p = $("<p class='tit_name txt-right'>이미지</p>");
-		 var $div2 = $("<div class='txt_input input_full'>");
-		 var $input1 = $("<input class='upload_name' id='uploadName"+i+"' disavled='disabled'>");
-		 var $label = $("<label for='fileName"+i+"' class='btn_search'>찾아보기</label>");
-		 var $button=$("<button class='btn_delete' onclick='fn_imgDelete()'>삭제</button>");
-		 var $input2 = $("<input type='file' id='fileName"+i+"' name='subImage"+i+"'>");
-		 i++;
-		 
-		 $div1.append($div2);
-		 $div1.append($p);
-		 $div2.append($input1);
-		 $div2.append($label);
-		 $div2.append($button);
-		 $div2.append($input2);
-		 
-		 $li.append($div1);
-		 $ul.append($li);
+
+	$(document).on("change",".upload_hidden",function(){
+        var changeHandler = this;
+        var getFileId = $(this).attr('id').replace("fileName","");
+
+        if(window.FileReader){
+            var filename = $(this)[0].files[0].name;
+        } else {
+            var filename = $(this).val().split('/').pop().split('\\').pop();
+        }
+
+        var img = new Image();
+        var _URL = window.URL || window.webkitURL;
+        img.src = _URL.createObjectURL($(this)[0].files[0]);
+
+        img.onload = function () {
+            var width = this.width;
+            var height = this.height;
+			changeHandler.parentNode.firstElementChild.value = filename;
+			
+        };
+    });
+	
+function fn_imgAdd() {
+	  var existimg = $(".add_file").length;
+      var max_img_cnt = 4;
+      var make_img_div = existimg+1;
+
+      if (existimg>=max_img_cnt){
+          alert("프로젝트 이미지는 최대  "+ (max_img_cnt+1) +"개까지 등록가능합니다.");
+          return false;
+      } else {
+          var html = "<li class='box_info' id='file"+ make_img_div +"'>";
+          html += "<div id='file"+ make_img_div +"div' class='add_file'>";
+          html += "<p class='tit_name txt-right'>이미지</p>";
+          html += "<div class='txt_input input_full'>"
+          html += "<input class='upload_name' id='uploadName"+ make_img_div +"' disabled='disabled'>";
+          html += "<label for=fileName"+ make_img_div +" class='btn_search'>찾아보기</label>";
+          html += "<button class='btn_delete'>삭제</button>";
+          html += "<input type='file' id='fileName"+ make_img_div +"' name='subImage"+ make_img_div +"' class='upload_hidden' accept='.jpg,.png'>";
+          html += "</div></div></li>"
+
+          $("#file_area").append(html);
 		 
 	}
-	 function fn_imgDelete(){
-		 
-	 }
+};
+
+/*    파일 삭제처리 (분석 필요)    */
+var deleteFileSeqTemp = "";
+$(document).on("click", ".btn_del", function () {
+    var idname = $(this).attr('id');
+    var fileSeq = $(this).attr('id').split("_")[1];
+    //기존데이터가 있을경우 DB삭제 조건에 추가
+    deleteFileSeqTemp = $("#fileDeleteSeq").val();
+    if (typeof fileSeq != "undefined" && fileSeq != "") {
+        deleteFileSeqTemp += fileSeq + ","
+        if ($("#fileDeleteSeq").val().indexOf(fileSeq) < 0) {
+            $("#fileDeleteSeq").val(deleteFileSeqTemp);
+            $(this).closest('div').remove();
+            //$(this).siblings('span').empty();
+        }
+    } else {
+
+        //추가 버튼을 이용해 추가한경우 SEQ값이 없음
+        //if (idname.substring(0, 9) != "mainimage") {
+        //메인이미지는 삭제하지않는다
+        $(this).closest('div').remove();
+        //$(this).parent().parent().remove();
+        //}
+    }
+});
+
+$(document).on('click', '.btn_delete', function(event) {
+    var idname = $(this).attr('id');
+    //alert(idname);
+    if(idname!="" && idname!= undefined) {
+        var fileSeq = $(this).attr('id').split("_")[1];
+
+        //기존데이터가 있을경우 DB삭제 조건에 추가
+        deleteFileSeqTemp = $("#fileDeleteSeq").val();
+        if (typeof fileSeq != "undefined" && fileSeq != "") {
+            deleteFileSeqTemp += fileSeq + ","
+            if ($("#fileDeleteSeq").val().indexOf(fileSeq) < 0) {
+                $("#fileDeleteSeq").val(deleteFileSeqTemp);
+                $(this).siblings('span').empty();
+            }
+        }
+        $(this).parent().parent().parent().remove();
+        return false;
+    } else{
+        //추가 버튼을 이용해 추가한경우 SEQ값이 없음
+        //if (idname.substring(0, 9) != "mainimage") {
+        //메인이미지는 삭제하지않는다
+        //}
+        $(this).closest('li').remove();
+        return false;
+    }
+
+});
+
+// 적합성 검사 후 다음페이지로
+function fn_nextPage(){
+	if(fn_validateCheck()){
+		location.href='projectStartPage_reward.do';
+	}
+}
+
+
+// 페이지 전체 적합성 검사
+function fn_validateCheck(){
+    var check_project_info = true;
+    var focus = "";
+    if(isEmpty(jQuery('#projectName').val())){
+        alert("프로젝트 제목을 입력하세요.");
+        jQuery('#projectName').focus();
+        return false;
+    }
+    var currMainImage= "";
+    if(isEmpty(jQuery('#uploadName0').val())&&isEmpty(currMainImage)){
+        alert("(대표)이미지를 입력하세요.");
+        jQuery('#uploadName0').focus();
+        return false;
+    }
+   
+    if(isEmpty(jQuery('#simpleText').val())){
+        alert("프로젝트 간략소개를 입력하세요.");
+        $('#simpleText').focus();
+        return false;
+    }
+    if(jQuery('#simpleText').val().length > 20) {
+        alert('프로젝트 간략소개는 최대 20자까지 작성 가능합니다.');
+        $('#simpleText').val($('#simpleText').val().slice(0, 20));
+        $('#simpleTextCount').html($('#simpleText').val().length);
+        $('#simpleText').focus();
+        return false;
+    }
+
+    if(isEmpty(jQuery('#content').val())){
+        alert("프로젝트 소개를 입력하세요.");
+        $('#content').focus();
+        return false;
+    }
+
+    $("input[id^='title']").each( function(){
+        if($.trim($(this).val())==""){
+            if(focus == ""){
+                focus = $(this);
+			}
+            check_project_info = false;
+        }
+    });
+
+    $("textarea[id^='addContent']").each( function(){
+        if($.trim($(this).val())==""){
+            if(focus == ""){
+                focus = $(this);
+			}
+            check_project_info = false;
+        }
+    });
+
+	if(!check_project_info){
+        focus.focus();
+        alert("프로젝트 소개부분을 입력해주세요.");
+        return false;
+    }
+
+    return true;
+}	
+$('input[type=radio][name=videoFlag]').change(function() {
+    if (this.value == 'N') {
+        $("#videoUrl").val('');
+        $("#videoUrl").attr("disabled","disabled");
+        $("#videoUrl").removeClass("tf_cont input");
+        $("#videoUrl").addClass("tf_cont input_hold");
+    }
+    else if (this.value == 'Y') {
+        $("#videoUrl").removeClass("tf_cont input_hold");
+        $("#videoUrl").addClass("tf_cont input");
+        $("#videoUrl").removeAttr("disabled");
+        $("#videoUrl").focus();
+
+    }
+});
+
 </script>
 </body>
 </html>

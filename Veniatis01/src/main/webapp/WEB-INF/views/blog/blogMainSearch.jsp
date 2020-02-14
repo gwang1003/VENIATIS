@@ -40,7 +40,7 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                     <!-- 목록 가져오긔 -->
-                   <h2>'${search }' 검색  결과</h2><br><br>                   
+                   <h2>'${search }' 검색 결과</h2><br><br>                   
                     <c:forEach var="p" items="${post}"> 
                 
                        <article class="blog_item">
@@ -59,7 +59,7 @@
                                 <a class="d-inline-block" href="${ detail }">
                                     <h2>${p.bTitle}</h2>
                                 </a>
-                                
+                                                                <p>${p.bTContent }</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i>${p.cateName}</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -95,12 +95,11 @@
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
+                            <form action="bSearch.do" method="get">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword' onfocus="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = ''"
-                                            onblur="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = 'Search Keyword'"
-                                            data-cf-modified-882eb23b708c715aa9a4c46d-="">
+                                        <input type="text" class="form-control" placeholder='Search Keyword' name="searchValue" >
+                                        <input type="hidden" name="userId" value="${user.mId }">
                                         <div class="input-group-append">
                                             <button class="btn" type="button"><i class="ti-search"></i></button>
                                         </div>

@@ -57,7 +57,7 @@ s0.parentNode.insertBefore(s1,s0);
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">공모전</a></li>
-                                            <li><a href="blogMain2.do?userId=${loginUser.mId }">Blog</a></li>
+                                            <li><a href="blogHome.do">Blog</a></li>
                                             <li><a href="contact.html">가이드2</a></li>
                                         </ul>
                                     </nav>

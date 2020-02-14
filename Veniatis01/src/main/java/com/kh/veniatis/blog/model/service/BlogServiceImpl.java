@@ -129,11 +129,25 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return bDao.selectCatePostList(bp);
 	}
-
+	
+	//검색
 	@Override
 	public ArrayList<BlogPost> searchPostList(BlogPost search) {
 		// TODO Auto-generated method stub
-		return null;
+		return bDao.searchPostList(search);
+	}
+	
+	///인기게시글갖고오기
+	@Override
+	public ArrayList<BlogPost> selectPopularList() {
+		// TODO Auto-generated method stub
+		return bDao.selectPopularList();
+	}
+	///인기게시글갖고오기
+	@Override
+	public ArrayList<BlogPost> selectPopularRealList(ArrayList<BlogPost> post) {
+		// TODO Auto-generated method stub
+		return  (ArrayList<BlogPost>)bDao.selectPopularRealList(post);
 	}
 	
 

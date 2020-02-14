@@ -63,4 +63,9 @@ public interface BlogService {
 	ArrayList<BlogPost> selectCatePostList(BlogPost bp);
 		// 18. 검색
 	ArrayList<BlogPost> searchPostList(BlogPost search);
+	
+	//19. 인기게시글갖고오긔
+	ArrayList<BlogPost> selectPopularList();
+	//20. 인기게시글갖고오긔
+	ArrayList<BlogPost> selectPopularRealList(ArrayList<BlogPost> post);
 }

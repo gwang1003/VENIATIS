@@ -66,6 +66,12 @@
 		<result property="content" column="CONTENT"/>
 	</resultMap>
 
+
+	<resultMap type="BlogPost" id="pop1">
+		<id property="bNo" column="B_NO"/>
+		<result property="countLike" column="COUNT(LIKE_NO)"/>
+	</resultMap>
+
 	<!-- 카테고리 목록 갖고오기 -->
 	<select id="selectCateList" resultMap="blogCateResultSet">
 		SELECT *
@@ -142,4 +148,20 @@ WHERE (B_TITLE LIKE '%' || #{searchValue} || '%' OR
         M_ID=#{mId}
 	</select>
 	
+	
+	
+	<!-- 인기게시글 B_NO갖고오기.. -->
+		<select id ="popSelect1" resultMap="pop1">
+SELECT B_NO,COUNT(LIKE_NO) 
+FROM LIKES
+GROUP BY B_NO
+ORDER BY COUNT(LIKE_NO) DESC 
+		</select>
+		
+	<!-- 인기게시글 갖고오기 -->	
+	<select id="popSelect2" resultMap="BlogPostResultSet2">		
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE B_NO=#{bNo} 
+	</select>	
 </mapper>

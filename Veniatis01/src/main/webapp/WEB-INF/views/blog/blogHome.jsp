@@ -72,15 +72,15 @@
                                 <!-- ngRepeat: postView in todayHotTopic.hotTopicPostViewList | limitTo : 3 -->
                                 <div class="item">
                                     <a ng-href="#" class="item_inner" href="#">
-                                        <img bg-image="resources/img/test.png" alt="핫토픽섬네일" width="252" height="240" src="resources/img/test.png">
+                                        <img bg-image="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[0].changeName}"
+                                        width="252" height="240" src="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[0].changeName}">
                                         <div class="desc_post">
                                             <div class="title">
                                                 <span class="title_inner">
-                                                    <strong class="title_post">생각지 못하게 위로받은 곳</strong>
+                                                    <strong class="title_post">${popPost[0].bTitle}</strong>
                                                 </span>
                                             </div>
-                                            <p class="text_post">​블로그 씨의 질문을 보고 그냥 지나칠
-                                                수 없어서 기록해보는 포스팅-​가끔은 혼자만의 깊은 사색이 필요한 순간이 있다.연휴...</p>
+                                            <p class="text_post">${popPost[0].bTContent}</p>
                                         </div>
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
@@ -88,21 +88,20 @@
                                             <img bg-image="test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
                                                 src="resources/img/test.png">
                                         </div>
-                                        <span class="nickname">오월의
-                                            팔레트</span>
+                                        <span class="nickname">${popPost[0].mId}
                                     </a>
                                 </div><!-- end ngRepeat: postView in todayHotTopic.hotTopicPostViewList | limitTo : 3 -->
                                 <div class="item">
                                     <a ng-href="#" class="item_inner" href="#">
-                                        <img bg-image="resources/img/test.png" alt="핫토픽섬네일" width="252" height="240" src="resources/img/test.png">
+                                       <img bg-image="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[1].changeName}"
+                                        width="252" height="240" src="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[1].changeName}">
                                         <div class="desc_post">
                                             <div class="title">
                                                 <span class="title_inner">
-                                                    <strong class="title_post">생각지 못하게 위로받은 곳</strong>
+                                                     <strong class="title_post">${popPost[1].bTitle}</strong>
                                                 </span>
                                             </div>
-                                            <p class="text_post">​블로그 씨의 질문을 보고 그냥 지나칠
-                                                수 없어서 기록해보는 포스팅-​가끔은 혼자만의 깊은 사색이 필요한 순간이 있다.연휴...</p>
+ <p class="text_post">${popPost[1].bTContent}</p>
                                         </div>
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
@@ -110,21 +109,20 @@
                                             <img bg-image="resources/img/test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
                                                 src="resources/img/test.png">
                                         </div>
-                                        <span class="nickname">오월의
-                                            팔레트</span>
+                                        <span class="nickname">${popPost[1].mId}</span>
                                     </a>
                                 </div>
                                 <div class="item">
                                     <a ng-href="#" class="item_inner" href="#">
-                                        <img bg-image="resources/img/test.png" alt="핫토픽섬네일" width="252" height="240" src="resources/img/test.png">
+                                        <img bg-image="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[2].changeName}"
+                                        width="252" height="240" src="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[2].changeName}">
                                         <div class="desc_post">
                                             <div class="title">
                                                 <span class="title_inner">
-                                                    <strong class="title_post">생각지 못하게 위로받은 곳</strong>
+                                                   <strong class="title_post">${popPost[2].bTitle}</strong>
                                                 </span>
                                             </div>
-                                            <p class="text_post">​블로그 씨의 질문을 보고 그냥 지나칠
-                                                수 없어서 기록해보는 포스팅-​가끔은 혼자만의 깊은 사색이 필요한 순간이 있다.연휴...</p>
+ <p class="text_post">${popPost[2].bTContent}</p>
                                         </div>
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
@@ -132,8 +130,7 @@
                                             <img bg-image="resources/img/test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
                                                 src="resources/img/test.png">
                                         </div>
-                                        <span class="nickname">오월의
-                                            팔레트</span>
+                                           <span class="nickname">${popPost[2].mId}</span>
                                     </a>
                                 </div>
                             </div>
@@ -323,19 +320,38 @@
                         <div class="area_my_account" >
                             <a  ng-href="#" target="_blank" class="name"
                                 alt="내 블로그" href="https://blog.naver.com/MyBlog.nhn"><span class="thumbnail"><img
-                                        bg-image="" width="46" height="46" alt="프로필" class="no_image" src="resources/img/test.png"></span><span>로그인한인간</span></a>
+                                        bg-image="" width="46" height="46" alt="프로필" class="no_image" src="resources/img/test.png"></span><span>${loginUser.mName } 님</span></a>
                             </div>
                         <nav class="menu_my_blog" ng-show="loginCtrl.loggedIn">
+                        
                 <c:url var="blogMaina" value="blogMain2.do">
 					<c:param name="userId" value="${loginUser.mId }"/>
 				</c:url>
                             <a 
-                                class="item" alt="내 블로그" href='${ blogMaina }>?userId=${loginUser.mId}'>내 블로그</a>
+                                class="item" alt="내 블로그" href="${ blogMaina }">내 블로그</a>
                             <a 
                                 target="_blank" class="item" alt="관리하기" href="#">관리하기</a>
                         </nav>
                     </div>
+                    <div ng-show="myContentCtrl.loggedIn" ng-class="{login : myContentCtrl.loggedIn}" news-code="hmp*n" my-trace-code="hmp*r" buddy-code="hmp*g" class="login">
+                        <!-- [D] 메뉴 활성화 시 선택된 메뉴에 aria-selected="true", 선택되지 않은 메뉴에 aria-selected="false" 추가 -->
+                        <div class="menu_my_article" role="tablist">
+                            <a href="#" class="item" aria-selected="true" bg-nclick="hmp*n.tab" ng-click="myContentCtrl.changeView('NEWS')" role="tab" aria-controls="my_content_news">내 소식</a>
+                            <a href="#" class="item" aria-selected="false" bg-nclick="hmp*r.tab" ng-click="myContentCtrl.changeView('MY_TRACE')" role="tab" aria-controls="my_content_written">내가 남긴 글</a>
+                        </div>
+                    
+                        <div class="area_my_content">
+                            <div class="my_content_news" ng-if="myContentCtrl.isViewOf('NEWS')" id="my_content_news" role="tabpanel">
 
+                           </div>
+                        </div>
+                        <div ng-if="myContentCtrl.loggedIn" class="area_pagination">
+                            <div class="pagination" role="navigation" data-page="my_pagination">
+                                <a href="#" class="button_prev" role="button" ng-click="myContentCtrl.prevPage()" aria-disabled="true"><i class="sp_common icon_arrow_left">이전</i></a>
+                                <a href="#" class="button_next" role="button" ng-click="myContentCtrl.nextPage()" aria-disabled="true"><i class="sp_common icon_arrow_right">다음</i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -348,6 +364,9 @@
 
 
     </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>v
+
 
 </body>
+
 </html>

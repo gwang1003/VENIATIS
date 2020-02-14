@@ -177,11 +177,20 @@ public class BlogController {
 	public String boardInsert(BlogPost b,HttpServletRequest request,
 								@RequestParam(value="represent", required=false) MultipartFile file) {
 		
+
+		String test = b.getbTContent();
+		if(b.getbTContent().length()>80) {
+			test = b.getbTContent().substring(0,80)+" ……";
+		}
+		
+		b.setbTContent(test);
+		System.out.println(b);
+		
         HttpSession session = request.getSession();
         Member m = (Member) session.getAttribute("loginUser");
 		b.setmId(m.getmId());
 		//changeName이 DB에있는지 중복확인후
-
+		
 		
 		boolean flag = false;
 		
@@ -227,6 +236,7 @@ public class BlogController {
 			changeName.clear();
 			originName.clear();
 		}
+
 
 		return "redirect:blogMain2.do?userId="+b.getmId();
 	}
@@ -535,11 +545,21 @@ public class BlogController {
 	
 	// 블로그홈
 	@RequestMapping("blogHome.do")
-	public String blogHome() {
-		
+	public ModelAndView blogHome(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
 		// 좋아요 횟수 많은 게시글 수대로 갖고오기
-		// ArrayList<BlogPost> post = bService.selectPopularList();
-		return "blog/blogHome";
+		 ArrayList<BlogPost> post = bService.selectPopularList();
+		 System.out.println(post);
+		 // 이렇게까지 해야하나...?
+		 ArrayList<BlogPost> bp =bService.selectPopularRealList(post);
+		 System.out.println(bp);
+		 
+        mv.addObject("loginUser",nowUser);
+        mv.addObject("popPost",bp);
+        mv.setViewName("blog/blogHome");
+
+		return mv;
 	}
 	
 	@RequestMapping("loginPageGo.do")
@@ -548,6 +568,11 @@ public class BlogController {
 		
 		return "blog/login";
 	}
+	
+	
+	
+	
+	
 	
 	
 	

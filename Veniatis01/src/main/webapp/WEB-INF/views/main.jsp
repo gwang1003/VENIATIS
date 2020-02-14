@@ -9,20 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS here -->
-    <link rel="stylesheet" href="resources/main/css/bootstrap.min.css">
-    <link rel="stylesheet" href="resources/main/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="resources/main/css/magnific-popup.css">
-    <link rel="stylesheet" href="resources/main/css/font-awesome.min.css">
-    <link rel="stylesheet" href="resources/main/css/themify-icons.css">
-    <link rel="stylesheet" href="resources/main/css/nice-select.css">
-    <link rel="stylesheet" href="resources/main/css/flaticon.css">
-    <link rel="stylesheet" href="resources/main/css/gijgo.css">
-    <link rel="stylesheet" href="resources/main/css/animate.css">
-    <link rel="stylesheet" href="resources/main/css/slick.css">
-    <link rel="stylesheet" href="resources/main/css/slicknav.css">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
-    <link rel="stylesheet" href="resources/main/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
     <style>
@@ -35,7 +22,7 @@
         .slider_bg_3{
             background-image: url('resources/main/test3.jpg') !important;
         }
-        .slider_bg_4{
+        .slider_bg_4{	
             background-image: url('resources/main/test4.jpg') !important;
         }
 
@@ -584,35 +571,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script> -->
     <!-- JS here -->
-    <script src="resources/main/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="resources/main/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="resources/main/js/popper.min.js"></script>
-    <script src="resources/main/js/bootstrap.min.js"></script>
-    <script src="resources/main/js/owl.carousel.min.js"></script>
-    <script src="resources/main/js/isotope.pkgd.min.js"></script>
-    <script src="resources/main/js/ajax-form.js"></script>
-    <script src="resources/main/js/waypoints.min.js"></script>
-    <script src="resources/main/js/jquery.counterup.min.js"></script>
-    <script src="resources/main/js/imagesloaded.pkgd.min.js"></script>
-    <script src="resources/main/js/scrollIt.js"></script>
-    <script src="resources/main/js/jquery.scrollUp.min.js"></script>
-    <script src="resources/main/js/wow.min.js"></script>
-    <script src="resources/main/js/nice-select.min.js"></script>
-    <script src="resources/main/js/jquery.slicknav.min.js"></script>
-    <script src="resources/main/js/jquery.magnific-popup.min.js"></script>
-    <script src="resources/main/js/plugins.js"></script>
-    <script src="resources/main/js/gijgo.min.js"></script>
-    <script src="resources/main/js/slick.min.js"></script>
-   
-
-    
-    <!--contact js-->
-    <script src="resources/main/js/contact.js"></script>
-    <script src="resources/main/js/jquery.ajaxchimp.min.js"></script>
-    <script src="resources/main/js/jquery.form.js"></script>
-    <script src="resources/main/js/jquery.validate.min.js"></script>
-    <script src="resources/main/js/mail-script.js"></script>
-    <script src="resources/main/js/main.js"></script>
 
 
 </body>

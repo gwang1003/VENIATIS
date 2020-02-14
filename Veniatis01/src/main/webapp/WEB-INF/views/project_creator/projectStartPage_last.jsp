@@ -34,13 +34,25 @@
 	  background-position:50%;
 	  background-repeat:no-repeat;
 }
+
+#icon5{
+ background-image:url("resources/project_creator/calendar.png");
+		 background-size:100%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+}
+
+#icon6{
+ background-image:url("resources/project_creator/calendar.png");
+	  background-size:100%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+}
 </style>
 <link rel="stylesheet" href="resources/css/guidecss.css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-	<script src="resources/js/commonUtil.js"></script>
+   <script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+<script src="resources/js/commonUtil.js"></script> 
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp" />
@@ -52,20 +64,18 @@
 					<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
 				</header>
 
-				<!-- 신청서 -->
+				<!-- 상단메뉴 -->
 				<div class="apply_cont apply_support">
 					<div class="box_comm">
 						<ol class="list_process">
-							<li><a href="projectStartPage.do" class="flow_reward"
-								id="icon1"> <span class="ico_comm ico_step1">개설자 정보
-										아이콘</span>
+							<li><a href="projectStartPage.do" class="flow_reward" id="icon1">
+							 <span class="ico_comm ico_step1">개설자 정보	아이콘</span>
 							</a> <span class="fa fa-angle-right"></span>
 								<div class="flow_cont">
 									<p class="txt_step">개설자 정보</p>
 								</div></li>
-							<li><a href="projectStartPage2.do" class="flow_reward"
-								id="icon2"> <span class="ico_comm ico_step2">프로젝트 스토리
-										아이콘</span>
+							<li><a href="projectStartPage2.do" class="flow_reward"	id="icon2"> 
+							<span class="ico_comm ico_step2">프로젝트 스토리	아이콘</span>
 							</a> <span class="fa fa-angle-right"></span>
 								<div class="flow_cont">
 									<p class="txt_step">프로젝트 스토리</p>
@@ -77,8 +87,8 @@
 									<p class="txt_step">리워드</p>
 								</div></li>
 
-							<li  class="on"><a href="#" class="flow_reward"
-								id="icon4"> <span class="ico_comm ico_step5">정산 아이콘</span>
+							<li  class="on"><a href="#" class="flow_reward"	id="icon4"> 
+								<span class="ico_comm ico_step5">정산 아이콘</span>
 							</a>
 								<div class="flow_cont">
 									<p class="txt_step">정산</p>
@@ -108,7 +118,8 @@
 													<input type="text" id="investStartDate" name="investStartDate" value="" class="tf_cont input_hold">
 												</label>
 											</p>
-											<button type="button" id="investStartDateButton" class="btn_calendar"><span class="ico_comm ico_calendar">캘린더 아이콘</span></button>
+											
+											 <button type="button" id="investStartDateButton" class="btn_calendar"><span class="ico_comm ico_calendar" id="icon5">캘린더 아이콘</span></button>
 										</li>
 										<li class="box_info">
 											<p class="tit_name">펀딩마감일<span class="txt_warning">*</span></p>
@@ -118,7 +129,7 @@
 													<input type="text" id="investEndDate" name="investEndDate" value="" class="tf_cont input_hold">
 												</label>
 											</p>
-											<button type="button" id="investEndDateButton" class="btn_calendar"><span class="ico_comm ico_calendar">캘린더 아이콘</span></button>
+											<button type="button" id="investEndDateButton" class="btn_calendar"><span class="ico_comm ico_calendar" id="icon6">캘린더 아이콘</span></button>
 										</li>
 										<!-- 2017-10-23 마크업 수정 -->
 										<li class="box_info">

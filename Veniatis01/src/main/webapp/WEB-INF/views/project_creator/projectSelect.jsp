@@ -19,22 +19,9 @@
 
 </style>
  <link rel="stylesheet" href="resources/css/guidecss.css">
- 
- 
- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css" />
- <script>
- $(function() {
-  $("#datepicker").datepicker();
- });
-</script>
- 
  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-
 <jsp:include page="../common/menubar.jsp"/>
 	<div id="omcContainer" class="cont_main">
 			<div class="cMain">
@@ -70,7 +57,7 @@
 				</article>
 			</div>
 		</div>
-
+		<br><br><br><br>
 	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

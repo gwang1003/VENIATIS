@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body> 
 		<c:if test="${ empty sessionScope.loginUser }">
 			<form action="login.do" method="post">
 				<table id="loginTable" style="text-align:center;">

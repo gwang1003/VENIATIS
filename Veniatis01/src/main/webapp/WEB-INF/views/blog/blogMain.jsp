@@ -35,7 +35,7 @@
             <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
             		<h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그 입니다.</h1>
+            		${ user.mName } 님의 블로 그 입니다.</h1>
             </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">

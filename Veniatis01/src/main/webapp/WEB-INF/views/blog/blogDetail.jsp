@@ -274,7 +274,7 @@ function replyList(){
                                 <li><a href="#">공유하기</i></a></li>
                                 <li><a href="#">글 목록</i></a></li>
                                 <li><a href="#">댓글 (1) </a></li>
-                                <li><a href="#">삭제</i></a></li>
+                                <li><a href="#">삭제</i></a></li> 
 <!-- 모달 -->
 <div class="modal fade seminor-login-modal" id="zz">
     <div class="modal-dialog modal-dialog-centered">

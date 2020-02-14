@@ -13,7 +13,7 @@
 				<div class="rowF">
 					<div class="4u" id="div1">
 						
-							<h2>동물병원</h2>
+							<h2>동물병 원</h2>
 							<ul class="defaultF">
 								<li><a href="http://mirae24.co.kr/">24시분당 미래동물의료센</a></li>
 								<li><a href="http://www.rayvmc.co.kr/">래이동물의료센터</a></li>

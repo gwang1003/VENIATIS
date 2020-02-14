@@ -55,7 +55,7 @@ public interface BlogService {
 	
 	// 15. 블로그 댓글 작성
 	int insertReply(Reply r);
-	
+	 
 	// 16. 블로그 댓글 삭제
 	int deleteReply(Reply r);
 

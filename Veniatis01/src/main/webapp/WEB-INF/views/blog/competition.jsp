@@ -28,7 +28,7 @@
 		<div class="heading">
 			<div class="inner">
 				<h2>공모전</h2>
-				<p>다양한 아이디어공모전(경진대회) 정보를 확인하고 참여할 수 있는 공간입니다.</p>
+				<p>다양한 아이디어공모전 (경진대회) 정보를 확인하고 참여할 수 있는 공간입니다.</p>
 			</div>
 		</div>
 		<div class="creativeWrap">

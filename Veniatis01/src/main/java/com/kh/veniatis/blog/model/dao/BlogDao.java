@@ -29,7 +29,7 @@ public class BlogDao {
 	
 	//내용 갖고오기
 	public BlogPost selectPostDetail(BlogPost b) {
-		return sqlSession.selectOne("blogMapper.selectPostDetail", b);
+		return sqlSession.selectOne("blogMapper.selectPostDetail", b); 
 	}
 
 	//사진넣기

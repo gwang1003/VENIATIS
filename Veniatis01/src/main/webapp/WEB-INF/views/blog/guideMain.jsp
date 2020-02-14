@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <title>Home</title>
-<link
+<link 
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
 <style>

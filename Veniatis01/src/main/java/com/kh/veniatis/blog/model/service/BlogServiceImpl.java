@@ -1,4 +1,4 @@
-package com.kh.veniatis.blog.model.service;
+ package com.kh.veniatis.blog.model.service;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class BlogServiceImpl implements BlogService{
 	public ArrayList<BlogPost> selectPostList(String userId) {
 		return bDao.selectPostList(userId);
 	}
-	
+	 
 	// 블로그  카테고리 조회
 	@Override
 	public ArrayList<BlogCate> selectCateList(String userId) {

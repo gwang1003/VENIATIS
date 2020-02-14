@@ -9,10 +9,10 @@ import com.kh.veniatis.member.model.vo.Member;
 
 @Service("mService")
 public class MemberServiceImpl implements MemberService{
-	/*@Autowired
-	private MemberDao mDao;*/
+	@Autowired
+	private MemberDao mDao;
 	
-	/*@Override
+	@Override
 	public Member loginMember(Member m) {
 		Member loginUser = mDao.selectMember(m);
 		return loginUser;
@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService{
 	public Member selectOneMember(String userId) {
 		Member selectMember = mDao.selectOneMember(userId);
 		return selectMember;
-	}*/
+	}
 	
 	
 

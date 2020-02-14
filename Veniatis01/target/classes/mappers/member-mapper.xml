@@ -20,6 +20,7 @@
 		SELECT *
 		FROM MEMBER
 		WHERE M_ID=#{mId}
+		AND M_PWD=#{mPwd}
 	</select>
 	
 	<select id="selectOneUserId" parameterType="Member" resultMap="memberResultSet">

@@ -13,17 +13,12 @@ public class Member {
 	private String mBirth;
 	private String mInterest;
 	private Date mDate;
+	private String gender;
 	
-	public Member() {};
-	
-	@Override
-	public String toString() {
-		return "Member [mNo=" + mNo + ", mId=" + mId + ", mPwd=" + mPwd + ", mName=" + mName + ", mPhone=" + mPhone
-				+ ", mEmail=" + mEmail + ", mAddress=" + mAddress + ", mBirth=" + mBirth + ", mInterest=" + mInterest
-				+ ", mDate=" + mDate + "]";
-	}
+	public Member() {}
+
 	public Member(int mNo, String mId, String mPwd, String mName, String mPhone, String mEmail, String mAddress,
-			String mBirth, String mInterest, Date mDate) {
+			String mBirth, String mInterest, Date mDate, String gender) {
 		super();
 		this.mNo = mNo;
 		this.mId = mId;
@@ -35,6 +30,7 @@ public class Member {
 		this.mBirth = mBirth;
 		this.mInterest = mInterest;
 		this.mDate = mDate;
+		this.gender = gender;
 	}
 
 	public int getmNo() {
@@ -116,9 +112,20 @@ public class Member {
 	public void setmDate(Date mDate) {
 		this.mDate = mDate;
 	}
-	
-	
-	
-	
-	
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [mNo=" + mNo + ", mId=" + mId + ", mPwd=" + mPwd + ", mName=" + mName + ", mPhone=" + mPhone
+				+ ", mEmail=" + mEmail + ", mAddress=" + mAddress + ", mBirth=" + mBirth + ", mInterest=" + mInterest
+				+ ", mDate=" + mDate + ", gender=" + gender + "]";
+	};
+		
 }

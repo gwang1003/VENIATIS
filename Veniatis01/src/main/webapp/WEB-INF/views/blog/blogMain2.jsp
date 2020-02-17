@@ -141,7 +141,7 @@
                             <form action="bSearch.do" method="get">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword' name="searchValue" >
+                                        <input type="text" class="form-control" placeholder='검색어를 입력하세요' name="searchValue" >
                                         <input type="hidden" name="userId" value="${user.mId }">
                                         <div class="input-group-append">
                                             <button class="btn" type="button"><i class="ti-search"></i></button>
@@ -175,7 +175,33 @@
                         <aside class="single_sidebar_widget tag_cloud_widget">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
-	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
+                            	<c:choose>
+                            		<c:when test = "${fn:length(tags)==1 }">
+	                            	등록된 태그가 없습니다!
+	                           		 </c:when>
+	                           		 		
+									<c:when test="${fn:length(tags)<15 }">
+										<c:forEach var="i" begin="1" end="${fn:length(tags)-1}">
+											<li>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+									</c:when>
+									<c:when test="${fn:length(tags)>15 }">
+										<c:forEach var="i" begin="1" end="10">
+											<li>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br><br>
+											</li>
+										</c:forEach>
+										&nbsp;&nbsp;&nbsp;더보기
+									</c:when>
+									<c:otherwise>
+										등록된 태그가 없습니다!
+									</c:otherwise>
+								</c:choose>
+	
+                            
+<%-- 	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
 	                            <c:if test = "${fn:length(tags)<15 }">
 										<c:forEach var="i" begin="0" end="${fn:length(tags)-1}">
 											<li>
@@ -192,11 +218,14 @@
 	
 										</c:forEach>
 										&nbsp;&nbsp;&nbsp;더보기
-								</c:if>							
-								
+								</c:if>		
+								 
 								<c:if test = "${fn:length(tags)==0 }">
 	                            	등록된 태그가 없습니다!
-	                            </c:if>                          
+	                            </c:if>					
+								
+ --%>								
+                                     
                             </ul>
                         </aside>
 <!--  -->          
@@ -221,7 +250,7 @@
         </div>
     </div>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <script src="blog.js" type="882eb23b708c715aa9a4c46d-text/javascript"></script>
 </body>
 </html>

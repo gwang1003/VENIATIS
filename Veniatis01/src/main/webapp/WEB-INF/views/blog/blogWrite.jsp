@@ -85,6 +85,7 @@
 	
 	$(document).ready(function() {
 		// Editor Setting
+		
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : oEditors, // 전역변수 명과 동일해야 함.
 			elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
@@ -170,14 +171,19 @@
 		        $("#taglist").append("<input type='text'  readonly  class='tag' id='num"+num+"' value='#"+a+"'> &nbsp;");
 		        num = num + 1;
 		        $("#test1").val("");
+		        console.log("더해졌을때="+num);
 	        };
 	    }
 	
 	    //아무것도 없는상태에서 백스페이스 눌렀을 때(태그 제거)
+	    if(num>1){
 	    if ($("#test1").val() == "" && event.keyCode == 8) {
-	        $("#num" + num).remove();
+	    	$("#num" + (num-1)).remove();
 	        console.log("백스페이스");
 	        num = num - 1;
+	        
+	        console.log("빼졌을때="+num);
+	    }
 	    }
 	}
 

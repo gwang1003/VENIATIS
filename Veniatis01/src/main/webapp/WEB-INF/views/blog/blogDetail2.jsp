@@ -455,8 +455,36 @@ function replyList(){
                         <aside class="single_sidebar_widget tag_cloud_widget">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
+                                 <c:choose>
+                            		<c:when test = "${fn:length(tags)==1 }">
+	                            	등록된 태그가 없습니다!
+	                           		 </c:when>
+	                           		 		
+									<c:when test="${fn:length(tags)<15 }">
+										<c:forEach var="i" begin="1" end="${fn:length(tags)-1}">
+											<li>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+									</c:when>
+									<c:when test="${fn:length(tags)>15 }">
+										<c:forEach var="i" begin="1" end="10">
+											<li>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+										&nbsp;&nbsp;&nbsp;더보기
+									</c:when>
+									<c:otherwise>
+										등록된 태그가 없습니다!
+									</c:otherwise>
+								</c:choose>
+                            
+                            
+                            
+                            
 	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
-	                            <c:if test = "${fn:length(tags)<15 }">
+	                            <%-- <c:if test = "${fn:length(tags)<15 }">
 										<c:forEach var="i" begin="0" end="${fn:length(tags)-1}">
 											<li>
 											<a href="#">#${tags[i]}</a><br>
@@ -476,7 +504,7 @@ function replyList(){
 								
 								<c:if test = "${fn:length(tags)==0 }">
 	                            	등록된 태그가 없습니다!
-	                            </c:if>                          
+	                            </c:if>       --%>                    
                             </ul>
                         </aside>
 <!--  -->   
@@ -505,6 +533,7 @@ function replyList(){
 $("#rSubmit").click(function(){
 	var bNo = ${post.bNo};
 	var rContent = $("#comment").val();
+	var mId = "${post.mId}";
 	console.log("댓글작성"+rContent);
 	
 	$.ajax({
@@ -512,7 +541,8 @@ $("#rSubmit").click(function(){
 		type : "post",
 		dataType : "text",
 		data : {rContent:rContent,
-				bNo:bNo},
+				bNo:bNo,
+				mId:mId},
 		success: function(data){
 
 			$("#comment").val("");
@@ -547,7 +577,7 @@ function rDelete(a){
 </script>
 
 
-
+<br><br><br><br><br><br><br><br><br><br><br>
 </body>
 
 </html>

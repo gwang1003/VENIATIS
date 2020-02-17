@@ -10,6 +10,7 @@
 		<typeAlias type="com.kh.veniatis.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.veniatis.blog.model.vo.BlogCate" alias="BlogCate"/>
 		<typeAlias type="com.kh.veniatis.blog.model.vo.BlogPost" alias="BlogPost"/>
+		<typeAlias type="com.kh.veniatis.blog.model.vo.BlogAlert" alias="BlogAlert"/>
 		<typeAlias type="com.kh.veniatis.common.files.model.vo.Files" alias="Files"/>
 		<typeAlias type="com.kh.veniatis.common.likes.model.vo.Likes" alias="Likes"/>
 		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	

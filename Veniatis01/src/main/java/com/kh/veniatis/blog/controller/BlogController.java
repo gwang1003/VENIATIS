@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.veniatis.blog.model.service.BlogService;
-
+import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
@@ -101,14 +102,20 @@ public class BlogController {
 			ArrayList<String> realtags=new ArrayList();
 			
 			for(int i=0; i<tags.length; i++) {
-				if(i!=0) {
-					if(!(tags[i].equals(tags[i-1]))) {
-						realtags.add(tags[i]);
-					}
-				}
+				realtags.add(tags[i]);
 			}
-	        
-   
+
+			for(int i=0; i< realtags.size(); i++) {
+				for(int j=0; j< realtags.size();j++) {
+					if(i==j) {
+						
+					}else if(realtags.get(j).equals(realtags.get(i))) {
+						realtags.remove(j);
+					}
+				}				
+			}
+
+			
 	        
 	        
 	        
@@ -143,7 +150,7 @@ public class BlogController {
 			bp.setCateNo(cateNo);
 			ArrayList<BlogPost> post = bService.selectCatePostList(bp);		 
 
-	        //태그 전체 갖고오기
+			 //태그 전체 갖고오기
 	        ArrayList<BlogPost> allPost = bService.selectPostList(mId);
 	        String allTag="";
 	        
@@ -157,15 +164,18 @@ public class BlogController {
 			ArrayList<String> realtags=new ArrayList();
 			
 			for(int i=0; i<tags.length; i++) {
-				if(i!=0) {
-					if(!(tags[i].equals(tags[i-1]))) {
-						realtags.add(tags[i]);
-					}
-				}
+				realtags.add(tags[i]);
 			}
-	        
 
-
+			for(int i=0; i< realtags.size(); i++) {
+				for(int j=0; j< realtags.size();j++) {
+					if(i==j) {
+						
+					}else if(realtags.get(j).equals(realtags.get(i))) {
+						realtags.remove(j);
+					}
+				}				
+			}
 			
 			mv.addObject("tags",realtags); // 태그
 			mv.addObject("user",m);
@@ -235,12 +245,20 @@ public class BlogController {
 			ArrayList<String> realtags=new ArrayList();
 			
 			for(int i=0; i<tags.length; i++) {
-				if(i!=0) {
-					if(!(tags[i].equals(tags[i-1]))) {
-						realtags.add(tags[i]);
-					}
-				}
+				realtags.add(tags[i]);
 			}
+
+			for(int i=0; i< realtags.size(); i++) {
+				for(int j=0; j< realtags.size();j++) {
+					if(i==j) {
+						
+					}else if(realtags.get(j).equals(realtags.get(i))) {
+						realtags.remove(j);
+					}
+				}				
+			}
+
+	
 	        
 
 	        
@@ -587,14 +605,28 @@ public class BlogController {
 	//댓글 넣기
 	@RequestMapping("replyInsert.do")
 	@ResponseBody
-	public String addReply(Reply r, HttpSession session) {
+	public String addReply(Reply r, HttpSession session,
+			@RequestParam("mId") String mId) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
+		
 		int rWriter = loginUser.getmNo();
 		
 		r.setmNo(rWriter);
+		int result = bService.insertReply(r);		
 		
-		int result = bService.insertReply(r);
-			return "success";
+		//알림넣기
+		Member m=mService.selectOneMember(mId);
+		
+		BlogAlert ba = new BlogAlert();
+		ba.setbNo(r.getbNo());
+		ba.setmNo(m.getmNo());
+		
+		int alert = bService.alertReply(ba);
+		
+		
+		
+
+		return "success";
 	}
 	
 	//댓글 삭제
@@ -633,21 +665,39 @@ public class BlogController {
 		
 		
 		
-		//태그 전체 갖고오기
+		 //태그 전체 갖고오기
         ArrayList<BlogPost> allPost = bService.selectPostList(userId);
         String allTag="";
         
         for(int i=0; i<allPost.size();i++) {
         	if(allPost.get(i).getbTag()!=null) {
-        		allTag=allTag+allPost.get(i).getbTag();
+	        	allTag=allTag+allPost.get(i).getbTag();	
         	}
         }
-
         String tags[]=allTag.split("#");
+
+		ArrayList<String> realtags=new ArrayList();
+		
+		for(int i=0; i<tags.length; i++) {
+			realtags.add(tags[i]);
+		}
+
+		for(int i=0; i< realtags.size(); i++) {
+			for(int j=0; j< realtags.size();j++) {
+				if(i==j) {
+					
+				}else if(realtags.get(j).equals(realtags.get(i))) {
+					realtags.remove(j);
+				}
+			}				
+		}
+
+	
+        
 
 
 		
-		mv.addObject("tags",tags);
+		mv.addObject("tags",realtags);
 		mv.addObject("user",m);
 		mv.addObject("cate",cate);
 		mv.addObject("post",post);
@@ -658,7 +708,82 @@ public class BlogController {
 	}
 	
 	
+	
+	//태그별 리스트조회
+	@RequestMapping("blogTag.do")
+	public ModelAndView blogTag(ModelAndView mv,
+			@RequestParam(value="page", required=false) Integer page,HttpServletRequest request,
+			 @RequestParam("userId") String userId,
+			 @RequestParam("tags") String tags) {
+		
+		Member m=mService.selectOneMember(userId);
+		
+		//전체 게시글 갖고오기
+		 ArrayList<BlogPost> allPosts = bService.selectPostList(userId);
+		 ArrayList<BlogPost> realAllTagList= new ArrayList();
+		 for(int i=0; i<allPosts.size();i++) {
+			 if((allPosts.get(i).getbTag()!=null)){
+				 String tagirr[] = allPosts.get(i).getbTag().split("#");
+				 
+				 for(int k=0; k<tagirr.length;k++) {
+					 if((tagirr[k].equals(tags))) {
+						 realAllTagList.add(allPosts.get(i));
+						 break;
+					 }		 
+				 }
+				 
+				 
+			 };
+			 
+			 
+		 }
+		 
+		for(int i=0; i<realAllTagList.size();i++) {
+			System.out.println(realAllTagList.get(i));
+		}
+		 
+		
+		//카테고리 목록 갖고오기
+		ArrayList<BlogCate> cate = bService.selectCateList(userId);
+		
+		
+		 //태그 전체 갖고오기
+        ArrayList<BlogPost> allPost = bService.selectPostList(userId);
+        String allTag="";
+        
+        for(int i=0; i<allPost.size();i++) {
+        	if(allPost.get(i).getbTag()!=null) {
+	        	allTag=allTag+allPost.get(i).getbTag();	
+        	}
+        }
+        String tagss[]=allTag.split("#");
 
+		ArrayList<String> realtags=new ArrayList();
+		
+		for(int i=0; i<tagss.length; i++) {
+			realtags.add(tagss[i]);
+		}
+
+		for(int i=0; i< realtags.size(); i++) {
+			for(int j=0; j< realtags.size();j++) {
+				if(i==j) {
+					
+				}else if(realtags.get(j).equals(realtags.get(i))) {
+					realtags.remove(j);
+				}
+			}				
+		}
+
+		
+		mv.addObject("tag",tags);
+		mv.addObject("tags",realtags);
+		mv.addObject("user",m);
+		mv.addObject("cate",cate);
+		mv.addObject("post",realAllTagList);
+		mv.setViewName("blog/blogTagList");
+		
+		return mv;
+	}	
 	
 	
 	// 블로그홈
@@ -670,8 +795,16 @@ public class BlogController {
 		 ArrayList<BlogPost> post = bService.selectPopularList();
 
 		 // 이렇게까지 해야하나...?
-		 ArrayList<BlogPost> bp =bService.selectPopularRealList(post);
-
+		 ArrayList<BlogPost> bp1 =bService.selectPopularRealList(post);
+		 ArrayList<BlogPost> bp= new ArrayList<BlogPost>();
+		 
+		 
+		 
+		 for(int i=0; i<bp1.size(); i++) {
+			 if(bp1.get(i)!=null) {
+				 bp.add(bp1.get(i));
+			 }
+		 }
 		 
         mv.addObject("loginUser",nowUser);
         mv.addObject("popPost",bp);
@@ -695,7 +828,9 @@ public class BlogController {
         HttpSession session = request.getSession();
         Member nowUser = (Member) session.getAttribute("loginUser");		
         ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
-		
+        ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+        
+        mv.addObject("cate",cate);
         mv.addObject("post",allPost);
 		mv.setViewName("blog/blogAdminPost");
 		return mv;
@@ -707,7 +842,9 @@ public class BlogController {
         HttpSession session = request.getSession();
         Member nowUser = (Member) session.getAttribute("loginUser");		
         ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
-		
+        ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+        
+        mv.addObject("cate",cate);
         mv.addObject("post",allPost);
 		mv.setViewName("blog/blogAdminPost");
 		return mv;
@@ -796,5 +933,71 @@ public class BlogController {
 		mv.setViewName("blog/blogAdminCate");
 		return mv;
 	}
+	
+	
+	// 게시글 관리 - 삭제
+	@RequestMapping("badminPostDelete.do")
+	public ModelAndView badminPostDelete(ModelAndView mv,HttpServletRequest request) {
+		
+		//체크박스 목록 갖고오기 (글번호목록)
+		String[] arr = request.getParameterValues("bNo");
+		int[] intArr = new int[arr.length];
+		
+		for(int i=0; i<arr.length; i++) {
+			intArr[i] = Integer.parseInt(arr[i]);
+		}
+		
+		int postDelete = bService.badminPostDelete(intArr);
+		
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");		
+        ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
+        ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+        
+        mv.addObject("cate",cate);
+        mv.addObject("post",allPost);
+		mv.setViewName("blog/blogAdminPost");
+		return mv;
+	}
+	
+	// 게시글 관리 - 카테고리 이동
+	@RequestMapping("badminPostMove.do")
+	public ModelAndView badminPostMove(ModelAndView mv,HttpServletRequest request) {
+		
+		//이동할 카테고리 명 갖고오기
+		int cateNo = Integer.parseInt(request.getParameter("cateNo"));
+		
+		//체크박스 목록 갖고오기 (글번호목록)
+		String[] arr = request.getParameterValues("bNo");
+		int[] intArr = new int[arr.length];
+		
+		for(int i=0; i<arr.length; i++) {
+			intArr[i] = Integer.parseInt(arr[i]);
+		}
+		
+		ArrayList<BlogPost> moveList = new ArrayList();
+		
+		for(int i=0; i<arr.length; i++) {
+			BlogPost b = new BlogPost();
+			b.setbNo(intArr[i]);
+			b.setCateNo(cateNo);
+			
+			moveList.add(b);
+		}
+		
+		int postMove = bService.badminPostMove(moveList);
+		
+
+		
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");		
+        ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
+        ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+        
+        mv.addObject("cate",cate);
+        mv.addObject("post",allPost);
+		mv.setViewName("blog/blogAdminPost");
+		return mv;
+	}	
 	
 }

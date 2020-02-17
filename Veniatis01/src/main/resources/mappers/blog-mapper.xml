@@ -68,6 +68,14 @@
 		<result property="countLike" column="COUNT(LIKE_NO)"/>
 	</resultMap>
 	
+	<resultMap type="BlogAlert" id="blogAlertResultSet">
+		<id property="baNo" column="BA_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="rNo" column="REPLY_NO"/>
+		<result property = "lNo" column="LIKE_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="inDate" column="INDATE"/>
+	</resultMap>
 	
 	
 
@@ -169,7 +177,7 @@ WHERE (B_TITLE LIKE '%' || #{searchValue} || '%' OR
 SELECT B_NO,COUNT(LIKE_NO) 
 FROM LIKES
 GROUP BY B_NO
-ORDER BY COUNT(LIKE_NO) DESC 
+ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		</select>
 		
 	<!-- 인기게시글 갖고오기 -->	
@@ -188,6 +196,13 @@ ORDER BY COUNT(LIKE_NO) DESC
 	</select>
 	
 	
+	<!-- 태그별 포스트 갖고오기 -->
+	<select id="selectTagPost" resultMap="BlogPostResultSet2">
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE M_ID=#{mId} 	AND
+         		B_TAG LIKE '%' || #{bTag} || '%'
+	</select>
 	
 	
 	<!-- 관리하기 -->
@@ -215,5 +230,28 @@ ORDER BY COUNT(LIKE_NO) DESC
 		DELETE FROM BLOG_CATE
 		WHERE B_CATE_NO=#{cateNo}
 	</delete>	
+	
+	
+	
+	<!-- 관리하기 - 게시글 : 삭제 -->
+	<delete id="adminDeletePost" parameterType="BlogPost">
+		DELETE FROM BLOG_POST
+		WHERE B_NO=#{bNo}
+	</delete>
+	
+	<!-- 관리하기 - 게시글 : 카테고리 이동-->
+	<update id="adminPostMove" parameterType="BlogPost">
+		UPDATE BLOG_POST
+		SET B_CATE_NO=#{cateNo}
+		WHERE B_NO=#{bNo}	
+	</update>
+	
+	
+	
+	<!-- 알림-댓글알람 넣기-->
+	<insert id="insertAlertReply" parameterType="BlogAlert">
+		INSERT INTO BLOG_ALERT
+		VALUES(SEQ_BLOG_ALERT_NO.NEXTVAL,#{bNo},#{bNo},null,#{mNo},SYSDATE)
+	</insert>
 	
 </mapper>

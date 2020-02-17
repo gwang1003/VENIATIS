@@ -2,6 +2,7 @@ package com.kh.veniatis.blog.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.common.files.model.vo.Files;
@@ -87,4 +88,16 @@ public interface BlogService {
 	
 	// 25. 관리하기 - 카테고리 삭제 - 카테고리 제거
 	int cDeleteCate(Integer cateNo);
+	
+	// 26. 관리하기 - 글삭
+	int badminPostDelete(int[] arr);
+	
+	// 27. 관리하기 - 글 카테고리 이동
+	int badminPostMove(ArrayList<BlogPost> moveList);
+	
+	/// 28. 태그별 게시글 목록 갖고오깅
+	ArrayList<BlogPost> selectTagPost(BlogPost bp);
+	
+	// 29. 알림넣기 : 댓글알람
+	int alertReply(BlogAlert ba);
 }

@@ -52,6 +52,19 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+#box-sorting{
+	 text-align:right; 
+	 margin-right:20px;
+}
+
+#sorting_btn{
+	background-color:#ffffff;
+	color:#40c8b5;
+	border:2px solid #40c8b5;
+	font-weight:600;
+}
+
 </style>
 </head>
 <body>
@@ -117,7 +130,7 @@
 
 				<div class="wrap_project">
 					<!-- 정렬 기준  -->
-					<div class="box_select">
+					<!-- <div class="box_select">
 						<select id="sorting" name="sorting" class="select_sort"
 							title="후원형 프로젝트 목록 분류">
 							<option id="sort_latest" value="latest">최신순</option>
@@ -125,19 +138,33 @@
 							<option id="sort_impendence" value="impendence">마감임박순</option>
 							<option id="sort_largest" value="largest">참여자순</option>
 						</select>
+					</div> -->
+
+					<div class="dropdown" id="box-sorting">
+						<button class="btn dropdown-toggle" type="button"
+							id="sorting_btn" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">정렬 기준&nbsp;</button>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="sorting_btn">
+							<button class="dropdown-item" type="button">최신순</button>
+							<button class="dropdown-item" type="button">펀딩금액순</button>
+							<button class="dropdown-item" type="button">마감임박순</button>
+							<button class="dropdown-item" type="button">참여자순</button>
+						</div>
 					</div>
+					
+					<!-- <div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">정렬</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item">최신순</a> <a class="dropdown-item">펀딩금액순</a>
+							<a class="dropdown-item">마감임박순</a> <a class="dropdown-item">참여자순</a>
+						</div>
+					</div> -->
 
 					<script>
 						$(function() {
-							if ($("#sort_highest:selected")) {
-
-							} else if ($("#sort_impendence:selected")) {
-
-							} else if ($("#sort_largest:selected")) {
-
-							} else {
-
-							}
+							
 						});
 					</script>
 

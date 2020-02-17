@@ -10,7 +10,7 @@ public class Files {
 	private int conNo; // 공모전 번호
 	private int gNo; // 가이드 번호
 	private int category; // 카테고리 1_블로그 2_프로젝트 3_유저  4_공모전 5_가이드
-	private String orginName; //원래이름
+	private String originName; //원래이름
 	private String changeName; //바뀐이름
 	private String filePath; // 수정날짜
 	private Date uploadDate; // 수정날짜
@@ -19,6 +19,15 @@ public class Files {
 	
 	
 	public Files() {}
+
+
+	public Files(int category, String originName, String changeName, String filePath) {
+		super();
+		this.category = category;
+		this.originName = originName;
+		this.changeName = changeName;
+		this.filePath = filePath;
+	}
 
 
 	public int getFileNo() {
@@ -91,13 +100,13 @@ public class Files {
 	}
 
 
-	public String getOrginName() {
-		return orginName;
+	public String getOriginName() {
+		return originName;
 	}
 
 
-	public void setOrginName(String orginName) {
-		this.orginName = orginName;
+	public void setOriginName(String originName) {
+		this.originName = originName;
 	}
 
 
@@ -151,7 +160,7 @@ public class Files {
 	}
 
 
-	public Files(int fileNo, int bNo, int pNo, int mNo, int conNo, int gNo, int category, String orginName,
+	public Files(int fileNo, int bNo, int pNo, int mNo, int conNo, int gNo, int category, String originName,
 			String changeName, String filePath, Date uploadDate, String status, int fileLevel) {
 		super();
 		this.fileNo = fileNo;
@@ -161,7 +170,7 @@ public class Files {
 		this.conNo = conNo;
 		this.gNo = gNo;
 		this.category = category;
-		this.orginName = orginName;
+		this.originName = originName;
 		this.changeName = changeName;
 		this.filePath = filePath;
 		this.uploadDate = uploadDate;
@@ -173,7 +182,7 @@ public class Files {
 	@Override
 	public String toString() {
 		return "Files [fileNo=" + fileNo + ", bNo=" + bNo + ", pNo=" + pNo + ", mNo=" + mNo + ", conNo=" + conNo
-				+ ", gNo=" + gNo + ", category=" + category + ", orginName=" + orginName + ", changeName=" + changeName
+				+ ", gNo=" + gNo + ", category=" + category + ", originName=" + originName + ", changeName=" + changeName
 				+ ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", status=" + status + ", fileLevel="
 				+ fileLevel + "]";
 	};

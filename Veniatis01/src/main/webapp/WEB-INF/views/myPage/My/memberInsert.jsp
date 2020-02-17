@@ -17,7 +17,7 @@
         <div class="container">
             <div class="tableArea">
                 <div id="">
-                    <form id="joinForm" name="joinForm" action="" method="post" onsubmit="return joinValidate();"
+                    <form id="joinForm" name="joinForm" action="memberInsert.do" method="post" onsubmit="return joinValidate();"
                     enctype="multipart/form-data">
                         <div class="xans-element- xans-member xans-member-edit">
                             <h3>회원가입</h3>
@@ -26,7 +26,7 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">* 아이디</th>
-                                            <td><input id="userId" name="userId"
+                                            <td><input id="userId" name="mId"
                                                 class="inputTypeText" placeholder="" type="text"
                                                 maxlength="13" required /> <span id="pwd">(영문소문자/숫자,
                                                     4~13자)</span>
@@ -34,42 +34,40 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">* 비밀번호</th>
-                                            <td><input id="userPwd" name="userPwd" maxlength="16"
+                                            <td><input id="userPwd" name="mPwd" maxlength="16"
                                                 value="" type="password" required /> <span id="pwd">(영문
                                                     대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">* 비밀번호 확인</th>
-                                            <td><input id="userPwd2" name="userPwd2" maxlength="16"
+                                            <td><input id="userPwd2" name="mPwd2" maxlength="16"
                                                 value="" type="password" required /></td>
                                         </tr>
                                         <tr style="display: 1">
                                             <th scope="row">* 이름</th>
                                             <td><span id="name_contents"> <input type="text"
-                                                    maxlength="5" id="text" name="userName" required>
+                                                    maxlength="5" id="text" name="mName" required>
                                             </span></td>
                                         </tr>
                                         <tr class="">
                                             <th scope="row">* 생년월일 (8자리 숫자로 입력 ex.19950101)</th>
-                                            <td><input type="text" name="birth" id="birth"
+                                            <td><input type="text" name="mBirth" id="birth"
                                                 maxlength="8"></td>
                                         </tr>
                                         <tr class="">
                                             <th scope="row">성별</th>
-                                            <td><input class="gender" id="man" name="gender"
+                                            <td><input id="man" name="gender"
                                                 value="man" type="radio" /><label for="is_sex0">남자</label> <input
-                                                type="radio" class="gender" id="woman" name="gender"
+                                                type="radio"id="woman" name="gender"
                                                 value="woman"><label for="is_sex1">여자</label></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">주소</th>
-                                            <td><input id="postcode1" name="addr"
-                                                class="inputTypeText" placeholder="" readonly="readonly"
-                                                maxlength="14" type="text" required/> <input type="button"
-                                                onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-                                                <input id="addr1" name="addr1" class="inputTypeText"
-                                                readonly="readonly" type="text" required/><br /> <input id="addr2"
-                                                name="addr2" class="inputTypeText" type="text" required/></td>
+                                            <td><input id="postcode1" name="post" class="postcodify_postcode5" placeholder=""
+                                                maxlength="14" type="text" required/> 
+                                                <button type="button" id="postcodify_search_button">검색</button><br>
+                                                <input type="text" name="address1" class="postcodify_address" value="" style="width:300px;"/><br>
+                                                <input type="text" name="address2" class="postcodify_extra_info" value="" style="width:300px;"/></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">휴대전화</th>
@@ -88,12 +86,12 @@
                                             <th scope="row">* 이메일 (인증 필수)</th>
                                             <td>
                                                 <div id="email">
-                                                     <input name="email" class="emailcheck0" id="text" readonly>
+                                                     <input name="mEmail" class="emailcheck0" id="mEmail">
                                                     <button class="btn" type="button" onclick="emailCheck();"
                                                         id="emailcheck1" name="emailcheck">인증하기</button><br>
-                                                        <input name="email" class="emailcheck0" id="text" readonly>
-                                                        <button class="btn" type="button" onclick="emailCheck();"
-                                                        id="emailcheck1" name="emailcheck">인증번호 확인</button><br>
+                                                        <input name="email" class="emailcheck5" id="text">
+                                                        <button class="btn" type="button" onclick="emailCheck1();"
+                                                        id="emailcheck2" name="emailcheck1">인증번호 확인</button><br>
                                                 </div>
                                             </td>
                                         </tr>
@@ -101,17 +99,17 @@
                                             <th scope="row">관심 분야</th>
                                             <td>
                                                 <div id="email">
-                                                    <input type ="checkbox">공간 / 리빙 &nbsp;&nbsp;
-                                                    <input type ="checkbox">사회이슈 &nbsp;&nbsp;
-                                                    <input type ="checkbox">교육 / 출판 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="공간/리빙">공간 / 리빙 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="사회이슈">사회이슈 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="교육/출판">교육 / 출판 &nbsp;&nbsp;
                                                     <br>
-                                                    <input type ="checkbox">문화예술 &nbsp;&nbsp;
-                                                    <input type ="checkbox">지역재생 &nbsp;&nbsp;
-                                                    <input type ="checkbox">푸드 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="문화예술">문화예술 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="지역재생">지역재생 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="푸드">푸드 &nbsp;&nbsp;
                                                     <br>
-                                                    <input type ="checkbox">테크 &nbsp;&nbsp;
-                                                    <input type ="checkbox">뷰티/패션 &nbsp;&nbsp;
-                                                    <input type ="checkbox">여행 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="테크">테크 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="뷰티/패션">뷰티/패션 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="여행">여행 &nbsp;&nbsp;
                                                 </div>
                                             </td>
                                         </tr>
@@ -133,7 +131,7 @@
                             </div>
                             <div class="btnArea">
                         <button id="toMain" onclick="returnToMain()">메인으로</button>
-                        <button id="joinBtn" disabled>가입하기</button>
+                        <button id="joinBtn">가입하기</button>
                             </div>
                         </div>
                     </form>
@@ -142,7 +140,11 @@
         </div>
         </div>
         </div>
+        <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+		<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
         <script>
+        var key;
+        var okEmail = false;
                             function loadImg(value, num){
                             // value => input type="file"
                             // num => 조건문을 통해 미리보기 div 지정
@@ -168,8 +170,43 @@
         
         
         function emailCheck(){
-            window.open("emailCheckForm.jsp", "checkForm", "width=400, height=200");
+        	alert("이메일이 전송되었습니다");
+				var email = $("#mEmail").val();
+				
+				$.ajax({
+					// url : 데이터를 전송할 url(필수!!!)
+					url : "email.do",
+					
+					// data : 요청 시 전달할 파라미터 설정
+					data:{email:email},
+					// key:value
+					
+					// type : 전송 방식(GET / POST)
+					type : "get",
+					
+					// success : Ajax 통신 성공 시 처리할 함수를 지정하는 속성
+					success : function(data){
+						// result 매개변수 : 서버에서 응답이 왔을 때 그 값이 저장 되는 변수
+						// 매개변수명 임의 지정 가능
+						key = data;
+					},
+					
+					// error : Ajax 통신 실패 시 처리할 함수를 지정하는 속성
+					error : function(){
+						console.log('Ajax 통신 실패...');
+						checkEmail = false;
+					}					
+				});
+				
         }
+        
+       function emailCheck1() {
+    	   var code = $(".emailcheck5").val();
+			alert("code : " + code);
+			if(key == code) {
+				okEmail = true;
+			}
+       }
         
             // 1. 메인으로 돌아가기
             function returnToMain(){
@@ -180,30 +217,30 @@
             function joinValidate(){
                 if(!(/^[a-z][a-z\d]{3,11}$/.test($("#joinForm input[name=userId]").val()))){
                     alert('아이디는 영소문자로 시작해서 4~12자 입력(숫자 포함 가능)');
-                    $("#joinForm input[name=userId]").select();
+                    $("#joinForm input[name=mId]").select();
                     return false;
                 }
                 
-                if($("#joinForm input[name=userPwd]").val() != $("#joinForm input[name=userPwd2]").val()){
+                if($("#joinForm input[name=mPwd]").val() != $("#joinForm input[name=mPwd2]").val()){
                     $("#pwdResult").text("비밀번호 불일치").css("color","red");
                     return false;
                 }
                 
-                if(!(/^[가-힣]{2,}$/.test($("#joinForm input[name=userName]").val()))){
+                if(!(/^[가-힣]{2,}$/.test($("#joinForm input[name=mName]").val()))){
                     alert('이름은 한글로 2글자 이상 입력');
-                    $("#joinForm input[name=userName]").select();
+                    $("#joinForm input[name=mName]").select();
                     return false;
                 }	
                 
-                if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=userPwd]").val())))){
+                if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=mPwd]").val())))){
                     alert('비밀번호는 8자 이상으로 영문 대소문자, 숫자, 특수문자 1개 이상 포함해주세요');
-                    $("#joinForm input[name=userPwd]").select();
+                    $("#joinForm input[name=mPwd]").select();
                     return false;
-                }	
+                }	 
                 
-                if($(".emailcheck").length==0){
-                    alert('이메일 인증을 해주세요');
-                    return false;
+                if(okEmail == false) {
+                	alert("이메일 인증을 해주세요.")
+                	return false
                 }
                 
                 

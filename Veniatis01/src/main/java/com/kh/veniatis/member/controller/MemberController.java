@@ -1,13 +1,28 @@
 package com.kh.veniatis.member.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
@@ -20,6 +35,9 @@ public class MemberController {
 	@Autowired
 	private MemberService mService;
 	
+	@Autowired
+	  private JavaMailSender mailSender;
+		
 	@RequestMapping("loginView.do")
 	public String loginView() {
 		return "myPage/My/memberLogin";
@@ -117,13 +135,13 @@ public class MemberController {
 	public String Login() {
 		return "myPage/My/memberLogin";
 	}
-	@RequestMapping("memberJoin.do")
-	public String insertMember() {
-		return "myPage/My/memberJoin";
+	@RequestMapping("memberInsertForm.do")
+	public String memberInsertForm() {
+		return "myPage/My/memberInsert";
 	}
-	@RequestMapping("memberJoinInfo.do")
-	public String insertMemberInfo() {
-		return "myPage/My/memberJoinInfo";
+	@RequestMapping("memberInsertInfo.do")
+	public String memberInsertInfo() {
+		return "myPage/My/memberInsertInfo";
 	}
 	@RequestMapping("attendProject.do")
 	public String attendProject() {
@@ -137,16 +155,118 @@ public class MemberController {
 	public String myOpenProject() {
 		return "myPage/My/myOpenProject";
 	}
-	@RequestMapping("Question.do")
-	public String Question() {
-		return "myPage/My/Question";
+	@RequestMapping("question.do")
+	public String question() {
+		return "myPage/My/question";
 	}
 	
 	@RequestMapping("revenue.do")
 	public String revenue() {
 		return "myPage/Manager/revenue";
 	}
-	
+	@RequestMapping("memberInsert.do")
+	public String memberInsert(Member m, HttpServletRequest request,
+			@RequestParam(value="UserImg", required=false) MultipartFile file,
+			@RequestParam(value="post") String post, @RequestParam(value="address1") String address1,
+			@RequestParam(value="address2") String address2, @RequestParam(value="phone1") String phone1,
+			@RequestParam(value="phone2") String phone2, @RequestParam(value="phone3") String phone3) {
+		m.setmAddress(post + ", " + address1 + ", " + address2);
+		m.setmPhone(phone1 + phone2 + phone3);
+		Files files = new Files();
+		int result = mService.memberInsert(m);
+		Member member = mService.selectOneMember(m.getmId());
+		
+		if(result > 0) {
+			if(!file.getOriginalFilename().equals("")) {
+				files = saveFile(file, request);
+				
+				if(files != null) {
+					files.setmNo(member.getmNo());
+					int result2 = mService.mPhotoInsert(files);
+				}
+			}
+				return "redirect:blist.do";
+		}else {
+			throw new MemberException("회원가입 실패!!");
+		}
+	}
+
+	private Files saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "\\memberPhoto";
+		
+		File folder = new File(savePath);
+		
+		// 해당 폴더 위치가 존재하지 않는다면
+		if(!folder.exists()) {
+			folder.mkdirs(); // 해당 디렉토리들을 만든다
+		}
+		int index = file.getOriginalFilename().indexOf(".");
+		
+		String extend = file.getOriginalFilename().substring(index);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		Calendar c = Calendar.getInstance();
+		String renameFilename = sdf.format(c.getTime()) + extend;
+
+		String filePath = folder + "\\" + renameFilename;
+		Files files = new Files(3, file.getOriginalFilename(), renameFilename, filePath);
+		try {
+			// 이 순간 서버에 파일이 저장 된다
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		return files;
+	}
+
+	@RequestMapping(value = "email.do")
+	@ResponseBody
+	  public String mailSending(HttpServletRequest request,
+			  String email) {
+	    String setfrom = "VENIATIS";         
+	    String tomail  = email;     // 받는 사람 이메일
+	    String title   = "회원가입 정보 인증메일입니다(VENIATIS)";      // 제목
+	    
+	    StringBuffer temp =new StringBuffer();
+        Random rnd = new Random();
+        for(int i=0;i<10;i++)
+        {
+            int rIndex = rnd.nextInt(3);
+            switch (rIndex) {
+            case 0:
+                // a-z
+                temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+                break;
+            case 1:
+                // A-Z
+                temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+                break;
+            case 2:
+                // 0-9
+                temp.append((rnd.nextInt(10)));
+                break;
+            }
+        }    
+	    
+	    String content = temp.toString();    // 내용
+	    try {
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	      
+	      messageHelper.setFrom(new InternetAddress(setfrom, "VENIATIS"));  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	      messageHelper.setText(content);  // 메일 내용
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+	   
+	    return content;
+	  }
 	
 	
 }

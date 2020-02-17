@@ -824,7 +824,7 @@ font-weight:800;
                     if (!checked2 || !checked3)
                     {alert('이용약관에 동의해주세요')
                     } else {
-            			
+            			location.href="memberInsertForm.do"
 					}
 					});
 

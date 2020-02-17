@@ -88,8 +88,10 @@
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">게시글 관리</h6>
         </div>
+        <form method="post">
         <div class="card-body">
           <div class="table-responsive">
+          
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
@@ -99,17 +101,19 @@
                   <th>카테고리</th>
                 </tr>
               </thead>
+           
               <tbody>
+              
               <c:forEach var="p" items="${post}"> 
                 <tr>
-                  <td><input type="checkbox"></td>
+                  <td><input type="checkbox" name="bNo" value="${p.bNo }"></td>
                   <td>${p.bTitle }</td>
                   <td>${p.bEnrollDate }</td>
                   <td>${p.cateName }</td>
-                
                 </tr>
               </c:forEach>
               </tbody>
+           
               <tfoot>
                 <tr>
                   <th></th>
@@ -120,8 +124,35 @@
               </tfoot>
             </table>
           </div>
-          <button>글 삭제하기</button>
-          <button>카테고리 이동하기</button>
+          
+<!-- 카테고리 이동  -->
+   <div class="modal fade seminor-login-modal" id="zz">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body seminor-login-modal-body">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                    </button>
+                    <div class="form-area">
+						이동할 카테고리 명 : 		
+						<select name="cateNo">
+							<c:forEach var="cate" items="${cate}">  
+								<option value="${cate.cateNo}">${cate.bCateName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+							</c:forEach>
+						</select>
+
+						<input type="submit" formaction="badminPostMove.do" value="카테고리 이동">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- ㅋㅋ -->
+ 
+          <button formaction="badminPostDelete.do">글 삭제하기</button>
+		  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">카테고리 이동하기</button>
+          </form>
         </div>
       </div>
 

@@ -41,7 +41,7 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                     <!-- 목록 가져오긔 -->
-                   <h2>'${search }' 검색 결과</h2><br><br>                   
+                   <h2>#${tag }</h2><br><br>                   
                     <c:forEach var="p" items="${post}"> 
                 
                        <article class="blog_item">
@@ -168,14 +168,14 @@
 									<c:when test="${fn:length(tags)<15 }">
 										<c:forEach var="i" begin="1" end="${fn:length(tags)-1}">
 											<li>
-											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>a><br>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>
 											</li>
 										</c:forEach>
 									</c:when>
 									<c:when test="${fn:length(tags)>15 }">
 										<c:forEach var="i" begin="1" end="10">
 											<li>
-											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br>
+											<a href="blogTag.do?tags=${tags[i]}&userId=${user.mId}">#${tags[i]}</a><br><br>
 											</li>
 										</c:forEach>
 										&nbsp;&nbsp;&nbsp;더보기

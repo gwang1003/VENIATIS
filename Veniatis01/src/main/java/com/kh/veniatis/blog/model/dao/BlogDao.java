@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.PageInfo;
@@ -191,6 +192,40 @@ public class BlogDao {
 	public int cDeleteCate(Integer cateNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("blogMapper.cDeleteCate",cateNo);
+	}
+
+	// 글삭
+	public int adminDeletePost(int[] arr) {
+		int ad=0;
+		for(int i=0; i<arr.length; i++) {
+			int bNo= arr[i];
+			ad=sqlSession.update("blogMapper.adminDeletePost",bNo);
+		}
+
+		return ad;
+	}
+
+	// 카테이동
+	public int adminPostMove(ArrayList<BlogPost> moveList) {
+		
+		int ad=0;
+		for(int i=0; i<moveList.size();i++) {
+			ad = sqlSession.update("blogMapper.adminPostMove",moveList.get(i));
+		}
+
+		return ad;
+	}
+
+	// 태그별 포스트 갖고오기
+	public ArrayList<BlogPost> selectTagPost(BlogPost bp) {
+		return (ArrayList)sqlSession.selectList("blogMapper.selectTagPost",bp);
+	}
+
+	// 알림-댓글알ㅇ람
+	public int alertReply(BlogAlert ba) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("blogMapper.insertAlertReply",ba);
+		
 	}
 
 

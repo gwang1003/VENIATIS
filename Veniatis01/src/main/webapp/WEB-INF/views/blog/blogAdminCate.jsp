@@ -51,9 +51,11 @@
     rel="stylesheet">
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
 <body style="background-color:#e2e7e6;">
 <jsp:include page="../common/menubar.jsp"></jsp:include>
+
     <div class="container">
 
             <div class="row" style="margin-top:2%;">
@@ -88,22 +90,24 @@
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">카테고리 관리</h6>
         </div>
+
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th><input type="checkbox"></th>
+                  
                   <th>카테고리 이름</th>
                   <th>공개여부</th>
                 </tr>
               </thead>
               <tbody>
-              
-              <c:forEach var="c" items="${cate}"> 
+
+  <%int num=1;%>    
+              <c:forEach var="c" items="${cate}" > 
                 <tr>
-                  <td><input type="checkbox" name="cateNo" id="cateNo" value="${c.cateNo}"></td>
-                  <td>${c.bCateName } <button type="button" class="btn btn-success" data-toggle="modal" data-target="#xx">수정</button>
+                  
+                  <td>${c.bCateName } <button type="button" class="btn btn-success" data-toggle="modal" data-target="#xx<%=num%>">수정</button>
                  					  <button type="button" onclick="cateDelete(${c.cateNo});">제거</button>
                   </td>
 
@@ -112,7 +116,7 @@
                 
                 
                 <!-- 카테고리 변경 모달 -->
-<div class="modal fade seminor-login-modal" id="xx">
+<div class="modal fade seminor-login-modal" id="xx<%=num%>">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal body -->
@@ -137,23 +141,21 @@
         </div>
     </div>
 </div>
-<!-- 모달끝ㅋㅋ -->                 
+<!-- 모달끝ㅋㅋ -->           <%num=num+1;%>      
               </c:forEach>
               </tbody>
               
               <tfoot>
                 <tr>
-                  <th></th>
+                  
                   <th>카테고리 이름</th>
                   <th>글 수</th>
                 </tr>
               </tfoot>
             </table>
           </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">카테고리 추가하기</button>
           
-          <button>카테고리 삭제하기</button>
-          
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">카테고리 추가하기</button>
 <!-- 카테고리 추가 모달 -->
 <div class="modal fade seminor-login-modal" id="zz">
     <div class="modal-dialog modal-dialog-centered">

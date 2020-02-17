@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.veniatis.blog.model.dao.BlogDao;
+import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
@@ -198,6 +199,34 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public int cDeleteCate(Integer cateNo) {
 		return bDao.cDeleteCate(cateNo);
+	}
+	
+	//26. 글삭
+	@Override
+	public int badminPostDelete(int[] arr) {
+		// TODO Auto-generated method stub
+		return bDao.adminDeletePost(arr);
+	}
+	
+	//27. 카테이동
+	@Override
+	public int badminPostMove(ArrayList<BlogPost> moveList) {
+		// TODO Auto-generated method stub
+		return bDao.adminPostMove(moveList);
+	}
+	
+	//28. 태그별 리스트 갖고오기
+	@Override
+	public ArrayList<BlogPost> selectTagPost(BlogPost bp) {
+		// TODO Auto-generated method stub
+		return bDao.selectTagPost(bp);
+	}
+	
+	// 29 . 알림=댓글알람
+	@Override
+	public int alertReply(BlogAlert ba) {
+		// TODO Auto-generated method stub
+		return bDao.alertReply(ba);
 	}
 
 

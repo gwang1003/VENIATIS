@@ -97,7 +97,8 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="section_title text-center mb_70">
-                            <h3>진행중인 프로젝트</h3>
+                            <img src="resources/main/nowpro.png">
+                            <br>
                             <p>현재 진행 중인 인기 프로젝트들의 목록입니다</p>
                         </div>
                     </div>
@@ -278,7 +279,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="section_title text-center mb_70">
-                        <h3>인기 블로그 게시글</h3>
+                        <img src="resources/main/poppost.png" alt="">
                         <p>인기게시글입니다</p>
                     </div>
                 </div>
@@ -355,12 +356,13 @@
     </div>
     <!-- popular_destination_area_end  -->
 
-    <div class="recent_trip_area">
+    <div class="recent_trip_area" style="background-color:#f7fafd;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="section_title text-center mb_70">
-                        <h3>공모전 정보</h3>
+                        <img src="resources/main/compet.png" alt="">
+                        <p> 공모전 정보를 확인하세요</p>
                     </div>
                 </div>
             </div>
@@ -369,6 +371,8 @@
                     <div class="single_trip">
                         <div class="thumb">
                             <img src="resources/main/test.jpg" alt="">
+                            <br>
+                           
                         </div>
                         <div class="info">
                             <div class="date">

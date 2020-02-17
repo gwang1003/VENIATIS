@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <title>Insert title here</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
-		 <link rel="stylesheet" href="resources/css/blog2.css">
+
 	<style>
 	#btn2{
 	 background-color: #40c8b5;
@@ -26,7 +27,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-<jsp:include page="menubar.jsp"></jsp:include>
+<jsp:include page="../common/menubar.jsp"></jsp:include>
 
 
 <div class="container">
@@ -34,8 +35,8 @@
 		
             <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
-            		<h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그 입니다.</h1>
+            		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
+            		${ user.mName } 님의 블로그 입니다.</h1></a>
             </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
@@ -46,8 +47,8 @@
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="<%= request.getContextPath() %>/resources/buploadFiles/${p.changeName}" style="height:400px; opacity:0.8;">
                                 <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
+                                    <h3>${p.bEnrollDate.getDay() }</h3>
+                                    <p>ㅋㅋㅋ</p>
                                 </a>
                             </div>
                 <c:url var="detail" value="blogDetail.do">
@@ -68,25 +69,68 @@
                         </article>
                       </c:forEach>
                         
-        
+ 			<!-- 페이징 처리 -->       
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 <li class="page-item">
+                                <c:if test="${pi.currentPage <= 1 }">
                                     <a href="#" class="page-link" aria-label="Previous">
                                         <i class="ti-angle-left"></i>
                                     </a>
+                                </c:if>
+                                <c:if test="${pi.currentPage >1 }">
+									<c:url var="before" value="&userId=${user.mId}&page=${pi.currentPage -1}">
+										<c:param name="page" value="${pi.currentPage -1 }"/>
+									</c:url>
+                                    <a href="#" class="page-link" aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>									
+                                </c:if>    
                                 </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
+                                
+                                
+                                <!-- 페이지 숫자 : pagination-->	
+				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+					<c:if test="${ p eq pi.currentPage }">
+						<li class="page-item active">
+							<a href="#" class="page-link">${p}</a>
+						</li>
+					</c:if>
+					
+					<c:if test="${ p ne pi.currentPage }">
+<%-- 						<c:url var="pagination" value="/blogMain2.do&userId=${user.mId}&page=${p}">
+							<c:param name="page" value="${ p }"/>
+						</c:url> --%>
+						
+						
+						<li class="page-item">
+							<a href="blogMain2.do?userId=${user.mId}&page=${p}" class="page-link">${p}</a>
+						</li>
+					</c:if>
+					</c:forEach>
+					
+					<!-- [다음] : after -->
+					<c:if test="${pi.currentPage>= pi.maxPage }">
+					<li class="page-item">
                                     <a href="#" class="page-link" aria-label="Next">
                                         <i class="ti-angle-right"></i>
                                     </a>
-                                </li>
+                    </li>
+                    </c:if>
+                    <c:if test="${pi.currentPage < pi.maxPage}">
+						<c:url var="after" value="veniatis/blogMain2.do&userId=${user.mId}&page=${pi.currentPage +1}">
+							<c:param name="page" value="${pi.currentPage +1 }"/>
+						</c:url>
+                                
+					<li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                    </li>  
+                    </c:if>                              
+                                
+					
+                                
                             </ul>
                         </nav>
                     </div>
@@ -109,9 +153,6 @@
                         </aside>
                         
                         <c:if test="${loginUser.mId eq user.mId }">
-
-                        
-                        
                         				<c:url var="write" value="write2.do"/>
                         				<c:url var="admin" value="badmin.do"/>
                         <button onclick="location.href='${ admin }'" class="button rounded-0 primary-bg text-white w-50 btn_1 boxed-btn" type="submit" style="float:left; background-color:green;"">관리하기</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,36 +171,35 @@
                             	</c:forEach>
                             </ul>
                         </aside>
-                    
+<!-- 태그 -->                    
                         <aside class="single_sidebar_widget tag_cloud_widget">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
-
-
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
+	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
+	                            <c:if test = "${fn:length(tags)<15 }">
+										<c:forEach var="i" begin="0" end="${fn:length(tags)-1}">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+								</c:if>
+								<!-- 태그가 10개 이상일 때  :10개까지만 출력, 더보기 버튼 클릭-->
+	                            <c:if test = "${fn:length(tags)>15 }">
+										<c:forEach var="i" begin="0" end="10">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+	
+										</c:forEach>
+										&nbsp;&nbsp;&nbsp;더보기
+								</c:if>							
+								
+								<c:if test = "${fn:length(tags)==0 }">
+	                            	등록된 태그가 없습니다!
+	                            </c:if>                          
                             </ul>
                         </aside>
-             
+<!--  -->          
                       
                     </div>
                 </div>

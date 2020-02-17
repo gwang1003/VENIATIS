@@ -14,9 +14,9 @@
     text-transform: uppercase;
     cursor: pointer;
     &:hover{
-        background: #FF4A52;
+        background: #40c8b5;
         color: #fff !important;
-        border: 1px solid #FF4A52;
+        border: 1px solid #40c8b5;
     }
     &:focus{
         outline: none;
@@ -40,7 +40,7 @@
     @include transition(.3s);
     cursor: pointer;
     &:hover{
-        background: #FF4A52 ;
+        background: #40c8b5 ;
         color: #fff !important;
     }
     &:focus{
@@ -51,7 +51,7 @@
     }
 }
 .boxed-btn4 {
-    background: #FF4A52 ;
+    background: #40c8b5 ;
 	color: #fff;
 	display: inline-block;
 	padding: 13px 39px;

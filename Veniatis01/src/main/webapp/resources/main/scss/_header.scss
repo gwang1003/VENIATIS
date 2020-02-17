@@ -133,12 +133,12 @@
                         // &::before {
                         //     position: absolute;
                         //     content: "";
-                        //     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#FF4A52+0,fd8e5e+100 */
+                        //     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#40c8b5+0,fd8e5e+100 */
                         //     background: rgb(253,174,92); /* Old browsers */
                         //     background: -moz-linear-gradient(top,  rgba(253,174,92,1) 0%, rgba(253,142,94,1) 100%); /* FF3.6-15 */
                         //     background: -webkit-linear-gradient(top,  rgba(253,174,92,1) 0%,rgba(253,142,94,1) 100%); /* Chrome10-25,Safari5.1-6 */
                         //     background: linear-gradient(to bottom,  rgba(253,174,92,1) 0%,rgba(253,142,94,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                        //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF4A52', endColorstr='#fd8e5e',GradientType=0 ); /* IE6-9 */
+                        //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40c8b5', endColorstr='#fd8e5e',GradientType=0 ); /* IE6-9 */
 
                         //     width: 100%;
                         //     height: 3px;
@@ -159,7 +159,7 @@
                         //     }
                         // }
                         &:hover{
-                            // color: #FF4A52;
+                            // color: #40c8b5;
                         }
                     }
                     .submenu {
@@ -249,7 +249,7 @@
             //             &::before {
             //                 position: absolute;
             //                 content: "";
-            //                 background: #FF4A52;
+            //                 background: #40c8b5;
             //                 width: 100%;
             //                 height: 3px;
             //                 bottom: -27px;
@@ -284,7 +284,7 @@
                     font-size: 16px;
                     margin: 0 11px;
                     &:hover{
-                        color: #FF4A52;
+                        color: #40c8b5;
                     }
                 }
             }
@@ -313,7 +313,7 @@
                 }
                 
                 i{
-                    color: #FF4A52;
+                    color: #40c8b5;
                     font-size: 16px;
                     margin-right: 5px;
                 }
@@ -327,7 +327,7 @@
         top: 0;
         bottom: 0;
         z-index: 9;
-        background: #FF4A52;
+        background: #40c8b5;
         width: 100px;
         @media #{$mobile_device} {
             width: 50px;

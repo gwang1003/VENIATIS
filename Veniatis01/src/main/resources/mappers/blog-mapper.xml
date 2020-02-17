@@ -54,9 +54,6 @@
 
 	</resultMap>
 	
-
-	
-	
 	<resultMap type="Reply" id="replyResultSet">
 		<id property="replyNo" column="REPLY_NO"/>
 		<result property="mNo" column="M_NO"/>
@@ -66,11 +63,28 @@
 		<result property="content" column="CONTENT"/>
 	</resultMap>
 
-
 	<resultMap type="BlogPost" id="pop1">
 		<id property="bNo" column="B_NO"/>
 		<result property="countLike" column="COUNT(LIKE_NO)"/>
 	</resultMap>
+	
+	
+	
+
+	<!-- 신규회원 기본 카테고리 만들기 -->
+	<insert id="insertNewCate"  parameterType="BlogCate">
+		INSERT INTO BLOG_CATE
+		VALUES(SEQ_BLOG_CATE_NO.NEXTVAL,#{mId},'기본 카테고리')
+	</insert>
+
+
+
+	<!-- 글 수 갖고오기 -->
+<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+	FROM BLOG_THUMB
+	WHERE M_ID=#{mId} 
+</select>
 
 	<!-- 카테고리 목록 갖고오기 -->
 	<select id="selectCateList" resultMap="blogCateResultSet">
@@ -164,4 +178,42 @@ ORDER BY COUNT(LIKE_NO) DESC
 		FROM BLOG_THUMB
 		WHERE B_NO=#{bNo} 
 	</select>	
+	
+	
+	<!-- 해시태그를 위한 블로그목록 전체갖고오기 -->
+	<select id="selectPList" resultMap="BlogPostResultSet2">
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE M_ID=#{mId} 	
+	</select>
+	
+	
+	
+	
+	<!-- 관리하기 -->
+	<!-- 관리하기 - 카테고리 추가 -->
+	<insert id="plusCate" parameterType="BlogCate">
+		INSERT INTO BLOG_CATE
+		VALUES(SEQ_BLOG_CATE_NO.NEXTVAL,#{mId},#{bCateName})
+	</insert>
+	
+	<!-- 관리하기 - 카테고리 수정 -->
+	<update id="updateCate" parameterType="BlogCate">
+		UPDATE BLOG_CATE
+		SET B_CATE_NAME=#{bCateName}
+		WHERE B_CATE_NO=#{cateNo}
+	</update>
+	
+	<!-- 관리하기 - 카테고리 삭제:글 전체 삭제 -->
+	<delete id="cDeletePost" parameterType="BlogPost">
+		DELETE FROM BLOG_POST
+		WHERE B_CATE_NO=#{cateNo}
+	</delete>
+	
+	<!-- 관리하기 - 카테고리 삭제:카테고리 삭제 -->
+	<delete id="cDeleteCate" parameterType="BlogCate">
+		DELETE FROM BLOG_CATE
+		WHERE B_CATE_NO=#{cateNo}
+	</delete>	
+	
 </mapper>

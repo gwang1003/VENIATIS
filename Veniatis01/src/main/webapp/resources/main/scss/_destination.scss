@@ -63,10 +63,10 @@
             @include transform(translateY(-10px));
             .content{
                 p{
-                    color: #FF4A52;
+                    color: #40c8b5;
                     @include transition(.3s);
                     a{
-                        background: #FF4A52;
+                        background: #40c8b5;
                         color: #fff;
                     }
                 }

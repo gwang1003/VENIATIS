@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,7 @@
        
        
 	</style>
-	 <link rel="stylesheet" href="resources/css/blog.css">
+
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -53,11 +54,11 @@ $(document).ready(function () {
     var mNo1 = ${nowUser.mNo};
     var bNo1 = ${likeDetail.bNo};
     
-    getReplyList();
+    getHeartList();
     getHeartColor();
     replyList();
     
-	function getReplyList(){
+	function getHeartList(){
     $.ajax({
         url :'myHeart.do',
         type :'POST',
@@ -125,7 +126,7 @@ $(document).ready(function () {
 
 		                that.prop('name',data);
 		                $('#heart').prop("src","resources/common/yesLike.png");
-		                getReplyList();
+		                getHeartList();
 		                getHeartColor();
 		            },               error:function(e){
 		                  alert("error code : " + e.status + "\n"
@@ -144,7 +145,7 @@ $(document).ready(function () {
             success : function(data){
                 that.prop('name',data);
                 $('#heart').prop("src","resources/common/noLike.png");
-                getReplyList();
+                getHeartList();
                 getHeartColor();
             }
         });
@@ -234,10 +235,6 @@ function replyList(){
                      + "message : " + e.responseText);
             }
 	});
-	
-	
-	
-
 
 }
 
@@ -248,14 +245,14 @@ function replyList(){
 </script>
 </head>
 <body>
-<jsp:include page="menubar.jsp"></jsp:include>
-
+<jsp:include page="../common/menubar.jsp"></jsp:include>
         <div class="container">
             <div class="row" >
                         <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
-            		<h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그  입니다.</h1> 
+            		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
+            		${ user.mName } 님의 블로그 입니다.</h1></a>
             </div>
+            
                 <div class="col-lg-8 posts-list">
                     <div class="single-post">
                         <div class="feature-img">
@@ -333,9 +330,12 @@ function replyList(){
                             
                         </div>
                         <div id="taginner">
-                          <div id="tag">태그1</div>
-                          <div id="tag">태그2</div>
-                        </div>
+                        
+                           	<c:forEach var="dt" items="${detailTagList}"> 
+                           	  <div id="tag">#${dt }</div>
+                            </c:forEach>
+                        
+                        </div><br>
                         <div class="navigation-area">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
@@ -403,23 +403,21 @@ function replyList(){
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Search</button>
                             </form>
                         </aside>
-                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">관리하기</button>
-                        <br><br>
+                        <c:if test="${loginUser.mId eq user.mId }">
+                        				<c:url var="write" value="write2.do"/>
+                        				<c:url var="admin" value="badmin.do"/>
+                        <button onclick="location.href='${ admin }'" class="button rounded-0 primary-bg text-white w-50 btn_1 boxed-btn" type="submit" style="float:left; background-color:green;"">관리하기</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button onclick="location.href='${ write }'" class="button rounded-0 primary-bg text-white w-40 btn_1 boxed-btn" type="submit">글 작성</button>
+                                                <br><br>
+                        </c:if>
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">카테고리</h4>
                             <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>ㅋㅋㅋ</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>하이</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
+								 <c:forEach var="c" items="${nowCate}">
+	                                <li>
+	                                    <a href="blogMainCate.do?cateNo=${c.cateNo}&mId=${user.mId}">${c.bCateName}</a>
+	                                </li>
+                            	</c:forEach>
                               
                             </ul>
                         </aside>
@@ -453,35 +451,35 @@ function replyList(){
                                 </div>
                             </div>
                         </aside>
+<!-- 태그 -->                    
                         <aside class="single_sidebar_widget tag_cloud_widget">
-                            <h4 class="widget_title">태그</h4>
+                            <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
+	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
+	                            <c:if test = "${fn:length(tags)<15 }">
+										<c:forEach var="i" begin="0" end="${fn:length(tags)-1}">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+								</c:if>
+								<!-- 태그가 10개 이상일 때  :10개까지만 출력, 더보기 버튼 클릭-->
+	                            <c:if test = "${fn:length(tags)>15 }">
+										<c:forEach var="i" begin="0" end="10">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+	
+										</c:forEach>
+										&nbsp;&nbsp;&nbsp;더보기
+								</c:if>							
+								
+								<c:if test = "${fn:length(tags)==0 }">
+	                            	등록된 태그가 없습니다!
+	                            </c:if>                          
                             </ul>
                         </aside>
+<!--  -->   
                         
                     </div>
                 </div>
@@ -551,5 +549,5 @@ function rDelete(a){
 
 
 </body>
-<jsp:include page="footer3.jsp"></jsp:include>
+
 </html>

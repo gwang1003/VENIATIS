@@ -5,188 +5,254 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/5e3c0216298c395d1ce685b1/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})(); 
-</script>    <link rel="stylesheet" type="text/css" href="resources/css/회원가입.css">
-	     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 부트스트랩,제이쿼리 -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
     
+<!-- 테스트용코드 -->    
+    <script>
+    function share() {
+      var url = encodeURI(encodeURIComponent(myform.url.value));
+      var title = encodeURI(myform.title.value);
+      var shareURL = "https://share.naver.com/web/shareView.nhn?url=" + url + "&title=" + title;
+      document.location = shareURL;
+    }
+  </script>
+
+
+
+<!-- 스타일 -->
+<style>
+	.mobile-social-share {
+	    background: none repeat scroll 0 0 #EEEEEE;
+	    display: block !important;
+	    min-height: 70px !important;
+	    margin: 50px 0;
+	}
+	
+	body {
+	    color: #777777;
+	    font-family: "Lato","Helvetica Neue","Arial","Helvetica",sans-serif;
+	    font-size: 13px;
+	    line-height: 19.5px;
+	}
+	
+	
+	.mobile-social-share h3 {
+	    color: inherit;
+	    float: left;
+	    font-size: 15px;
+	    line-height: 20px;
+	    margin: 25px 25px 0 25px;
+	}
+	
+	.share-group {
+	    float: right;
+	    margin: 18px 25px 0 0;
+	}
+	
+	.btn-group {
+	    display: inline-block;
+	    font-size: 0;
+	    position: relative;
+	    vertical-align: middle;
+	    white-space: nowrap;
+	}
+	
+	.mobile-social-share ul {
+	    float: right;
+	    list-style: none outside none;
+	    margin: 0;
+	    min-width: 61px;
+	    padding: 0;
+	}
+	
+	.share {
+	    min-width: 17px;
+	}
+	
+	.mobile-social-share li {
+	    display: block;
+	    font-size: 18px;
+	    list-style: none outside none;
+	    margin-bottom: 3px;
+	    margin-left: 4px;
+	    margin-top: 3px;
+	}
+	
+	.btn-share {
+	    background-color: #BEBEBE;
+	    border-color: #CCCCCC;
+	    color: #333333;
+	}
+	
+	.btn-twitter {
+	    background-color: #3399CC !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-facebook {
+	    background-color: #3D5B96 !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-facebook {
+	    background-color: #3D5B96 !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-google {
+	    background-color: #DD3F34 !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-linkedin {
+	    background-color: #1884BB !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-pinterest {
+	    background-color: #CC1E2D !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.btn-mail {
+	    background-color: #FFC90E !important;
+	    width: 51px;
+	    color:#FFFFFF!important;
+	}
+	
+	.caret {
+	    border-left: 4px solid rgba(0, 0, 0, 0);
+	    border-right: 4px solid rgba(0, 0, 0, 0);
+	    border-top: 4px solid;
+	    display: inline-block;
+	    height: 0;
+	    margin-left: 2px;
+	    vertical-align: middle;
+	    width: 0;
+	}
+	
+	#socialShare {
+	    max-width:59px;
+	    margin-bottom:18px;
+	}
+	
+	#socialShare > a{
+	    padding: 6px 10px 6px 10px;
+	}
+	
+	@media (max-width : 320px) {
+	    #socialHolder{
+	        padding-left:5px;
+	        padding-right:5px;
+	    }
+	    
+	    .mobile-social-share h3 {
+	        margin-left: 0;
+	        margin-right: 0;
+	    }
+	    
+	    #socialShare{
+	        margin-left:5px;
+	        margin-right:5px;
+	    }
+	    
+	    .mobile-social-share h3 {
+	        font-size: 15px;
+	    }
+	}
+	
+	@media (max-width : 238px) {
+	    .mobile-social-share h3 {
+	        font-size: 12px;
+	    }
+	}
+</style>
 </head>
 <body>
 <jsp:include page="menubar.jsp"></jsp:include>
-zzz
-        <script>
-                            function loadImg(value, num){
-                            // value => input type="file"
-                            // num => 조건문을 통해 미리보기 div 지정
-                            // file이 존재하는지 조건문
-                            if(value.files && value.files[0]){
-                                // 파일을 읽어 들일 FileReader 객체 생성
-                                var reader = new FileReader();
-                                
-                                // 파일 읽기가 완료 되었을 때 실행 되는 메소드 설정
-                                reader.onload = function(e){
-                                    switch(num){
-                                    case 1:
-                                        $("#contentImg1").attr("src", e.target.result);
-                                        break;
-                                    }
-                                
-                                }
-                                // 파일 읽기 하는 메소드
-                                reader.readAsDataURL(value.files[0]);
-                            }
-                        }
-                        
-        
-        
-        function emailCheck(){
-            window.open("emailCheckForm.jsp", "checkForm", "width=400, height=200");
-        }
-        
-            // 1. 메인으로 돌아가기
-            function returnToMain(){
-                location.href="<%= request.getContextPath() %>";
-            }
-    
-            // 2. 유효성 검사
-            function joinValidate(){
-                if(!(/^[a-z][a-z\d]{3,11}$/.test($("#joinForm input[name=userId]").val()))){
-                    alert('아이디는 영소문자로 시작해서 4~12자 입력(숫자 포함 가능)');
-                    $("#joinForm input[name=userId]").select();
-                    return false;
-                }
-                
-                if($("#joinForm input[name=userPwd]").val() != $("#joinForm input[name=userPwd2]").val()){
-                    $("#pwdResult").text("비밀번호 불일치").css("color","red");
-                    return false;
-                }
-                
-                if(!(/^[가-힣]{2,}$/.test($("#joinForm input[name=userName]").val()))){
-                    alert('이름은 한글로 2글자 이상 입력');
-                    $("#joinForm input[name=userName]").select();
-                    return false;
-                }	
-                
-                if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=userPwd]").val())))){
-                    alert('비밀번호는 8자 이상으로 영문 대소문자, 숫자, 특수문자 1개 이상 포함해주세요');
-                    $("#joinForm input[name=userPwd]").select();
-                    return false;
-                }	
-                
-                if($(".emailcheck").length==0){
-                    alert('이메일 인증을 해주세요');
-                    return false;
-                }
-                
-                
-                return true;		
-            }
-             function sample4_execDaumPostcode() {
-                 new daum.Postcode(
-                         {
-                            oncomplete : function(data) {
-                               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-    
-                               // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                               // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                               var addr = ''; // 주소 변수
-                               var extraAddr = ''; // 참고항목 변수
-    
-                               //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                               if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                                  addr = data.roadAddress;
-                               } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                                  addr = data.jibunAddress;
-                               }
-    
-                               // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                               if (data.userSelectedType === 'R') {
-                                  // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                                  // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                                  if (data.bname !== ''
-                                        && /[동|로|가]$/g.test(data.bname)) {
-                                     extraAddr += data.bname;
-                                  }
-                                  // 건물명이 있고, 공동주택일 경우 추가한다.
-                                  if (data.buildingName !== ''
-                                        && data.apartment === 'Y') {
-                                     extraAddr += (extraAddr !== '' ? ', '
-                                           + data.buildingName
-                                           : data.buildingName);
-                                  }
-                                  // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                                  if (extraAddr !== '') {
-                                     extraAddr = ' (' + extraAddr + ')';
-                                  }
-                               }
-                               // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                               document.getElementById('postcode1').value = data.zonecode;
-                               document.getElementById("addr1").value = addr;
-                               // 커서를 상세주소 필드로 이동한다.
-                               document.getElementById("addr2")
-                                     .focus();
-                            }
-                         }).open();
-                }
-             <!--  // 우편번호 서비스 --> 
-    
-        
-        $(function(){
-            
-            var isUsable = false;
-            // 아이디 중복 시 false, 아이디 사용 가능 시 true -> 나중에 유효성 검사
-            
-            $("#idCheck").click(function(){
-                var userId = $("#joinForm input[name='userId']");
-                
-                if(!userId || userId.val().length < 4){
-                    alert("아이디는 최소 4자리 이상이어야 합니다.");
-                    userId.focus();
-                }else{
-                    // ajax로 중복 여부 확인
-                    $.ajax({
-                        url : "<%=request.getContextPath()%>/IdCheckServlet",
-                        type : "post",
-                        data : {userId:userId.val()},
-                        success : function(data){
-                            if(data == "fail"){
-                                alert('사용할 수 없는 아이디입니다.');
-                                userId.focus();
-                            }else{
-                                if(confirm("사용 가능한 아이디입니다. 사용하시겠습니까?")){
-                                    userId.prop('readonly', true); 
-                                    // -> 더 이상 userId에 값 입력해서 변경할 수 없도록
-                                    isUsable = true;
-                                    // -> 사용 가능하다는 flag 값
-                                }else{
-                                    userId.focus();
-                                }
-                            }
-                            if(isUsable){
-                                // 아이디 중복 체크 후 사용 가능한 아이디이며 사용하기로 한 경우
-                                // 회원가입 버튼 활성화
-                                $("#joinBtn").removeAttr("disabled");
-                            }
-                        },
-                        error : function(){
-                            console.log('서버 통신 안됨');
-                        }
-                    });
-                }
-            });
-        });
-    
-    </script>
+테스트화면^_^
+       
+
+  <form id="myform">
+    URL입력:  <input type="text" id="url" value="https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&oquery=%EB%84%A4%EC%9D%B4%EB%B2%84+%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%84%BC%ED%84%B0&ie=utf8&query=%EB%84%A4%EC%9D%B4%EB%B2%84+%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%84%BC%ED%84%B0"><br/>
+    Title입력:  <input type="text" id="title" value="네이버개발자센터 검색결과"><br/>
+  </form>
+  <input type="button" value="네이버공유하기" onclick="share()"/>
+
+
+
+<br>
+<br>
+<br>
+<div class="container">
+	<div class="row mobile-social-share">
+    		<div class="col-md-9">
+                <h3>Share this content</h3>
+            </div>
+            <div id="socialHolder" class="col-md-3">
+        		<div id="socialShare" class="btn-group share-group">
+                    <a data-toggle="dropdown" class="btn btn-info">
+                         <i class="fa fa-share-alt fa-inverse"></i>
+                    </a>
+    				<button href="#" data-toggle="dropdown" class="btn btn-info dropdown-toggle share">
+    					<span class="caret"></span>
+    				</button>
+    				<ul class="dropdown-menu">
+        				<li>
+    					    <a data-original-title="Twitter" rel="tooltip"  href="#" class="btn btn-twitter" data-placement="left">
+								<i class="fa fa-twitter"></i>
+							</a>
+    					</li>
+    					<li>
+    						<a data-original-title="Facebook" rel="tooltip"  href="#" class="btn btn-facebook" data-placement="left">
+								<i class="fa fa-facebook"></i>
+							</a>
+    					</li>					
+    					<li>
+    						<a data-original-title="Google+" rel="tooltip"  href="#" class="btn btn-google" data-placement="left">
+								<i class="fa fa-google-plus"></i>
+							</a>
+    					</li>
+    				    <li>
+    						<a data-original-title="LinkedIn" rel="tooltip"  href="#" class="btn btn-linkedin" data-placement="left">
+								<i class="fa fa-linkedin"></i>
+							</a>
+    					</li>
+    					<li>
+    						<a data-original-title="Pinterest" rel="tooltip"  class="btn btn-pinterest" data-placement="left">
+								<i class="fa fa-pinterest"></i>
+							</a>
+    					</li>
+                        <li>
+    						<a  data-original-title="Email" rel="tooltip" class="btn btn-mail" data-placement="left">
+								<i class="fa fa-envelope"></i>
+							</a>
+    					</li>
+                    </ul>
+    			</div>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>

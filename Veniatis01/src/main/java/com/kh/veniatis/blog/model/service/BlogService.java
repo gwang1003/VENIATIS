@@ -11,8 +11,11 @@ import com.kh.veniatis.common.reply.model.vo.Reply;
 
 
 public interface BlogService {
+	// 0_1. 카테고리 새로 만들기 신규회원->블로그 만들어주기 
+	int insertNewCate(String userId);
+	
 	//1. 블로그 포스트 조회
-	ArrayList<BlogPost> selectPostList(String userId);
+	ArrayList<BlogPost> selectPostList(String userId, int currentPage);
 	
 	//2. 블로그 카테고리 조회
 	ArrayList<BlogCate> selectCateList(String userId);
@@ -68,4 +71,20 @@ public interface BlogService {
 	ArrayList<BlogPost> selectPopularList();
 	//20. 인기게시글갖고오긔
 	ArrayList<BlogPost> selectPopularRealList(ArrayList<BlogPost> post);
+	
+	//21. 해시태그를위한 블로그 전체목록
+	ArrayList<BlogPost> selectPostList(String userId);
+	
+	
+	// 22. 관리하기 - 카테고리 추가
+	int plusCate(BlogCate newCate);
+	
+	// 23. 관리하기 - 카테고리 수정
+	int updateCate(BlogCate upCate);
+	
+	// 24. 관리하기 - 카테고리 삭제 - 글 삭제
+	int cDeletePost(Integer cateNo);
+	
+	// 25. 관리하기 - 카테고리 삭제 - 카테고리 제거
+	int cDeleteCate(Integer cateNo);
 }

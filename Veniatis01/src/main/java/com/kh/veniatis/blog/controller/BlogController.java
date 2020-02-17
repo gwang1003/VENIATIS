@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.veniatis.blog.model.service.BlogService;
 
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 
 
@@ -52,24 +54,70 @@ public class BlogController {
 	@Autowired
 	private MemberService mService;
 	
+	
+	
+	//테스트화면이동..
+	@RequestMapping("testDisplay.do")
+	public String testDisplay() {
+		return "blog/test";
+	}
+	
+	
+	
+	
+	
 	//블로그메인
 	@RequestMapping("blogMain2.do")
 	public ModelAndView blogList(ModelAndView mv,
 			@RequestParam(value="page", required=false) Integer page,HttpServletRequest request,
 			 @RequestParam("userId") String userId) {
-			System.out.println(userId);
+
 			Member m=mService.selectOneMember(userId); 
 			
 			//카테고리 목록 갖고오기
 			ArrayList<BlogCate> cate = bService.selectCateList(userId);
-			System.out.println(cate);
-			//포스트 목록 갖고오기
-			ArrayList<BlogPost> post = bService.selectPostList(userId);
-			
 
-			mv.addObject("user",m);
-			mv.addObject("cate",cate);
-			mv.addObject("post",post);
+			
+	        HttpSession session = request.getSession();
+	        Member nowUser = (Member) session.getAttribute("loginUser");
+
+			
+			//포스트 목록 갖고오기
+			int currentPage = page != null ? page : 1;
+			ArrayList<BlogPost> post = bService.selectPostList(userId,currentPage);
+
+
+	        //태그 전체 갖고오기
+	        ArrayList<BlogPost> allPost = bService.selectPostList(userId);
+	        String allTag="";
+	        
+	        for(int i=0; i<allPost.size();i++) {
+	        	if(allPost.get(i).getbTag()!=null) {
+		        	allTag=allTag+allPost.get(i).getbTag();	
+	        	}
+	        }
+	        String tags[]=allTag.split("#");
+
+			ArrayList<String> realtags=new ArrayList();
+			
+			for(int i=0; i<tags.length; i++) {
+				if(i!=0) {
+					if(!(tags[i].equals(tags[i-1]))) {
+						realtags.add(tags[i]);
+					}
+				}
+			}
+	        
+   
+	        
+	        
+	        
+			mv.addObject("user",m); //유저(블로그주인)
+			mv.addObject("tags",tags); //태그
+			mv.addObject("cate",cate); // 카테고리
+			mv.addObject("post",post); // 포스트목록
+			mv.addObject("tags",realtags); // 태그
+			mv.addObject("pi", BlogPagination.getPageInfo()); ///페이징바
 			mv.setViewName("blog/blogMain2");
 		 
 		return mv;
@@ -94,8 +142,32 @@ public class BlogController {
 			bp.setmId(mId);
 			bp.setCateNo(cateNo);
 			ArrayList<BlogPost> post = bService.selectCatePostList(bp);		 
-			System.out.println(post);
 
+	        //태그 전체 갖고오기
+	        ArrayList<BlogPost> allPost = bService.selectPostList(mId);
+	        String allTag="";
+	        
+	        for(int i=0; i<allPost.size();i++) {
+	        	if(allPost.get(i).getbTag()!=null) {
+		        	allTag=allTag+allPost.get(i).getbTag();	
+	        	}
+	        }
+	        String tags[]=allTag.split("#");
+
+			ArrayList<String> realtags=new ArrayList();
+			
+			for(int i=0; i<tags.length; i++) {
+				if(i!=0) {
+					if(!(tags[i].equals(tags[i-1]))) {
+						realtags.add(tags[i]);
+					}
+				}
+			}
+	        
+
+
+			
+			mv.addObject("tags",realtags); // 태그
 			mv.addObject("user",m);
 			mv.addObject("cate",cate);
 			mv.addObject("post",post);
@@ -119,8 +191,10 @@ public class BlogController {
 			b.setmId(mId);
 			//포스트 내용 갖고오기
 			BlogPost post = bService.selectPostDetail(b);
+			//블로그주인의 카텍고리 갖고오깅
+			//카테고리 목록 갖고오기
+			ArrayList<BlogCate> nowCate = bService.selectCateList(mId);
 			
-
 			
 			Member m=mService.selectOneMember(mId);
 			mv.addObject("user",m);	// 블로그주인 유저정보
@@ -140,13 +214,46 @@ public class BlogController {
 	        HttpSession session = request.getSession();
 	        Member nowUser = (Member) session.getAttribute("loginUser");
 			
+	        //태그목록
+	        if(post.getbTag()!=null) {
+	        	String dTagList= post.getbTag().substring(1, post.getbTag().length());
+	        	String[] detailTagList =dTagList.split("#");
+	        	mv.addObject("detailTagList",detailTagList); //현재 게시글의 태그 리스트
+	        }
+	        
+	        //태그 전체 갖고오기
+	        ArrayList<BlogPost> allPost = bService.selectPostList(mId);
+	        String allTag="";
+	        
+	        for(int i=0; i<allPost.size();i++) {
+	        	if(allPost.get(i).getbTag()!=null) {
+		        	allTag=allTag+allPost.get(i).getbTag();	
+	        	}
+	        }
+	        String tags[]=allTag.split("#");
+
+			ArrayList<String> realtags=new ArrayList();
+			
+			for(int i=0; i<tags.length; i++) {
+				if(i!=0) {
+					if(!(tags[i].equals(tags[i-1]))) {
+						realtags.add(tags[i]);
+					}
+				}
+			}
+	        
+
 	        
 			//본인의 카테고리 정보 갖고오기
 			ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
 			
+			
+			mv.addObject("tags",realtags); // 전체태그정보
+			mv.addObject("nowCate",nowCate); //블로그주인의 카테고리
 	        mv.addObject("myCate",cate);	//스크랩 전용 내 카테고리
 			mv.addObject("nowUser",nowUser); //현재 로그인하고 있는 유저 정보
 			 mv.addObject("likeDetail",l);	// 좋아요
+			 
 			 mv.setViewName("blog/blogDetail2");	
 				
 		return mv;
@@ -177,21 +284,19 @@ public class BlogController {
 	public String boardInsert(BlogPost b,HttpServletRequest request,
 								@RequestParam(value="represent", required=false) MultipartFile file) {
 		
-
 		String test = b.getbTContent();
-		if(b.getbTContent().length()>80) {
-			test = b.getbTContent().substring(0,80)+" ……";
+		if(b.getbTContent().length()>100) {
+			test = b.getbTContent().substring(0,100)+" ……";
 		}
 		
 		b.setbTContent(test);
-		System.out.println(b);
+
 		
         HttpSession session = request.getSession();
         Member m = (Member) session.getAttribute("loginUser");
 		b.setmId(m.getmId());
 		//changeName이 DB에있는지 중복확인후
-		
-		
+
 		boolean flag = false;
 		
 		int result = bService.insertPost(b); 
@@ -266,7 +371,7 @@ public class BlogController {
 		scrap.setbTitle(scrapTitle);
 		scrap.setbContent(scrapContent);
 		
-		System.out.println(scrap);
+
 		
 		//내꺼에다 넣자!!
         HttpSession session = request.getSession();
@@ -277,7 +382,7 @@ public class BlogController {
         
         //넣는당
         int result = bService.insertPost(scrap);
-        System.out.println(result);
+
         // 사진 DB에 넣기!!
         // 1.썸네일 갖고와서 넣기 ; b_no, file_level 1 로 갖고오기
         Files thumbPic = new Files();
@@ -500,7 +605,7 @@ public class BlogController {
 		int rWriter = loginUser.getmNo();
 		
 		r.setmNo(rWriter);
-		System.out.println(r);
+
 		int result = bService.deleteReply(r);
 			return "success";
 	}	
@@ -526,6 +631,23 @@ public class BlogController {
 		
 		//포스트 목록 갖고오기
 		
+		
+		
+		//태그 전체 갖고오기
+        ArrayList<BlogPost> allPost = bService.selectPostList(userId);
+        String allTag="";
+        
+        for(int i=0; i<allPost.size();i++) {
+        	if(allPost.get(i).getbTag()!=null) {
+        		allTag=allTag+allPost.get(i).getbTag();
+        	}
+        }
+
+        String tags[]=allTag.split("#");
+
+
+		
+		mv.addObject("tags",tags);
 		mv.addObject("user",m);
 		mv.addObject("cate",cate);
 		mv.addObject("post",post);
@@ -536,11 +658,7 @@ public class BlogController {
 	}
 	
 	
-	@RequestMapping("badmin.do")
-	public String blogAdminView() {
-		return "blog/blogAdmin";
-	}
-	
+
 	
 	
 	// 블로그홈
@@ -550,14 +668,14 @@ public class BlogController {
         Member nowUser = (Member) session.getAttribute("loginUser");
 		// 좋아요 횟수 많은 게시글 수대로 갖고오기
 		 ArrayList<BlogPost> post = bService.selectPopularList();
-		 System.out.println(post);
+
 		 // 이렇게까지 해야하나...?
 		 ArrayList<BlogPost> bp =bService.selectPopularRealList(post);
-		 System.out.println(bp);
+
 		 
         mv.addObject("loginUser",nowUser);
         mv.addObject("popPost",bp);
-        mv.setViewName("blog/blogHome");
+        mv.setViewName("blog/blogHome2");
 
 		return mv;
 	}
@@ -571,9 +689,112 @@ public class BlogController {
 	
 	
 	
+	// 관리하기!!(처음 관리하기 눌렀을 때 글 관리부터 들어감)
+	@RequestMapping("badmin.do")
+	public ModelAndView blogAdminView(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");		
+        ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
+		
+        mv.addObject("post",allPost);
+		mv.setViewName("blog/blogAdminPost");
+		return mv;
+	}
+	
+	// 게시글 관리
+	@RequestMapping("badminPost.do")
+	public ModelAndView blogAdminPostView(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");		
+        ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
+		
+        mv.addObject("post",allPost);
+		mv.setViewName("blog/blogAdminPost");
+		return mv;
+	}
+	
+	// 카테고리 관리 - 화면출력
+	@RequestMapping("badminCate.do")
+	public ModelAndView blogAdminCateView(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");			
+		ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+		mv.addObject("cate",cate);
+		mv.setViewName("blog/blogAdminCate");
+		return mv;
+	}
+	
+	//카테고리 관리 - 카테고리 추가
+	@RequestMapping("badminCatePlus.do")
+	public ModelAndView blogAdminCatePlus(ModelAndView mv,HttpServletRequest request,
+										@RequestParam("plusCate") String plusCate) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");	
+        BlogCate newCate = new BlogCate();
+        newCate.setbCateName(plusCate);
+        newCate.setmId(nowUser.getmId());
+        
+        //추가하기
+		int plus = bService.plusCate(newCate);
+		
+		
+		//다시 화면출력하기
+		ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+		mv.addObject("cate",cate);
+		mv.setViewName("blog/blogAdminCate");
+		return mv;
+	}	
 	
 	
+	//카테고리 관리 - 카테고리 수정
+	@RequestMapping("badminCateUpdate.do")
+	public ModelAndView blogAdminCateUpdate(ModelAndView mv,HttpServletRequest request,
+										@RequestParam("updateCate") String updateCate,
+										@RequestParam("cateNo") Integer cateNo
+										) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");	
+        BlogCate upCate = new BlogCate();
+        upCate.setCateNo(cateNo);
+        upCate.setbCateName(updateCate);
+        upCate.setmId(nowUser.getmId());
+       
+        System.out.println(upCate);
+        
+        //수정하기
+		int update = bService.updateCate(upCate);
+		
+		
+		//다시 화면출력하기
+		ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+		mv.addObject("cate",cate);
+		mv.setViewName("blog/blogAdminCate");
+		return mv;
+	}	
 	
-	
+	//카테고리 관리 - 카테고리 제거(+ 글 제거)
+	@RequestMapping("badminCateDelete.do")
+	public ModelAndView blogAdminCateDelete(ModelAndView mv,HttpServletRequest request,
+										@RequestParam("cateNo") Integer cateNo
+										) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");	
+        BlogCate upCate = new BlogCate();
+        upCate.setCateNo(cateNo);
+        upCate.setmId(nowUser.getmId());
+       
+        System.out.println(upCate);
+        
+        //삭제하기
+		int postDelete = bService.cDeletePost(cateNo); // 글 전체 삭제
+		int cateDelete = bService.cDeleteCate(cateNo); // 카테고리 제거
+		
+		
+		//다시 화면출력하기
+		ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+		mv.addObject("cate",cate);
+		mv.setViewName("blog/blogAdminCate");
+		return mv;
+	}
 	
 }

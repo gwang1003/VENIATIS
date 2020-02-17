@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.veniatis.blog.model.dao.BlogDao;
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
@@ -16,10 +18,23 @@ import com.kh.veniatis.common.reply.model.vo.Reply;
 public class BlogServiceImpl implements BlogService{
 	@Autowired
 	BlogDao bDao;
+
+	//신규회원 카테고리 만들기
+	@Override
+	public int insertNewCate(String userId) {
+		// TODO Auto-generated method stub
+		return bDao.insertNewCate(userId);
+	}
+	
 	//블로그 글 목록 조회
 	@Override
-	public ArrayList<BlogPost> selectPostList(String userId) {
-		return bDao.selectPostList(userId);
+	public ArrayList<BlogPost> selectPostList(String userId, int currentPage) {
+		int listCount = bDao.getListCount(userId);
+		System.out.println(listCount);
+		PageInfo pi = BlogPagination.getPageInfo(currentPage, listCount);
+		
+		
+		return bDao.selectPostList(userId, pi);
 	}
 	 
 	// 블로그  카테고리 조회
@@ -149,6 +164,43 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return  (ArrayList<BlogPost>)bDao.selectPopularRealList(post);
 	}
+
+	//21. 해시태그를위한 블로그 전체목록
+	@Override
+	public ArrayList<BlogPost> selectPostList(String userId) {
+		// TODO Auto-generated method stub
+		return (ArrayList<BlogPost>)bDao.selectPostList(userId);
+	}
+
+	
+	//22.카테고리 추가
+	@Override
+	public int plusCate(BlogCate newCate) {
+		// TODO Auto-generated method stub
+		return bDao.plusCate(newCate);
+	}
+	
+	// 23. 카테고리 수정
+	@Override
+	public int updateCate(BlogCate upCate) {
+		// TODO Auto-generated method stub
+		return bDao.updateCate(upCate);
+	}
+	
+	// 24. 카테고리 삭제 - 글 전체 삭제
+	@Override
+	public int cDeletePost(Integer cateNo) {
+		// TODO Auto-generated method stub
+		return bDao.cDeletePost(cateNo);
+	}
+	
+	// 25. 카테고리 삭제 - 카테고리 삭제
+	@Override
+	public int cDeleteCate(Integer cateNo) {
+		return bDao.cDeleteCate(cateNo);
+	}
+
+
 	
 
 }

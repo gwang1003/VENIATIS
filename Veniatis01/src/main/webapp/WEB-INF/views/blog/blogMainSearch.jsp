@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +35,8 @@
 		
             <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
-            		<h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그 입니다.</h1>
+            		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
+            		${ user.mName } 님의 블로그 입니다.</h1></a>
             </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
@@ -132,34 +133,35 @@
                             </ul>
                         </aside>
                     
+<!-- 태그 -->                    
                         <aside class="single_sidebar_widget tag_cloud_widget">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
-
-
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
+	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
+	                            <c:if test = "${fn:length(tags)<15 }">
+										<c:forEach var="i" begin="0" end="${fn:length(tags)-1}">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+										</c:forEach>
+								</c:if>
+								<!-- 태그가 10개 이상일 때  :10개까지만 출력, 더보기 버튼 클릭-->
+	                            <c:if test = "${fn:length(tags)>15 }">
+										<c:forEach var="i" begin="0" end="15">
+											<li>
+											<a href="#">#${tags[i]}</a><br>
+											</li>
+	
+										</c:forEach>
+										&nbsp;&nbsp;&nbsp;더보기
+								</c:if>							
+								
+								<c:if test = "${fn:length(tags)==1 }">
+	                            	등록된 태그가 없습니다!
+	                            </c:if>                          
                             </ul>
                         </aside>
+<!--  -->   
              
                       
                     </div>

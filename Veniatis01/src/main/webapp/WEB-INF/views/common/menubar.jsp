@@ -10,10 +10,58 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
+.none {
+         width:100%; height:100%; background:rgba(0, 0, 0, 0.637); top:0; position:fixed; z-index:20000; display:none;
+      }
+      
+      .myPageMenu {
+         right:0; width:15%; height:100%; position:absolute;
+      }
+      
+      .myName {
+         background:black; width:100%; height:20%;
+      }
+      
+      .closeNone {
+         margin-top:5%; margin-left:85%; background:none; border:none; color:white;
+      }
+      
+      .myName img{
+         width:100px; height:100px; border-radius:50%;
+      }
+      
+      .myName h3 {
+         color:white; margin-top:3%; margin-left:auto; margin-right:auto;
+      }
+      
+      .myPageGo {
+         background:white; width:100%; height:80%;  background:white;
+      }
+      
+      .myPageGo div {
+         width:100%; height:8%; font-size:30px; text-align:center; 
+      }
+      
+      .go1 {
+         width:100%; height:8%; font-size:30px; text-align:center; background:ghostwhite
+      }
 
 	</style>
 
-    <link rel="stylesheet" href="resources/css/blog2.css">
+    <link rel="stylesheet" href="resources/main/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/main/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="resources/main/css/magnific-popup.css">
+    <link rel="stylesheet" href="resources/main/css/font-awesome.min.css">
+    <link rel="stylesheet" href="resources/main/css/themify-icons.css">
+    <link rel="stylesheet" href="resources/main/css/nice-select.css">
+    <link rel="stylesheet" href="resources/main/css/flaticon.css">
+    <link rel="stylesheet" href="resources/main/css/gijgo.css">
+    <link rel="stylesheet" href="resources/main/css/animate.css">
+    <link rel="stylesheet" href="resources/main/css/slick.css">
+    <link rel="stylesheet" href="resources/main/css/slicknav.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" href="resources/main/css/style2.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
@@ -68,8 +116,20 @@ s0.parentNode.insertBefore(s1,s0);
 
                                     <div class="social_links d-none d-xl-block">
                                         <ul>
-                                            <li><a href="loginPageGo.do"> 로그인 </a></li>
-                                            <li><a href="#"> 회원가입 </a></li>
+                                             <c:if test="${empty sessionScope.loginUser}">
+                                        
+                                            <li><a href="loginView.do"> 로그인 </a></li>
+                                            <li><a href="memberInsertInfo.do"> 회원가입 </a></li>
+                                        </c:if>
+                                        <c:if test="${ !empty sessionScope.loginUser}">                                        
+                                           <c:if test="${sessionScope.loginUser.getmName() eq '관리자'}">
+                                               <li><a href="manager.do" style="font-size:20px; font-weight:bolder;"> 관리자페이지 </a></li>
+                                            </c:if>
+                                            <c:if test="${sessionScope.loginUser.getmName() ne '관리자'}">
+                                               <li class="myPage">마이페이지</li>
+                                            </c:if>
+                                        </c:if>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -139,6 +199,71 @@ s0.parentNode.insertBefore(s1,s0);
              rightIcon: '<span class="fa fa-caret-down"></span>'
          }
         });
+    </script>
+     <div class="none">
+       <div class="myPageMenu">
+          <div class="myName" align="center">
+             <button class="closeNone">X</button>
+             <img src="resources/buploadFiles/BasicThumbs.jpg">
+             <h3>옥종광</h3>
+          </div> 
+          <div class="myPageGo">
+             <div class="go1 myInfo">내 정보</div>
+             <div class="myOpenProject">개설 프로젝트</div>
+             <div class="go1 attendProject">참여 프로젝트</div>
+             <div class="myInterestProject">관심 프로젝트</div>
+             <div class="go1">내 블로그</div>
+             <div class="question">문의하기</div>
+             <div class="go1 logoutBtn">로그아웃</div>
+          </div>
+       </div>
+    </div>
+    <script>
+     $(function(){
+        $(".myPage").click(function(){
+           $(".none").css({"display":"block"})
+        }).mouseover(function(){
+           $(this).css({"cursor":"pointer"})
+        })
+        
+        $(".closeNone").click(function(){
+           $(".none").css({"display":"none"})
+        }).mouseover(function(){
+           $(this).css({"cursor":"pointer"})
+        })
+        
+        $(".myPageGo div").mouseover(function(){
+           $(this).css({"cursor":"pointer"})
+        })
+        
+        $(".myInfo").click(function(){
+           location.href="memberUpdate.do";
+        })
+        
+         $(".myOpenProject").click(function(){
+           location.href="myOpenProject.do";
+        })
+        
+         $(".attendProject").click(function(){
+           location.href="attendProject.do";
+        })
+        
+         $(".myInterestProject").click(function(){
+           location.href="myInterestProject.do";
+        })
+        
+         $(".myBlog").click(function(){
+           location.href="";
+        })
+        
+         $(".question").click(function(){
+           location.href="question.do";
+        })
+        
+         $(".logoutBtn").click(function(){
+           location.href="logout.do";
+        })
+     })
     </script>
 </body>
 

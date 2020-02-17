@@ -21,7 +21,8 @@
 		<mapper resource="mappers/blog-mapper.xml"/>
 		<mapper resource="mappers/like-mapper.xml"/>
 		<mapper resource="mappers/reply-mapper.xml"/>
-		<mapper resource="mappers/files-mapper.xml"/>		
+		<mapper resource="mappers/files-mapper.xml"/>	
+		<mapper resource="mappers/puser-mapper.xml"/>
 	</mappers>
 
 </configuration>

@@ -36,7 +36,7 @@
                                 <a>카테고리명</a>
 
                             </span>
-                            <h1>** 프로젝트 제목 **</h1>
+                            <h1> ${ project.pTitle } ** 프로젝트 제목 **</h1>
                             <div class="project_sorting">
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
@@ -329,8 +329,8 @@
                                                 <h2 class="screen_out">Q&amp;A</h2>
                                                 <div class="box_qna">
                                                     <p class="qna_info">안녕하세요
-                                                        <span class="txt_name">** 크리에이터명 **</span>입니다.<br>궁금한 점이 있다면
-                                                        질문을 남겨주세요!</p>
+                                                        <span class="txt_name">** 크리에이터명 **</span>입니다.
+                                                        <br>궁금한 점이 있다면 질문을 남겨주세요!</p>
                                                     <ul class="list_qna">
                                                         <li>베니아티스 Q&amp;A 게시판은 회원으로 로그인한 분만 글을 작성할 수 있으며 프로젝트 개설자는
                                                             참여자들의 참여 관련 질문과 의견을 임의로 삭제하거나 수정하지 않습니다.</li>

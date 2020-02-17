@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
@@ -19,7 +20,10 @@ public class MemberController {
 	@Autowired
 	private MemberService mService;
 	
-	
+	@RequestMapping("loginView.do")
+	public String loginView() {
+		return "myPage/My/memberLogin";
+	}
 	
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
 	public String memberLogin(Member m, Model model) { 
@@ -36,7 +40,7 @@ public class MemberController {
 			// -> 이렇게만 작성하면 requestScope에만 담김
 			// 가장 위로 올라가서 @SessionAttributes라는 어노테이션을 추가한다. 
 			
-			return "index";
+			return "main";
 		} else {
 			// Exception을 이용하여 errorPage 연결
 
@@ -48,7 +52,7 @@ public class MemberController {
 		}
 		
 	}
-	/*
+	
 	@RequestMapping("logout.do")
 	public String logout(SessionStatus status) {
 		// 로그아웃 처리를 위해 커맨드 객체로 세션의 상태를 관리할 수 있는 SessionStatus 객체가 필요
@@ -58,7 +62,7 @@ public class MemberController {
 		
 		// return "home"; : forward 방식
 		return "redirect:home.do"; // redirect 방식
-	}*/
+	}	
 	
 	@RequestMapping("managerMain.do")
 	public String managerMain() {

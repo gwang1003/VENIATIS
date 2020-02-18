@@ -75,9 +75,23 @@
 		<result property = "lNo" column="LIKE_NO"/>
 		<result property="mNo" column="M_NO"/>
 		<result property="inDate" column="INDATE"/>
+		<result property="matchNo" column="MATCH_M_NO"/>
+	</resultMap>
+
+	<resultMap type="BlogAlert" id="blogAlertResultSet2">
+		<id property="baNo" column="BA_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="rNo" column="REPLY_NO"/>
+		<result property = "lNo" column="LIKE_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="inDate" column="INDATE"/>
+		<result property="matchNo" column="MATCH_M_NO"/>
+		<result property="mName" column="M_NAME"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property="uniNo" column="UNINO"/>
 	</resultMap>
 	
-	
+<!-- ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ -->
 
 	<!-- 신규회원 기본 카테고리 만들기 -->
 	<insert id="insertNewCate"  parameterType="BlogCate">
@@ -251,7 +265,26 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 	<!-- 알림-댓글알람 넣기-->
 	<insert id="insertAlertReply" parameterType="BlogAlert">
 		INSERT INTO BLOG_ALERT
-		VALUES(SEQ_BLOG_ALERT_NO.NEXTVAL,#{bNo},#{bNo},null,#{mNo},SYSDATE)
+		VALUES(SEQ_BLOG_ALERT_NO.NEXTVAL,#{bNo},SEQ_REPLY_NO.CURRVAL,null,#{mNo},SYSDATE,#{matchNo})
 	</insert>
+
+	<!-- 알림-조아요알람 넣기-->
+	<insert id="insertAlertHeart" parameterType="BlogAlert">
+		INSERT INTO BLOG_ALERT
+		VALUES(SEQ_BLOG_ALERT_NO.NEXTVAL,#{bNo},null,SEQ_LIKE_NO.CURRVAL,#{mNo},SYSDATE,#{matchNo})
+	</insert>
+		
 	
+	<!-- 알림- 알림 리스트 갖고오기 -->
+	<select id="selectAlertList" parameterType="BlogAlert" resultMap="blogAlertResultSet2">
+		SELECT *
+		FROM B_ALERTLIST
+		WHERE M_NO=#{mNo}
+	</select>
+	
+	<!-- 알림지우기 -->
+	<delete id="deleteAlert" parameterType="BlogAlert">
+		DELETE FROM BLOG_ALERT
+		WHERE BA_NO=#{baNo}
+	</delete>
 </mapper>

@@ -316,7 +316,7 @@
 					<c:param name="userId" value="${loginUser.mId }"/>
 				</c:url>
                             <a class="item" alt="내 블로그" href="${ blogMaina }">내 블로그</a>
-                            <a class="item" alt="관리하기" href="#">관리하기</a>
+                            <a class="item" alt="관리하기" href="badmin.do">관리하기</a>
                         </nav>
                     </div>
                     <div class="login">
@@ -326,8 +326,42 @@
                         </div>
                         <div class="area_my_content">
                             <div class="my_content_news"  id="my_content_news">
-
-                           </div>
+			<div class="list_news">
+			<!-- 좋아요 알림 -->
+				<c:forEach var="a" items="${alert}"> 
+					<c:if test="${a.lNo eq 0 }">
+	                <div class="item">
+	                
+	                <i class="sp_common icon_comment" ></i>
+	                    
+	                    	<a href="blogDetail.do?userId=${loginUser.mId}&uniNo=${a.uniNo}">
+	                    	<strong class="title_my_post">${a.mName }</strong> 님께서
+	                        <strong class="title_my_post">${a.bTitle }</strong><span><span>&nbsp;글에 댓글을 남기셨습니다.</span></span>
+	                    </a>
+	                    <span class="text_datetime">${a.inDate }</span>
+	                    <a href="javascript:deleteAlert(${a.baNo});" class="button_delete">
+	                        <i class="sp_common icon_delete"></i>
+	                    </a>
+	                </div>
+	               </c:if>
+	            
+			<!-- 댓글 알림 -->
+				<c:if test="${a.rNo eq 0 }">
+	                <div class="item">
+	                    <i class="sp_common icon_likes"></i>
+	                    	<a href="blogDetail.do?userId=${loginUser.mId}&uniNo=${a.uniNo}">
+	                    	<strong class="title_my_post">${a.mName }</strong> 님이
+	                        <strong class="title_my_post">${a.bTitle }</strong><span><span>&nbsp;글을 좋아합니다.</span></span>
+	                    </a>
+	                    <span class="text_datetime">${a.inDate }</span>
+	                    <a href="javascript:deleteAlert(${a.baNo});" class="button_delete">
+	                        <i class="sp_common icon_delete"></i>
+	                    </a>              
+	                </div>
+	            </c:if>
+	            </c:forEach>
+			 </div>
+		 </div>
                         </div>
                         <div class="area_pagination">
                             <div class="pagination" role="navigation" data-page="my_pagination">
@@ -344,5 +378,22 @@
     </main>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    <script>
+    	function deleteAlert(baNo){
+    		$.ajax({
+    			url : "deleteAlert.do",
+    			type : "post",
+    			dataType : "text",
+    			data : {baNo:baNo},
+    			success: function(data){
+    				location.href="blogHome.do"; // 아작스만들기존나귀찬은데........나중에 시간나면 만들긔 ^_^
+    			},
+    			error : function(){
+    				console.log('ajax 통신 실패');
+    			}
+    		});	
+    	}
+    </script>
 </body>
 </html>

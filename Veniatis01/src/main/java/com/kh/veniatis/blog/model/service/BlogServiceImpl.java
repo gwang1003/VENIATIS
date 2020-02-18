@@ -229,6 +229,28 @@ public class BlogServiceImpl implements BlogService{
 		return bDao.alertReply(ba);
 	}
 
+	// 30.알림=좋아요알람
+	@Override
+	public int alertHeart(BlogAlert ba) {
+		// TODO Auto-generated method stub
+		return bDao.alertHeart(ba);
+	}
+
+
+	// 31. 알림 정보 가져오기
+	@Override
+	public ArrayList<BlogAlert> selectAlertList(int mNo) {
+		// TODO Auto-generated method stub
+		return bDao.selectAlertList(mNo);
+	}
+	
+	// 32. 알림삭제
+	@Override
+	public int deleteAlert(int baNo) {
+		// TODO Auto-generated method stub
+		return bDao.deleteAlert(baNo);
+	}
+	
 
 	
 

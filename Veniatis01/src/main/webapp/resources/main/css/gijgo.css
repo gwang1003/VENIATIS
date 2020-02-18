@@ -1,3 +1,5 @@
+
+
 .gj-button {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
@@ -381,9 +383,9 @@ ul.gj-list-md li.disabled>[data-role="wrapper"]>[data-role="display"] {
     font-weight: normal;
     font-style: normal;
 }
-
+/* 
 .gj-icon {
-    /* use !important to prevent issues with browser extensions that change fonts */
+    use !important to prevent issues with browser extensions that change fonts
     font-family: 'gijgo-material' !important;
     font-size: 24px;
     speak: none;
@@ -392,7 +394,7 @@ ul.gj-list-md li.disabled>[data-role="wrapper"]>[data-role="display"] {
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-    /* Enable Ligatures ================ */
+    Enable Ligatures ================
     letter-spacing: 0;
     -webkit-font-feature-settings: "liga";
     -moz-font-feature-settings: "liga=1";
@@ -401,10 +403,10 @@ ul.gj-list-md li.disabled>[data-role="wrapper"]>[data-role="display"] {
     font-feature-settings: "liga";
     -webkit-font-variant-ligatures: discretionary-ligatures;
     font-variant-ligatures: discretionary-ligatures;
-    /* Better Font Rendering =========== */
+    Better Font Rendering ===========
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 .gj-icon.undo:before {
     content: "\e900";
@@ -1208,20 +1210,7 @@ span.gj-grid-column-resizer {
     padding-left: 8px;
 }
 
-.gj-grid-bootstrap-3 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap {
-    height: 37px;
-}
 
-.gj-grid-bootstrap-3 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="input"] {
-    height: 37px;
-    border:0px;
-    border-radius: 0px;
-}
-
-.gj-grid-bootstrap-3 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="right-icon"] {
-    border:0px;
-    border-radius: 0px;
-}
 
 .gj-grid-bootstrap-3 tbody tr td[data-mode="edit"] .gj-checkbox-bootstrap {
     display: inline-block;
@@ -1252,33 +1241,8 @@ span.gj-grid-column-resizer {
     top: 13px;
 }
 
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap {
-    height: 48px;
-}
 
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="input"] {
-    height: 48px;
-    border:0px;
-    border-radius: 0px;
-}
 
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="right-icon"] {
-    background-color: #fff;
-}
-
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="right-icon"] button {
-    border: 0px;
-    border-radius: 0px;
-    width: 43px;
-    position: relative;
-}
-
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="right-icon"] .gj-icon,
-.gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-datepicker-bootstrap [role="right-icon"] .material-icons {
-    top: 13px;
-    left: 10px;
-    font-size: 24px;
-}
 
 .gj-grid-bootstrap-4 tbody tr td[data-mode="edit"] .gj-checkbox-bootstrap {
     display: inline-block;
@@ -1913,13 +1877,7 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
     margin: 0px;
     z-index: 1203;
 }
-.gj-datepicker [role="input"]::-ms-clear {
-    display: none;
-}
 
-.gj-datepicker [role="right-icon"] {
-    cursor: pointer;
-}
 
 .gj-picker div[role="navigator"] {
     display: -webkit-box;
@@ -1945,54 +1903,9 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
 }
 
 /* Material Design */
-.gj-datepicker-md {
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: .04em;
-    line-height: 1;
-    color: rgba(0,0,0,.87);
-    position: relative;
-}
 
-.gj-datepicker-md [role="right-icon"] {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    font-size: 24px;
-}
 
-.gj-datepicker-md.small .gj-textbox-md {
-    font-size: 14px;
-}
 
-.gj-datepicker-md.small .gj-icon {
-    font-size: 22px;
-}
-
-.gj-datepicker-md.large .gj-textbox-md {
-    font-size: 18px;
-}
-
-.gj-datepicker-md.large .gj-icon {
-    font-size: 28px;
-}
-
-.gj-picker-md.datepicker [role="header"] {
-    padding: 20px 20px;
-    display: block;
-}
-
-.gj-picker-md.datepicker [role="header"] [role="year"] {
-    font-size: 17px;
-    padding-bottom: 5px;
-    cursor: pointer;
-}
-
-.gj-picker-md.datepicker [role="header"] [role="date"] {
-    font-size: 36px;
-    cursor: pointer;
-}
 
 .gj-picker-md div[role="navigator"] {
     height: 42px;
@@ -2082,11 +1995,6 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
     font-weight: bold;
 }
 
-/* Bootstrap */
-.gj-datepicker-bootstrap :focus,
-.gj-datepicker-bootstrap :active {
-    box-shadow: none;
-}
 
 .gj-picker-bootstrap {
     border: 1px solid rgba(0,0,0,0.15);
@@ -2098,24 +2006,14 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
     padding: 0px;
 }
 
-.gj-picker-bootstrap.datepicker [role="header"] {
-    padding: 10px 20px;
-    display: block;
-}
 
-.gj-picker-bootstrap.datepicker [role="header"] [role="year"] {
-    font-size: 15px;
-    cursor: pointer;
-}
 
 .gj-picker-bootstrap [role="header"] [role="date"] {
     font-size: 24px;
     cursor: pointer;
 }
 
-.gj-modal .gj-picker-bootstrap.datepicker [role="body"] {
-    padding: 15px;
-}
+
 
 .gj-picker-bootstrap div[role="navigator"] {
     height: 30px;
@@ -2184,65 +2082,8 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
     color: #777;
 }
 
-/* Bootstrap 3 */
-.gj-datepicker-bootstrap span[role="right-icon"].input-group-addon {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-left: 0px;
-    position: relative;
-    /*width: 38px;*/
-}
 
-.gj-datepicker-bootstrap span[role="right-icon"].input-group-addon .gj-icon,
-.gj-datepicker-bootstrap span[role="right-icon"].input-group-addon .material-icons {
-    position: absolute;
-    top: 7px;
-    left: 7px;
-}
 
-/* Bootstrap 4 */
-.gj-datepicker-bootstrap [role="right-icon"] button {
-    width: 38px;
-    position: relative;
-    border: 1px solid #ced4da;
-}
-
-.gj-datepicker-bootstrap [role="right-icon"] button:hover {
-    color: #6c757d;
-    background-color: transparent;
-}
-
-.gj-datepicker-bootstrap.input-group-sm [role="right-icon"] button {
-    width: 30px;
-}
-
-.gj-datepicker-bootstrap.input-group-lg [role="right-icon"] button {
-    width: 48px;
-}
-
-.gj-datepicker-bootstrap [role="right-icon"] button .gj-icon,
-.gj-datepicker-bootstrap [role="right-icon"] button .material-icons {
-    position: absolute;
-    font-size: 21px;
-    top: 9px;
-    left: 9px;
-}
-
-.gj-datepicker-bootstrap.input-group-sm [role="right-icon"] button .gj-icon,
-.gj-datepicker-bootstrap.input-group-sm [role="right-icon"] button .material-icons {
-    top: 6px;
-    left: 6px;
-    font-size: 19px;
-}
-
-.gj-datepicker-bootstrap.input-group-lg [role="right-icon"] button .gj-icon,
-.gj-datepicker-bootstrap.input-group-lg [role="right-icon"] button .material-icons {
-    font-size: 27px;
-    top: 10px;
-    left: 10px;
-}
 .gj-timepicker [role="input"]::-ms-clear {
     display: none;
 }
@@ -2694,11 +2535,4 @@ ul.gj-list-md li.disabled > [data-role="wrapper"] > [data-role="expander"] {
 
 /* ...........
  */
- .gj-datepicker-md [role="right-icon"] {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    font-size: 16px;
-    color: #919191;
-    margin-right: 15px;
-}
+

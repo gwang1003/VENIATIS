@@ -29,6 +29,16 @@
 		WHERE M_ID=#{userId}
 	</select>
 	
+	<insert id="memberInsert" parameterType="Member">
+		INSERT INTO MEMBER
+		VALUES(SEQ_MID.NEXTVAL, #{mId}, #{mPwd}, #{mName}, #{mPhone}, #{mEmail}, #{mAddress}, #{mBirth}, #{mInterest}, SYSDATE, #{gender})
+	</insert>
+	
+	<insert id="mPhotoInsert">
+		INSERT INTO FILES
+		VALUES(SEQ_FID.NEXTVAL, NULL, NULL, #{mNo}, NULL, NULL, 3, #{originName}, #{changeName}, #{filePath}, SYSDATE, 'Y', NULL)
+	</insert>
+	
 	
 	
 </mapper>

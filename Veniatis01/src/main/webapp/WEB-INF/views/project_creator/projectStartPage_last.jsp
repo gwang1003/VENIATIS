@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<!-- @@@@@@@ 중요 @@@@@@@@@
+
+
+datepicker가 menubar를 include하면 맛이 가버림
+매뉴바 수동 include하던가 이 페이지에서 뺴던가 해야함
+
+임시로 메뉴바 빼놈
+
+
+
+ -->
 <html>
 <head>
 <meta charset="UTF-8">
@@ -53,9 +64,47 @@
    <script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 <script src="resources/js/commonUtil.js"></script> 
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+
+
+<script>
+
+
+	$(function() {
+		$( "#investStartDate" ).datepicker({
+    		minDate: 0, 
+    		dateFormat : 'yy-mm-dd',
+    		onSelect: function(selected,evnt)
+    	      {
+    	         //3. 좌측 달력에서 날짜를 선택하면 우측 달력은 좌측 달력에서 선택된 날짜 이전으로 월 & 일 이동 불가
+    	         var day = $("#investStartDate").datepicker('getDate');
+    	         $('#investEndDate').datepicker('option','minDate', day);//오른쪽달력 minDate 옵션으로 왼쪽달력의 선택된 날짜를 지정
+    	      }
+			});
+	});
+
+	$(function() {
+		$( "#investEndDate" ).datepicker({
+			minDate: 0, 
+    		dateFormat : 'yy-mm-dd'
+			});
+	});
+
+	
+$(document).on("click","#investStartDateButton",function(){
+	$('#investStartDate').datepicker().datepicker("show");
+});		
+$(document).on("click","#investEndDateButton",function(){
+	$('#investEndDate').datepicker().datepicker("show");
+});				
+</script>
 </head>
 <body>
-<jsp:include page="../common/menubar.jsp" />
+
+ <%-- <jsp:include page="../common/menubar.jsp" />  --%>
+
 <div id="omcContainer" class="cont_support">
 		<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
 		
@@ -113,8 +162,7 @@
 										<li class="box_info">
 											<p class="tit_name">펀딩시작일<span class="txt_warning">*</span></p>
 											<p class="txt_input">
-												<label for="tfFundingStart" class="tf_comm">
-													
+												<label for="tfFundingStart" class="tf_comm">	
 													<input type="text" id="investStartDate" name="investStartDate" value="" class="tf_cont input_hold">
 												</label>
 											</p>
@@ -153,19 +201,6 @@
 											<span class="txt_won">원</span>
 										</li>
 
-										<!-- #543 기타서류추가 -->
-										<li class="box_info box_file">
-											<p class="tit_name">기타서류</p>
-											<div class="txt_input input_full">
-												<input class="upload_name" id="etcDocFileUpName" disabled="disabled">
-												<label for="fileName3" class="btn_search">찾아보기</label>
-												<input type="file" id="fileName3" name="etcDocFile" class="upload_hidden">
-												
-												<p class="txt_notice">
-													※ 기타 프로젝트를 설명할 만한 서류나 리워드의 종류에 따라 프로젝트 피드백에서 추가 서류를 요청하는 경우 해당란에 첨부해주세요.
-												</p>
-											</div>
-										</li>
                                         <li class="box_info">
 											<div class="box_guide">
 												<strong>안내문</strong>
@@ -191,15 +226,16 @@
                 </div>
             </div>
 			<!-- //신청서 -->
-        </article>
+     
     </div>
-</div>
-</div>
-</div>
-</div>
+
 		<br><br><br>
 		<br>
 		<br>
 		<jsp:include page="../common/footer.jsp"/>
+		
+		
+
+
 </body>
 </html>

@@ -37,6 +37,14 @@
 	<!-- * dependencies -->
 	<!-- 다운 받고자 하는 라이브러리들 -->
 	<dependencies>
+	
+	<!-- AspectJ Weaver -->
+      <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+      <dependency>
+         <groupId>org.aspectj</groupId>
+         <artifactId>aspectjweaver</artifactId>
+         <version>${org.aspectj-version}</version>
+      </dependency>
 		<!-- 1. 프로젝트 생성 후 추가적으로 등록하는 DB관련 (오라클, 마이바티스)
 		라이브러리들 -->
 		<!-- 1_1. DataBase 오라클 사용을 위한 라이브러리 -->
@@ -311,6 +319,29 @@
 			<version>${org.springframework-version}</version>
 		    <scope>test</scope>
 		</dependency>   
+		
+		<!-- 이메일 인증 -->
+		<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+    
+    
+    <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.6.2</version>
+</dependency>
+    
+    
+    <dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4</version>
+</dependency>
+	
 	</dependencies>
 	
 	
@@ -345,7 +376,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>s
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>

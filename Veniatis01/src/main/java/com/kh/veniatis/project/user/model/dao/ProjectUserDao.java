@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.user.model.vo.News;
 import com.kh.veniatis.project.user.model.vo.Reward;
 
 @Repository("pud")
@@ -37,6 +38,13 @@ public class ProjectUserDao {
 	// 크리에이터의 유저 정보 가져오기
 	public Member selectCreatorInfo(int mNo) {
 		return sqlSession.selectOne("puMapper.selectCreatorInfo", mNo);
+	}
+
+	// 최근 소식 가져오기
+	public News selectNews(int pNo) {
+		News n = sqlSession.selectOne("puMapper.selectNews", pNo);
+		System.out.println("dao에서 " + n);
+		return new News();
 	}
 
 }

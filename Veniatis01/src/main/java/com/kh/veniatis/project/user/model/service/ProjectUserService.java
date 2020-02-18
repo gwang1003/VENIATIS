@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.user.model.vo.News;
 import com.kh.veniatis.project.user.model.vo.Reward;
 
 public interface ProjectUserService {
@@ -21,6 +22,9 @@ public interface ProjectUserService {
 	//int selectCreatorNumber(int creNo);
 	//Member selectCreatorInfo(int mNo);
 	Member selectCreatorInfo(int creNo);
+
+	// 최근 소식 가져오기
+	News selectNews(int pNo);
 	
 	
 	

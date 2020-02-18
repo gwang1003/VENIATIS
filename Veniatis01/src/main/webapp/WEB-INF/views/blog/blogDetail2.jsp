@@ -113,7 +113,10 @@ $(document).ready(function () {
         var mNo = ${nowUser.mNo};
         var bNo = ${likeDetail.bNo};
         
-        var sendData={'bNo' : '${likeDetail.bNo}', 'mNo' : ' ${likeDetail.mNo}','heart' : that.prop('name')};
+        var sendData={'bNo' : '${likeDetail.bNo}', 
+        				'mNo' : ' ${likeDetail.mNo}',
+        				'heart' : that.prop('name'),
+        				'no' : '${user.mNo}'};
 
 		if(check==0){
 			console.log("조아요안함");

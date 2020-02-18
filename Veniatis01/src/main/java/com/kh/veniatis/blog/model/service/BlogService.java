@@ -100,4 +100,15 @@ public interface BlogService {
 	
 	// 29. 알림넣기 : 댓글알람
 	int alertReply(BlogAlert ba);
+
+	// 30.알림 넣기 : 좋아요 아람
+	int alertHeart(BlogAlert ba);
+	
+	// 31. 알림 정보 가져오기
+	ArrayList<BlogAlert> selectAlertList(int getmNo);
+	
+	// 32. 알림 삭제
+	int deleteAlert(int baNo);
+
+
 }

@@ -11,7 +11,7 @@
 		<result property="conNo" column="CON_NO"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="category" column="CATEGORY"/>
-		<result property="orginName" column="ORIGIN_NAME"/>
+		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="uploadDate" column="UPLOAD_DATE"/>
@@ -30,14 +30,14 @@
 	<insert id="insertPostFile" parameterType="Files">
 		INSERT INTO FILES
 		VALUES(SEQ_FILES_NO.NEXTVAL,SEQ_BLOG_POST_NO.CURRVAL, null, null, null,
-		null,1, #{orginName}, #{changeName},#{filePath},SYSDATE,'Y',#{fileLevel})
+		null,1, #{originName}, #{changeName},#{filePath},SYSDATE,'Y',#{fileLevel})
 	</insert> 
 	
 	<!-- 썸네일 사진넣기 -->
 	<insert id="insertThumb" parameterType="Files">
 		INSERT INTO FILES
 		VALUES(SEQ_FILES_NO.NEXTVAL,SEQ_BLOG_POST_NO.CURRVAL, null, null, null,
-		null,1, #{orginName}, #{changeName},#{filePath},SYSDATE,'Y',1)
+		null,1, #{originName}, #{changeName},#{filePath},SYSDATE,'Y',1)
 	</insert> 
 	
 	<!-- 스크랩을 위한 썸네일 정보 갖고오기 -->

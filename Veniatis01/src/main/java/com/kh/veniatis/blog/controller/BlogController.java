@@ -332,7 +332,7 @@ public class BlogController {
 
 			Files f = new Files();
 			f.setChangeName("BasicThumbs.jpg");
-			f.setOrginName("BasicThumbs.jpg");
+			f.setOriginName("BasicThumbs.jpg");
 			f.setFilePath(renamePath);
 			f.setFileLevel(1);
 			int result2 = bService.insertFiles(f); 	
@@ -348,7 +348,7 @@ public class BlogController {
 			for(int i=0; i<changeName.size();i++) {
 			Files f = new Files();
 			f.setChangeName(changeName.get(i));
-			f.setOrginName(originName.get(i));
+			f.setOriginName(originName.get(i));
 			f.setFilePath(path+changeName.get(i));
 			f.setFileLevel(2);
 
@@ -503,7 +503,7 @@ public class BlogController {
 		// DB에 넣기
 		Files f = new Files();
 		f.setChangeName(renameFileName);
-		f.setOrginName(originFileName);
+		f.setOriginName(originFileName);
 		f.setFilePath(renamePath);
 		f.setFileLevel(1);
 		int result2 = bService.insertThumb(f); 
@@ -558,13 +558,25 @@ public class BlogController {
 	// 좋아요 넣기
 	@RequestMapping(value="heartInsert.do",produces="application/json; charset=utf-8")
 	@ResponseBody
-	public String likeInsert(int mNo, int bNo,HttpServletRequest request) {
+	public String likeInsert(int mNo, int bNo,int no, HttpServletRequest request) {
 		Likes l =new Likes();
         HttpSession session = request.getSession();
         Member m = (Member) session.getAttribute("loginUser");
 		l.setbNo(bNo);
 		l.setmNo(m.getmNo());
 		int heart = bService.insertLikes(l);
+		
+		System.out.println("좋아요한인간="+m.getmNo()+", 글쓴인간="+no);
+		//넣기조아용
+
+		if(mNo!=m.getmNo()) {
+			BlogAlert ba = new BlogAlert();
+			ba.setbNo(bNo);
+			ba.setmNo(mNo);
+			ba.setMatchNo(m.getmNo());
+			int alert = bService.alertHeart(ba);
+			
+		}
 		
 		
 		return "success";
@@ -616,14 +628,15 @@ public class BlogController {
 		
 		//알림넣기
 		Member m=mService.selectOneMember(mId);
-		
-		BlogAlert ba = new BlogAlert();
-		ba.setbNo(r.getbNo());
-		ba.setmNo(m.getmNo());
-		
-		int alert = bService.alertReply(ba);
-		
-		
+		if(!(mId.equals(loginUser.getmId()))) {
+			BlogAlert ba = new BlogAlert();
+			ba.setbNo(r.getbNo());
+			ba.setmNo(m.getmNo());
+			ba.setMatchNo(loginUser.getmNo());
+			int alert = bService.alertReply(ba);
+			
+		}
+
 		
 
 		return "success";
@@ -799,19 +812,38 @@ public class BlogController {
 		 ArrayList<BlogPost> bp= new ArrayList<BlogPost>();
 		 
 		 
+		 // 알림 정보 가져오깅
+		 ArrayList<BlogAlert> ba = bService.selectAlertList(nowUser.getmNo());
+		 System.out.println(ba);
+		 
 		 
 		 for(int i=0; i<bp1.size(); i++) {
 			 if(bp1.get(i)!=null) {
 				 bp.add(bp1.get(i));
 			 }
 		 }
-		 
+		
+		mv.addObject("alert",ba);
         mv.addObject("loginUser",nowUser);
         mv.addObject("popPost",bp);
         mv.setViewName("blog/blogHome2");
 
 		return mv;
 	}
+	
+	
+	//알림삭제
+	@RequestMapping("deleteAlert.do")
+	@ResponseBody
+	public String deleteAlert(String baNo, HttpSession session) {
+
+		System.out.println("삭제할번호:"+baNo);
+		
+		int result = bService.deleteAlert(Integer.parseInt(baNo));
+			return "success";
+	}		
+	
+	
 	
 	@RequestMapping("loginPageGo.do")
 	public String test() {
@@ -999,5 +1031,7 @@ public class BlogController {
 		mv.setViewName("blog/blogAdminPost");
 		return mv;
 	}	
+	
+	
 	
 }

@@ -223,10 +223,28 @@ public class BlogDao {
 
 	// 알림-댓글알ㅇ람
 	public int alertReply(BlogAlert ba) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("blogMapper.insertAlertReply",ba);
 		
 	}
+
+	// 알림-좋아요 알람
+	public int alertHeart(BlogAlert ba) {
+		return sqlSession.insert("blogMapper.insertAlertHeart",ba);
+	}
+	
+	
+	// 알림 정보 가져오기
+	public ArrayList<BlogAlert> selectAlertList(int mNo) {
+		return (ArrayList)sqlSession.selectList("blogMapper.selectAlertList",mNo);
+	}
+
+	// 알림삭제
+	public int deleteAlert(int baNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.deleteAlert",baNo);
+	}
+
+
 
 
 

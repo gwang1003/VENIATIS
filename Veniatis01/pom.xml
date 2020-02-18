@@ -37,6 +37,14 @@
 	<!-- * dependencies -->
 	<!-- 다운 받고자 하는 라이브러리들 -->
 	<dependencies>
+	
+	<!-- AspectJ Weaver -->
+      <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+      <dependency>
+         <groupId>org.aspectj</groupId>
+         <artifactId>aspectjweaver</artifactId>
+         <version>${org.aspectj-version}</version>
+      </dependency>
 		<!-- 1. 프로젝트 생성 후 추가적으로 등록하는 DB관련 (오라클, 마이바티스)
 		라이브러리들 -->
 		<!-- 1_1. DataBase 오라클 사용을 위한 라이브러리 -->

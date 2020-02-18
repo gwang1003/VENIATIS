@@ -45,12 +45,12 @@
 	</tx:advice>
 	
 	<!-- namespace에서 aop 추가 -->
-	<!-- <aop:config proxy-target-class="true">
+	 <aop:config proxy-target-class="true">
 		<aop:pointcut expression="execution(* com.kh.veniatis..*Impl.*(..))" 
 		id="serviceMethod"/>
 		<aop:advisor id="transactionAdvisor" pointcut-ref="serviceMethod"
 		advice-ref="txAdvice"/>
-	</aop:config> -->
+	</aop:config> 
 	
 	
 	<!-- 마이바티스 sqlSession 등록하기 -->

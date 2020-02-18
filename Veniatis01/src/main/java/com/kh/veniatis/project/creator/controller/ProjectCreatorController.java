@@ -35,4 +35,9 @@ public class ProjectCreatorController {
 		return "project_creator/projectStartPage_last";
 	}
 	
+	@RequestMapping("test.do")
+	public String test() {
+		return "project_creator/test";
+	}
+	
 }

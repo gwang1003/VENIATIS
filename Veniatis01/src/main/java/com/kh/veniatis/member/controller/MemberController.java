@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
@@ -46,10 +49,7 @@ public class MemberController {
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
 	public String memberLogin(Member m, Model model) { 
 		// HttpSession 커맨드 객체 생략
-		System.out.println("member : " + m);
 		Member loginUser = mService.loginMember(m);
-		
-		System.out.println("loginUser : " + loginUser);
 		
 		if(loginUser != null) {
 
@@ -127,10 +127,39 @@ public class MemberController {
 		return "myPage/Manager/Answer";
 	}
 	
-	@RequestMapping("memberUpdate.do")
-	public String memberUpdate() {
-		return "myPage/My/memberUpdate";
+	@RequestMapping("memberUpdateForm.do")
+	public ModelAndView memberUpdateForm(
+			HttpSession session, ModelAndView mv) {		
+		Member m = (Member) session.getAttribute("loginUser");
+		mv.addObject("Member", m);
+		mv.setViewName("myPage/My/memberUpdate");
+		return mv;
 	}
+	
+	@RequestMapping("memberUpdate.do")
+	public ModelAndView memberUpdate(
+			Member m,@RequestParam(value="post") String post, Model model,
+			@RequestParam(value="address1") String address1, @RequestParam(value="address2") String address2) {
+		m.setmAddress(post + "#" + address1 + "#" + address2);
+		int result = mService.memberUpdate(m);
+		
+		if(result > 0) {
+			Member loginUser = mService.loginMember(m);
+			model.addAttribute("loginUser", loginUser);
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("Member", loginUser);
+			mv.setViewName("myPage/My/memberUpdate");
+			System.out.println("m : " + m);
+			System.out.println("loginUser : " + loginUser);
+			return mv;
+		}else {
+			throw new MemberException("회원정보 업데이트 실패!!");
+		}
+		
+		
+		
+	}
+	
 	@RequestMapping("memberLogin.do")
 	public String Login() {
 		return "myPage/My/memberLogin";
@@ -168,24 +197,20 @@ public class MemberController {
 	public String memberInsert(Member m, HttpServletRequest request,
 			@RequestParam(value="UserImg", required=false) MultipartFile file,
 			@RequestParam(value="post") String post, @RequestParam(value="address1") String address1,
-			@RequestParam(value="address2") String address2, @RequestParam(value="phone1") String phone1,
-			@RequestParam(value="phone2") String phone2, @RequestParam(value="phone3") String phone3) {
-		m.setmAddress(post + ", " + address1 + ", " + address2);
-		m.setmPhone(phone1 + phone2 + phone3);
-		Files files = new Files();
+			@RequestParam(value="address2") String address2) {
+		m.setmAddress(post + "#" + address1 + "#" + address2);
 		int result = mService.memberInsert(m);
 		Member member = mService.selectOneMember(m.getmId());
+		System.out.println("dl Member : " + member);
+		Files files = new Files(3, "basicImg.jpg", "basicImg.jpg", "resources/memberPhoto/basicImg.jpg");
 		
 		if(result > 0) {
 			if(!file.getOriginalFilename().equals("")) {
 				files = saveFile(file, request);
-				
-				if(files != null) {
-					files.setmNo(member.getmNo());
-					int result2 = mService.mPhotoInsert(files);
-				}
 			}
-				return "redirect:blist.do";
+			files.setmNo(member.getmNo());
+			int result2 = mService.mPhotoInsert(files);
+				return "main";
 		}else {
 			throw new MemberException("회원가입 실패!!");
 		}
@@ -210,8 +235,8 @@ public class MemberController {
 		Calendar c = Calendar.getInstance();
 		String renameFilename = sdf.format(c.getTime()) + extend;
 
-		String filePath = folder + "\\" + renameFilename;
-		Files files = new Files(3, file.getOriginalFilename(), renameFilename, filePath);
+		String filePath = folder + "\\" + renameFilename;  
+		Files files = new Files(3, file.getOriginalFilename(), renameFilename, "resources/memberPhoto/" + renameFilename);
 		try {
 			// 이 순간 서버에 파일이 저장 된다
 			file.transferTo(new File(filePath));
@@ -267,6 +292,48 @@ public class MemberController {
 	   
 	    return content;
 	  }
+	
+	@RequestMapping(value="mPhotoUpdate.do")
+	@ResponseBody
+	public String mPhotoUpdatedo(HttpServletRequest request, HttpSession session,
+			@RequestParam(value="file", required=false) MultipartFile file, Model model) {
+		Member m = (Member) session.getAttribute("loginUser");
+		if(file != null && !file.isEmpty()) {
+			// 원래 파일 삭제
+			deleteFile(m.getFilePath(), request);
+			int result3 = mService.mPhotoDelete(m);
+			
+			// 새로운 사진 파일로 저장
+			Files files = new Files();
+			if(!file.getOriginalFilename().equals("")) {
+				files = saveFile(file, request);
+			}
+			files.setmNo(m.getmNo());
+			
+			// DB에 저장
+			int result2 = mService.mPhotoInsert(files);
+			if(result2 > 0) {
+				//DB에 저장이 되면 DB에 있는 원래 데이터를 삭제 loginUser에 새로 담아줌
+				
+				m.setFilePath(files.getFilePath());				
+				model.addAttribute("loginUser", m);
+			}
+			
+		}
+		return m.getFilePath();
+	
+	}
+
+	private void deleteFile(String filePath, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath(filePath);
+		
+		File deleteFile = new File(root);
+		
+		if(deleteFile != null) {
+			deleteFile.delete();
+		}
+		
+	}
 	
 	
 }

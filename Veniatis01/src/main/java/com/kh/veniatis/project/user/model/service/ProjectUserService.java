@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
-import com.kh.veniatis.project.user.model.vo.News;
-import com.kh.veniatis.project.user.model.vo.Reward;
+import com.kh.veniatis.project.creator.model.vo.Reward;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface ProjectUserService {
 	
@@ -13,7 +13,7 @@ public interface ProjectUserService {
 	ArrayList<Project> selectList(int currentPage);
 
 	// 프로젝트 1개 선택
-	Project selectProject(int pNo);
+	ProjectView selectProject(int pNo);
 	
 	// 리워드 목록 조회(프로젝트 번호)
 	ArrayList<Reward> selectRewardList(int pNo);
@@ -24,7 +24,6 @@ public interface ProjectUserService {
 	Member selectCreatorInfo(int creNo);
 
 	// 최근 소식 가져오기
-	News selectNews(int pNo);
 	
 	
 	

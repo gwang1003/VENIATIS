@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
-import com.kh.veniatis.project.user.model.vo.News;
-import com.kh.veniatis.project.user.model.vo.Reward;
+import com.kh.veniatis.project.creator.model.vo.Reward;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Repository("pud")
 public class ProjectUserDao {
@@ -18,7 +18,7 @@ public class ProjectUserDao {
 	SqlSessionTemplate sqlSession;
 
 	// 테스트용 메소드
-	public Project selectBoard(int pNo) {
+	public ProjectView selectProject(int pNo) {
 		return sqlSession.selectOne("puMapper.selectProject", pNo);
 	}
 	
@@ -41,10 +41,5 @@ public class ProjectUserDao {
 	}
 
 	// 최근 소식 가져오기
-	public News selectNews(int pNo) {
-		News n = sqlSession.selectOne("puMapper.selectNews", pNo);
-		System.out.println("dao에서 " + n);
-		return new News();
-	}
 
 }

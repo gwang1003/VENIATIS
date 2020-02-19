@@ -2,7 +2,9 @@ package com.kh.veniatis.project.user.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.user.model.vo.Reward;
 
 public interface ProjectUserService {
 	
@@ -13,6 +15,14 @@ public interface ProjectUserService {
 	Project selectProject(int pNo);
 	
 	// 리워드 목록 조회(프로젝트 번호)
+	ArrayList<Reward> selectRewardList(int pNo);
+
+	// 크리에이터 정보 가져오기
+	//int selectCreatorNumber(int creNo);
+	//Member selectCreatorInfo(int mNo);
+	Member selectCreatorInfo(int creNo);
+	
+	
 	
 	// 후원하기(insert)
 	

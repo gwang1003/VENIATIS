@@ -15,6 +15,13 @@
 	crossorigin="anonymous"></script>
 	
 <title>Insert title here</title>
+<script>
+//3자리 콤마 찍
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+</script>
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp" />
@@ -33,24 +40,49 @@
                         <header class="head_cont">
                             <span class="txt_category">
                                 <span class="screen_out">카테고리</span>
-                                <a>카테고리명</a>
+                                <a>
+                                <c:choose>
+                                	<c:when test="${ project.pcNo == 1 }">
+                                	공간/리빙
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 2 }">
+                                	사회이슈
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 3 }">
+                                	교육/출판
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 4 }">
+                                	문화예술
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 5 }">
+                                	지역재생
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 6 }">
+                                	푸드
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 7 }">
+                                	테크
+                                	</c:when>
+                                	<c:when test="${ project.pcNo == 8 }">
+                                	뷰티/패션
+                                	</c:when>
+                                	<c:otherwise>
+                                	여행
+                                	</c:otherwise>
+                                </c:choose>
+								</a>
 
                             </span>
-                            <h1> ${ project.pTitle } ** 프로젝트 제목 **</h1>
+                            <span class="screen_out">프로젝트 제목</span>
+                            <h1> ${ project.pTitle }</h1>
                             <div class="project_sorting">
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
-
                                     <a href="#none" class="link_tag">#태그1</a>
-
                                     <a href="#none" class="link_tag">#태그2</a>
-
                                     <a href="#none" class="link_tag">#태그3</a>
-
                                     <a href="#none" class="link_tag">#태그4</a>
-
                                     <a href="#none" class="link_tag">#태그5</a>
-
                                 </div>
                             </div>
                         </header>
@@ -109,8 +141,8 @@
                                         </span>
                                         <div class="author_cont">
                                             <div class="builder_profile_wrapper">
-                                                <p><span class="txt_name">** 크리에이터 명 **</span></p>
-                                                <span class="txt_mail">** 크리에이터 이메일 **</span>
+                                                <p><span class="txt_name">${ creator.mName }</span></p>
+                                                <span class="txt_mail">${ creator.mEmail }</span>
 
                                             </div>
                                         </div>
@@ -121,23 +153,29 @@
                             <div class="project_details">
                                 <div class="item_state">
                                     <p><span class="txt_statetitle">모인금액</span></p>
-                                    <span class="screen_out">현재 참여금액</span><span class="num_value">40,000</span> <span
-                                        class="txt_value">원&nbsp;모금</span>
+                                    <span class="screen_out">현재 참여금액</span><span class="num_value" id="returnAmount">${ project.pSumAmount }</span> 
+                                    <span class="txt_value">원&nbsp;모금</span>
                                 </div>
+                                <script>
+                                	$(function(){
+                                		var sumAmount = ${ project.pSumAmount };
+                                		var returnAmount = comma(sumAmount);
+                                		alert(returnAmount);
+                                		/* ${"#returnAmount"}.html(returnAmount); */
+                                	});
+                                </script>
                                 <div class="state_project">
                                     <div class="graph_support">
                                         <span class="screen_out">참여율</span>
-
-                                        <span class="bar_graph" style="width:3%"></span>
-
-
-                                        <span class="num_per">3%</span>
+                                        
+                                        <span class="bar_graph" style="width:4%;"></span>
+                                        <span class="num_per">${supportRate}%</span>                                        
                                     </div>
 
                                     <div class="item_state">
                                         <p><span class="txt_statetitle">참여인원</span></p>
-                                        <span class="screen_out">참여자 수</span><span class="num_value">2</span> <span
-                                            class="txt_value">명 참여</span>
+                                        <span class="screen_out">참여자 수</span><span class="num_value">2</span> 
+                                        <span class="txt_value">명 참여</span>
                                     </div>
 
                                     <div class="item_state">
@@ -153,8 +191,8 @@
 
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
-                                            목표액 1,200,000원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br />
-                                            결제는 목표액달성시 2020년02월15일에 진행됩니다.
+                                            목표액 ${ project.pTargetAmount }원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
+                                            결제는 목표액달성시 ${ project.pEndDate }에 진행됩니다.
                                         </span>
 
                                     </div>
@@ -164,14 +202,14 @@
                                 <div class="item_btns">
                                     <a href="#none" class="link_share" id="link_share">공유
                                         <span class="num_count" id="share_num_count">
-                                            16
+                                            <!-- 16 -->
                                         </span></a>
                                     <input type="hidden" id="like_count" value="2">
                                     <input type="hidden" id="interest_seq" value="">
                                     <button type="button" class="btn_like" id="btn_like">관심
                                         <span id="icon_like"></span>
                                         <span class="num_count" id="like_num_count">
-                                            2
+                                            <!-- 2 -->
                                         </span></button>
                                 </div>
                             </div>
@@ -709,11 +747,8 @@
                                     <div class="box_reward_select">
                                         <form name="rewardForm" id="rewardForm" action="">
                                             <fieldset>
-
-                                                <ul class="list_reward">
-
-                                                    <!-- 리워드 수량 제한이 있는 경우 -->
-
+                                                <!-- <ul class="list_reward">
+                                                    리워드 수량 제한이 있는 경우
                                                     <li>
                                                         <a href="" class="box_reward">
                                                             <strong class="tit_reward">8,000원 펀딩</strong>
@@ -726,7 +761,7 @@
                                                         </a>
                                                     </li>
 
-                                                    <!-- 리워드 수량이 무한한 경우 -->
+                                                    리워드 수량이 무한한 경우
                                                     <li>
                                                         <a href="" class="box_reward">
                                                             <strong class="tit_reward">10,000원 펀딩</strong>
@@ -740,7 +775,7 @@
                                                     </li>
 
 
-                                                    <!-- 리워드 수량이 무한한 경우 -->
+                                                    리워드 수량이 무한한 경우
                                                     <li>
                                                         <a href="" class="box_reward">
                                                             <strong class="tit_reward">17,000원 펀딩</strong>
@@ -753,7 +788,26 @@
                                                         </a>
                                                     </li>
 
-                                                </ul>
+                                                </ul> -->
+                                                
+                                                <ul class="list_reward">
+                                                <c:forEach var="reward" items="${ rewardList }">
+                                                	<li>
+														<a href="" class="box_reward"> 
+															<strong class="tit_reward">${ reward.rPrice }원 펀딩</strong>
+															<p class="txt_desc">${ reward.rItem }</p> 
+															<span class="info_dely">
+																<span class="tit_info">배송 예정일</span>
+															 	: <span class="txt_info">20xx년 xx월 xx일부터 xx일까지 순차적으로 제공</span>
+															 </span> 
+															 <span class="txt_satea">
+															 	<em class="num_state">0명</em> 참여하였습니다.
+															 </span>
+														</a>
+													</li>
+                                                </c:forEach>
+													
+												</ul>
                                             </fieldset>
                                         </form>
                                     </div>

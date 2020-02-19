@@ -196,7 +196,7 @@ function sample4_execDaumPostcode() {
 									<!-- 로그인 유저로부터 정보를 받아오기 -->
 
 									<label for="tfName" class="tf_comm"> <span class="placehoder"></span>
-									 <input type="text" id="tfName"	class="tf_cont input_hold" value="" disabled="disabled">
+									 <input type="text" id="tfName"	class="tf_cont input_hold" value="${loginUser.mName} " disabled="disabled">
 									</label>
 								</p>
 							</li>
@@ -206,7 +206,7 @@ function sample4_execDaumPostcode() {
 								</p>
 								<p class="txt_input input_full">
 									<label for="tfId" class="tf_comm"> 
-									<input type="email" id="userMail" class="tf_cont" name="userMail" value="">
+									<input type="email" id="userMail" class="tf_cont" name="userMail" value="${loginUser.mEmail}">
 									</label>
 								</p>
 							</li>
@@ -214,7 +214,7 @@ function sample4_execDaumPostcode() {
 								<p class="tit_name">휴대폰번호<span class="txt_warning">*</span>	</p>
 								<p class="txt_input input_full">
 									<label for="tfHpNumber" class="tf_comm">
-									 <input type="tel" id="userHp" class="tf_cont" name="userHp" value="" placeholder="‘-’ 없이 입력">
+									 <input type="tel" id="userHp" class="tf_cont" name="userHp" value="${loginUser.mPhone}" placeholder="‘-’ 없이 입력">
 									</label>
 								</p>
 							</li>
@@ -225,9 +225,22 @@ function sample4_execDaumPostcode() {
 									
 										<p class="tit_name">주소<span class="txt_warning">*</span></p>
 										<p class="txt_input input_mini">
+										
+										<c:forTokens var="addr" items="${ loginUser.mAddress }" delims="," varStatus="status">
+												<c:if test="${ status.index eq 0 }">
+													<c:set var="addr1" value="${ addr }"/>
+												</c:if>
+												<c:if test="${ status.index eq 1 }">
+													<c:set var="addr2" value="${ addr }"/>
+												</c:if>
+												<c:if test="${ status.index eq 2 }">
+													<c:set var="addr3" value="${ addr }"/>
+												</c:if>
+											</c:forTokens>
+										
 											<label for="userPost" class="tf_comm">
 											 <input	type="text" id="postcode1" class="tf_cont input_hold" 
-											 readonly="readonly" name="userPost" value="" placeholder="우편번호">
+											 readonly="readonly" name="userPost" value="${ addr1 }" placeholder="우편번호">
 											</label>
 										</p>
 										<button type="button" id="zipbutton" class="btn_postsearch"  onclick="sample4_execDaumPostcode()" >우편번호	검색</button>
@@ -237,7 +250,7 @@ function sample4_execDaumPostcode() {
 										<p class="txt_input input_full">
 											<label for="userAddr1" class="tf_comm"> 
 											 <input	type="text" id="addr1" class="tf_cont input_hold"
-												readonly="readonly" name="userAddr1" value="" placeholder="기본주소">
+												readonly="readonly" name="userAddr1" value="${ addr2 }" placeholder="기본주소">
 											</label>
 										</p>
 									</li>
@@ -246,7 +259,7 @@ function sample4_execDaumPostcode() {
 										<p class="txt_input input_full">
 											<label for="userAddr2" class="tf_comm">
 											
-											 <input type="text"	id="addr2" class="tf_cont" name="userAddr2" value="" placeholder="상세주소">
+											 <input type="text"	id="addr2" class="tf_cont" name="userAddr2" value="${ addr3 }" placeholder="상세주소">
 											</label>
 										</p>
 									</li>
@@ -298,15 +311,20 @@ function sample4_execDaumPostcode() {
 						</ul>
 					</fieldset>		
 				
+			
 		
-		</form>
 		</div>
-	</div>
-			<div class="btn_area">
-				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> <input
-					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="checkOption()">
+		<div class="btn_area">
+				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">
+				 <input	type="submit" class="btn_next" title="다음단계" value="다음단계" onclick="checkOption()">
 					</div>
+		</form>
+		
+	</div>
+			
+				
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -314,7 +332,7 @@ function sample4_execDaumPostcode() {
 	<script>
 	function checkOption(){
 		if($("#chkAccept").prop("checked")){
-		location.href='projectStartPage2.do';
+		location.href='projectInfoInsert.do';
 	
 		}else{
 			alert('개인(기업)정보 수집ㆍ제공 활용 동의를 확인해주세요.');

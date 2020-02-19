@@ -1,10 +1,28 @@
 package com.kh.veniatis.project.creator.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.Project;
+
+
+
 @Controller
 public class ProjectCreatorController {
+	
+	
+	
+	@RequestMapping("projectInfoInsert.do")
+	public String projectInfoInsert(HttpServletRequest request,Member m ){
+		Project p = new Project();
+		p.setCreNo(m.getmNo());
+		return "project_creator/projectStartPage2";
+	}
+	
+	
 	@RequestMapping("projectStart.do")
 	public String ProjectStart() {
 		return "project_creator/projectStart";
@@ -33,6 +51,11 @@ public class ProjectCreatorController {
 	@RequestMapping("projectStartPage_last.do")
 	public String ProjectStartPage_last() {
 		return "project_creator/projectStartPage_last";
+	}
+	
+	@RequestMapping("test.do")
+	public String test() {
+		return "project_creator/test";
 	}
 	
 }

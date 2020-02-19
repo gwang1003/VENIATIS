@@ -193,14 +193,7 @@ s0.parentNode.insertBefore(s1,s0);
     <script src="resources/main/js/jquery.validate.min.js"></script>
     <script src="resources/main/js/mail-script.js"></script>
     <script src="resources/main/js/main.js"></script>
-    <script>
-        $('#datepicker').datepicker({
-            iconsLibrary: 'fontawesome',
-            icons: {
-             rightIcon: '<span class="fa fa-caret-down"></span>'
-         }
-        });
-    </script>
+
      <div class="none">
        <div class="myPageMenu">
           <div class="myName" align="center">

@@ -146,6 +146,7 @@ function sample4_execDaumPostcode() {
 							<h3 class="screen_out">회원 이미지</h3>
 							<div class="user_photo">
 								<span class="img_profile" id="img_profile"> <img src="resources/project_creator/user.png"	alt="">	</span>
+								 <%-- ${loginUser.getFilePath} 이걸로 바꾸기--%>
 								 <label for="inpPhoto" class="btn_edit">편집
 								<input	type="file" id="inpPhoto" name="inpPhoto" class="inp_photo"></label>
 								

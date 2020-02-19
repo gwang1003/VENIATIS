@@ -19,7 +19,7 @@ public class Member {
 	public Member() {}
 
 	public Member(int mNo, String mId, String mPwd, String mName, String mPhone, String mEmail, String mAddress,
-			String mBirth, String mInterest, Date mDate, String gender, String filePath) {
+			String mBirth, String mInterest, Date mDate, String gender,String filePath) {
 		super();
 		this.mNo = mNo;
 		this.mId = mId;
@@ -32,6 +32,14 @@ public class Member {
 		this.mInterest = mInterest;
 		this.mDate = mDate;
 		this.gender = gender;
+		this.filePath = filePath;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
@@ -121,14 +129,6 @@ public class Member {
 
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
 	}
 
 	@Override

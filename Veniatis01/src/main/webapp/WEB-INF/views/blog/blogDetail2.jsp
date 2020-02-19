@@ -41,7 +41,47 @@
 	width:100%;
 
        }
-       
+         .heading {
+            border-bottom: 3px solid #ddd;
+        }
+
+        .twitter-hover {
+            background-image: url('https://lut.im/SRoUJUn7V4/cORSlFIVBlR7M8Zv.png');
+        }
+
+        .facebook-hover {
+            background-image: url('https://lut.im/9LlTfOBMjB/ccPwdiudyoF3x1wE.png');
+        }
+
+        .google-hover {
+            background-image: url('resources/buploadFiles/kakao.png');
+        }
+
+        .linkedin-hover {
+            background-image: url('resources/buploadFiles/naver.png');
+        }
+
+        .instagram-hover {
+            background-image: url('https://lut.im/0LARg4VaCM/bWRJ8RbjK0r14RdO.png');
+        }
+
+
+        .social-slide {
+            height: 48px;
+            width: 48px;
+            margin: 5px;
+            float: left;
+            -webkit-transition: all ease 0.3s;
+            -moz-transition: all ease 0.3s;
+            -o-transition: all ease 0.3s;
+            -ms-transition: all ease 0.3s;
+            transition: all ease 0.3s;
+        }
+
+        .social-slide:hover {
+            background-position: 0px -48px;
+            box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.8);
+        }      
        
 	</style>
 
@@ -291,9 +331,18 @@ function replyList(){
                             <c:if test="${nowUser.mId ne user.mId }">
                                  <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">스크랩</button></li>
                             </c:if>
-                                <li><a href="#">공유하기</i></a></li>
+                                <li>
+    <a href="https://twitter.com/intent/tweet?text=VENIATIS에서 공유합니다! '${post.bTitle}' &url=http%3a%2f%2flocalhost%3a8800%2fveniatis%2fblogDetail.do%3fuserId%3d${post.mId }%26uniNo%3d${post.uniNo}">
+        <div class="twitter-hover social-slide"></div>
+    </a>
+    <a href="javascript::;">
+        <div class="google-hover social-slide"></div>
+    </a>
+    <a href="javascript::;">
+        <div class="linkedin-hover social-slide"></div>
+    </a>                                                       
+                                </li>
                                 <li><a href="#">글 목록</i></a></li>
-                                <li><a href="#">댓글 (1) </a></li>
                                 <li><a href="#">삭제</i></a></li>
 <!-- 모달 -->
 <div class="modal fade seminor-login-modal" id="zz">

@@ -25,12 +25,64 @@
 	</style>
 	
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="resources/blog/assets/css/style.css" rel="stylesheet" />
+    
+    <script>
+    $(document).ready(function () {
+    	getLocation(); 
+    	
+    	
+    });
+    var city="Seoul";
+    var lat=0;
+    var lon=0;
+    
+    
+    function getLocation() {
+        //alert("getLocation");
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else{
+            alert("위치를 얻을 수 없습니다.");
+        }
+    }
+    function showPosition(position) {
+        lat=Math.floor(position.coords.latitude); 
+        lon=Math.floor(position.coords.longitude);
+        console.log(lat);
+        console.log(lon);
+        nowWeather();
+    }
+    
+    
+
+    function nowWeather(){
+    	var apiURI ="http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=7180b26319e06fe6b99cd4e4102c299d"
+    		    console.log("apiURI:"+apiURI);   	
+  
+    	$.ajax({
+          url : apiURI,
+          method : 'GET',
+          success :  function(data) {
+            var temp = String((data.main.temp - 272)).substring(0,3); // 온도
+            var location = data.name; // 지역이름 
+			console.log("온도:"+temp);
+           //  $('#chatLog').append('지역 ：' + location + ' 온도　：' + tempr　+ "도입니다. "+'\n');
+// 아이콘 취득 
+            var imgURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+            // 아이콘 표시
+            // $('#img').attr("src", imgURL);
+          }
+        });     
+    }
+    </script>
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"></jsp:include>
 
 
-<div class="container">
+<div class="container" style="background-color:;">
     <section class="blog_area">
 		
             <div class="row">
@@ -172,7 +224,7 @@
                             </ul>
                         </aside>
 <!-- 태그 -->                    
-                        <aside class="single_sidebar_widget tag_cloud_widget">
+                        <aside class="single_sidebar_widget tag_cloud_widget" style="display:;">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
                             	<c:choose>
@@ -228,9 +280,25 @@
                                      
                             </ul>
                         </aside>
-<!--  -->          
-                      
-                    </div>
+				<!-- 날씨 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">날씨</h4>
+						</aside>
+				<!-- 현재시간 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">시간</h4>						
+								<div id="clock" class="light" style="margin:0; width:300px; padding:20px;">
+									<div class="display" style="padding:0;">
+										<div class="digits"></div>
+									</div>
+								</div>
+						</aside>
+				<!-- 위치 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">위치</h4>
+						</aside>
+
+					</div>
                 </div>
             </div>
         </div>
@@ -252,5 +320,8 @@
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <script src="blog.js" type="882eb23b708c715aa9a4c46d-text/javascript"></script>
+    		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+	<script src="resources/blog/assets/js/script.js"></script>
 </body>
 </html>

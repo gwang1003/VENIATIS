@@ -54,6 +54,7 @@
 		<result property="creName" column="M_NAME"/>
 		<result property="creEmail" column="M_EMAIL"/>
 		<result property="creProfile" column="FILE_PATH"/>
+		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 	
 	<resultMap id="rewardResultSet" type="com.kh.veniatis.project.creator.model.vo.Reward">
@@ -68,8 +69,16 @@
 		<result property="rDelivery" column="R_DELIVERY"/>
 	</resultMap>
 	
-	<select id="selectList" >
-		SELECT * FROM PROJECT;
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_PROJECT
+		WHERE P_STATUS='Y'
+	</select>
+	
+	<select id="selectList" resultMap="prjView">
+		SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		ORDER BY P_NO DESC
 	</select>
 	
 	<select id="selectProject" parameterType="_int" resultMap="prjView">

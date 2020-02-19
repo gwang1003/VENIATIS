@@ -10,7 +10,7 @@ import com.kh.veniatis.project.user.model.vo.ProjectView;
 public interface ProjectUserService {
 	
 	// 프로젝트 리스트 조회
-	ArrayList<Project> selectList(int currentPage);
+	ArrayList<ProjectView> selectList(int currentPage);
 
 	// 프로젝트 1개 선택
 	ProjectView selectProject(int pNo);

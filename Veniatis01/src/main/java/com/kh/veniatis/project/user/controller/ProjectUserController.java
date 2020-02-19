@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
+import com.kh.veniatis.project.user.model.vo.ProjectPagination;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Controller
@@ -17,30 +19,34 @@ public class ProjectUserController {
 	private ProjectUserService pus;
 	
 	
-	@RequestMapping("projectList.do")
+	/*@RequestMapping("projectList.do")
 	public String ProjectList() {
 		return "project_user/projectList";
-	}
+	}*/
 	
-	/*@RequestMapping("projectList.do")
-	public ModelAndView ProjectList(ModelAndView mv) {
+	// 카테고리 없는 경우
+	@RequestMapping("projectList.do")
+	public ModelAndView ProjectList(ModelAndView mv,
+			@RequestParam(value="page", required = false) Integer page) {
+
+		int currentPage = page != null ? page : 1;
 		
-		int currentPage = 1;
-		
-		ArrayList<Project> list = pus.selectList(currentPage);
+		ArrayList<ProjectView> list = pus.selectList(currentPage);
 		
 		//System.out.println(list);
 		
 		if(list != null) {
 			mv.addObject("list", list);
-			//mv.addObject("pi", Pagination.getPageInfo());
-			mv.setViewName("board/boardListView");
+			mv.addObject("pi", ProjectPagination.getPageInfo());
+			mv.setViewName("project_user/projectList");
+			for(ProjectView p : list) {
+				System.out.println(p);
+			}
 		}else {
 			//throw new BoardException("게시글 전체 조회 실패!!");
 		}
 		return mv;
-		//return "project_user/projectList";
-	}*/
+	}
 
 
 	@RequestMapping("projectDetail.do")

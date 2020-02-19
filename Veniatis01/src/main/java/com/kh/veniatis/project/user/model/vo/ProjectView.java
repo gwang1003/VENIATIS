@@ -21,27 +21,13 @@ public class ProjectView {
 	private String creName;	// 크리에이터 이름
 	private String creEmail;// 크리에이터 이메일
 	private String creProfile;	// 프로필이미지 경로
-	/*P_NO	NUMBER
-	PC_NAME	VARCHAR2(255)
-	P_TITLE	VARCHAR2(255)
-	P_SIMPLE_TEXT	VARCHAR2(255)
-	P_DESC	VARCHAR2(4000)
-	P_URL	VARCHAR2(255)
-	P_VIDEO	VARCHAR2(255)
-	P_HASHTAG	VARCHAR2(1000)
-	P_START_DATE	DATE
-	P_END_DATE	DATE
-	P_TARGET_AMOUNT	NUMBER
-	P_SUM_AMOUNT	NUMBER
-	CRE_NO	NUMBER
-	M_ID	VARCHAR2(255)
-	M_NAME	VARCHAR2(255)
-	M_EMAIL	VARCHAR2(255)*/
+	private String pStatus;	// 프로젝트 상태
+	
 	public ProjectView() {}
 
 	public ProjectView(int pNo, String cate, String pTitle, String pText, String pDesc, String pUrl, String pVideo,
 			String hashtag, Date startDate, Date endDate, int targetAmount, int sumAmount, int creNo, String creId,
-			String creName, String creEmail, String creProfile) {
+			String creName, String creEmail, String creProfile, String pStatus) {
 		super();
 		this.pNo = pNo;
 		this.cate = cate;
@@ -60,6 +46,7 @@ public class ProjectView {
 		this.creName = creName;
 		this.creEmail = creEmail;
 		this.creProfile = creProfile;
+		this.pStatus = pStatus;
 	}
 
 	public int getpNo() {
@@ -198,15 +185,22 @@ public class ProjectView {
 		this.creProfile = creProfile;
 	}
 
+	public String getpStatus() {
+		return pStatus;
+	}
+
+	public void setpStatus(String pStatus) {
+		this.pStatus = pStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectView [pNo=" + pNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText + ", pDesc="
 				+ pDesc + ", pUrl=" + pUrl + ", pVideo=" + pVideo + ", hashtag=" + hashtag + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount + ", creNo="
 				+ creNo + ", creId=" + creId + ", creName=" + creName + ", creEmail=" + creEmail + ", creProfile="
-				+ creProfile + "]";
+				+ creProfile + ", pStatus=" + pStatus + "]";
 	}
 
-	
 	
 }

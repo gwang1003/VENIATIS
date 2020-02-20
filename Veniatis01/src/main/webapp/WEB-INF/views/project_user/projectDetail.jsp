@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,15 @@
 	crossorigin="anonymous"></script>
 	
 <title>Insert title here</title>
+<style>
+.div_hide{
+	opacity:0%;
+}
+
+#Intro:hover, #News:hover, #Qna:hover, #Cheer:hover{
+	cursor:pointer;
+}
+</style>
 <script>
 //3자리 콤마 찍
 function comma(str) {
@@ -78,11 +88,11 @@ function comma(str) {
                             <div class="project_sorting">
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
-                                    <a href="#none" class="link_tag">#태그1</a>
-                                    <a href="#none" class="link_tag">#태그2</a>
-                                    <a href="#none" class="link_tag">#태그3</a>
-                                    <a href="#none" class="link_tag">#태그4</a>
-                                    <a href="#none" class="link_tag">#태그5</a>
+                                    <a class="link_tag">#태그1</a>
+                                    <a class="link_tag">#태그2</a>
+                                    <a class="link_tag">#태그3</a>
+                                    <a class="link_tag">#태그4</a>
+                                    <a class="link_tag">#태그5</a>
                                 </div>
                             </div>
                         </header>
@@ -91,24 +101,24 @@ function comma(str) {
                                 <div id="main_image_slide" uk-slideshow="ratio: 5:3; animation: fade">
                                     <ul class="uk-slideshow-items">
                                         <li class="uk-active uk-transition-active" style="z-index: -1;">
-                                            <img src="test.png" class="img_g">
+                                            <img src="resources/main/test.jpg" class="img_g">
                                         </li>
                                         <li>
-                                            <img src="profile.png" class="img_g">
+                                            <img src="resources/main/test2.jpg" class="img_g">
                                         </li>
                                         <li>
-                                            <img src="logo.png" class="img_g">
+                                            <img src="resources/main/test3.jpg" class="img_g">
                                         </li>
                                     </ul>
 
                                     <div class="main_image_nav_wrapper">
                                         <div class="main_image_nav">
 
-                                            <img src="test.png" data-index="0" class="selected">
+                                            <img src="resources/main/test.jpg" data-index="0" class="selected">
 
-                                            <img src="profile.png" data-index="1">
+                                            <img src="resources/main/test2.jpg" data-index="1">
 
-                                            <img src="logo.png" data-index="2">
+                                            <img src="resources/main/test3.jpg" data-index="2">
                                             <!--
                                             <img src="/uploads/reward/REWARD_20200212041134125.JPG" data-index="3"> -->
 
@@ -153,17 +163,12 @@ function comma(str) {
                             <div class="project_details">
                                 <div class="item_state">
                                     <p><span class="txt_statetitle">모인금액</span></p>
-                                    <span class="screen_out">현재 참여금액</span><span class="num_value" id="returnAmount">${ project.pSumAmount }</span> 
+                                    <span class="screen_out">현재 참여금액</span>
+                                    <span class="num_value" id="returnAmount">
+                                    	<fmt:formatNumber value="${ project.pSumAmount }" groupingUsed="true"/>
+                                    </span> 
                                     <span class="txt_value">원&nbsp;모금</span>
                                 </div>
-                                <script>
-                                	$(function(){
-                                		var sumAmount = ${ project.pSumAmount };
-                                		var returnAmount = comma(sumAmount);
-                                		alert(returnAmount);
-                                		/* ${"#returnAmount"}.html(returnAmount); */
-                                	});
-                                </script>
                                 <div class="state_project">
                                     <div class="graph_support">
                                         <span class="screen_out">참여율</span>
@@ -181,18 +186,27 @@ function comma(str) {
                                     <div class="item_state">
                                         <p><span class="txt_statetitle">남은기간</span></p>
                                         <span class="num_value">
-                                            D-<span class="screen_out">Day</span>14
+                                            D-<span class="screen_out">Day</span>
+									        <!-- 날짜 계산 -->
+									        <c:set var="now" value="<%=new java.util.Date()%>" />
+									        
+									        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
+									        <fmt:parseNumber var="eDate" value="${project.pEndDate.time/(1000*60*60*24)}" integerOnly="true" />
+									        
+									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
+									        	<%-- <span style="color:red;">마감일:${eDate}</span>
+        										<span style="color:blue;">오늘:${nDate}</span> --%>
                                         </span><span class="txt_value"> 일 남음</span>
-
-                                        <a href="" class="link_join">참여하기</a>
+										<!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
+                                        <button type="button" class="link_join" onclick="">참여하기</button>
                                     </div>
 
                                     <div class="txt_notice ">
 
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
-                                            목표액 ${ project.pTargetAmount }원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
-                                            결제는 목표액달성시 ${ project.pEndDate }에 진행됩니다.
+                                           	 목표액 <fmt:formatNumber value="${ project.pTargetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
+											결제는 목표액달성시 <fmt:formatDate value="${ project.pEndDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
 
                                     </div>
@@ -224,7 +238,7 @@ function comma(str) {
                                     <!-- 헤더랑 만나는 순간 fixed 추가 -->
                                     <h2 class="screen_out">프로젝트 상세 탭메뉴</h2>
                                     <div class="tab_box">
-                                        <ul class="list_tab">
+                                        <ul class="list_tab" id="detail_tabmenu">
                                             <li class="on"><a id="Intro" class="link_tab">소개</a></li>
                                             <li>
                                                 <a id="News" class="link_tab">최근소식<span class="num_count">1</span></a>
@@ -253,7 +267,7 @@ function comma(str) {
 
                                         $("#Intro").on("click", function () {
                                             console.log("소개");
-                                            //$(".article_intro").addClass("screen_out");
+                                            $(".article_intro").removeClass("div_hide");
                                             $(".article_pNotice").addClass("screen_out");
                                             $(".article_qna").addClass("screen_out");
                                             $(".article_support").addClass("screen_out");
@@ -266,6 +280,7 @@ function comma(str) {
                                         });
                                         $("#News").on("click", function () {
                                             console.log("최근소식");
+                                            $(".article_intro").addClass("div_hide");
                                             $(".article_intro").addClass("screen_out");
                                             //$(".article_pNotice").addClass("screen_out");
                                             $(".article_qna").addClass("screen_out");
@@ -275,9 +290,26 @@ function comma(str) {
 
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(1)").addClass("on");
+                                            
+                                            var pNo = ${project.pNo}
+                                            $.ajax({
+                            					url:"test1.do",
+                            					data:{pNo:pNo},
+                            					type:"post",
+                            					success:function(data){
+                            						alert(data);
+                            					},
+                            					error:function(e){
+                            						alert("error code : " + e.status + "\n"
+                            								+ "message : " + e.responseText);
+                            					}
+                            				});
+                                            
+                                            
                                         });
                                         $("#Qna").on("click", function () {
                                             console.log("QnA");
+                                            $(".article_intro").addClass("div_hide");
                                             $(".article_intro").addClass("screen_out");
                                             $(".article_pNotice").addClass("screen_out");
                                             //$(".article_qna").addClass("screen_out");
@@ -290,6 +322,7 @@ function comma(str) {
                                         });
                                         $("#Cheer").on("click", function () {
                                             console.log("참여자 응원");
+                                            $(".article_intro").addClass("div_hide");
                                             $(".article_intro").addClass("screen_out");
                                             $(".article_pNotice").addClass("screen_out");
                                             $(".article_qna").addClass("screen_out");
@@ -307,26 +340,7 @@ function comma(str) {
                                 <div id="reward_tab_content">
                                     <h2 class="screen_out">소개</h2>
                                     <div class="article_intro">
-                                        <h3>별 헤는 밤</h3>
-                                        <h5>
-                                            이름자 오는 나의 북간도에 계절이 내 된 불러 우는 거외다.
-                                            강아지, 토끼, 내 별 하나에 어머님, 노루, 나의 흙으로 있습니다.
-                                            것은 노루, 지나가는 그리고 이름을 겨울이 언덕 둘 하나에 봅니다.
-                                            이름을 이름자 동경과 그리워 별 까닭이요, 책상을 보고, 하나에 있습니다.
-                                            불러 된 다 말 강아지, 아스라히 이름과 지나가는 봅니다. 이름을 별 프랑시스 새겨지는 덮어 강아지, 까닭입니다.
-                                            청춘이 패, 가슴속에 내 봅니다. 별 내 흙으로 봅니다. 강아지, 어머니 피어나듯이 북간도에 별 당신은 아름다운 봅니다.
-                                        </h5>
-                                        <br>
-                                        <h5>
-                                            지나고 헤일 계집애들의 그리고 하나에 흙으로 이름자 하나에 버리었습니다.
-                                            봄이 사람들의 아침이 쉬이 이름자 무성할 옥 된 하나에 까닭입니다.
-                                            불러 나는 다 까닭입니다. 이름과, 밤이 애기 까닭입니다.
-                                            불러 잠, 벌써 멀리 그리워 피어나듯이 별 이런 까닭입니다.
-                                            노새, 많은 내 아스라히 가슴속에 까닭이요, 있습니다.
-                                            별들을 아무 노새, 내 덮어 까닭입니다. 청춘이 무성할 아침이 까닭입니다.
-                                            걱정도 내린 피어나듯이 이런 있습니다. 많은 프랑시스 가을로 버리었습니다.
-                                        </h5>
-
+                                        ${ project.pDesc }
                                     </div>
 
                                     <div id="reward_tab_content">
@@ -338,7 +352,7 @@ function comma(str) {
                                                         <h1>글 제목</h1>
                                                         <span class="num_time">작성일자</span>
                                                         <span class="txt_author">
-                                                            ** 작성자명
+                                                        	** 작성자명
                                                         </span>
                                                     </header>
                                                     <div class="entry_content">
@@ -363,11 +377,12 @@ function comma(str) {
 
                                     <div id="reward_tab_content">
                                         <div class="article_qna screen_out">
+                                        <!-- 로그인 여부에 따른 화면으로 나중에 수정하자(비로그인 상태면 로그인 후 이용가능) -->
                                             <section class="section_cont">
                                                 <h2 class="screen_out">Q&amp;A</h2>
                                                 <div class="box_qna">
                                                     <p class="qna_info">안녕하세요
-                                                        <span class="txt_name">** 크리에이터명 **</span>입니다.
+                                                        <span class="txt_name">${ creator.mName }</span>입니다.
                                                         <br>궁금한 점이 있다면 질문을 남겨주세요!</p>
                                                     <ul class="list_qna">
                                                         <li>베니아티스 Q&amp;A 게시판은 회원으로 로그인한 분만 글을 작성할 수 있으며 프로젝트 개설자는
@@ -719,8 +734,7 @@ function comma(str) {
                                                                 <span class="num_amount">8,000원 참여</span>
                                                                 <!-- 댓글 보이기 -->
                                                                 <div class="cmt_content">
-                                                                    <p class="cont_cmt">취지가 너무 좋아서 참여했어요!! 꼭 성공하시길
-                                                                        바랍니다. </p>
+                                                                    <p class="cont_cmt">취지가 너무 좋아서 참여했어요!! 꼭 성공하시길 바랍니다. </p>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -743,78 +757,57 @@ function comma(str) {
                                     </div>
 
 
-
                                     <div class="box_reward_select">
                                         <form name="rewardForm" id="rewardForm" action="">
                                             <fieldset>
-                                                <!-- <ul class="list_reward">
-                                                    리워드 수량 제한이 있는 경우
-                                                    <li>
-                                                        <a href="" class="box_reward">
-                                                            <strong class="tit_reward">8,000원 펀딩</strong>
-                                                            <p class="txt_desc">(얼리버드) 수량제한 있는 리워드 1개 </p>
-                                                            <span class="info_dely"><span class="tit_info">배송 예정일</span>
-                                                                : <span class="txt_info">20xx년 xx월 xx일부터 xx일 까지 순차적으로
-                                                                    제공</span></span>
-                                                            <span class="txt_satea"><em class="num_state">2명</em>
-                                                                참여하였습니다.<small class="txt_count">(수량 5개 남음)</small></span>
-                                                        </a>
-                                                    </li>
-
-                                                    리워드 수량이 무한한 경우
-                                                    <li>
-                                                        <a href="" class="box_reward">
-                                                            <strong class="tit_reward">10,000원 펀딩</strong>
-                                                            <p class="txt_desc">수량제한 없는 리워드1 1개</p>
-                                                            <span class="info_dely"><span class="tit_info">배송 예정일</span>
-                                                                : <span class="txt_info">20xx년 xx월 xx일부터 xx일 까지 순차적으로
-                                                                    제공</span></span>
-                                                            <span class="txt_satea"><em class="num_state">0명</em>
-                                                                참여하였습니다.</span>
-                                                        </a>
-                                                    </li>
-
-
-                                                    리워드 수량이 무한한 경우
-                                                    <li>
-                                                        <a href="" class="box_reward">
-                                                            <strong class="tit_reward">17,000원 펀딩</strong>
-                                                            <p class="txt_desc">수량제한 없는 리워드2 2개</p>
-                                                            <span class="info_dely"><span class="tit_info">배송 예정일</span>
-                                                                : <span class="txt_info">20xx년 xx월 xx일부터 xx일 까지 순차적으로
-                                                                    제공</span></span>
-                                                            <span class="txt_satea"><em class="num_state">0명</em>
-                                                                참여하였습니다.</span>
-                                                        </a>
-                                                    </li>
-
-                                                </ul> -->
-                                                
                                                 <ul class="list_reward">
                                                 <c:forEach var="reward" items="${ rewardList }">
+                                                	<!-- 리워드 수량 제한 없 경우 -->
+                                                	<c:if test="${reward.rLimit eq 'N'}">
                                                 	<li>
 														<a href="" class="box_reward"> 
-															<strong class="tit_reward">${ reward.rPrice }원 펀딩</strong>
+															<strong class="tit_reward">
+																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
+															</strong>
 															<p class="txt_desc">${ reward.rItem }</p> 
 															<span class="info_dely">
 																<span class="tit_info">배송 예정일</span>
-															 	: <span class="txt_info">20xx년 xx월 xx일부터 xx일까지 순차적으로 제공</span>
+															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
 															 </span> 
 															 <span class="txt_satea">
 															 	<em class="num_state">0명</em> 참여하였습니다.
 															 </span>
 														</a>
 													</li>
-                                                </c:forEach>
+                                                	</c:if>
+                                                	<!-- 리워드 수량 제한 있는 경우(예: 얼리버드) -->
+                                                	<c:if test="${reward.rLimit eq 'Y'}">
+                                                	<li>
+														<a href="" class="box_reward"> 
+															<span style="font-size:12px;color:#40c8b5;">* 수량 한정</span><br><br>
+															<strong class="tit_reward">
+																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
+															</strong>
+															<p class="txt_desc">${ reward.rItem }</p> 
+															<span class="info_dely">
+																<span class="tit_info">배송 예정일</span>
+															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
+															 </span> 
+															 <span class="txt_satea">
+															 	<em class="num_state">0명</em> 참여하였습니다.
+															 	<small class="txt_count">(수량 ${reward.rCount}개 남음)</small>
+															 </span>
+														</a>
+													</li>
+                                                	</c:if>
 													
+                                                </c:forEach>
 												</ul>
                                             </fieldset>
                                         </form>
                                     </div>
 
                                 </div>
-
-
 
 
                 </article>

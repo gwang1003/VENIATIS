@@ -87,6 +87,24 @@ public class MemberServiceImpl implements MemberService{
 	public int mPhotoInsert(Files files) {
 		return mDao.mPhotoInsert(files);
 	}
+
+
+	@Override
+	public Files selectPhoto(int getmNo) {
+		return mDao.selectPhoto(getmNo);
+	}
+
+
+	@Override
+	public int memberUpdate(Member m) {
+		return mDao.memberUpdate(m);
+	}
+
+
+	@Override
+	public int mPhotoDelete(Member m) {
+		return mDao.mPhotoDelete(m);
+	}
 	
 	
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +12,60 @@
 input{
     -webkit-appearance:checkbox;
 }
+
+#postcode1 {
+	width:40%;
+	height:35px;
+	margin-bottom:15px; 
+	
+}
+
+.postcodify_address, .postcodify_extra_info {
+	height:35px;
+	margin-bottom:15px;
+}
+
+#postcodify_search_button {
+	background:darkgray;
+	width:15%;
+	height:35px;
+	margin-bottom:15px;
+	margin-left:5px;
+}
 </style>
 <body>
+<c:forTokens var="i" items="${Member.mInterest}" delims=",">
+							<c:choose>
+								<c:when test="${i eq '공간/리빙'}">
+									<c:set var="checked1" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '사회이슈'}">
+									<c:set var="checked2" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '교육/출판'}">
+									<c:set var="checked3" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '문화예술'}">
+									<c:set var="checked4" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '지역재생'}">
+									<c:set var="checked5" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '푸드'}">
+									<c:set var="checked6" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '테크'}">
+									<c:set var="checked7" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '뷰티/패션'}">
+									<c:set var="checked8" value="checked"/>
+								</c:when>
+								<c:when test="${i eq '여행'}">
+									<c:set var="checked9" value="checked"/>
+								</c:when>
+							</c:choose>
+						</c:forTokens>	
 <jsp:include page="../../common/menubar.jsp"/>
-<div id="omcWrap">
-<span class="user_profile">
-    <span class="txt_name"></span>
-</span>          
-
-    </div>
     <main id="omcContainer" class="cont_mypage">
 <aside id="omcMyAccount" class="my_account">
 	<h2 class="screen_out">나의계정 정보</h2>
@@ -36,16 +82,10 @@ input{
         <div id="cMain">
             <article id="mContent" class="mypage_account">
                 <header class="head_comm">
-                    <h1 class="tit_comm">계정정보</h1>
+                    <h1 class="tit_comm">
+						회원 정보
+                    </h1>
                 </header>
-                <ul class="tab_cont">
-                    <li class="on">
-                        <button type="button" class="btn_tab">개인정보 수정</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn_tab" onclick="location.href='#';">지불정보</button>
-                    </li>
-                </ul>
                 <div class="cont_comm">
                     <div class="box_comm">
                         <fieldset class="photo_field">
@@ -53,9 +93,9 @@ input{
                             <div class="user_photo">
 		                	
 		                		<span class="img_profile" id="img_profile">
-		                			<img src="test.png" width="115">
+		                			<img src="${Member.filePath }" width="115" id="profileImg">
 		                		</span>
-		                		<form id="ajaxform" method="post" enctype="multipart/form-data">
+		                		<form id="ajaxform" method="post" enctype="multipart/form-data" action="asdf">
 		                		<label for="inpPhoto" class="btn_edit">편집<input type="file" id="inpPhoto" name="inpPhoto" class="inp_photo" accept=".jpg,.png"></label>
 		                		</form>
 		                		<button type="button" class="btn_del" onclick="fn_fileDel()"><span class="ico_cross">프로필이미지 삭제</span></button>
@@ -63,7 +103,7 @@ input{
 	                		<p class="txt_edit">※ 프로필 사진 권장 비율은 가로, 세로 1:1 입니다. (jpg, png)</p>
 	                	</fieldset>
 	    
-	                <form name="addForm" method="post" enctype="multipart/form-data">
+	                <form name="addForm" method="post" enctype="multipart/form-data" action="memberUpdate.do" onsubmit="return updateValidate();">
 	                	<fieldset class="box_field">
 	                		<h3 class="tit_info">회원정보</h3>
 	                		<p class="notice_vital"><span class="mark_vital">*</span>은 필수입력 항목입니다.</p>
@@ -72,8 +112,8 @@ input{
 			                		<dt><label for="tfId" class="tit_item">아이디</label></dt>
 			                		<dd>
 				                		<span class="tf_comm">
-											<input type="text" class="tf_cont"
-                                                   value="tndhks123@nate.com" readonly="readonly">
+											<input type="text" class="tf_cont" name="mId"
+                                                   value="${Member.mId }" readonly="readonly">
 										</span>
                                         </dd>
                                     </dl>
@@ -82,8 +122,8 @@ input{
                                                 class="mark_vital">*</span></label></dt>
                                         <dd>
 				                		<span class="tf_comm">
-											<input type="text" id="memberName" name="memberName" class="tf_cont"
-                                                   value="유수완">
+											<input type="text" id="memberName" name="mName" class="tf_cont"
+                                                   value="${Member.mName }">
 										</span>
                                         </dd>
                                     </dl>
@@ -91,10 +131,10 @@ input{
                                         <dt><label for="tfPassword" class="tit_item">비밀번호</label></dt>
                                         <dd>
 				                		<span class="tf_comm">
-											<input type="password" id="passwd" name="passwd" class="tf_cont" placeholder="영문,숫자,특수문자를 포함한 10~16자리">
+											<input type="password" id="passwd" name="mPwd" class="tf_cont" placeholder="영문,숫자,특수문자를 포함한 10~16자리">
 										</span>
                                             <span class="tf_comm">
-											<input type="password" id="passwdCheck" class="tf_cont" placeholder="비밀번호 확인">
+											<input type="password" id="passwdCheck" class="tf_cont" placeholder="비밀번호 확인" name="mPwd2">
 										</span>
                                         </dd>
                                     </dl>
@@ -103,8 +143,8 @@ input{
                                                 class="mark_vital">*</span></label></dt>
                                         <dd>
 			                			<span class="tf_comm">
-											<input type="text" id="email" name="email" class="tf_cont"
-                                                   value="tndhks123@nate.com">
+											<input type="text" id="email" name="mEmail" class="tf_cont"
+                                                   value="${Member.mEmail }">
 										</span>
                                         </dd>
                                     </dl>
@@ -112,8 +152,8 @@ input{
                                         <dt><label for="tfBirth">생년월일</label></dt>
                                         <dd class="data_birth">
 			                			<span class="tf_comm">
-										<input type="text" id="birth" name="birth" class="tf_cont"
-                                               value="" maxlength="8">
+										<input type="text" id="birth" name="mBirth" class="tf_cont"
+                                               value="${Member.mBirth }" maxlength="8">
 										</span>
                                             <span class="txt_hint">생년월일 8자리 (예  2000년1월1일 > 20000101)</span>
                                         </dd>
@@ -123,36 +163,40 @@ input{
                                         </dt>
                                         <dd>
 			                			<span class="tf_comm">
-											<input type="text" id="mobile" name="mobile" class="tf_cont"
-                                                   value="01048951214" maxlength="20">
+											<input type="text" id="mobile" name="mPhone" class="tf_cont"
+                                                   value="${Member.mPhone }" maxlength="20">
 										</span>
 			                		</dd>
 			                	</dl>
+			                	<c:forTokens var="addr" items="${Member.mAddress }" delims="#"
+								varStatus="status">
+									<c:if test="${ status.index eq 0 }">
+										<c:set var="addr1" value="${ addr }"/>
+									</c:if>
+									<c:if test="${ status.index eq 1 }">
+										<c:set var="addr2" value="${ addr }"/>
+									</c:if>
+									<c:if test="${ status.index eq 2 }">
+										<c:set var="addr3" value="${ addr }"/>
+									</c:if>
+								</c:forTokens>
 			                	<dl id="goAddr">
 			                		<dt><span class="tit_item">주소</span></dt>
 			                		<dd class="date_addr">
-			                			<label for="memberPost" class="tf_comm tf_zip">
-											<span class="placehoder" id="memberPostPlaceholder">우편번호</span>
-											<input type="text" id="memberPost" name="memberPost" class="tf_cont" title="우편번호입력" readonly="readonly" value="">
-										</label>
-										<button type="button" id="zipbutton" class="link_zipcode">검색</button>
-			                			<label for="memberAddr1" class="tf_comm">
-											<span class="placehoder" id="memberAddr1Placeholder">기본주소</span>
-											<input type="text" id="memberAddr1" name="memberAddr1" class="tf_cont" readonly="readonly" value="">
-										</label>
-			                			<label for="memberAddr2" class="tf_comm">
-											<span class="placehoder">상세주소</span>
-											<input type="text" id="memberAddr2" name="memberAddr2" class="tf_cont" value="">
-										</label>
+			                			<input id="postcode1" name="post" class="postcodify_postcode5" placeholder=""
+                                                maxlength="14" type="text" value="${addr1 }" readonly/> 
+                                                <button type="button" id="postcodify_search_button">검색</button><br>
+                                                <input type="text" name="address1" class="postcodify_address" value="${addr2 }" style="width:100%;" readonly/><br>
+                                                <input type="text" name="address2" class="postcodify_extra_info" value="${addr3 }" style="width:100%;"/>
                                     </dd>
                                     <dt><span class="tit_item">관심분야</span></dt>
                                     <dd class="date_addr"><br>
-                                        <input type="checkbox">&nbsp;공간 / 리빙&nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙
-                                        &nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙<br>
-                                        <input type="checkbox">&nbsp;공간 / 리빙&nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙
-                                        &nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙<br>
-                                        <input type="checkbox">&nbsp;공간 / 리빙&nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙
-                                        &nbsp;&nbsp; <input type="checkbox">&nbsp;공간 / 리빙<br>                                        
+                                        <input type="checkbox" name="mInterest" value="공간/리빙" ${checked1 }>&nbsp;공간/리빙&nbsp;&nbsp; <input type="checkbox" name="mInterest" value="사회이슈" ${checked2 }>&nbsp;사회이슈
+                                        &nbsp;&nbsp; <input type="checkbox" name="mInterest" value="교육/출판" ${checked3 }>&nbsp;교육/출판<br>
+                                        <input type="checkbox" name="mInterest" value="문화예술" ${checked4 }>&nbsp;문화예술&nbsp;&nbsp; <input type="checkbox" name="mInterest" value="지역재생" ${checked5 }>&nbsp;지역재생
+                                        &nbsp;&nbsp; <input type="checkbox" name="mInterest" value="푸드" ${checked6 }>&nbsp;푸드<br>
+                                        <input type="checkbox" name="mInterest" value="테크" ${checked7 }>&nbsp;테크&nbsp;&nbsp; <input type="checkbox" name="mInterest" value="뷰티/패션" ${checked8 }>&nbsp;뷰티/패션
+                                        &nbsp;&nbsp; <input type="checkbox" name="mInterest" value="여행" ${checked9 }>&nbsp;여행<br>                                        
                                     </dd>
 
 
@@ -163,20 +207,69 @@ input{
 			                </div>
 						</fieldset>
 					
-                        </form>
 
                         <footer class="account_foot">
                             <span id="link_leave" class="link_leave">회원탈퇴</span>
                             <div class="set_btn">
-                                <button type="button" class="btn_sumbit" onclick="fn_save();">수정완료</button>
+                                <button class="btn_sumbit">수정완료</button>
                             </div>
                         </footer>
+                        </form>
                     </div>
                 </div>
             </article>
         </div>
     </main>
 </div>
+<script>
+	function updateValidate() {
+		if($("#passwd").val() == $("#passwdCheck").val()) {
+			if($("#passwd").val() != "${Member.mPwd}") {
+				alert("비밀번호를 확인해주세요.")
+				return false;
+			}
+		}else {
+			alert("비밀번호를 확인해주세요.")
+			return false;
+		}
+		return true;
+	}
+	
+	$(function(){
+		$(".inp_photo").change(function(){
+			var form = $("#ajaxform")[0];
+			var formData = new FormData(form);
+			formData.append("file", $("#inpPhoto")[0].files[0]);
+			$.ajax({
+				// url : 데이터를 전송할 url(필수!!!)
+				url : "mPhotoUpdate.do",
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				// data : 요청 시 전달할 파라미터 설정
+				data: formData,
+				// key:value
+				
+				// type : 전송 방식(GET / POST)
+				type : "POST",
+				
+				// success : Ajax 통신 성공 시 처리할 함수를 지정하는 속성
+				success : function(data){
+					alert(data);
+					$("#profileImg").css({"src":"data"})
+				},
+				
+				// error : Ajax 통신 실패 시 처리할 함수를 지정하는 속성
+				error : function(e){
+					alert(e.status + ", message : <br>\n" + e.responseText);
+	
+				}					
+			});
+		})
+	})
+</script>
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

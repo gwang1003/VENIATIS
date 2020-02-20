@@ -71,15 +71,8 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">휴대전화</th>
-                                            <td><select id="phone1" name="phone1" required>
-                                                    <option value="010">010</option>
-                                                    <option value="011">011</option>
-                                                    <option value="016">016</option>
-                                                    <option value="017">017</option>
-                                                    <option value="018">018</option>
-                                                    <option value="019">019</option>
-                                            </select>-<input id="phone2" name="phone2" maxlength="4" type="text" required />-
-                                                <input id="phone3" name="phone3" maxlength="4" type="text" required />
+                                            <td>
+                                                <input id="mPhone" name="mPhone" maxlength="11" type="text" required />
                                             </td>
                                         </tr>
                                         <tr>
@@ -99,15 +92,15 @@
                                             <th scope="row">관심 분야</th>
                                             <td>
                                                 <div id="email">
-                                                    <input type="checkbox" name="mInterest" value="공간/리빙">공간 / 리빙 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="공간/리빙">공간/리빙 &nbsp;&nbsp;
                                                     <input type="checkbox" name="mInterest" value="사회이슈">사회이슈 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="교육/출판">교육 / 출판 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="교육/출판">교육/출판 &nbsp;&nbsp;
                                                     <br>
                                                     <input type="checkbox" name="mInterest" value="문화예술">문화예술 &nbsp;&nbsp;
                                                     <input type="checkbox" name="mInterest" value="지역재생">지역재생 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="푸드">푸드 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="푸드">푸드&nbsp;&nbsp;
                                                     <br>
-                                                    <input type="checkbox" name="mInterest" value="테크">테크 &nbsp;&nbsp;
+                                                    <input type="checkbox" name="mInterest" value="테크">테크&nbsp;&nbsp;
                                                     <input type="checkbox" name="mInterest" value="뷰티/패션">뷰티/패션 &nbsp;&nbsp;
                                                     <input type="checkbox" name="mInterest" value="여행">여행 &nbsp;&nbsp;
                                                 </div>

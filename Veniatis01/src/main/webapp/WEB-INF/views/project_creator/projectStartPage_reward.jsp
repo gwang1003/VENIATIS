@@ -137,7 +137,14 @@
 											</label>
 										</p>
 									</li>
-
+ 									<li class="box_info box_radio">
+                                        <p class="tit_name">수량구분</p>
+                                        <div class="check_area">
+                                            <input type="radio" id="amountCheck1_0" name="amountChecks_0" checked="checked" value="N" class="amount" onclick="fn_amount($(this))"><label for="amountCheck1_0" class="radio_label">수량무한</label>
+                                            <input type="radio" id="amountCheck2_0" name="amountChecks_0" value="Y" class="amount" onclick="fn_amount($(this))"><label for="amountCheck2_0" class="radio_label">수량한정</label>
+                                            <input type="number" id="rewardQty_0" name="rewardList[0].rewardQty" class="limit_count"  readonly="readonly"><span class="txt_count">개</span>
+                                        </div>
+                                    </li>
 									<li class="box_info box_radio">
 										<ul>
 											<li class="box_info">
@@ -206,9 +213,24 @@
 
 
 <script>
+function fn_copyDeliveryDate(obj){
+    if($(obj).prop("checked")){
+        $('.tf_cont.deliv').each(function(index) {
+            $(this).val($("#rewardExpectText_0").val());
+        });
+    }
+}
 
-
-
+function fn_amount(obj){
+	
+    if(obj.val()=='N'){
+        $(obj).parent().children(".limit_count").val('');
+        $(obj).parent().children(".limit_count").attr("readonly","readonly");
+    }else if(obj.val()=='Y'){
+        $(obj).parent().children(".limit_count").removeAttr("readonly");
+        $(obj).parent().children(".limit_count").focus();
+    }
+}
   function fn_selOption(obj){
        if(obj.val()=='N'){
            $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").val('');
@@ -238,6 +260,12 @@
           }
       });
   });
+  
+  function onlyNumber(obj) {
+      $(obj).keyup(function(){
+          $(this).val($(this).val().replace(/[^0-9]/g,""));
+      });
+  }
   
   $(function(){
       $('#btn_add_file').on("click",function(){
@@ -294,12 +322,20 @@
       html += '		<p class="tit_name">리워드 구성</p>';
       html += '		<p class="txt_input input_full">';
       html += '		<label for="rewardTitle_'+makeRewardDiv+'" class="tf_comm">';
-      html += '			<input type="text" id="rewardTitle_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].title" class="tf_cont title" placeholder="콘서트 기념 티셔츠1개 + 감사의 손편지"></label></p></li>';
+      html += '           <span class="placehoder">ex) 날아라 슈퍼보드 기념 티셔츠1개 + 감사의 손편지</span>';
+      html += '			<input type="text" id="rewardTitle_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].title" class="tf_cont title"></label></p></li>';
+      html += '	<li class="box_info box_radio">';
+      html += '		<p class="tit_name">수량구분</p>';
+      html += '			<div class="check_area">';
+      html += '				<input type="radio" id="amountCheck1_'+makeRewardDiv+'" name="amountChecks_'+makeRewardDiv+'" value="N"  checked="checked" class="amount" onclick="fn_amount($(this))"><label for="amountCheck1_'+makeRewardDiv+'" class="radio_label">수량무한</label>';
+      html += '				<input type="radio" id="amountCheck2_'+makeRewardDiv+'" name="amountChecks_'+makeRewardDiv+'" value="Y"  class="amount" onclick="fn_amount($(this))"><label for="amountCheck2_'+makeRewardDiv+'" class="radio_label">수량한정</label>';
+      html += '				<input type="number" id="rewardQty_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardQty" class="limit_count" readonly="readonly"><span class="txt_count">개</span></div></li>';
+      html += '	<li class="box_info box_radio">';
       html += '		<ul><li class="box_info">';
       html += '			<p class="tit_name">리워드 선택옵션</p>';
       html += '			<div class="check_area">';
-      html += '				<input type="radio" id="rewardSelFlag1_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardSelFlag" value="N" checked="checked" class="selOption" onclick="fn_selOption($(this))"> <label for="rewardSelFlag1_'+makeRewardDiv+'" class="radio_label">사용안함</label>';
-      html += '				<input type="radio" id="rewardSelFlag2_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardSelFlag" value="Y" class="selOption" onclick="fn_selOption($(this))"> <label for="rewardSelFlag2_'+makeRewardDiv+'" class="radio_label">사용</label>';
+      html += '				<input type="radio" id="rewardSelFlag1_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardSelFlag" value="N" checked="checked" class="selOption" onclick="fn_selOption($(this))"><label for="rewardSelFlag1_'+makeRewardDiv+'" class="radio_label">사용안함</label>';
+      html += '				<input type="radio" id="rewardSelFlag2_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardSelFlag" value="Y" class="selOption" onclick="fn_selOption($(this))"><label for="rewardSelFlag2_'+makeRewardDiv+'" class="radio_label">사용</label>';
       html += '			</div></li>';
       html += '		<li class="box_info">';
       html += '			<p class="tit_name"></p>';
@@ -315,7 +351,7 @@
       html += '			<input type="text" id="rewardExpectText_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardExpectText" class="tf_cont deliv">';
       html += '			</label></p></ul></li>';
       $("#add_area").append(html);
-      placeholder();		// - placeholder() 스크립트 재 호출
+ 
   }
   /*
   파일 삭제처리

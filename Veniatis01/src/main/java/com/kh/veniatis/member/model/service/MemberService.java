@@ -15,4 +15,10 @@ public interface MemberService {
 	int memberInsert(Member m);
 
 	int mPhotoInsert(Files files);
+
+	Files selectPhoto(int getmNo);
+
+	int memberUpdate(Member m);
+
+	int mPhotoDelete(Member m);
 }

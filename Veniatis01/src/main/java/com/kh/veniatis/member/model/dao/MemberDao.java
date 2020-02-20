@@ -32,4 +32,20 @@ public class MemberDao {
 	public int mPhotoInsert(Files files) {
 		return sqlSession.insert("memberMapper.mPhotoInsert", files);
 	}
+
+
+	public Files selectPhoto(int getmNo) {
+		return sqlSession.selectOne("memberMapper.selectPhoto", getmNo);
+	}
+
+
+	public int memberUpdate(Member m) {
+
+		return sqlSession.update("memberMapper.memberUpdate", m);
+	}
+
+
+	public int mPhotoDelete(Member m) {
+		return sqlSession.delete("memberMapper.mPhotoDelete", m);
+	}
 }

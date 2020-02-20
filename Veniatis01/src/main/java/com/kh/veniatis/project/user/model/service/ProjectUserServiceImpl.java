@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.dao.ProjectUserDao;
+import com.kh.veniatis.project.user.model.vo.News;
 import com.kh.veniatis.project.user.model.vo.Reward;
 
 @Service("pus")
@@ -45,6 +46,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		}else {
 			return pud.selectCreatorInfo(mNo);
 		}
+	}
+
+	// 최근 소식 가져오기
+	@Override
+	public News selectNews(int pNo) {
+		return pud.selectNews(pNo);
 	}
 	
 }

@@ -9,19 +9,22 @@ public class Reward {
 	private int rSeq;		// 리워드 순서
 	private String rItem;	// 리워드 구성
 	private int rPrice;		// 리워드 금액
+	private String rLimit;	// 리워드 제한
 	private int rCount;		// 수량
 	private String rOption;	// 선택 옵션
 	private Date rDelivery;	// 배송예정일
 	
 	public Reward() {}
 
-	public Reward(int rNo, int pNo, int rSeq, String rItem, int rPrice, int rCount, String rOption, Date rDelivery) {
+	public Reward(int rNo, int pNo, int rSeq, String rItem, int rPrice, String rLimit, int rCount, String rOption,
+			Date rDelivery) {
 		super();
 		this.rNo = rNo;
 		this.pNo = pNo;
 		this.rSeq = rSeq;
 		this.rItem = rItem;
 		this.rPrice = rPrice;
+		this.rLimit = rLimit;
 		this.rCount = rCount;
 		this.rOption = rOption;
 		this.rDelivery = rDelivery;
@@ -67,6 +70,14 @@ public class Reward {
 		this.rPrice = rPrice;
 	}
 
+	public String getrLimit() {
+		return rLimit;
+	}
+
+	public void setrLimit(String rLimit) {
+		this.rLimit = rLimit;
+	}
+
 	public int getrCount() {
 		return rCount;
 	}
@@ -94,7 +105,9 @@ public class Reward {
 	@Override
 	public String toString() {
 		return "Reward [rNo=" + rNo + ", pNo=" + pNo + ", rSeq=" + rSeq + ", rItem=" + rItem + ", rPrice=" + rPrice
-				+ ", rCount=" + rCount + ", rOption=" + rOption + ", rDelivery=" + rDelivery + "]";
+				+ ", rLimit=" + rLimit + ", rCount=" + rCount + ", rOption=" + rOption + ", rDelivery=" + rDelivery
+				+ "]";
 	}
+
 	
 }

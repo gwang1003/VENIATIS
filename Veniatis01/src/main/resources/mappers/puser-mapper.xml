@@ -27,6 +27,7 @@
 		<result property="rSeq" column="R_SEQ"/>
 		<result property="rItem" column="R_ITEM"/>
 		<result property="rPrice" column="R_PRICE"/>
+		<result property="rLimit" column="R_LIMIT"/>
 		<result property="rCount" column="R_COUNT"/>
 		<result property="rOption" column="R_OPTION"/>
 		<result property="rDelivery" column="R_DELIVERY"/>
@@ -43,6 +44,14 @@
 		<result property="mBirth" column="M_BIRTHDAY"/>
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
+	</resultMap>
+	
+	<resultMap id="newsResultSet" type="com.kh.veniatis.project.user.model.vo.News">
+		<id property="pnNo" column="PN_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="pnTitle" column="PN_TITLE"/>
+		<result property="pnContent" column="PN_CONTENT"/>
+		<result property="pnEnrollDate" column="PN_ENROLL_DATE"/>
 	</resultMap>
 	
 	<select id="selectList" >
@@ -72,6 +81,15 @@
 		WHERE M_NO = #{mNo}
 	</select>
 	
+	<select id="selectNews" parameterType="_int" resultMap="newsResultSet">
+		select * 
+		from 
+		(select a.*, rownum as rnum 
+		from P_NOTICE a 
+		where P_NO = #{pNo}
+		order by a.PN_ENROLL_DATE desc) 
+		where rnum = 1 
+	</select>
 	
 	
 	

@@ -231,7 +231,7 @@ s0.parentNode.insertBefore(s1,s0);
         })
         
         $(".myInfo").click(function(){
-           location.href="memberUpdate.do";
+           location.href="memberUpdateForm.do";
         })
         
          $(".myOpenProject").click(function(){

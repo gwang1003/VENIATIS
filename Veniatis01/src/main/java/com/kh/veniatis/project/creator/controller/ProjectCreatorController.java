@@ -2,24 +2,46 @@ package com.kh.veniatis.project.creator.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.veniatis.member.model.vo.Member;
-import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.creator.model.exception.ProjectException;
+import com.kh.veniatis.project.creator.model.service.CreatorService;
+import com.kh.veniatis.project.creator.model.vo.Creator;
 
 
 
 @Controller
 public class ProjectCreatorController {
+	@Autowired
+	private CreatorService cService;
 	
 	
-	
-	@RequestMapping("projectInfoInsert.do")
-	public String projectInfoInsert(HttpServletRequest request,Member m ){
-		Project p = new Project();
-		p.setCreNo(m.getmNo());
-		return "project_creator/projectStartPage2";
+	@RequestMapping("creatorInsert.do")
+	public ModelAndView projectInfoInsert(HttpServletRequest request,Creator c,Model model,
+			@RequestParam(value="userPost")String post, @RequestParam(value="userAddr1")String addr1,
+			@RequestParam(value="userAddr2")String addr2,@RequestParam(value="mNo")int mNo
+			){
+		c.setCreAddress(post+"#"+addr1+"#"+addr2);
+		c.setmNo(mNo);
+		System.out.println(c);
+		int result = cService.creatorInsert(c);
+		
+		Creator creator = cService.selectCreNo(c);
+		if(result>0) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("creator", creator);
+			mv.setViewName("project_creator/projectStartPage2");
+			return mv;
+		}else {
+			throw new ProjectException("크리에이터 등록 실패!");
+		}
+		
+		
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.kh.veniatis.member.model.service;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.dao.MemberDao;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
 
@@ -104,6 +107,30 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int mPhotoDelete(Member m) {
 		return mDao.mPhotoDelete(m);
+	}
+
+
+	@Override
+	public ArrayList<ProjectView> myOpenProject(int getmNo) {
+		return mDao.myOpenProject(getmNo);
+	}
+
+
+	@Override
+	public int selectpNo(int getmNo) {
+		return mDao.selectpNo(getmNo);
+	}
+
+
+	@Override
+	public int question(QnA qa) {
+		return mDao.question(qa);
+	}
+
+
+	@Override
+	public ArrayList<Member> selectMemberList() {
+		return mDao.selectMemberList();
 	}
 	
 	

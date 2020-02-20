@@ -7,33 +7,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#icon1 {
-	background-image: url("resources/project_creator/information.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon1{
+ background-image:url("resources/project_creator/information.png");
+	  background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
+	 
 }
 
-#icon2 {
-	background-image: url("resources/project_creator/script.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon2{
+ background-image:url("resources/project_creator/script.png");
+	 background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
-#icon3 {
-	background-image: url("resources/project_creator/reward.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon3{
+ background-image:url("resources/project_creator/reward.png");
+	   background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
-#icon4 {
-	background-image: url("resources/project_creator/money.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon4{
+ background-image:url("resources/project_creator/money.png");
+	  background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
+
+
 
 .btn_search {
 	margin-top: 7px;
@@ -98,59 +105,58 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 				<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
 			</header>
 
-			<!-- 신청서 -->
+		<!-- 신청서 -->
 			<div class="apply_cont apply_support">
 				<div class="box_comm">
 
 					<ol class="list_process">
-						<li><a href="projectStartPage.do" class="flow_reward" id="icon1"></a>
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">개설자 정보</p>
 							</div></li>
 							
-						<li class="on"><a href="#" class="flow_reward" id="icon2">
+						<li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon2">
 						</a> 
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">프로젝트 스토리</p>
 							</div></li>
 							
-						<li><a href="projectStartPage_reward.do" class="flow_reward" id="icon3">
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon3">
 						</a> 
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">리워드</p>
 							</div></li>
 					
-						<li><a href="projectStartPage_last.do" class="flow_reward" id="icon4"></a>
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
+
 							<div class="flow_cont">
 								<p class="txt_step">정산</p>
 							</div></li>
 					</ol>
 					
-					<!-- 여기까지가 프로젝트 메뉴 -->
-					
 			<div class="sheet_info">
 				<!-- 개설자 정보 -->
 				<div class="form_area">
-					<form name="addForm" method="post" enctype="multipart/form-data">
+					<form action="projectInsert.do" name="addForm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
 						<fieldset class="fld_comm">
 							
 							<ul>
 								<li class="box_info">
 									<p class="tit_name">프로젝트 분야</p>
 									<div id="box_select">
-										<select  id="projectCate" name="projectCate" title="프로젝트 분야">	
-											<option value="CATE_0001">공간/리빙</option>
-											<option value="CATE_0002">사회이슈</option>
-											<option value="CATE_0003">교육/출판</option>
-											<option value="CATE_0004">문화예술</option>
-											<option value="CATE_0005">지역재생</option>
-											<option value="CATE_0006">푸드</option>
-											<option value="CATE_0007">테크</option>
-											<option value="CATE_0008">뷰티/패션</option>
-											<option value="CATE_0009">여행</option>
+										<select  id="projectCate" name="pcNo" title="프로젝트 분야">	
+											<option value="1">공간/리빙</option>
+											<option value="2">사회이슈</option>
+											<option value="3">교육/출판</option>
+											<option value="4">문화예술</option>
+											<option value="5">지역재생</option>
+											<option value="6">푸드</option>
+											<option value="7">테크</option>
+											<option value="8">뷰티/패션</option>
+											<option value="9">여행</option>
 										</select>
 									</div>
 								</li>
@@ -276,7 +282,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 					</ul>
 				
 						</fieldset>
-					</form>
+					
 				</div>
 				<!-- // 개설자 정보 -->
 			</div>
@@ -284,6 +290,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> <input
 					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="fn_nextPage();">
 			</div>
+			</form>
 		</div>
 	</div>
 </div>

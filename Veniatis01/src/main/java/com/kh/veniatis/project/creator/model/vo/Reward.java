@@ -1,4 +1,4 @@
-package com.kh.veniatis.project.user.model.vo;
+package com.kh.veniatis.project.creator.model.vo;
 
 import java.sql.Date;
 

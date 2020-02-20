@@ -1,17 +1,17 @@
-package com.kh.veniatis.project.user.model.vo;
+package com.kh.veniatis.project.creator.model.vo;
 
 import java.sql.Date;
 
-public class News {
-	private int pnNo;
-	private int pNo;
-	private String pnTitle;
-	private String pnContent;
-	private Date pnEnrollDate;
+public class PNotice {
+	private int pnNo;			// 최근소식 번호
+	private int pNo;			// 프로젝트 번호
+	private String pnTitle;		// 최근소식 제목
+	private String pnContent;	// 최근소식 내용
+	private Date pnEnrollDate;	// 최근소식 작성(수정)날짜
 	
-	public News() {}
+	public PNotice() {}
 
-	public News(int pnNo, int pNo, String pnTitle, String pnContent, Date pnEnrollDate) {
+	public PNotice(int pnNo, int pNo, String pnTitle, String pnContent, Date pnEnrollDate) {
 		super();
 		this.pnNo = pnNo;
 		this.pNo = pNo;

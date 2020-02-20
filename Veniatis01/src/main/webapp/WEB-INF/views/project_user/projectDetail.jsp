@@ -51,7 +51,7 @@ function comma(str) {
                             <span class="txt_category">
                                 <span class="screen_out">카테고리</span>
                                 <a>
-                                <c:choose>
+                                <%-- <c:choose>
                                 	<c:when test="${ project.pcNo == 1 }">
                                 	공간/리빙
                                 	</c:when>
@@ -79,7 +79,8 @@ function comma(str) {
                                 	<c:otherwise>
                                 	여행
                                 	</c:otherwise>
-                                </c:choose>
+                                </c:choose> --%>
+                                ${ project.cate }
 								</a>
 
                             </span>
@@ -146,13 +147,13 @@ function comma(str) {
                                     <div class="user_profile">
                                         <span class="img_profile">
 
-                                            <img src="test.png">
+                                            <img src="${project.creProfile }">
 
                                         </span>
                                         <div class="author_cont">
                                             <div class="builder_profile_wrapper">
-                                                <p><span class="txt_name">${ creator.mName }</span></p>
-                                                <span class="txt_mail">${ creator.mEmail }</span>
+                                                <p><span class="txt_name">${ project.creName }</span></p>
+                                                <span class="txt_mail">${ project.creEmail }</span>
 
                                             </div>
                                         </div>
@@ -165,7 +166,7 @@ function comma(str) {
                                     <p><span class="txt_statetitle">모인금액</span></p>
                                     <span class="screen_out">현재 참여금액</span>
                                     <span class="num_value" id="returnAmount">
-                                    	<fmt:formatNumber value="${ project.pSumAmount }" groupingUsed="true"/>
+                                    	<fmt:formatNumber value="${ project.sumAmount }" groupingUsed="true"/>
                                     </span> 
                                     <span class="txt_value">원&nbsp;모금</span>
                                 </div>
@@ -191,7 +192,7 @@ function comma(str) {
 									        <c:set var="now" value="<%=new java.util.Date()%>" />
 									        
 									        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
-									        <fmt:parseNumber var="eDate" value="${project.pEndDate.time/(1000*60*60*24)}" integerOnly="true" />
+									        <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
 									        
 									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
 									        	<%-- <span style="color:red;">마감일:${eDate}</span>
@@ -205,8 +206,8 @@ function comma(str) {
 
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
-                                           	 목표액 <fmt:formatNumber value="${ project.pTargetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
-											결제는 목표액달성시 <fmt:formatDate value="${ project.pEndDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
+                                           	 목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
+											결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
 
                                     </div>
@@ -291,7 +292,7 @@ function comma(str) {
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(1)").addClass("on");
                                             
-                                            var pNo = ${project.pNo}
+                                            /* var pNo = ${project.pNo}
                                             $.ajax({
                             					url:"test1.do",
                             					data:{pNo:pNo},
@@ -303,7 +304,7 @@ function comma(str) {
                             						alert("error code : " + e.status + "\n"
                             								+ "message : " + e.responseText);
                             					}
-                            				});
+                            				}); */
                                             
                                             
                                         });
@@ -382,7 +383,7 @@ function comma(str) {
                                                 <h2 class="screen_out">Q&amp;A</h2>
                                                 <div class="box_qna">
                                                     <p class="qna_info">안녕하세요
-                                                        <span class="txt_name">${ creator.mName }</span>입니다.
+                                                        <span class="txt_name">${ project.creName }</span>입니다.
                                                         <br>궁금한 점이 있다면 질문을 남겨주세요!</p>
                                                     <ul class="list_qna">
                                                         <li>베니아티스 Q&amp;A 게시판은 회원으로 로그인한 분만 글을 작성할 수 있으며 프로젝트 개설자는

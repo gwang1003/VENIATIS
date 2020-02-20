@@ -195,9 +195,11 @@
         
        function emailCheck1() {
     	   var code = $(".emailcheck5").val();
-			alert("code : " + code);
 			if(key == code) {
+				alert("인증되었습니다.")
 				okEmail = true;
+			}else {
+				alert("인증번호가 일치하지 않습니다.")
 			}
        }
         

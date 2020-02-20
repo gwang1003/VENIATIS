@@ -2,6 +2,7 @@ package com.kh.veniatis.member.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -22,13 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
 
@@ -84,42 +86,44 @@ public class MemberController {
 	
 	@RequestMapping("managerMain.do")
 	public String managerMain() {
-		return "myPage/Manager/ManagerMain";
+		
+		return "myPage/Manager/managerMain";
 	}
 	
 	@RequestMapping("selectMemberList.do")
-	public String selectMemberList() {
-		return "myPage/Manager/allMember";
+	public ModelAndView selectMemberList() {
+		ArrayList<Member> mList = mService.selectMemberList();
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("mList", mList);
+		mv.setViewName("myPage/Manager/memberList");
+		
+		
+		return mv;
 	}
 	
 	@RequestMapping("selectCreatorList.do")
 	public String selectCreatorList() {
-		return "myPage/Manager/allCreator";
-	}
-	
-	@RequestMapping("joinCreator.do")
-	public String joinCreator() {
-		return "myPage/Manager/joinCreator";
+		return "myPage/Manager/creatorList";
 	}
 	
 	@RequestMapping("joinProject.do")
 	public String joinProject() {
-		return "myPage/Manager/joinProject";
+		return "myPage/Manager/okProject";
 	}
 	
 	@RequestMapping("selectProjectList.do")
 	public String selectProjectList() {
-		return "myPage/Manager/allProject";
+		return "myPage/Manager/projectList";
 	}
 	
 	@RequestMapping("selectCompetitionList.do")
 	public String selectCompetitionList() {
-		return "myPage/Manager/allCompetition";
+		return "myPage/Manager/competitionList";
 	}
 	
 	@RequestMapping("joinCompetition.do")
 	public String joinCompetition() {
-		return "myPage/Manager/insertCompetition";
+		return "myPage/Manager/competitionInsert";
 	}
 	
 	@RequestMapping("Answer.do")
@@ -128,12 +132,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping("memberUpdateForm.do")
-	public ModelAndView memberUpdateForm(
-			HttpSession session, ModelAndView mv) {		
-		Member m = (Member) session.getAttribute("loginUser");
-		mv.addObject("Member", m);
-		mv.setViewName("myPage/My/memberUpdate");
-		return mv;
+	public String memberUpdateForm() {		
+		return "myPage/My/memberUpdate";
 	}
 	
 	@RequestMapping("memberUpdate.do")
@@ -148,9 +148,8 @@ public class MemberController {
 			model.addAttribute("loginUser", loginUser);
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("Member", loginUser);
-			mv.setViewName("myPage/My/memberUpdate");
-			System.out.println("m : " + m);
-			System.out.println("loginUser : " + loginUser);
+			mv.addObject("msg", "회원정보가 변경되었습니다.");
+			mv.setViewName("redirect:memberUpdateForm.do");
 			return mv;
 		}else {
 			throw new MemberException("회원정보 업데이트 실패!!");
@@ -177,16 +176,35 @@ public class MemberController {
 		return "myPage/My/attendProject";
 	}
 	@RequestMapping("myInterestProject.do")
-	public String myInterestProject() {
-		return "myPage/My/myInterestProject";
+	public String myInterestProject(HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int pNo = mService.selectpNo(loginUser.getmNo());
+		System.out.println(pNo);
+		
+		return "redirect:myPage/My/myInterestProject";
 	}
 	@RequestMapping("myOpenProject.do")
-	public String myOpenProject() {
+	public String myOpenProject(HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		ArrayList<ProjectView> pList = mService.myOpenProject(loginUser.getmNo());
+		
 		return "myPage/My/myOpenProject";
 	}
-	@RequestMapping("question.do")
-	public String question() {
+	
+	@RequestMapping("questionForm.do")
+	public String questionForm() {
 		return "myPage/My/question";
+	}
+	
+	@RequestMapping("question.do")
+	public ModelAndView question(QnA qa, HttpSession session) {
+		qa.setmNo(((Member)session.getAttribute("loginUser")).getmNo());
+		int result = mService.question(qa);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", "문의 완료");
+		mv.setViewName("redirect:questionForm.do");
+		return mv;
 	}
 	
 	@RequestMapping("revenue.do")
@@ -194,7 +212,7 @@ public class MemberController {
 		return "myPage/Manager/revenue";
 	}
 	@RequestMapping("memberInsert.do")
-	public String memberInsert(Member m, HttpServletRequest request,
+	public ModelAndView memberInsert(Member m, HttpServletRequest request,
 			@RequestParam(value="UserImg", required=false) MultipartFile file,
 			@RequestParam(value="post") String post, @RequestParam(value="address1") String address1,
 			@RequestParam(value="address2") String address2) {
@@ -203,17 +221,22 @@ public class MemberController {
 		Member member = mService.selectOneMember(m.getmId());
 		System.out.println("dl Member : " + member);
 		Files files = new Files(3, "basicImg.jpg", "basicImg.jpg", "resources/memberPhoto/basicImg.jpg");
-		
+		ModelAndView mv = new ModelAndView();
 		if(result > 0) {
 			if(!file.getOriginalFilename().equals("")) {
 				files = saveFile(file, request);
 			}
 			files.setmNo(member.getmNo());
 			int result2 = mService.mPhotoInsert(files);
-				return "main";
+			
+			mv.addObject("msg", "회원가입에 성공했습니다!");
+			mv.setViewName("redirect:home.do");
+				return mv;
 		}else {
 			throw new MemberException("회원가입 실패!!");
+
 		}
+
 	}
 
 	private Files saveFile(MultipartFile file, HttpServletRequest request) {

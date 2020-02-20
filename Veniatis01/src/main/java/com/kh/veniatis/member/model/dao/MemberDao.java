@@ -1,11 +1,16 @@
 package com.kh.veniatis.member.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
 @Repository("mDao") 
@@ -47,5 +52,25 @@ public class MemberDao {
 
 	public int mPhotoDelete(Member m) {
 		return sqlSession.delete("memberMapper.mPhotoDelete", m);
+	}
+
+
+	public ArrayList<ProjectView> myOpenProject(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", getmNo);
+	}
+
+
+	public int selectpNo(int getmNo) {
+		return sqlSession.selectOne("memberMapper.selectpNo", getmNo);
+	}
+
+
+	public int question(QnA qa) {
+		return sqlSession.insert("memberMapper.question", qa);
+	}
+
+
+	public ArrayList<Member> selectMemberList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
 	}
 }

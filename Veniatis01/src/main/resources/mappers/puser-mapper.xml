@@ -51,8 +51,8 @@
 		<result property="sumAmount" column="P_SUM_AMOUNT"/>
 		<result property="creNo" column="CRE_NO"/>
 		<result property="creId" column="M_ID"/>
-		<result property="creName" column="M_NAME"/>
-		<result property="creEmail" column="M_EMAIL"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
 		<result property="creProfile" column="FILE_PATH"/>
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
@@ -67,6 +67,22 @@
 		<result property="rCount" column="R_COUNT"/>
 		<result property="rOption" column="R_OPTION"/>
 		<result property="rDelivery" column="R_DELIVERY"/>
+	</resultMap>
+	
+	<resultMap id="filesResultSet" type="com.kh.veniatis.common.files.model.vo.Files">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="bNo" column="B_ND"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="cNo" column="CON_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="_int">
@@ -92,10 +108,19 @@
 		ORDER BY R_SEQ
 	</select>
 	
+	<select id="selectFileList" parameterType="_int" resultMap="filesResultSet">
+		SELECT * FROM FILES
+		WHERE P_NO = #{pNo}
+		ORDER BY FILE_LEVEL
+	</select>
 	
+	<!-- <select id="selectReplyList">
+		
+	</select>
 	
-	
-	
+	<select id="insertReply">
+		
+	</select> -->
 	
 	
 </mapper>

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.Member;
-import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.dao.ProjectUserDao;
 import com.kh.veniatis.project.user.model.vo.ProjectPagination;
@@ -55,6 +55,24 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 			return pud.selectCreatorInfo(mNo);
 		}
 	}
+
+	@Override
+	public ArrayList<Files> selectFileList(int pNo) {
+		// 사진 파일 가져오기
+		return pud.selectFileList(pNo);
+	}
+	/*
+	@Override
+	public ArrayList<Reply> selectReplyList(int pNo) {
+		// 프로젝트 qna 댓글 목록 가져오기
+		return pud.selectReplyList(pNo);
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		// 프로젝트 qna 댓글 등록
+		return pud.insertReply(r);
+	}*/
 
 	// 최근 소식 가져오기
 	

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.Member;
-import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -49,6 +49,21 @@ public class ProjectUserDao {
 	public Member selectCreatorInfo(int mNo) {
 		return sqlSession.selectOne("puMapper.selectCreatorInfo", mNo);
 	}
+
+	public ArrayList<Files> selectFileList(int pNo) {
+		// 프로젝트 사진 파일 가져오기
+		return (ArrayList)sqlSession.selectList("puMapper.selectFileList", pNo);
+	}
+
+	/*public ArrayList<Reply> selectReplyList(int pNo) {
+		// 프로젝트 qna 댓글 목록 가져오기
+		return (ArrayList)sqlSession.selectList("puMapper.selectReplyList", pNo);
+	}
+
+	public int insertReply(Reply r) {
+		// 프로젝트 qna 댓글 등록
+		return sqlSession.insert("puMapper.insertReply", r);
+	}*/
 
 
 	// 최근 소식 가져오기

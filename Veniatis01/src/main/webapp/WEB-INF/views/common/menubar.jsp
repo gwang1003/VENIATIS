@@ -45,7 +45,6 @@
       .go1 {
          width:100%; height:8%; font-size:30px; text-align:center; background:ghostwhite
       }
-
 	</style>
 
     <link rel="stylesheet" href="resources/main/css/bootstrap.min.css">

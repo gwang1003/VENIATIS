@@ -308,7 +308,7 @@
                 <div class="wrap_my_information">
                     <div >
                         <div class="area_my_account" >
-                            <a  class="name" alt="내 블로그" href="#"><span class="thumbnail"><img bg-image="" width="46" height="46" alt="프로필" class="no_image" src="resources/img/test.png"></span><span>${loginUser.mName } 님</span></a>
+                            <a  class="name" alt="내 블로그" href="#"><span class="thumbnail"><img bg-image="" width="46" height="46" alt="프로필" class="no_image" src="${loginUser.filePath }"></span><span>${loginUser.mName } 님</span></a>
                             </div>
                         <nav class="menu_my_blog">
                         

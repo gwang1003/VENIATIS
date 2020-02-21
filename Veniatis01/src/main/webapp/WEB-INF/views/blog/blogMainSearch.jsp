@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
-		 <link rel="stylesheet" href="resources/css/blog2.css">
+
 	<style>
 	#btn2{
 	 background-color: #40c8b5;
@@ -22,9 +22,72 @@
 	.card-img{
 		opacity:0.4;
 	}
-	</style>
 	
+		    .map_wrap {position:relative;width:100%;height:300px;}
+    .title {font-weight:bold;display:block;}
+    .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+    #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}   
+    
+    
+	</style>
+	    <link href="resources/blog/assets/css/style.css" rel="stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+       <script>
+    $(document).ready(function () {
+    	getLocation(); 
+    	
+    	
+    });
+    var city="Seoul";
+    var lat=0;
+    var lon=0;
+    
+    
+    function getLocation() {
+        //alert("getLocation");
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else{
+            alert("위치를 얻을 수 없습니다.");
+        }
+    }
+    
+    function showPosition(position) {
+        lat=position.coords.latitude; 
+        lon=position.coords.longitude;
+        console.log(lat);
+        console.log(lon);
+        nowWeather();
+    }
+    
+    
+
+    function nowWeather(){
+    	var apiURI ="http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=7180b26319e06fe6b99cd4e4102c299d"
+    		    console.log("apiURI:"+apiURI);   	
+  		
+    	$.ajax({
+          url : apiURI,
+          method : 'GET',
+          success :  function(data) {
+            var temp = String((data.main.temp - 272)).substring(0,4); // 온도
+            var location = data.name; // 지역이름 
+			console.log("온도:"+temp);
+           //  $('#chatLog').append('지역 ：' + location + ' 온도　：' + tempr　+ "도입니다. "+'\n');
+// 아이콘 취득 
+            var imgURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+            // 아이콘 표시
+             $('#weather').attr("src", imgURL);
+         		$("#we").append(location);	
+         		$("#we").append("&nbsp;");
+         		$("#we").append(temp);	
+         		
+          }
+        });     
+    }
+    </script>
 </head>
 <body>
 <jsp:include page="menubar.jsp"></jsp:include>
@@ -36,7 +99,7 @@
             <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
             		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
-            		${ user.mName } 님의 블로그 입니다.</h1></a>
+            		${bd.blogTitle }</h1></a>
             </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
@@ -95,6 +158,13 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
+                    
+                        <aside class="single_sidebar_widget" style="display:;">
+							<b>${user.mName }</b>(${user.mId })
+							<hr>
+							${bd.blogInto }
+						</aside>
+
                         <aside class="single_sidebar_widget search_widget">
                             <form action="bSearch.do" method="get">
                                 <div class="form-group">
@@ -186,7 +256,136 @@
 								</c:choose>                        
                             </ul>
                         </aside>
-<!--  -->   
+				<!-- 날씨 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">Weather</h4>
+							<div id="we">
+								<img id="weather" src="">
+								
+							</div>
+						</aside>
+				<!-- 현재시간 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">Time</h4>						
+								<div id="clock" class="light" style="margin:0; width:100%; padding:20px;">
+									<div class="display" style="padding:0; width:100%;">
+										<div class="digits" style="width:100%;"></div>
+									</div>
+								</div>
+						</aside>
+				<!-- 위치 -->
+						<aside class="single_sidebar_widget" style="display:;">
+							<h4 class="widget_title">Location</h4>
+							<div class="map_wrap">
+							    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+							    <div class="hAddr">
+							        <span class="title">지도중심기준 행정동 주소정보</span>
+							        <span id="centerAddr"></span>
+							    </div>
+							</div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2b97e562cf05e725aa47841da3aa179c&libraries=services"></script>
+<script>
+var lat1=0;
+var lon1=0;
+
+	getLocation2();
+
+	function getLocation2() {
+	    //alert("getLocation");
+	    if(navigator.geolocation){
+	        navigator.geolocation.getCurrentPosition(showPosition2);
+	    }
+	    else{
+	        alert("위치를 얻을 수 없습니다.");
+	    }
+	}
+	
+	function showPosition2(position) {
+	    lat1=position.coords.latitude; 
+	    lon1=position.coords.longitude;
+	console.log("d"+lat1);
+	console.log("dd"+lon1);
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+	        center: new kakao.maps.LatLng(lat1, lon1), // 지도의 중심좌표
+	        level: 1 // 지도의 확대 레벨
+	    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
+    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+
+// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+            
+            var content = '<div class="bAddr">' +
+                            '<span class="title">법정동 주소정보</span>' + 
+                            detailAddr + 
+                        '</div>';
+
+            // 마커를 클릭한 위치에 표시합니다 
+            marker.setPosition(mouseEvent.latLng);
+            marker.setMap(map);
+
+            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+        }   
+    });
+});
+
+// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, 'idle', function() {
+    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+});
+
+function searchAddrFromCoords(coords, callback) {
+    // 좌표로 행정동 주소 정보를 요청합니다
+    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+}
+
+function searchDetailAddrFromCoords(coords, callback) {
+    // 좌표로 법정동 상세 주소 정보를 요청합니다
+    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+}
+var addName="";
+// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+function displayCenterInfo(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        var infoDiv = document.getElementById('centerAddr');
+
+        for(var i = 0; i < result.length; i++) {
+            // 행정동의 region_type 값은 'H' 이므로
+            if (result[i].region_type === 'H') {
+                infoDiv.innerHTML = result[i].address_name;
+                break;
+            }
+        }
+        addName= result[0].address_name;
+        console.log(addName);
+    }  
+    
+}
+
+	
+}
+
+</script>
+
+
+						</aside>  
              
                       
                     </div>
@@ -211,5 +410,8 @@
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <script src="blog.js" type="882eb23b708c715aa9a4c46d-text/javascript"></script>
+        		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+	<script src="resources/blog/assets/js/script.js"></script>
 </body>
 </html>

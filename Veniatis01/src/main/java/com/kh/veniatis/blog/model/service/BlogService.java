@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
+import com.kh.veniatis.member.model.vo.Member;
 
 
 
@@ -109,6 +111,15 @@ public interface BlogService {
 	
 	// 32. 알림 삭제
 	int deleteAlert(int baNo);
+	
+	// 33. 블로그 디테일 알아오기(블로그 첨인가 아닌가)
+	BlogDetail selectBlogDetail(int getmNo);
 
+	// 34. 블로그 만들기(첨일때)
+	int insertBlogDetail(Member m);
+	
+	// 35. 블로그 기본정보 수정
+	int updateBlogDetail(BlogDetail bd);
+	
 
 }

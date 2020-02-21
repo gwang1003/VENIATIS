@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.veniatis.blog.model.service.BlogService;
 import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 
@@ -75,14 +76,29 @@ public class BlogController {
 
 			Member m=mService.selectOneMember(userId); 
 			
-			//카테고리 목록 갖고오기
-			ArrayList<BlogCate> cate = bService.selectCateList(userId);
-
-			
 	        HttpSession session = request.getSession();
 	        Member nowUser = (Member) session.getAttribute("loginUser");
 
+			// 처음블로그들어가는경우!!->생성하자
+			BlogDetail bd= bService.selectBlogDetail(m.getmNo());
+	        System.out.println(bd);
+			if(bd==null) {
+				// 블로그생성하긔
+				Member newM=mService.selectOneMember(userId);
+				newM.setmName(newM.getmName()+" 님의 블로그입니다.");
+				bService.insertBlogDetail(newM);
+				
+				// 기본 카테고리 만들긔
+				bService.insertNewCate(newM.getmId());
+				
+				bd= bService.selectBlogDetail(m.getmNo());
+			}
+			System.out.println(bd);
 			
+
+			//카테고리 목록 갖고오기
+			ArrayList<BlogCate> cate = bService.selectCateList(userId);
+
 			//포스트 목록 갖고오기
 			int currentPage = page != null ? page : 1;
 			ArrayList<BlogPost> post = bService.selectPostList(userId,currentPage);
@@ -118,7 +134,7 @@ public class BlogController {
 			
 	        
 	        
-	        
+	        mv.addObject("bd",bd); //블로그디테일
 			mv.addObject("user",m); //유저(블로그주인)
 			mv.addObject("tags",tags); //태그
 			mv.addObject("cate",cate); // 카테고리
@@ -177,6 +193,9 @@ public class BlogController {
 				}				
 			}
 			
+			BlogDetail bd= bService.selectBlogDetail(m.getmNo());
+			
+			mv.addObject("bd",bd);
 			mv.addObject("tags",realtags); // 태그
 			mv.addObject("user",m);
 			mv.addObject("cate",cate);
@@ -265,7 +284,10 @@ public class BlogController {
 			//본인의 카테고리 정보 갖고오기
 			ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
 			
+			//블로그 정보 갖고오기
+			BlogDetail bd= bService.selectBlogDetail(m.getmNo());
 			
+			mv.addObject("bd",bd);
 			mv.addObject("tags",realtags); // 전체태그정보
 			mv.addObject("nowCate",nowCate); //블로그주인의 카테고리
 	        mv.addObject("myCate",cate);	//스크랩 전용 내 카테고리
@@ -706,7 +728,10 @@ public class BlogController {
 		}
 
 	
-        
+		//블로그 정보 갖고오기
+		BlogDetail bd= bService.selectBlogDetail(m.getmNo());
+		
+		mv.addObject("bd",bd);        
 
 
 		
@@ -786,7 +811,10 @@ public class BlogController {
 				}
 			}				
 		}
-
+		//블로그 정보 갖고오기
+		BlogDetail bd= bService.selectBlogDetail(m.getmNo());
+		
+		mv.addObject("bd",bd);
 		
 		mv.addObject("tag",tags);
 		mv.addObject("tags",realtags);
@@ -858,17 +886,15 @@ public class BlogController {
 	@RequestMapping("badmin.do")
 	public ModelAndView blogAdminView(ModelAndView mv,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Member nowUser = (Member) session.getAttribute("loginUser");		
-        ArrayList<BlogPost> allPost = bService.selectPostList(nowUser.getmId());
-        ArrayList<BlogCate> cate = bService.selectCateList(nowUser.getmId());
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        BlogDetail bd= bService.selectBlogDetail(nowUser.getmNo());
         
-        mv.addObject("cate",cate);
-        mv.addObject("post",allPost);
-		mv.setViewName("blog/blogAdminPost");
+        mv.addObject("bd",bd);
+		mv.setViewName("blog/blogAdminDetail");
 		return mv;
 	}
 	
-	// 게시글 관리
+	//블로그 관리- 게시글 관리
 	@RequestMapping("badminPost.do")
 	public ModelAndView blogAdminPostView(ModelAndView mv,HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -882,7 +908,7 @@ public class BlogController {
 		return mv;
 	}
 	
-	// 카테고리 관리 - 화면출력
+	//블로그 관리-  카테고리 관리: 화면출력
 	@RequestMapping("badminCate.do")
 	public ModelAndView blogAdminCateView(ModelAndView mv,HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -893,7 +919,7 @@ public class BlogController {
 		return mv;
 	}
 	
-	//카테고리 관리 - 카테고리 추가
+	//블로그 관리- 카테고리 관리: 카테고리 추가
 	@RequestMapping("badminCatePlus.do")
 	public ModelAndView blogAdminCatePlus(ModelAndView mv,HttpServletRequest request,
 										@RequestParam("plusCate") String plusCate) {
@@ -915,7 +941,7 @@ public class BlogController {
 	}	
 	
 	
-	//카테고리 관리 - 카테고리 수정
+	//블로그 관리- 카테고리 관리 : 카테고리 수정
 	@RequestMapping("badminCateUpdate.do")
 	public ModelAndView blogAdminCateUpdate(ModelAndView mv,HttpServletRequest request,
 										@RequestParam("updateCate") String updateCate,
@@ -941,7 +967,7 @@ public class BlogController {
 		return mv;
 	}	
 	
-	//카테고리 관리 - 카테고리 제거(+ 글 제거)
+	//블로그 관리- 카테고리 관리: 카테고리 제거(+ 글 제거)
 	@RequestMapping("badminCateDelete.do")
 	public ModelAndView blogAdminCateDelete(ModelAndView mv,HttpServletRequest request,
 										@RequestParam("cateNo") Integer cateNo
@@ -967,7 +993,7 @@ public class BlogController {
 	}
 	
 	
-	// 게시글 관리 - 삭제
+	// 블로그 관리- 게시글 관리 : 삭제
 	@RequestMapping("badminPostDelete.do")
 	public ModelAndView badminPostDelete(ModelAndView mv,HttpServletRequest request) {
 		
@@ -992,7 +1018,7 @@ public class BlogController {
 		return mv;
 	}
 	
-	// 게시글 관리 - 카테고리 이동
+	// 블로그 관리- 게시글 관리: 카테고리 이동
 	@RequestMapping("badminPostMove.do")
 	public ModelAndView badminPostMove(ModelAndView mv,HttpServletRequest request) {
 		
@@ -1033,5 +1059,44 @@ public class BlogController {
 	}	
 	
 	
+	// 블로그 관리- 기본정보 관리
+	@RequestMapping("badminDetail.do")
+	public ModelAndView badminDetail(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        BlogDetail bd= bService.selectBlogDetail(nowUser.getmNo());
+        
+        mv.addObject("bd",bd);
+		mv.setViewName("blog/blogAdminDetail");
+		return mv;
+	}
 	
+	// 블로그 관리- 기본정보 관리:수정
+	@RequestMapping("blogDetailUpdate.do")
+	public ModelAndView bDetailUpdate(ModelAndView mv,HttpServletRequest request, BlogDetail bd) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        bd.setmNo(nowUser.getmNo());
+        
+        int upBd = bService.updateBlogDetail(bd);
+        
+        
+        BlogDetail nbd= bService.selectBlogDetail(nowUser.getmNo());
+        mv.addObject("bd",nbd);
+		mv.setViewName("blog/blogAdminDetail");       
+        return mv;
+	}	
+	
+	
+	//블로그 관리-CSS수정
+	@RequestMapping("badminCss.do")
+	public ModelAndView badminCSS(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        BlogDetail bd= bService.selectBlogDetail(nowUser.getmNo());
+        
+        mv.addObject("bd",bd);
+		mv.setViewName("blog/blogAdminCSS");
+		return mv;
+	}	
 }

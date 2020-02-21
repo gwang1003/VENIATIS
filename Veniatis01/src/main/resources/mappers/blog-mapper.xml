@@ -91,6 +91,21 @@
 		<result property="uniNo" column="UNINO"/>
 	</resultMap>
 	
+	
+	<resultMap type="BlogDetail" id="blogDetailResultSet">
+		<id property="blogNo" column="BLOG_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="blogTitle" column="BLOG_TITLE"/>
+		<result property = "cssBack" column="BCSS_BACK"/>
+		<result property="cssWeather" column="BCSS_WEATHER"/>
+		<result property="cssTime" column="BCSS_TIME"/>
+		<result property="cssLocation" column="BCSS_LOCATION"/>
+		<result property="blogInto" column="BLOG_INTO"/>
+	</resultMap>	
+	
+	
+	
+	
 <!-- ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ -->
 
 	<!-- 신규회원 기본 카테고리 만들기 -->
@@ -287,4 +302,28 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		DELETE FROM BLOG_ALERT
 		WHERE BA_NO=#{baNo}
 	</delete>
+	
+	
+	<!-- 블로그 첨인지 아닌지 확인 -->
+	<select id="selectBlogDetail" parameterType="_int" resultMap="blogDetailResultSet">
+		SELECT *
+		FROM BLOG_DETAIL
+		WHERE M_NO=#{mNo}
+	</select>
+	
+	<!-- 블로그첨일떄 만들기 -->
+	<insert id="insertBlogDetail" parameterType="Member">
+		INSERT INTO BLOG_DETAIL
+		VALUES(SEQ_BLOG_NO.NEXTVAL,#{mNo},#{mName},null,null,null,null,#{mName})
+	</insert>
+	
+	
+	<!-- 블로그 기본정보 수정 -->
+	<update id="updateBlogDetail" parameterType="BlogDetail">
+		UPDATE BLOG_DETAIL
+		SET BLOG_TITLE=#{blogTitle},BLOG_INTO=#{blogInto}
+		WHERE M_NO=#{mNo}	 
+	
+	</update>
+	
 </mapper>

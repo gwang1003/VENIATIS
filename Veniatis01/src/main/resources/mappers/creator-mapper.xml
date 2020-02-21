@@ -19,6 +19,24 @@
 				
 	</resultMap>
 	
+	<resultMap id="projectResultSet" type="Project">
+		<id property="pNo" column="P_NO"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="pcNo" column="PC_NO"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="pHashTag" column="P_HASHTAG"/>
+		<result property="pStartDate" column="P_START_DATE"/>
+		<result property="pEndDate" column="P_END_DATE"/>
+		<result property="pTargetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="pSumAmount" column="P_SUM_AMOUNT"/>
+		<result property="pAccount" column="P_ACCOUNT"/>
+		<result property="pStatus" column="P_STATUS"/>
+	</resultMap>
+	
 	<insert id="creatorInsert" parameterType="Creator">
 		INSERT INTO CREATOR
 		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,1,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
@@ -35,6 +53,30 @@
 		AND CRE_NAME=#{creName}
 	</select>
 	
+	<insert id="projectInsert" parameterType="Project">
+		INSERT INTO PROJECT
+		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'N')
+	</insert>
+	
+	<select id="selectOneProject" parameterType="project" resultMap="projectResultSet">
+		SELECT * FROM
+		PROJECT
+		WHERE CRE_NO=#{creNo}
+		AND PC_NO=#{pcNo}
+		AND P_TITLE=#{pTitle}
+	</select>
+	
+	<insert id="pPhotoMainInsert">
+	INSERT INTO FILES
+	VALUES(SEQ_FID.NEXTVAL,null,#{pNo},null,null,null,2,#{originName},#{changeName},#{filePath},SYSDATE,'Y',1)
+	
+	</insert>
+	
+	<insert id="pPhotoInsert">
+	INSERT INTO FILES
+	VALUES(SEQ_FID.NEXTVAL,null,#{pNo},null,null,null,2,#{originName},#{changeName},#{filePath},SYSDATE,'Y',2)
+	
+	</insert>
 	
 	
 </mapper>

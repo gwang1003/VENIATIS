@@ -168,18 +168,21 @@
 						<div class="page-wrapper" style="display: block; overflow: auto;">
 						<!-- 프로젝트 시작 -->
 							<c:forEach var="prj" items="${ projectList }">
+								<c:url var="pDetail" value="projectDetail.do">
+									<c:param name="pNo" value="${ prj.pNo }"/>
+								</c:url>
 								<li class="project_card reward_project_card"
 									data-project-seq="7779" data-page-number="1">
 									<div class="project_card_inner">
-										<a class="project_detail_link"> 
+										<a class="project_detail_link" onclick="location.href='${ pDetail }';" style="cursor:pointer;"> 
 										<span class="project_thumbnail" 
-											style="background-image: url('test.png')"></span>
+											style="background-image: url('${ prj.thumbnail}')"></span>
 										</a>
 										<div class="project_card_info">
 											<span class="screen_out">프로젝트 제목</span>
 											<h3 class="project_name">
-												<a href="" class="project_detail_link"
-													data-project-seq="7779" data-page-number="1"> ${ prj.pTitle }
+												<a class="project_detail_link" onclick="location.href='${ pDetail }';" style="cursor:pointer;"> 
+													${ prj.pTitle }
 												</a>
 											</h3>
 											<p class="project_simple_text">
@@ -211,6 +214,11 @@
 										</div>
 									</div>
 								</li>	
+								
+								
+								
+								
+								
 							</c:forEach>
 							
 							

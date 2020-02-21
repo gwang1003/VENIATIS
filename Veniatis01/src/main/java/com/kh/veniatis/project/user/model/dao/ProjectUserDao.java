@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -55,7 +57,14 @@ public class ProjectUserDao {
 		return (ArrayList)sqlSession.selectList("puMapper.selectFileList", pNo);
 	}
 
-	/*public ArrayList<Reply> selectReplyList(int pNo) {
+	/*
+	// 최근 소식 가져오기
+	public ArrayList<PNotice> selectPNoticeList(int pNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Reply> selectReplyList(int pNo) {
 		// 프로젝트 qna 댓글 목록 가져오기
 		return (ArrayList)sqlSession.selectList("puMapper.selectReplyList", pNo);
 	}
@@ -66,6 +75,6 @@ public class ProjectUserDao {
 	}*/
 
 
-	// 최근 소식 가져오기
+	
 
 }

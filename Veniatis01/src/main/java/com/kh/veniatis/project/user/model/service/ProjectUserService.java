@@ -3,7 +3,9 @@ package com.kh.veniatis.project.user.model.service;
 import java.util.ArrayList;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -33,10 +35,9 @@ public interface ProjectUserService {
 	//int insertReply(Reply r);
 
 	// 최근 소식 가져오기
-	
-	
+	//ArrayList<PNotice> selectPNoticeList(int pNo);
 	
 	// 후원하기(insert)
-	
+	//int insertSupport(Support s);
 		
 }

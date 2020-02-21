@@ -51,10 +51,9 @@ public class ProjectUserController {
 
 
 	@RequestMapping("projectDetail.do")
-	public ModelAndView ProjectDetail(ModelAndView mv) {
+	public ModelAndView ProjectDetail(ModelAndView mv, int pNo) {
 		//"project_user/projectDetail"
 		
-		int pNo = 4;
 		ProjectView p = pus.selectProject(pNo);
 		System.out.println("프로젝트 : " + p);
 		

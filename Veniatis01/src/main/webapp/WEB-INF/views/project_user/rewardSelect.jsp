@@ -48,16 +48,6 @@
                 $('.step-progress-bar').css('width', '33.33333333%');
             }, 200);
 
-            //후원형 프로젝트 상세에서 리워드를 선택하고 들어오면 선택된 리워드를 선택된 상태로 보여지게 한다.
-            $('[id="rewardSeq"]').each(function () {
-                if ($(this).val() == '') {
-                    $(this).parent().addClass('selected');
-                    $(this).parent().children('.count_control').children('.num_count').val(1);
-                    $(this).parent().children('.lab_select').children('.chk_reward').attr('checked', true);
-                    fnCalculateTotal();
-                }
-            });
-
             //리워드 체크박스와 추가참여금액 참여 금액을 선택할 때
             $('.chk_reward').on("change", function () {
                 var id = $(this).attr('id');
@@ -347,7 +337,7 @@
                 <article id="mContent" class="project_reward">
                     <header class="head_comm">
                         <h1 id="projectName" class="tit_comm">
-                                (#) 프로젝트 제목
+                                ${ project.pTitle }
                         </h1>
                         <div class="author_reward">
                             <span class="txt_author">by</span>
@@ -355,10 +345,10 @@
                             <span class="user_profile">
                                 <span class="img_profile clear_empty_picture">
 
-                                    <img src="test.png">
+                                    <img src="${ project.creProfile }">
 
                                 </span>
-                                <span class="txt_name">(#)크리에이터 명</span>
+                                <span class="txt_name">${ project.creName }</span>
                             </span>
 
                         </div>
@@ -383,11 +373,11 @@
                             	<legend class="screen_out">리워드 선택</legend>
                                 <div class="order_sheet">
                                 <!-- 리워드 수량 제한이 있는 경우 -->
-                                	<c:forEach var="reward" items="${ rewardList }">
+                                	<c:forEach var="reward" items="${ rewardList }" varStatus="vs">
                                 		<c:if test="${ reward.rLimit eq 'Y' }">
 	                                		<div class="reward_item">
-	                                            <input type="hidden" name="rewardItemList[0].rewardSeq" id="rewardSeq"
-	                                                value="13775" />
+	                                            <input type="hidden" name="rewardSeq" id="rewardSeq${reward.rNo}"
+	                                                value="${reward.rNo}" />
 	                                            <span class="item_amount">
 	                                                <span class="num_cont">
 	                                                    <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>
@@ -409,16 +399,16 @@
 	                                                    (수량 ${ reward.rCount }개 남음)
 	                                                </small>
 	                                            </span>
-	                                            <label for="inpChkReward0" class="lab_select">
-	                                                <input type="checkbox" id="inpChkReward0" name="reward_select" class="chk_reward">
+	                                            <label for="inpChkReward${ vs.index }" class="lab_select">
+	                                                <input type="checkbox" id="inpChkReward${ vs.index }" name="reward_select" class="chk_reward">
 	                                                <i class="check-icon"></i>
 	                                            </label>
 	                                            <fieldset class="count_control">
 	                                                <input type="hidden" id="extraCount" value="${ reward.rCount }" />
-	                                                <input type="hidden" id="rewardQty" name="rewardItemList[0].rewardQty"
+	                                                <input type="hidden" id="rewardQty" name="rewardItemList[${ vs.index }].rewardQty"
 	                                                    value="${ reward.rCount }" />
 	                                                <legend class="tit_count">수량</legend>
-	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[0].selectCount"
+	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[${ vs.index }].selectCount"
 	                                                    title="리워드 수량" value="0">
 	                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
 	                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
@@ -434,8 +424,8 @@
 		                                                    </small>
 		                                                </label>
 		                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
-		                                                    name="rewardItemList[0].optionText" onfocus="this.placeholder = ''"
-		                                                    onblur="this.placeholder = '${reward.rOption}'"
+		                                                    name="rewardItemList[${ vs.index }].optionText" onfocus="this.placeholder = ''"
+		                                                    onblur="this.placeholder = ${reward.rOption}"
 		                                                    placeholder="${reward.rOption}"></textarea>
 		                                            </div>
 	                                            </c:if>
@@ -445,8 +435,8 @@
                                 		<!-- 리워드 수량 제한이 없는 경우 -->
                                 		<c:if test="${ reward.rLimit eq 'N' }">
 	                                		<div class="reward_item">
-	                                            <input type="hidden" name="rewardItemList[1].rewardSeq" id="rewardSeq"
-	                                                value="13776" />
+	                                            <input type="hidden" name="rewardSeq" id="rewardSeq${ reward.rNo }"
+	                                                value="${ reward.rNo }" />
 	                                            <span class="item_amount">
 	                                                <span class="num_cont">
 	                                                    <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>
@@ -463,17 +453,17 @@
 	                                            <span class="txt_satea">
 	                                                <em class="num_state">0명</em> 참여하였습니다.
 	                                            </span>
-	                                            <label for="inpChkReward1" class="lab_select">
-	                                                <input type="checkbox" name="reward_select" id="inpChkReward1" class="chk_reward">
+	                                            <label for="inpChkReward${ vs.index }" class="lab_select">
+	                                                <input type="checkbox" name="reward_select" id="inpChkReward${ vs.index }" class="chk_reward">
 	                                                <i class="check-icon"></i>   
 	                                            </label>
 	
 	                                            <fieldset class="count_control">
 	                                                <input type="hidden" id="extraCount" value="0" />
-	                                                <input type="hidden" id="rewardQty" name="rewardItemList[1].rewardQty"
+	                                                <input type="hidden" id="rewardQty" name="rewardItemList[${ vs.index }].rewardQty"
 	                                                    value="0" />
 	                                                <legend class="tit_count">수량</legend>
-	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[1].selectCount"
+	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[${ vs.index }].selectCount"
 	                                                    title="리워드 수량" value="0">
 	                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
 	                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
@@ -487,7 +477,7 @@
 		                                                    <small class="txt_noti">(<span class="mark_vital">*</span>필수입력)</small>
 		                                                </label>
 		                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
-		                                                    name="rewardItemList[0].optionText" onfocus="this.placeholder = ''"
+		                                                    name="rewardItemList[${ vs.index }].optionText" onfocus="this.placeholder = ''"
 		                                                    onblur="this.placeholder = '${reward.rOption}'"
 		                                                    placeholder="${reward.rOption}"></textarea>
 		                                            </div>
@@ -495,11 +485,26 @@
 	
 	                                        </div>
                                 		</c:if>
+                                		
+                                		<script>
+                                		$(function(){
+                                            //후원형 프로젝트 상세에서 리워드를 선택하고 들어오면 선택된 리워드를 선택된 상태로 보여지게 한다.
+                                            $('[name="rewardSeq"]').each(function () {
+                                                if ($(this).val() == '') {
+                                                    $(this).parent().addClass('selected');
+                                                    $(this).parent().children('.count_control').children('.num_count').val(1);
+                                                    $(this).parent().children('.lab_select').children('.chk_reward').attr('checked', true);
+                                                    fnCalculateTotal();
+                                                }
+                                            });
+                                			
+                                		});
+                                		</script>
+                                		
                                 	</c:forEach>
                                 	
                                 </div>
-                            </fieldset>
-	                            <div class="add_amount">
+                                <div class="add_amount">
 		                            <label for="inpChkReward100" class="lab_select">
 		                                <input type="checkbox" id="inpChkReward100" name="reward_select" class="chk_reward">
 		                                <i class="check-icon"></i>
@@ -514,6 +519,13 @@
 		                                <span class="txt_min">1,000원 이상부터 가능</span>
 		                            </div>
 		                        </div>
+                            </fieldset>
+	                        <footer class="reward_foot">
+	                        	<p class="total_info">
+	                        	선택한 리워드 총 <span class="num">0</span>개이며 참여금액 <span class="num">0</span>원 입니다.
+                                </p>
+                                <button type="button" class="btn_next" onclick="fnMoveNext(${project.pNo})">다음단계</button>
+                            </footer>
 		
 		                    </div>
                             

@@ -230,8 +230,8 @@ s0.parentNode.insertBefore(s1,s0);
            $(this).css({"cursor":"pointer"})
         })
         
-        $(".myInfo").click(function(){
-           location.href="memberUpdate.do";
+		$(".myInfo").click(function(){
+           location.href="memberUpdateForm.do";
         })
         
          $(".myOpenProject").click(function(){

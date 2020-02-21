@@ -9,12 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<style type="text/css">
-*{
-font-family: 'Noto Sans KR', sans-serif;
-}
 
+<style type="text/css">
 .mini-submenu{
   display:none;  
   background-color: rgba(0, 0, 0, 0);  
@@ -49,17 +45,21 @@ font-family: 'Noto Sans KR', sans-serif;
   border-radius: 4px;
   cursor: pointer;
 }
+
+*{
+font-family: 'Noto Sans KR', sans-serif;
+}
 </style>
   <link href="resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  
 </head>
 <body style="background-color:#e2e7e6;">
 <jsp:include page="../common/menubar.jsp"></jsp:include>
-
     <div class="container">
 
             <div class="row" style="margin-top:2%;">
@@ -75,14 +75,14 @@ font-family: 'Noto Sans KR', sans-serif;
                    블로그 관리하기
 
                 </span>
-                <a href="badminDetail.do" class="list-group-item"  >
+                <a href="badminDetail.do" class="list-group-item"  style="background-color:#d4f3ef;
+                											border-color:#d4f3ef;" >
                     <i class="fa fa-search"></i> 기본정보 관리
                 </a>
-                <a href="badminPost.do" class="list-group-item"  >
+                <a href="badminPost.do" class="list-group-item" >
                     <i class="fa fa-search"></i> 게시글 관리
                 </a>
-                <a href="badminCate.do" class="list-group-item" style="background-color:#d4f3ef;
-                											border-color:#d4f3ef;">
+                <a href="badminCate.do" class="list-group-item">
                     <i class="fa fa-user"></i> 카테고리 관리 
                 </a>
                 <a href="badminCss.do" class="list-group-item">
@@ -95,102 +95,26 @@ font-family: 'Noto Sans KR', sans-serif;
       <!-- DataTales Example -->
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">카테고리 관리</h6>
+          <h6 class="m-0 font-weight-bold text-primary">블로그 기본정보 관리</h6>
         </div>
-
+        
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  
-                  <th>카테고리 이름</th>
-                  <th>공개여부</th>
-                </tr>
-              </thead>
-              <tbody>
-
-  <%int num=1;%>    
-              <c:forEach var="c" items="${cate}" > 
-                <tr>
-                  
-                  <td>${c.bCateName } <button type="button" class="btn btn-success" data-toggle="modal" data-target="#xx<%=num%>">수정</button>
-                 					  <button type="button" onclick="cateDelete(${c.cateNo});">제거</button>
-                  </td>
-
-                  <td>0</td>
-                </tr>
-                
-                
-                <!-- 카테고리 변경 모달 -->
-<div class="modal fade seminor-login-modal" id="xx<%=num%>">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body seminor-login-modal-body">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-                </button>
-                <div class="form-area">
-                    <br style="clear:both">
-                    <h3 style="margin-bottom: 25px; text-align: center;">카테고리 변경하기</h3>
-                    <div class="form-group">
-						<form action="badminCateUpdate.do" method="post">
-							현재 카테고리 이름 :  ${c.bCateName }<br>
-							변경할 카테고리 이름 : <input type="text" name="updateCate">
-							<input type="hidden" name="cateNo" value="${c.cateNo }">
-							
-							<button>추가</button>
-						</form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 모달끝ㅋㅋ -->           <%num=num+1;%>      
-              </c:forEach>
-              </tbody>
-              
-              <tfoot>
-                <tr>
-                  
-                  <th>카테고리 이름</th>
-                  <th>글 수</th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+          <form action="blogDetailUpdate.do" method="post">
+          <b>블로그 이름</b>  <input type="text" class="form-control bg-light border-0 small" 
+          						value="${bd.blogTitle}" 
+          						style="width:100%; height:90%;"
+          						name="blogTitle"><br>
+          <b>블로그 소개</b>  <br>
+          <textarea class="form-control" rows="3" style="background-color: #f8f9fa; border-color:white;"
+          name="blogInto">${bd.blogInto}</textarea>    
+          <br><br>						
+				<div style="text-align:right;"><button  class="btn btn-success">수정하기</button></div>
+          </form>
           
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">카테고리 추가하기</button>
-<!-- 카테고리 추가 모달 -->
-<div class="modal fade seminor-login-modal" id="zz">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body seminor-login-modal-body">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-                </button>
-                <div class="form-area">
-                    <br style="clear:both">
-                    <h3 style="margin-bottom: 25px; text-align: center;">카테고리 추가하기</h3>
-                    <div class="form-group">
-						<form action="badminCatePlus.do" method="post">
-							추가할 카테고리 이름 : <input type="text" name="plusCate">
-							<button>추가</button>
-						</form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 모달끝ㅋㅋ --> 
-
-
-
-
+          
+          
+          </div>
 
         </div>
       </div>
@@ -233,17 +157,7 @@ crossorigin="anonymous"></script>
   <script src="resources/js/demo/datatables-demo.js"></script>
   <script src="resources/js/demo/chart-area-demo.js"></script>
 
-	<script>
-	
-	function cateDelete(cateNo){
-		
-		 var result = confirm("정말 카테고리를 제거하시겠습니까? 카테고리를 제거하시면 카테고리 안의 게시물들도 함께 삭제됩니다");
-		if(result){
-			location.href="badminCateDelete.do?cateNo="+cateNo;
-		}
-	}
-	
-	</script>
+
 
 
 </body>

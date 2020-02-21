@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
+import com.kh.veniatis.member.model.vo.Member;
 @Repository("bDao") 
 public class BlogDao {
 	@Autowired
@@ -242,6 +244,28 @@ public class BlogDao {
 	public int deleteAlert(int baNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("blogMapper.deleteAlert",baNo);
+	}
+
+	
+	
+	
+	// 블로그 디테일 알아오기(블로그 첨인가 아닌가)
+	public BlogDetail selectBlogDetail(int mNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("blogMapper.selectBlogDetail", mNo);
+	}
+
+	
+	// 블로그 만들기(첨일때)
+	public int insertBlogDetail(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("blogMapper.insertBlogDetail",m);
+	}
+
+	// 블로그 기본정보 수정
+	public int updateBlogDetail(BlogDetail bd) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.updateBlogDetail",bd);
 	}
 
 

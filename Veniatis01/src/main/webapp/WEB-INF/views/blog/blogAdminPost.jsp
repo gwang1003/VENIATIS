@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style type="text/css">
+*{
+font-family: 'Noto Sans KR', sans-serif;
+}
 .mini-submenu{
   display:none;  
   background-color: rgba(0, 0, 0, 0);  
@@ -69,6 +72,9 @@
                    블로그 관리하기
 
                 </span>
+                <a href="badminDetail.do" class="list-group-item"  >
+                    <i class="fa fa-search"></i> 기본정보 관리
+                </a>
                 <a href="badminPost.do" class="list-group-item"  style="background-color:#d4f3ef;
                 											border-color:#d4f3ef;">
                     <i class="fa fa-search"></i> 게시글 관리
@@ -76,8 +82,8 @@
                 <a href="badminCate.do" class="list-group-item">
                     <i class="fa fa-user"></i> 카테고리 관리 
                 </a>
-                <a href="#" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> 그외
+                <a href="badminCss.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
                 </a>
            </div>        
        </div>

@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import com.kh.veniatis.blog.model.dao.BlogDao;
 import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
+import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
+import com.kh.veniatis.member.model.vo.Member;
 
 @Service("bService")
 public class BlogServiceImpl implements BlogService{
@@ -249,6 +251,27 @@ public class BlogServiceImpl implements BlogService{
 	public int deleteAlert(int baNo) {
 		// TODO Auto-generated method stub
 		return bDao.deleteAlert(baNo);
+	}
+	
+	// 33. 블로그 디테일 알아오기(블로그 첨인가 아닌가)
+	@Override
+	public BlogDetail selectBlogDetail(int mNo) {
+		// TODO Auto-generated method stub
+		return bDao.selectBlogDetail(mNo);
+	}
+	
+	// 34. 블로그넣기(첨인인간만)
+	@Override
+	public int insertBlogDetail(Member m) {
+		// TODO Auto-generated method stub
+		return bDao.insertBlogDetail(m);
+	}
+	
+	// 35. 기본정보 바꾸기
+	@Override
+	public int updateBlogDetail(BlogDetail bd) {
+		// TODO Auto-generated method stub
+		return bDao.updateBlogDetail(bd);
 	}
 	
 

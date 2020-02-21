@@ -1,0 +1,82 @@
+package com.kh.veniatis.blog.model.vo;
+
+public class BlogDetail {
+	public BlogDetail() {};
+	
+	private int blogNo;
+	private int mNo;
+	private String blogTitle;
+	private String cssBack;
+	private String cssWeather;
+	private String cssTime;
+	private String cssLocation;
+	private String blogInto;
+	public int getBlogNo() {
+		return blogNo;
+	}
+	public void setBlogNo(int blogNo) {
+		this.blogNo = blogNo;
+	}
+	public int getmNo() {
+		return mNo;
+	}
+	public void setmNo(int mNo) {
+		this.mNo = mNo;
+	}
+	public String getBlogTitle() {
+		return blogTitle;
+	}
+	public void setBlogTitle(String blogTitle) {
+		this.blogTitle = blogTitle;
+	}
+	public String getCssBack() {
+		return cssBack;
+	}
+	public void setCssBack(String cssBack) {
+		this.cssBack = cssBack;
+	}
+	public String getCssWeather() {
+		return cssWeather;
+	}
+	public void setCssWeather(String cssWeather) {
+		this.cssWeather = cssWeather;
+	}
+	public String getCssTime() {
+		return cssTime;
+	}
+	public void setCssTime(String cssTime) {
+		this.cssTime = cssTime;
+	}
+	public String getCssLocation() {
+		return cssLocation;
+	}
+	public void setCssLocation(String cssLocation) {
+		this.cssLocation = cssLocation;
+	}
+	public String getBlogInto() {
+		return blogInto;
+	}
+	public void setBlogInto(String blogInto) {
+		this.blogInto = blogInto;
+	}
+	public BlogDetail(int blogNo, int mNo, String blogTitle, String cssBack, String cssWeather, String cssTime,
+			String cssLocation, String blogInto) {
+		super();
+		this.blogNo = blogNo;
+		this.mNo = mNo;
+		this.blogTitle = blogTitle;
+		this.cssBack = cssBack;
+		this.cssWeather = cssWeather;
+		this.cssTime = cssTime;
+		this.cssLocation = cssLocation;
+		this.blogInto = blogInto;
+	}
+	@Override
+	public String toString() {
+		return "BlogDetail [blogNo=" + blogNo + ", mNo=" + mNo + ", blogTitle=" + blogTitle + ", cssBack=" + cssBack
+				+ ", cssWeather=" + cssWeather + ", cssTime=" + cssTime + ", cssLocation=" + cssLocation + ", blogInto="
+				+ blogInto + "]";
+	}
+	
+	
+}

@@ -1,5 +1,10 @@
 package com.kh.veniatis.project.creator.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.exception.ProjectException;
 import com.kh.veniatis.project.creator.model.service.CreatorService;
 import com.kh.veniatis.project.creator.model.vo.Creator;
+import com.kh.veniatis.project.creator.model.vo.Project;
 
 
 
@@ -28,7 +36,7 @@ public class ProjectCreatorController {
 			){
 		c.setCreAddress(post+"#"+addr1+"#"+addr2);
 		c.setmNo(mNo);
-		System.out.println(c);
+	
 		int result = cService.creatorInsert(c);
 		
 		Creator creator = cService.selectCreNo(c);
@@ -44,6 +52,148 @@ public class ProjectCreatorController {
 		
 	}
 	
+	@RequestMapping("projectInsert.do")
+	public ModelAndView projectInsert(Project p,Model model,HttpServletRequest request,
+			@RequestParam(value="creUrl") String creUrl,
+			@RequestParam(value="mainImage", required=true) MultipartFile image1,
+			@RequestParam(value="subImage1", required=false) MultipartFile image2,
+			@RequestParam(value="subImage2", required=false) MultipartFile image3,
+			@RequestParam(value="subImage3", required=false) MultipartFile image4,
+			@RequestParam(value="subImage4", required=false) MultipartFile image5) {
+		p.setpUrl(creUrl);
+
+		int result = cService.projectInsert(p);
+		Project project = cService.selectOneProject(p);
+	
+		ArrayList<Files> files = new ArrayList<Files>();
+		
+		if(result>0) {
+		
+				
+			if(image1 != null) {
+				Files file = new Files();
+				file.setpNo(project.getpNo());
+				
+				file = saveFile(image1, request);
+				
+				files.add(file);
+				}
+			if(image2 != null) {
+				Files file = new Files();
+				file.setpNo(project.getpNo());
+				
+				file = saveFile(image2, request);
+				
+				files.add(file);
+				}
+			if(image3 != null) {
+				Files file = new Files();
+				file.setpNo(project.getpNo());
+				
+				file = saveFile(image3, request);
+				
+				files.add(file);
+				}
+			if(image4 != null) {
+				Files file = new Files();
+				file.setpNo(project.getpNo());
+				
+				file = saveFile(image4, request);
+				
+				files.add(file);
+				}
+			if(image5 != null) {
+				Files file = new Files();
+				file.setpNo(project.getpNo());
+				
+				file = saveFile(image5, request);
+				
+				files.add(file);
+				}
+			
+		
+			int result2 = cService.pPhotoInsert(files);
+			
+		
+	
+			
+			if(result2>0) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.setViewName("project_creator/projectStartPage_reward");
+			return mv;
+			}else {
+				throw new ProjectException("프로젝트 등록 실패!");
+			}
+			
+			
+			
+		}else {
+			throw new ProjectException("프로젝트 등록 실패!");
+		}
+		
+		
+		
+	}
+	
+	
+	private Files saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "\\project_creator\\projectImage";
+		
+		File folder = new File(savePath);
+		
+		// 해당 폴더 위치가 존재하지 않는다면
+		if(!folder.exists()) {
+			folder.mkdirs(); // 해당 디렉토리들을 만든다
+		}
+		int index = file.getOriginalFilename().indexOf(".");
+		
+		String extend = file.getOriginalFilename().substring(index);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		Calendar c = Calendar.getInstance();
+		String renameFilename = sdf.format(c.getTime()) + extend;
+
+		String filePath = folder + "\\" + renameFilename;  
+		Files files = new Files(3, file.getOriginalFilename(), renameFilename, "resources/project_creator/projectImage" + renameFilename);
+		try {
+			// 이 순간 서버에 파일이 저장 된다
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		return files;
+	}
+
+	@RequestMapping("projectUpdate.do")
+	public ModelAndView projectUpdate(@RequestParam(value="pNo")int pNo) {
+		int result = cService.projectUpdate(pNo);
+		return null;
+		
+	} 
+	
+	@RequestMapping("projectDelede.do")
+	public ModelAndView projectDelede(@RequestParam(value="pNo")int pNo) {
+		int result = cService.projectDelete(pNo);
+		return null;
+		
+	} 
+	
+	@RequestMapping("creatorUpdate.do")
+	public ModelAndView CreatorUpdate(@RequestParam(value="creNo")int creNo) {
+		int result = cService.creatorUpdate(creNo);
+		return null;
+		
+	} 
+	
+	@RequestMapping("creatorDelete.do")
+	public ModelAndView creatorDelete(@RequestParam(value="creNo")int creNo) {
+		int result = cService.creatorDelete(creNo);
+		return null;
+		
+	} 
 	
 	@RequestMapping("projectStart.do")
 	public String ProjectStart() {

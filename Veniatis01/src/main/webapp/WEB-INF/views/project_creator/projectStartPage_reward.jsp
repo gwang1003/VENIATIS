@@ -352,8 +352,7 @@ function fn_amount(obj){
       html += '		<p class="tit_name">리워드 예상제공일</p>';
       html += '		<p class="txt_input input_full">';
       html += '		<label for="rewardExpectText_'+makeRewardDiv+'" class="tf_comm">';
-      html += '			<span class="placehoder">ex) 2017년 1월 1일부터 리워드 발송</span>';
-      html += '			<input type="text" id="rewardExpectText_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardExpectText" class="tf_cont deliv">';
+      html += '			<input type="text" id="rewardExpectText_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardExpectText" placeholder="ex) 2017년 1월 1일부터 리워드 발송" class="tf_cont deliv">';
       html += '			</label></p></ul></li>';
       $("#add_area").append(html);
  

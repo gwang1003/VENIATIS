@@ -66,9 +66,11 @@
 <link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 <script src="resources/js/commonUtil.js"></script>
 <script>
-$(document).ready(function() {
-$("input[name=inputHashTag]").keydown(function (key) {
+var num = 1;
+$(document).ready(function() {;
 
+$("input[name=inputHashTag]").keydown(function (key) {
+	
     if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
         if($("#inputHashTag").val().length==0){
             alert("태그는 1글자 이상 입력해주세요.");
@@ -78,7 +80,8 @@ $("input[name=inputHashTag]").keydown(function (key) {
                 alert("태그는 5개까지 입력 가능합니다.");
                 return false;
             } else {
-                $(".inner_hashtag").append("<div class='hashtag'><span>#"+$("#inputHashTag").val()+"</span><button type='button' class='ico_comm' id='red_icon'>X 아이콘</button></div>");
+                $(".inner_hashtag").append("<div class='hashtag'><span>#"+$("#inputHashTag").val()+"<input type='hidden' value='"+$("#inputHashTag").val()+"' id='tag"+num+"' ></span><button type='button' class='ico_comm' id='red_icon'>X 아이콘</button></div>");
+                num = num +1;
                 $("#inputHashTag").val('');
                 return false;
             }
@@ -87,7 +90,7 @@ $("input[name=inputHashTag]").keydown(function (key) {
 
 });
 $(document).on("click", ".hashtag .ico_comm", function() {
-
+num = num -1;
     $(this).parent('div').remove();
     return false;
 });
@@ -96,7 +99,6 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"/>
-
 	<div id="omcContainer" class="cont_support">
 	<br>
 		<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
@@ -138,9 +140,10 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 					</ol>
 					
 			<div class="sheet_info">
-				<!-- 개설자 정보 -->
 				<div class="form_area">
 					<form action="projectInsert.do" name="addForm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
+						<input type="hidden" value="${creator.creNo }" name="creNo">
+						<input type="hidden" value="${creator.creUrl }" name="creUrl">
 						<fieldset class="fld_comm">
 							
 							<ul>
@@ -166,7 +169,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 									</p>
 									<p class="txt_input input_mid">
 										<label for="tfTitle" class="tf_comm"> 
-										<input	type="text" id="projectName" name="projectName"
+										<input	type="text" id="projectName" name="pTitle"
 											class="tf_cont" value="" maxlength="35" placeholder="최대 35글자까지 가능합니다.">
 										</label>
 									</p>
@@ -190,11 +193,11 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 											<div class="txt_input input_full">
 												<input class="upload_name" id='uploadName0'	disabled="disabled">
 												 <label for="fileName0"	class="btn_search">찾아보기</label>
-												  <input type="file" id="fileName0" name="mainImage_" class="upload_hidden">
+												  <input type="file" id="fileName0" name="mainImage" class="upload_hidden">
 												
 												<p class="txt_notice">※ 프로젝트 목록 및 프로젝트 상세페이지 첫번째 노출되는
 													이미지입니다.</p>
-													
+													<!-- 추가되는 이미지 name subImage1 subImage2.... -->
 											</div>
 										</li>
 										
@@ -226,7 +229,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 											
 									<div class="txt_input input_full">
 										<label for="tfSimpleIntroduce" class="tf_comm"> 
-										<input	type="text" id="videoUrl" name="videoUrl"
+										<input	type="text" id="videoUrl" name="pVideo"
 											class="tf_cont input_hold" value="">
 										</label>
 										<p class="txt_notice">
@@ -241,7 +244,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 									</p>
 									<p class="txt_input input_mid">
 										<label for="tfSimpleIntroduce" class="tf_comm"> <input
-											type="text" id="simpleText" name="simpleText" class="tf_cont"
+											type="text" id="simpleText" name="pText" class="tf_cont"
 											value="" maxlength="50">
 										</label>
 									</p>
@@ -253,8 +256,8 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 									<p class="tit_agreement">
 										프로젝트 소개<span class="txt_warning">*</span> 
 									<div id="contentArea">
-										<textarea id="content" name="projectInfo" cols="120" rows="20" placeholder="안내사진 or 텍스트 추가 요망"
-											style="resize: none; overflow-x: hidden;"></textarea>
+										<textarea id="content" cols="120" rows="20" placeholder="안내사진 or 텍스트 추가 요망"
+										name="pDesc" style="resize: none; overflow-x: hidden;"></textarea>
 										<!-- 에디트 삽입 영역		</div> 입니다. -->
 									</div>
 									<div class="wrap_notice">
@@ -276,7 +279,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 														<textarea name="tag" id="tag" style="display:none;"></textarea>
 													</li>
 													<li>
-														<div class="inner_hashtag"></div>
+														<div class="inner_hashtag" id="tagArea"></div>
 							</ul>
 						</li>
 					</ul>
@@ -288,7 +291,7 @@ $(document).on("click", ".hashtag .ico_comm", function() {
 			</div>
 			<div class="btn_area">
 				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> <input
-					type="button" class="btn_next" title="다음단계" value="다음단계" onclick="fn_nextPage();">
+					type="submit" class="btn_next" title="다음단계" value="다음단계">
 			</div>
 			</form>
 		</div>
@@ -342,7 +345,7 @@ function fn_imgAdd() {
           html += "<input class='upload_name' id='uploadName"+ make_img_div +"' disabled='disabled'>";
           html += "<label for=fileName"+ make_img_div +" class='btn_search'>찾아보기</label>";
           html += "<button class='btn_delete'>삭제</button>";
-          html += "<input type='file' id='fileName"+ make_img_div +"' name='subImage"+ make_img_div +"' class='upload_hidden' accept='.jpg,.png'>";
+          html += "<input type='file' id='fileName"+ make_img_div +"' name='subImage"+ make_img_div +"' class='upload_hidden'>";
           html += "</div></div></li>"
 
           $("#file_area").append(html);
@@ -403,13 +406,13 @@ $(document).on('click', '.btn_delete', function(event) {
 
 });
 
-// 적합성 검사 후 다음페이지로
+/* // 적합성 검사 후 다음페이지로
 function fn_nextPage(){
 	if(fn_validateCheck()){
-		location.href='projectStartPage_reward.do';
+		location.href='projectInsert.do';
 	}
 }
-
+ */
 
 // 페이지 전체 적합성 검사
 function fn_validateCheck(){
@@ -470,6 +473,19 @@ function fn_validateCheck(){
         return false;
     }
 
+	// 태그 넣기
+	var ab="";
+    for(var i=1; i<num; i++){
+        var b = $("#tag"+i).val();
+        if(i==num-1){
+        ab = ab+b;	
+        }else{
+        ab= ab+b+",";
+        }
+    }
+    
+    $("#tagArea").append("<input type='hidden' name='pHashTag' value='"+ab+"'>");
+    alert(ab);
     return true;
 }	
 $('input[type=radio][name=videoFlag]').change(function() {

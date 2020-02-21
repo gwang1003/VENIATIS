@@ -33,6 +33,20 @@
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
+	
+	<resultMap id="creatorResultSet" type="Creator">
+		<id property="creNo" column="CRE_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creContent" column="CRE_CONTENT"/>
+		<result property="creType" column="CRE_TYPE"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
+		<result property="creAddress" column="CRE_ADDRESS"/>
+		<result property="crePhone" column="CRE_PHONE"/>
+		<result property="creUrl" column="CRE_URL"/>
+		<result property="creStatus" column="CRE_STATUS"/>
+	</resultMap>
+	
 	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
 		<id property="pNo" column="P_NO"/>
 		<result property="cate" column="PC_NAME"/>
@@ -48,8 +62,8 @@
 		<result property="sumAmount" column="P_SUM_AMOUNT"/>
 		<result property="creNo" column="CRE_NO"/>
 		<result property="creId" column="M_ID"/>
-		<result property="creName" column="M_NAME"/>
-		<result property="creEmail" column="M_EMAIL"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
 		<result property="creProfile" column="FILE_PATH"/>
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
@@ -99,12 +113,6 @@
 		AND FILE_LEVEL = 3
 	</delete>
 	
-	<select id="myOpenProject" resultMap="prjView">
-		SELECT *
-		FROM PROJECT
-		WHERE 
-	</select>
-	
 	<select id="selectpNo" parameterType="_int" resultType="_int">
 		SELECT P_NO
 		FROM SUPPORT
@@ -119,6 +127,24 @@
 	<select id="selectMemberList" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER
+	</select>
+	
+	<select id="selectCreator" resultMap="creatorResultSet">
+		SELECT *
+		FROM CREATOR
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="myOpenProject" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE CRE_NO = #{getCreNo}
+	</select>
+	
+	<select id="selectLikes" resultMap="prjView">
+		SELECT *
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
 	</select>
 	
 	

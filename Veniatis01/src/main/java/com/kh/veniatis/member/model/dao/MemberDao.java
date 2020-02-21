@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.creator.model.vo.Creator;
+import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -55,8 +58,8 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<ProjectView> myOpenProject(int getmNo) {
-		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", getmNo);
+	public ArrayList<ProjectView> myOpenProject(int getCreNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", getCreNo);
 	}
 
 
@@ -72,5 +75,15 @@ public class MemberDao {
 
 	public ArrayList<Member> selectMemberList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
+	}
+
+
+	public Creator selectCreator(int getmNo) {
+		return sqlSession.selectOne("memberMapper.selectCreator", getmNo);
+	}
+
+
+	public ArrayList<ProjectView> selectLikes(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikes", getmNo);
 	}
 }

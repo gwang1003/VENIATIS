@@ -1,11 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/guidecss.css">
+<style>
+	.box_txt {
+		width:100%;
+		height:100%;
+	}
+
+	.box_txt button {
+		width: 10%;
+		border:1px solid black;
+	}
+	
+	.box_text button p {
+		margin:0;
+	}
+</style>
 </head>
 <body class="login">
 <jsp:include page="../../common/menubar.jsp"/>
@@ -28,10 +44,14 @@
                         
                         
                         <div class="wrap_project">
-                            <span class="screen_out">프로젝트 목록</span>
+                            <div class="box_txt">
+                                        <button>모두 보기 ${index[0] }</button>
+                                        <button>진행중 ${index[1] }</button>
+                                        <button>마감 ${index[2] }</button>
+                                    </div>
                             <ul class="list_prj">
                                 
-                                
+                                <c:forEach var="p" items="${likeProject }">
                                 <li class="prj_type_support"> <!-- 후원형 프로젝트일 경우 class="prj_type_support" -->
                                 
                                 
@@ -47,17 +67,17 @@
                                     <div class="box_project">
                                         <div class="related_words">
                                             <a href="/reward/7779" class="link_card">
-                                                <span class="thumb_g" style="background-image:url('/uploads/reward/REWARD_20191130033639099.jpg')"></span>
+                                                <span class="thumb_g" style="background-image:url('<%-- ${p.thumbnail} --%>')"></span>
                                             </a>
                                         </div>
                                         <div class="info_project">
                                             <span class="screen_out">프로젝트 제목</span>
                                             <h3 class="tit_project">
                                             <a href="/reward/7779">
-                                            영화 〈1975.김상진〉</a></h3>
+                                            ${p.pTitle }</a></h3>
                                             
                                             
-                                                <p class="txt_desc"><span class="screen_out">프로젝트 설명</span>시대의 불꽃 김상진, 영화로 깨어나다</p>
+                                                <p class="txt_desc"><span class="screen_out">프로젝트 설명</span>${p.pText }</p>
                                             
                                             
     
@@ -84,21 +104,21 @@
                 
             
         </span>
-        <span class="txt_name">(주)이야기농업</span>
+        <span class="txt_name">${p.creName }</span>
     </span>
     
-                                            <span class="txt_cate"><span class="screen_out">카테고리</span>문화예술</span>
+                                            <span class="txt_cate"><span class="screen_out">카테고리</span>${p.cate }</span>
                                         </div>
                                         <div class="state_project">
                                             
                                             
                                                 <p class="txt_state"><span class="num">83</span>명이 프로젝트를 참여했습니다.<br>
-                                                총 <span class="num">26,840,000원</span> 모집<span class="txt_success">성공</span></p>
+                                                총 <span class="num">${p.sumAmount }</span> 모집<span class="txt_success">${p.prograss }</span></p>
                                         
                                         </div>
                                     </div>
                                 </li>
-                                
+                                </c:forEach>
                             </ul>
                         </div>
     

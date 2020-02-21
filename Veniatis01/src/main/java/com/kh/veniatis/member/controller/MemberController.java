@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import javax.mail.internet.InternetAddress;
@@ -26,10 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -52,7 +55,8 @@ public class MemberController {
 	public String memberLogin(Member m, Model model) { 
 		// HttpSession 커맨드 객체 생략
 		Member loginUser = mService.loginMember(m);
-		
+		System.out.println(m);
+		System.out.println(loginUser);
 		if(loginUser != null) {
 
 			// 조회 성공 시 Model에 loginUser 정보를 담는다.
@@ -172,8 +176,45 @@ public class MemberController {
 		return "myPage/My/memberInsertInfo";
 	}
 	@RequestMapping("attendProject.do")
-	public String attendProject() {
-		return "myPage/My/attendProject";
+	public ModelAndView attendProject(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		ArrayList<ProjectView> likeProject = mService.selectLikes(loginUser.getmNo());
+		int[] index = new int[4];
+		int allIndex = 0;
+		int ingIndex = 0;
+		int endIndex = 0;
+		Date date = new Date();
+		ModelAndView mv = new ModelAndView();
+		if(likeProject != null) {
+			allIndex = likeProject.size();
+			for(int i = 0; i < likeProject.size(); i++) {
+
+					if(likeProject.get(i).getEndDate().getTime() > date.getTime() && likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
+						likeProject.get(i).setPrograss("진행중(성공)");
+						ingIndex++;
+					}else if(likeProject.get(i).getEndDate().getTime() > date.getTime() && likeProject.get(i).getSumAmount() < likeProject.get(i).getTargetAmount()){
+						likeProject.get(i).setPrograss("진행중");
+						ingIndex++;
+					}else if(likeProject.get(i).getEndDate().getTime() < date.getTime() && likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
+						likeProject.get(i).setPrograss("종료(성공)");
+						endIndex++;
+					}else {
+						likeProject.get(i).setPrograss("종료(실패)");
+						endIndex++;
+					}
+				}
+			index = new int[]{allIndex, ingIndex, endIndex};
+			mv.addObject("likeProject", likeProject);
+			mv.addObject("index", index);
+			System.out.println(likeProject);
+			mv.setViewName("myPage/My/attendProject");
+			
+			return mv;
+		
+			}else {
+				throw new MemberException("프로젝트 조회 실패!!");
+			}
+	
 	}
 	@RequestMapping("myInterestProject.do")
 	public String myInterestProject(HttpSession session) {
@@ -184,12 +225,52 @@ public class MemberController {
 		return "redirect:myPage/My/myInterestProject";
 	}
 	@RequestMapping("myOpenProject.do")
-	public String myOpenProject(HttpSession session) {
+	public ModelAndView myOpenProject(HttpSession session) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		
-		ArrayList<ProjectView> pList = mService.myOpenProject(loginUser.getmNo());
-		
-		return "myPage/My/myOpenProject";
+		Creator cre = mService.selectCreator(loginUser.getmNo());
+		ModelAndView mv = new ModelAndView();
+		int[] index = new int[4];
+		int allIndex = 0;
+		int ingIndex = 0;
+		int endIndex = 0;
+		int waitIndex = 0;
+		Date date = new Date();
+		if(cre != null) {
+			ArrayList<ProjectView> pList = mService.myOpenProject(cre.getCreNo());
+			allIndex = pList.size();
+			for(int i = 0; i < pList.size(); i++) {
+				if(pList.get(i).getpStatus().equals("N")) {
+					pList.get(i).setPrograss("승인대기");
+					waitIndex++;
+				}else {
+					if(pList.get(i).getEndDate().getTime() > date.getTime() && pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+						pList.get(i).setPrograss("진행중(성공)");
+						ingIndex++;
+					}else if(pList.get(i).getEndDate().getTime() > date.getTime() && pList.get(i).getSumAmount() < pList.get(i).getTargetAmount()){
+						pList.get(i).setPrograss("진행중");
+						ingIndex++;
+					}else if(pList.get(i).getEndDate().getTime() < date.getTime() && pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+						pList.get(i).setPrograss("종료(성공)");
+						endIndex++;
+					}else {
+						pList.get(i).setPrograss("종료(실패)");
+						endIndex++;
+					}
+				}
+			}
+			index = new int[]{allIndex, ingIndex, endIndex, waitIndex};
+			if(pList != null) {
+				mv.addObject("pList", pList);
+				mv.addObject("index", index);
+				mv.setViewName("myPage/My/myOpenProject");
+				
+				return mv;
+			}else {
+				throw new MemberException("프로젝트 조회 실패!!");
+			}
+		}else {
+			throw new MemberException("프로젝트 조회 실패!!");
+		}
 	}
 	
 	@RequestMapping("questionForm.do")

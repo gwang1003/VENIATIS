@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,16 +33,18 @@
                             <div class="box_comm">
                                 <div class="inner_head">
                                     <div class="box_txt">
-                                        <button>모두 보기 <p> 11</p></button>
-                                        <button>진행중 <p> 7</p></button>
-                                        <button>마감 <p> 4</p></button>
+                                        <button>모두 보기 <p> ${index[0] }</p></button>
+                                        <button>진행중 <p> ${index[1] }</p></button>
+                                        <button>마감 <p> ${index[2] }</p></button>
+                                        <button>승인대기 <p> ${index[3] }</p></button>
                                     </div>
                                     
                                 </div>
                                 
                                 
                                 <!-- 프로젝트 신청목록 -->
-                                <ul class="list_pjtapply">                                
+                                <ul class="list_pjtapply">  
+                                	<c:forEach var="p" items="${pList }">                              
                                     <li>
                                         <div class="img_thumb">
                                             <div style="width:290px;height:174px"></div>
@@ -49,21 +52,22 @@
                                         <div class="box_text_area">
                                             <dl>
                                                 <dt>프로젝트명</dt>
-                                                    <dd class="txt_none">미작성</dd>
+                                                    <dd class="txt_none">${p.pTitle }</dd>
                                             </dl>
                                             <dl>
                                                 <dt>펀딩기간</dt>
-                                                    <dd class="txt_none">미작성</dd>
+                                                    <dd class="txt_none">${p.startDate } ~ ${p.endDate}</dd>
                                             </dl>
                                             <dl>
                                                 <dt>상태</dt>       
-                                                            <dd>작성중<em class="num_state">(1/5)</em></dd>
+                                                
+                                                            <dd>${p.prograss }<em class="num_state"></em></dd>
                                             </dl>
                                             <dl>
                                                 <dt>등록일</dt>
                                                 <dd>
                                                     
-                                                    2020-01-17
+                                                    ${p.startDate }
                                                 </dd>
                                             </dl>
                                         </div>
@@ -73,6 +77,7 @@
                                             <a class="btn_delete" href="javascript:void(0);" onclick="javascript:fnDeleteProject('','7939'); return false;" title="삭제하기">삭제하기</a>
                                         </div>
                                     </li>
+                                    </c:forEach>
                                 </ul>
                                 
                                 <div id="paging" class="paging_comm">

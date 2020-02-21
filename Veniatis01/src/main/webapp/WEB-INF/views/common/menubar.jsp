@@ -99,7 +99,7 @@ s0.parentNode.insertBefore(s1,s0);
 
                                             <li><a href="#">후원하기! <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">개인</a></li>
+                                                    <li><a href="projectList.do">개인</a></li>
                                                     <li><a href="single-blog.html">기업</a></li>
                                                 </ul>
                                             </li>
@@ -197,8 +197,8 @@ s0.parentNode.insertBefore(s1,s0);
        <div class="myPageMenu">
           <div class="myName" align="center">
              <button class="closeNone">X</button>
-             <img src="resources/buploadFiles/BasicThumbs.jpg">
-             <h3>옥종광</h3>
+             <img src="${loginUser.filePath }">
+             <h3>${loginUsser.mName }</h3>
           </div> 
           <div class="myPageGo">
              <div class="go1 myInfo">내 정보</div>

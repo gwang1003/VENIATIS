@@ -36,7 +36,7 @@
                                             <th scope="row">* 비밀번호</th>
                                             <td><input id="userPwd" name="mPwd" maxlength="16"
                                                 value="" type="password" required /> <span id="pwd">(영문
-                                                    대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span></td>
+                                                    대소문자/숫자 사용가능(첫글자는 영문만 가능)  8자~15자)</span></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">* 비밀번호 확인</th>
@@ -227,8 +227,8 @@
                     return false;
                 }	
                 
-                if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=mPwd]").val())))){
-                    alert('비밀번호는 8자 이상으로 영문 대소문자, 숫자, 특수문자 1개 이상 포함해주세요');
+                if(!((/^[a-zA-Z][0-9a-zA-Z]{8, 15}/.test($("#joinForm input[name=mPwd]").val())))){
+                    alert('비밀번호는 8자 이상 15자 미만으로 숫자와 영문(대, 소문자)만 입력해주세요(첫글자는영어만 사용가능)');
                     $("#joinForm input[name=mPwd]").select();
                     return false;
                 }	 

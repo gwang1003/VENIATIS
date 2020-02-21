@@ -14,9 +14,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.dao.MemberDao;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -111,8 +113,8 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public ArrayList<ProjectView> myOpenProject(int getmNo) {
-		return mDao.myOpenProject(getmNo);
+	public ArrayList<ProjectView> myOpenProject(int getCreNo) {
+		return mDao.myOpenProject(getCreNo);
 	}
 
 
@@ -132,6 +134,21 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Member> selectMemberList() {
 		return mDao.selectMemberList();
 	}
+
+
+	@Override
+	public Creator selectCreator(int getmNo) {
+		return mDao.selectCreator(getmNo);
+	}
+
+
+	@Override
+	public ArrayList<ProjectView> selectLikes(int getmNo) {
+		return mDao.selectLikes(getmNo);
+	}
+
+
+
 	
 	
 

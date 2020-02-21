@@ -683,7 +683,7 @@ function comma(str) {
                                                 	<!-- 리워드 수량 제한 없는 경우 -->
                                                 	<c:if test="${reward.rLimit eq 'N'}">
                                                 	<li>
-														<a onclick="location.href='rewardSelect.do';" class="box_reward"> 
+														<a class="box_reward"> 
 															<strong class="tit_reward">
 																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
 															</strong>
@@ -701,7 +701,7 @@ function comma(str) {
                                                 	<!-- 리워드 수량 제한 있는 경우(예: 얼리버드) -->
                                                 	<c:if test="${reward.rLimit eq 'Y'}">
                                                 	<li>
-														<a href="" class="box_reward"> 
+														<a class="box_reward"> 
 															<span style="font-size:12px;color:#40c8b5;">* 수량 한정</span><br><br>
 															<strong class="tit_reward">
 																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩

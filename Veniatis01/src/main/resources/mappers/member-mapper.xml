@@ -32,6 +32,27 @@
 		<result property="status" column="STATUS"/>
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
+	
+	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
+		<id property="pNo" column="P_NO"/>
+		<result property="cate" column="PC_NAME"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="hashtag" column="P_HASHTAG"/>
+		<result property="startDate" column="P_START_DATE"/>
+		<result property="endDate" column="P_END_DATE"/>
+		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="sumAmount" column="P_SUM_AMOUNT"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="creId" column="M_ID"/>
+		<result property="creName" column="M_NAME"/>
+		<result property="creEmail" column="M_EMAIL"/>
+		<result property="creProfile" column="FILE_PATH"/>
+		<result property="pStatus" column="P_STATUS"/>
+	</resultMap>
 
 	<!-- 로그인 -->
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
@@ -74,10 +95,31 @@
 	<delete id="mPhotoDelete">
 		DELETE
 		FROM FILES
-		WHERE M_NO = ${mNo}
+		WHERE M_NO = #{mNo}
 		AND FILE_LEVEL = 3
 	</delete>
 	
+	<select id="myOpenProject" resultMap="prjView">
+		SELECT *
+		FROM PROJECT
+		WHERE 
+	</select>
+	
+	<select id="selectpNo" parameterType="_int" resultType="_int">
+		SELECT P_NO
+		FROM SUPPORT
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<insert id="question">
+		INSERT INTO QNA
+		VALUES(SEQ_QID.NEXTVAL, NULL, #{mNo}, 2, #{qCategory}, #{qContent}, NULL, SYSDATE)
+	</insert>
+	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+	</select>
 	
 	
 </mapper>

@@ -7,33 +7,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#icon1 {
-	background-image: url("resources/project_creator/information.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon1{
+ background-image:url("resources/project_creator/information.png");
+	  background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
+	 
 }
 
-#icon2 {
-	background-image: url("resources/project_creator/script.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon2{
+ background-image:url("resources/project_creator/script.png");
+	 background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
-#icon3 {
-	background-image: url("resources/project_creator/reward.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon3{
+ background-image:url("resources/project_creator/reward.png");
+	   background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
-#icon4 {
-	background-image: url("resources/project_creator/money.png");
-	background-size: 70%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+#icon4{
+ background-image:url("resources/project_creator/money.png");
+	  background-size:70%;
+	  background-position:50%;
+	  background-repeat:no-repeat;
+	  cursor: default;
 }
+
+
 </style>
 <link rel="stylesheet" href="resources/css/guidecss.css">
 <script type="text/javascript"
@@ -54,38 +61,36 @@
 			</header>
 
 			<!-- 신청서 -->
-<div class="apply_cont apply_support">
-	<div class="box_comm">
-		<ol class="list_process">
-			<li><a href="projectStartPage.do" class="flow_reward"
-				id="icon1"> <span class="ico_comm ico_step1">개설자 정보
-						아이콘</span>
-			</a> <span class="fa fa-angle-right"></span>
-				<div class="flow_cont">
-					<p class="txt_step">개설자 정보</p>
-				</div></li>
-			<li><a href="projectStartPage2.do" class="flow_reward"
-				id="icon2"> <span class="ico_comm ico_step2">프로젝트 스토리
-						아이콘</span>
-			</a> <span class="fa fa-angle-right"></span>
-				<div class="flow_cont">
-					<p class="txt_step">프로젝트 스토리</p>
-				</div></li>
-			<li class="on"><a href="#" class="flow_reward" id="icon3">
-					<span class="ico_comm ico_step3">리워드 아이콘</span>
-			</a> <span class="fa fa-angle-right"></span>
-				<div class="flow_cont">
-					<p class="txt_step">리워드</p>
-				</div></li>
+			<div class="apply_cont apply_support">
+				<div class="box_comm">
 
-			<li><a href="projectStartPage_last.do" class="flow_reward"
-				id="icon4"> <span class="ico_comm ico_step5">정산 아이콘</span>
-			</a>
-				<div class="flow_cont">
-					<p class="txt_step">정산</p>
-				</div></li>
-		</ol>
-		<!-- 여기까지 프로젝트 메뉴 -->
+					<ol class="list_process">
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">개설자 정보</p>
+							</div></li>
+							
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon2">
+						</a> 
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">프로젝트 스토리</p>
+							</div></li>
+							
+						<li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon3">
+						</a> 
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">리워드</p>
+							</div></li>
+					
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
+
+							<div class="flow_cont">
+								<p class="txt_step">정산</p>
+							</div></li>
+					</ol>
 
 		<div class="sheet_info">
 			<div class="txt_area">

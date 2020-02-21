@@ -14,7 +14,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 	
-<title>Insert title here</title>
+<title>VENIATIS : 후원형</title>
 <style>
 .loading {
 	width: 100%;
@@ -63,6 +63,10 @@
 	color:#40c8b5;
 	border:2px solid #40c8b5;
 	font-weight:600;
+}
+
+.nice-select ul, .nice-select li {
+	z-index:10000;
 }
 
 </style>
@@ -131,8 +135,7 @@
 				<div class="wrap_project">
 					<!-- 정렬 기준  -->
 					<!-- <div class="box_select">
-						<select id="sorting" name="sorting" class="select_sort"
-							title="후원형 프로젝트 목록 분류">
+						<select id="sorting" name="sorting" class="select_sort" title="후원형 프로젝트 목록 분류">
 							<option id="sort_latest" value="latest">최신순</option>
 							<option id="sort_highest" value="highest">펀딩금액순</option>
 							<option id="sort_impendence" value="impendence">마감임박순</option>
@@ -152,15 +155,6 @@
 						</div>
 					</div>
 					
-					<!-- <div class="dropdown">
-						<button class="btn btn-secondary dropdown-toggle" type="button"
-							id="dropdownMenuButton" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">정렬</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item">최신순</a> <a class="dropdown-item">펀딩금액순</a>
-							<a class="dropdown-item">마감임박순</a> <a class="dropdown-item">참여자순</a>
-						</div>
-					</div> -->
 
 					<script>
 						$(function() {
@@ -172,176 +166,54 @@
 					<span class="screen_out">프로젝트 목록</span>
 					<ul class="list_prj" id="listPrj">
 						<div class="page-wrapper" style="display: block; overflow: auto;">
-							<!-- 프로젝트 1개 -->
-							<li class="project_card reward_project_card"
-								data-project-seq="7779" data-page-number="1">
-								<div class="project_card_inner">
-									<a href="" class="project_detail_link" data-project-seq="7779"
-										data-page-number="1"> <span class="project_thumbnail"
-										style="background-image: url('test.png')"></span>
-									</a>
-									<div class="project_card_info">
-										<span class="screen_out">프로젝트 제목</span>
-										<h3 class="project_name">
-											<a href="" class="project_detail_link"
-												data-project-seq="7779" data-page-number="1"> (#)프로젝트 제목
-											</a>
-										</h3>
-										<p class="project_simple_text">
-											<span class="screen_out">프로젝트 설명</span> (#)프로젝트 설명
-										</p>
-
-										<span class="user_profile"> <span
-											class="img_profile clear_empty_picture"> <img
-												src="test.png">
-										</span> <span class="txt_name">(#)크리에이터명</span>
-										</span> <span class="project_category"> <span
-											class="screen_out">카테고리</span> (#)카테고리
-										</span>
-									</div>
-									<div class="project_state">
-										<span class="total_amount"> <span class="screen_out">현재
-												참여금액</span> (#)현재 참여금액 원
-										</span>
-										<div class="project_card_graph">
-											<span class="screen_out">참여율</span> <span class="bar_graph"
-												style="width: 100%;"></span> <span class="invest_rate">
-												132% </span>
+						<!-- 프로젝트 시작 -->
+							<c:forEach var="prj" items="${ projectList }">
+								<li class="project_card reward_project_card"
+									data-project-seq="7779" data-page-number="1">
+									<div class="project_card_inner">
+										<a class="project_detail_link"> 
+										<span class="project_thumbnail" 
+											style="background-image: url('test.png')"></span>
+										</a>
+										<div class="project_card_info">
+											<span class="screen_out">프로젝트 제목</span>
+											<h3 class="project_name">
+												<a href="" class="project_detail_link"
+													data-project-seq="7779" data-page-number="1"> ${ prj.pTitle }
+												</a>
+											</h3>
+											<p class="project_simple_text">
+												<span class="screen_out">프로젝트 설명</span> ${ prj.pText }
+											</p>
+	
+											<span class="user_profile"> 
+												<span class="img_profile clear_empty_picture"> 
+													<img src="${ prj.creProfile }">
+												</span> 
+												<span class="txt_name">${ prj.creName }</span>
+											</span> 
+											<span class="project_category"> 
+												<span class="screen_out">카테고리</span> ${ prj.cate }
+											</span>
 										</div>
-
-										<span class="funding_type">무조건 리워드</span>
-
-									</div>
-								</div>
-							</li>
-							<!-- 프로젝트 1개 끝-->
-
-
-							<li class="project_card reward_project_card"
-								data-project-seq="7779" data-page-number="1">
-								<div class="project_card_inner">
-									<a href="" class="project_detail_link" data-project-seq="7779"
-										data-page-number="1"> <span class="project_thumbnail"
-										style="background-image: url('test.png')"></span>
-									</a>
-									<div class="project_card_info">
-										<span class="screen_out">프로젝트 제목</span>
-										<h3 class="project_name">
-											<a href="" class="project_detail_link"
-												data-project-seq="7779" data-page-number="1"> 영화
-												〈1975.김상진〉 </a>
-										</h3>
-										<p class="project_simple_text">
-											<span class="screen_out">프로젝트 설명</span> 시대의 불꽃 김상진, 영화로 깨어나다
-										</p>
-
-										<span class="user_profile"> <span
-											class="img_profile clear_empty_picture"> <img
-												src="test.png">
-										</span> <span class="txt_name">(주)이야기농업</span>
-										</span> <span class="project_category"> <span
-											class="screen_out">카테고리</span> 문화예술
-										</span>
-									</div>
-									<div class="project_state">
-										<span class="total_amount"> <span class="screen_out">현재
-												참여금액</span> 6,440,000원
-										</span>
-										<div class="project_card_graph">
-											<span class="screen_out">참여율</span> <span class="bar_graph"
-												style="width: 32%;"></span> <span class="invest_rate">
-												32% </span>
+										<div class="project_state">
+											<span class="total_amount"> 
+												<span class="screen_out">현재 참여금액</span> ${ prj.sumAmount }
+											</span>
+											<div class="project_card_graph">
+												<span class="screen_out">참여율</span> <span class="bar_graph"
+													style="width: 100%;"></span> <span class="invest_rate">
+													(#)참여율 </span>
+											</div>
+	
+											<span class="funding_type">무조건 리워드</span>
+	
 										</div>
-
-										<span class="funding_type">무조건 리워드</span>
-
 									</div>
-								</div>
-							</li>
-
-							<li class="project_card reward_project_card"
-								data-project-seq="7779" data-page-number="1">
-								<div class="project_card_inner">
-									<a href="" class="project_detail_link" data-project-seq="7779"
-										data-page-number="1"> <span class="project_thumbnail"
-										style="background-image: url('test.png')"></span>
-									</a>
-									<div class="project_card_info">
-										<span class="screen_out">프로젝트 제목</span>
-										<h3 class="project_name">
-											<a href="" class="project_detail_link"
-												data-project-seq="7779" data-page-number="1"> 영화
-												〈1975.김상진〉 </a>
-										</h3>
-										<p class="project_simple_text">
-											<span class="screen_out">프로젝트 설명</span> 시대의 불꽃 김상진, 영화로 깨어나다
-										</p>
-
-										<span class="user_profile"> <span
-											class="img_profile clear_empty_picture"> <img
-												src="test.png">
-										</span> <span class="txt_name">(주)이야기농업</span>
-										</span> <span class="project_category"> <span
-											class="screen_out">카테고리</span> 문화예술
-										</span>
-									</div>
-									<div class="project_state">
-										<span class="total_amount"> <span class="screen_out">현재
-												참여금액</span> 13,440,000원
-										</span>
-										<div class="project_card_graph">
-											<span class="screen_out">참여율</span> <span class="bar_graph"
-												style="width: 55%;"></span> <span class="invest_rate">
-												55% </span>
-										</div>
-
-										<span class="funding_type">무조건 리워드</span>
-
-									</div>
-								</div>
-							</li>
-							<li class="project_card reward_project_card"
-								data-project-seq="7779" data-page-number="1">
-								<div class="project_card_inner">
-									<a href="" class="project_detail_link" data-project-seq="7779"
-										data-page-number="1"> <span class="project_thumbnail"
-										style="background-image: url('test.png')"></span>
-									</a>
-									<div class="project_card_info">
-										<span class="screen_out">프로젝트 제목</span>
-										<h3 class="project_name">
-											<a href="" class="project_detail_link"
-												data-project-seq="7779" data-page-number="1"> 영화
-												〈1975.김상진〉 </a>
-										</h3>
-										<p class="project_simple_text">
-											<span class="screen_out">프로젝트 설명</span> 시대의 불꽃 김상진, 영화로 깨어나다
-										</p>
-
-										<span class="user_profile"> <span
-											class="img_profile clear_empty_picture"> <img
-												src="test.png">
-										</span> <span class="txt_name">(주)이야기농업</span>
-										</span> <span class="project_category"> <span
-											class="screen_out">카테고리</span> 문화예술
-										</span>
-									</div>
-									<div class="project_state">
-										<span class="total_amount"> <span class="screen_out">현재
-												참여금액</span> 1,440,000원
-										</span>
-										<div class="project_card_graph">
-											<span class="screen_out">참여율</span> <span class="bar_graph"
-												style="width: 70%;"></span> <span class="invest_rate">
-												70% </span>
-										</div>
-
-										<span class="funding_type">무조건 리워드</span>
-
-									</div>
-								</div>
-							</li>
-
+								</li>	
+							</c:forEach>
+							
+							
 						</div>
 					</ul>
 				</div>

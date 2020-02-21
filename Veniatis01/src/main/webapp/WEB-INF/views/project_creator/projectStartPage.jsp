@@ -12,6 +12,7 @@
 	  background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 	 
 }
 
@@ -20,6 +21,7 @@
 	 background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
 #icon3{
@@ -27,6 +29,7 @@
 	   background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
 #icon4{
@@ -34,7 +37,10 @@
 	  background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
+
+
 
 </style>
 <link rel="stylesheet" href="resources/css/guidecss.css">
@@ -112,45 +118,43 @@ function sample4_execDaumPostcode() {
 				<div class="box_comm">
 
 					<ol class="list_process">
-						<li class="on"><a href="#" class="flow_reward" id="icon1"> 
-						</a>
+						<li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">개설자 정보</p>
 							</div></li>
 							
-						<li><a href="projectStartPage2.do" class="flow_reward" id="icon2">
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon2">
 						</a> 
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">프로젝트 스토리</p>
 							</div></li>
 							
-						<li><a href="projectStartPage_reward.do" class="flow_reward" id="icon3">
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon3">
 						</a> 
 						 <span class="fa fa-angle-right"></span>
 							<div class="flow_cont">
 								<p class="txt_step">리워드</p>
 							</div></li>
 					
-						<li><a href="projectStartPage_last.do" class="flow_reward" id="icon4"></a>
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
 
 							<div class="flow_cont">
 								<p class="txt_step">정산</p>
 							</div></li>
 					</ol>
-	
+		<form action="creatorInsert.do" name="addForm" method="post" enctype="multipart/form-data" onsubmit="return checkOption()">
 		<div class="sheet_info">
-
+		<input type="hidden" id="mNo" name="mNo" value="${loginUser.mNo}">
 						<fieldset class="photo_field">
 							<h3 class="screen_out">회원 이미지</h3>
 							<div class="user_photo">
-								<span class="img_profile" id="img_profile"> <img src="resources/project_creator/user.png"	alt="">	</span>
-								 <%-- ${loginUser.getFilePath} 이걸로 바꾸기--%>
-								 <label for="inpPhoto" class="btn_edit">편집
-								<input	type="file" id="inpPhoto" name="inpPhoto" class="inp_photo"></label>
+								<span class="img_profile" id="img_profile"> <img src="${loginUser.filePath }"	alt="">	</span>
+								<p class="txt_step">프로필 사진</p>
 								
-								<!-- 이미지 삽입 스크립트 -->
+								
+								<!-- 이미지 편집 기능(삭제)  -->
 								<script>
 								 $("#inpPhoto").change(function () {
 							            if (this.files && this.files[0]) {
@@ -167,13 +171,13 @@ function sample4_execDaumPostcode() {
 							                }
 							            }
 							        });
-								</script>
+								</script> 
 								
 									
 								
 							</div>
 							<p class="txt_edit">※프로젝트 개설자님의 사진은 프로젝트의 신뢰도를 높일 수 있습니다.</p>
-							<p class="txt_edit2">※프로필 사진 권장 비율은 가로,세로 1:1입니다.</p>
+							<p class="txt_edit2">※프로필 사진은 로그인한 계정 프로필 사진입니다.</p>
 						</fieldset>
 
 						<div class="txt_area">
@@ -184,20 +188,20 @@ function sample4_execDaumPostcode() {
 							</p>
 						</div>
 			<!-- 개설자 정보 -->
-			<form name="addForm" method="post" enctype="multipart/form-data">
+		
 				
 				<div class="form_area">
 				
 					<fieldset class="fld_comm">
 						<ul>
 							<li class="box_info">
-								<p class="tit_name">개설자명</p>
+								<p class="tit_name">개설자명<span class="txt_warning">*</span></p>
 								<p class="txt_input">
 
 									<!-- 로그인 유저로부터 정보를 받아오기 -->
 
 									<label for="tfName" class="tf_comm"> <span class="placehoder"></span>
-									 <input type="text" id="tfName"	class="tf_cont input_hold" value="${loginUser.mName} " disabled="disabled">
+									 <input type="text" id="creName"	class="tf_cont" value="${loginUser.mName}"  name="creName">
 									</label>
 								</p>
 							</li>
@@ -207,7 +211,7 @@ function sample4_execDaumPostcode() {
 								</p>
 								<p class="txt_input input_full">
 									<label for="tfId" class="tf_comm"> 
-									<input type="email" id="userMail" class="tf_cont" name="userMail" value="${loginUser.mEmail}">
+									<input type="email" id="userMail" class="tf_cont" name="creEmail" value="${loginUser.mEmail}">
 									</label>
 								</p>
 							</li>
@@ -215,7 +219,7 @@ function sample4_execDaumPostcode() {
 								<p class="tit_name">휴대폰번호<span class="txt_warning">*</span>	</p>
 								<p class="txt_input input_full">
 									<label for="tfHpNumber" class="tf_comm">
-									 <input type="tel" id="userHp" class="tf_cont" name="userHp" value="${loginUser.mPhone}" placeholder="‘-’ 없이 입력">
+									 <input type="tel" id="userHp" class="tf_cont" name="crePhone" value="${loginUser.mPhone}" placeholder="‘-’ 없이 입력">
 									</label>
 								</p>
 							</li>
@@ -227,7 +231,7 @@ function sample4_execDaumPostcode() {
 										<p class="tit_name">주소<span class="txt_warning">*</span></p>
 										<p class="txt_input input_mini">
 										
-										<c:forTokens var="addr" items="${ loginUser.mAddress }" delims="," varStatus="status">
+										<c:forTokens var="addr" items="${ loginUser.mAddress }" delims="#" varStatus="status">
 												<c:if test="${ status.index eq 0 }">
 													<c:set var="addr1" value="${ addr }"/>
 												</c:if>
@@ -273,7 +277,7 @@ function sample4_execDaumPostcode() {
 								<p class="txt_input input_full">
 									<label for="tfHomepage" class="tf_comm"> 
 								
-									<input type="text"	id="homeUrl" class="tf_cont" name="homeUrl" value="" placeholder="입력 시 ‘http://’ 제외">
+									<input type="text"	id="homeUrl" class="tf_cont" value="" name="creUrl" placeholder="입력 시 ‘http://’ 제외">
 									</label>
 								</p>
 							</li>
@@ -317,7 +321,7 @@ function sample4_execDaumPostcode() {
 		</div>
 		<div class="btn_area">
 				<input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">
-				 <input	type="submit" class="btn_next" title="다음단계" value="다음단계" onclick="checkOption()">
+				 <input type="submit" class="btn_next" title="다음단계" value="다음단계" >
 					</div>
 		</form>
 		
@@ -333,10 +337,11 @@ function sample4_execDaumPostcode() {
 	<script>
 	function checkOption(){
 		if($("#chkAccept").prop("checked")){
-		location.href='projectInfoInsert.do';
+		return true;
 	
 		}else{
 			alert('개인(기업)정보 수집ㆍ제공 활용 동의를 확인해주세요.');
+			return false;
 		}
 	}
 	</script>

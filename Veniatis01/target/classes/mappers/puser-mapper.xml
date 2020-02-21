@@ -3,7 +3,7 @@
 "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="puMapper">
-	<resultMap id="projectResultSet" type="Project">
+	<!-- <resultMap id="projectResultSet" type="Project">
 		<id property="pNo" column="P_NO"/>
 		<result property="creNo" column="CRE_NO"/>
 		<result property="pcNo" column="PC_NO"/>
@@ -21,18 +21,6 @@
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 	
-	<resultMap id="rewardResultSet" type="com.kh.veniatis.project.user.model.vo.Reward">
-		<id property="rNo" column="R_NO"></id>
-		<result property="pNo" column="P_NO"/>
-		<result property="rSeq" column="R_SEQ"/>
-		<result property="rItem" column="R_ITEM"/>
-		<result property="rPrice" column="R_PRICE"/>
-		<result property="rLimit" column="R_LIMIT"/>
-		<result property="rCount" column="R_COUNT"/>
-		<result property="rOption" column="R_OPTION"/>
-		<result property="rDelivery" column="R_DELIVERY"/>
-	</resultMap>
-	
 	<resultMap id="memberResultSet" type="Member">
 		<id property="mNo" column="M_NO"/>
 		<result property="mId" column="M_ID"/>
@@ -44,22 +32,73 @@
 		<result property="mBirth" column="M_BIRTHDAY"/>
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
+	</resultMap> -->
+	
+	
+
+	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
+		<id property="pNo" column="P_NO"/>
+		<result property="cate" column="PC_NAME"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="hashtag" column="P_HASHTAG"/>
+		<result property="startDate" column="P_START_DATE"/>
+		<result property="endDate" column="P_END_DATE"/>
+		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="sumAmount" column="P_SUM_AMOUNT"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="creId" column="M_ID"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
+		<result property="creProfile" column="FILE_PATH"/>
+		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 	
-	<resultMap id="newsResultSet" type="com.kh.veniatis.project.user.model.vo.News">
-		<id property="pnNo" column="PN_NO"/>
+	<resultMap id="rewardResultSet" type="com.kh.veniatis.project.creator.model.vo.Reward">
+		<id property="rNo" column="R_NO"></id>
 		<result property="pNo" column="P_NO"/>
-		<result property="pnTitle" column="PN_TITLE"/>
-		<result property="pnContent" column="PN_CONTENT"/>
-		<result property="pnEnrollDate" column="PN_ENROLL_DATE"/>
+		<result property="rSeq" column="R_SEQ"/>
+		<result property="rItem" column="R_ITEM"/>
+		<result property="rPrice" column="R_PRICE"/>
+		<result property="rLimit" column="R_LIMIT"/>
+		<result property="rCount" column="R_COUNT"/>
+		<result property="rOption" column="R_OPTION"/>
+		<result property="rDelivery" column="R_DELIVERY"/>
 	</resultMap>
 	
-	<select id="selectList" >
-		SELECT * FROM PROJECT;
+	<resultMap id="filesResultSet" type="com.kh.veniatis.common.files.model.vo.Files">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="bNo" column="B_ND"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="cNo" column="CON_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+	</resultMap>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_PROJECT
+		WHERE P_STATUS='Y'
 	</select>
 	
-	<select id="selectProject" parameterType="_int" resultMap="projectResultSet">
-		SELECT * FROM PROJECT
+	<select id="selectList" resultMap="prjView">
+		SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		ORDER BY P_NO DESC
+	</select>
+	
+	<select id="selectProject" parameterType="_int" resultMap="prjView">
+		SELECT * FROM V_PROJECT
 		WHERE P_NO = #{pNo}
 	</select>
 	
@@ -69,30 +108,19 @@
 		ORDER BY R_SEQ
 	</select>
 	
-	<select id="selectCreatorNumber" parameterType="_int" resultType="_int">
-		SELECT M_NO
-		FROM CREATOR
-		WHERE CRE_NO = #{creNo}
+	<select id="selectFileList" parameterType="_int" resultMap="filesResultSet">
+		SELECT * FROM FILES
+		WHERE P_NO = #{pNo}
+		ORDER BY FILE_LEVEL
 	</select>
 	
-	<select id="selectCreatorInfo" parameterType="_int" resultMap="memberResultSet">
-		SELECT *
-		FROM MEMBER
-		WHERE M_NO = #{mNo}
+	<!-- <select id="selectReplyList">
+		
 	</select>
 	
-	<select id="selectNews" parameterType="_int" resultMap="newsResultSet">
-		select * 
-		from 
-		(select a.*, rownum as rnum 
-		from P_NOTICE a 
-		where P_NO = #{pNo}
-		order by a.PN_ENROLL_DATE desc) 
-		where rnum = 1 
-	</select>
-	
-	
-	
+	<select id="insertReply">
+		
+	</select> -->
 	
 	
 </mapper>

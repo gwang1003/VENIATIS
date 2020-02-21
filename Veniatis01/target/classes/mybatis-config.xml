@@ -15,7 +15,7 @@
 		<typeAlias type="com.kh.veniatis.common.likes.model.vo.Likes" alias="Likes"/>
 		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	
 		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Project" alias="Project"/>			
-		
+		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Creator" alias="Creator"/>	
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
@@ -24,6 +24,7 @@
 		<mapper resource="mappers/reply-mapper.xml"/>
 		<mapper resource="mappers/files-mapper.xml"/>	
 		<mapper resource="mappers/puser-mapper.xml"/>
+		<mapper resource="mappers/creator-mapper.xml"/>
 	</mappers>
 
 </configuration>

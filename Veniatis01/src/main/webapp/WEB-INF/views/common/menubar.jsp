@@ -45,7 +45,6 @@
       .go1 {
          width:100%; height:8%; font-size:30px; text-align:center; background:ghostwhite
       }
-
 	</style>
 
     <link rel="stylesheet" href="resources/main/css/bootstrap.min.css">
@@ -124,7 +123,7 @@ s0.parentNode.insertBefore(s1,s0);
                                         </c:if>
                                         <c:if test="${ !empty sessionScope.loginUser}">                                        
                                            <c:if test="${sessionScope.loginUser.getmName() eq '관리자'}">
-                                               <li><a href="manager.do" style="font-size:20px; font-weight:bolder;"> 관리자페이지 </a></li>
+                                               <li><a href="managerMain.do" style="font-size:20px; font-weight:bolder;"> 관리자페이지 </a></li>
                                             </c:if>
                                             <c:if test="${sessionScope.loginUser.getmName() ne '관리자'}">
                                                <li class="myPage">마이페이지</li>
@@ -204,8 +203,8 @@ s0.parentNode.insertBefore(s1,s0);
           <div class="myPageGo">
              <div class="go1 myInfo">내 정보</div>
              <div class="myOpenProject">개설 프로젝트</div>
-             <div class="go1 attendProject">참여 프로젝트</div>
-             <div class="myInterestProject">관심 프로젝트</div>
+             <div class="go1 attendProject">관심 프로젝트</div>
+             <div class="myInterestProject">참여 프로젝트</div>
              <div class="go1">내 블로그</div>
              <div class="question">문의하기</div>
              <div class="go1 logoutBtn">로그아웃</div>
@@ -230,7 +229,7 @@ s0.parentNode.insertBefore(s1,s0);
            $(this).css({"cursor":"pointer"})
         })
         
-		$(".myInfo").click(function(){
+        $(".myInfo").click(function(){
            location.href="memberUpdateForm.do";
         })
         
@@ -251,7 +250,7 @@ s0.parentNode.insertBefore(s1,s0);
         })
         
          $(".question").click(function(){
-           location.href="question.do";
+           location.href="questionForm.do";
         })
         
          $(".logoutBtn").click(function(){

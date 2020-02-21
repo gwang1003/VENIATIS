@@ -15,7 +15,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 	
-<title>Insert title here</title>
+<title>VENIATIS : 후원형</title>
 <style>
 .div_hide{
 	opacity:0%;
@@ -51,7 +51,7 @@ function comma(str) {
                             <span class="txt_category">
                                 <span class="screen_out">카테고리</span>
                                 <a>
-                                <c:choose>
+                                <%-- <c:choose>
                                 	<c:when test="${ project.pcNo == 1 }">
                                 	공간/리빙
                                 	</c:when>
@@ -79,7 +79,8 @@ function comma(str) {
                                 	<c:otherwise>
                                 	여행
                                 	</c:otherwise>
-                                </c:choose>
+                                </c:choose> --%>
+                                ${ project.cate }
 								</a>
 
                             </span>
@@ -88,11 +89,14 @@ function comma(str) {
                             <div class="project_sorting">
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
-                                    <a class="link_tag">#태그1</a>
+                                    <c:forTokens var="tag" items="${project.hashtag}" delims=",">
+									    <a class="link_tag">#${tag}</a>
+									</c:forTokens>
+                                    <!-- <a class="link_tag">#태그1</a>
                                     <a class="link_tag">#태그2</a>
                                     <a class="link_tag">#태그3</a>
                                     <a class="link_tag">#태그4</a>
-                                    <a class="link_tag">#태그5</a>
+                                    <a class="link_tag">#태그5</a> -->
                                 </div>
                             </div>
                         </header>
@@ -100,7 +104,21 @@ function comma(str) {
                             <div class="project_info">
                                 <div id="main_image_slide" uk-slideshow="ratio: 5:3; animation: fade">
                                     <ul class="uk-slideshow-items">
-                                        <li class="uk-active uk-transition-active" style="z-index: -1;">
+                                    <c:forEach var="photo" items="${filesList}" varStatus="vs" >
+                                    	<c:choose>
+                                    		<c:when test="${vs.begin}">
+                                    			<li class="uk-active uk-transition-active" style="z-index: -1;">
+		                                            <img src="${ photo.filePath }" class="img_g">
+		                                        </li>
+                                    		</c:when>
+                                    		<c:otherwise>
+	                                    		<li>
+		                                            <img src="${ photo.filePath }" class="img_g">
+		                                        </li>
+                                    		</c:otherwise>
+                                    	</c:choose>
+                                    </c:forEach>
+                                        <!-- <li class="uk-active uk-transition-active" style="z-index: -1;">
                                             <img src="resources/main/test.jpg" class="img_g">
                                         </li>
                                         <li>
@@ -108,17 +126,24 @@ function comma(str) {
                                         </li>
                                         <li>
                                             <img src="resources/main/test3.jpg" class="img_g">
-                                        </li>
+                                        </li> -->
                                     </ul>
 
                                     <div class="main_image_nav_wrapper">
                                         <div class="main_image_nav">
-
-                                            <img src="resources/main/test.jpg" data-index="0" class="selected">
-
+											<c:forEach var="photo" items="${filesList}" varStatus="vs" >
+												<c:choose>
+		                                    		<c:when test="${vs.begin}">
+		                                    			<img src="${ photo.filePath }" data-index="0" class="selected">
+		                                    		</c:when>
+		                                    		<c:otherwise>
+			                                    		<img src="${ photo.filePath }" data-index="${vs.index}">
+		                                    		</c:otherwise>
+		                                    	</c:choose>
+											</c:forEach>
+                                            <!-- <img src="resources/main/test.jpg" data-index="0" class="selected">
                                             <img src="resources/main/test2.jpg" data-index="1">
-
-                                            <img src="resources/main/test3.jpg" data-index="2">
+                                            <img src="resources/main/test3.jpg" data-index="2"> -->
                                             <!--
                                             <img src="/uploads/reward/REWARD_20200212041134125.JPG" data-index="3"> -->
 
@@ -146,13 +171,13 @@ function comma(str) {
                                     <div class="user_profile">
                                         <span class="img_profile">
 
-                                            <img src="test.png">
+                                            <img src="${project.creProfile }">
 
                                         </span>
                                         <div class="author_cont">
                                             <div class="builder_profile_wrapper">
-                                                <p><span class="txt_name">${ creator.mName }</span></p>
-                                                <span class="txt_mail">${ creator.mEmail }</span>
+                                                <p><span class="txt_name">${ project.creName }</span></p>
+                                                <span class="txt_mail">${ project.creEmail }</span>
 
                                             </div>
                                         </div>
@@ -165,15 +190,19 @@ function comma(str) {
                                     <p><span class="txt_statetitle">모인금액</span></p>
                                     <span class="screen_out">현재 참여금액</span>
                                     <span class="num_value" id="returnAmount">
-                                    	<fmt:formatNumber value="${ project.pSumAmount }" groupingUsed="true"/>
+                                    	<fmt:formatNumber value="${ project.sumAmount }" groupingUsed="true"/>
                                     </span> 
                                     <span class="txt_value">원&nbsp;모금</span>
                                 </div>
                                 <div class="state_project">
                                     <div class="graph_support">
                                         <span class="screen_out">참여율</span>
-                                        
-                                        <span class="bar_graph" style="width:4%;"></span>
+                                        <c:if test="${ supportRate<100 }">
+                                        	<span class="bar_graph" style="width:${supportRate}%;"></span>
+                                        </c:if>
+                                        <c:if test="${ supportRate>=100 }">
+                                        	<span class="bar_graph" style="width:100%;"></span>
+                                        </c:if>
                                         <span class="num_per">${supportRate}%</span>                                        
                                     </div>
 
@@ -191,7 +220,7 @@ function comma(str) {
 									        <c:set var="now" value="<%=new java.util.Date()%>" />
 									        
 									        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
-									        <fmt:parseNumber var="eDate" value="${project.pEndDate.time/(1000*60*60*24)}" integerOnly="true" />
+									        <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
 									        
 									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
 									        	<%-- <span style="color:red;">마감일:${eDate}</span>
@@ -205,8 +234,8 @@ function comma(str) {
 
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
-                                           	 목표액 <fmt:formatNumber value="${ project.pTargetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
-											결제는 목표액달성시 <fmt:formatDate value="${ project.pEndDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
+                                           	 목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
+											결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
 
                                     </div>
@@ -291,22 +320,23 @@ function comma(str) {
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(1)").addClass("on");
                                             
-                                            var pNo = ${project.pNo}
+                                            /* var pNo = ${project.pNo};
+                                            
                                             $.ajax({
-                            					url:"test1.do",
-                            					data:{pNo:pNo},
-                            					type:"post",
-                            					success:function(data){
-                            						alert(data);
-                            					},
-                            					error:function(e){
-                            						alert("error code : " + e.status + "\n"
-                            								+ "message : " + e.responseText);
-                            					}
-                            				});
+                                                url: "test1.do",
+                                                type: "POST",
+                                                data: {pNo:pNo},
+                                                success: function(data){
+                                                    alert(data);
+                                                },
+                                                error: function(){
+                                                    alert("simpleWithObject err");
+                                                }
+                                            }); */
                                             
                                             
                                         });
+                                        
                                         $("#Qna").on("click", function () {
                                             console.log("QnA");
                                             $(".article_intro").addClass("div_hide");
@@ -319,7 +349,9 @@ function comma(str) {
 
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(2)").addClass("on");
+                                            
                                         });
+                                        
                                         $("#Cheer").on("click", function () {
                                             console.log("참여자 응원");
                                             $(".article_intro").addClass("div_hide");
@@ -382,13 +414,13 @@ function comma(str) {
                                                 <h2 class="screen_out">Q&amp;A</h2>
                                                 <div class="box_qna">
                                                     <p class="qna_info">안녕하세요
-                                                        <span class="txt_name">${ creator.mName }</span>입니다.
+                                                        <span class="txt_name">${ project.creName }</span>입니다.
                                                         <br>궁금한 점이 있다면 질문을 남겨주세요!</p>
                                                     <ul class="list_qna">
                                                         <li>베니아티스 Q&amp;A 게시판은 회원으로 로그인한 분만 글을 작성할 수 있으며 프로젝트 개설자는
                                                             참여자들의 참여 관련 질문과 의견을 임의로 삭제하거나 수정하지 않습니다.</li>
                                                         <li>홈페이지의 건전한 운영을 위하여 운영기준 상 부적절하거나 문제의 소지가 있는 게시물이 게재될 경우 (예:
-                                                            명예훼손, 광고, 음란성 글 등) 오마이컴퍼니 관리자가 이를 삭제 또는 변경할 수 있습니다.</li>
+                                                            명예훼손, 광고, 음란성 글 등) 베니아티스 관리자가 이를 삭제 또는 변경할 수 있습니다.</li>
                                                     </ul>
                                                 </div>
                                             </section>
@@ -399,22 +431,20 @@ function comma(str) {
                                                         <div class="comment_form_group">
                                                             <div class="comment_input_box">
                                                                 <textarea cols="30" rows="5" class="tf_cmt login_required"
-                                                                    title="댓글 작성" placeholder="질문을 남겨주세요."></textarea>
+                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." id="rContent"></textarea>
 
                                                                 <input type="hidden" name="createId" value="">
                                                                 <input type="hidden" name="newsSeq" value="">
 
                                                             </div>
                                                             <div>
-                                                                <input type="submit" class="btn_submit point_color"
-                                                                    value="등록" title="등록">
+                                                                <button class="btn_submit point_color" id="rSubmit">등록</button>
                                                             </div>
                                                         </div>
                                                     </fieldset>
                                                 </form>
-                                                <h2 class="screen_out">댓글</h2>
+                                                <!-- <h2 class="screen_out">댓글</h2>
                                                 <ul class="list_cmt">
-
                                                     <li>
                                                         <div class="cmt_output">
                                                             <span class="user_profile">
@@ -424,13 +454,11 @@ function comma(str) {
                                                                 <span class="txt_name">후원자1</span>
                                                             </span>
 
-                                                            <span class="txt_time">2020-02-12 17:25</span>
-                                                            <!-- 댓글 보이기 -->
+                                                            <span class="txt_time">2020-02-12 17:25</span>댓글 보이기
                                                             <div class="cmt_content">
                                                                 <p class="cont_cmt">질문1</p>
 
-                                                            </div>
-                                                            <!-- 댓글 수정  -->
+                                                            </div>댓글 수정 
                                                             <div class="edit_cmt" style="display:none">
                                                                 <fieldset>
                                                                     <legend class="screen_out">댓글달기</legend>
@@ -451,9 +479,7 @@ function comma(str) {
                                                             </div>
                                                         </div>
 
-
                                                         <ul class="list_reply">
-
                                                             <li>
                                                                 <div class="cmt_reply">
                                                                     <span class="ico_comm">댓글의 답글</span>
@@ -461,79 +487,27 @@ function comma(str) {
                                                                     <span class="user_profile">
                                                                         <span class="img_profile clear_empty_picture">
                                                                             <img src="test.png" style="background: rgb(255, 255, 255);">
-
                                                                         </span>
                                                                         <span class="txt_name">크리에이터</span>
                                                                     </span>
-
                                                                     <span class="txt_time">2020-02-12 17:28</span>
                                                                     <p class="cont_cmt">답변 드림</p>
                                                                 </div>
                                                             </li>
-
                                                         </ul>
-
                                                     </li>
+                                                </ul> -->
+                                                <table id="replyTable">
+													<thead>
+														<tr>
+															<td colspan="4"><b id="rCount"></b></td>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
 
-                                                    <li>
-                                                        <div class="cmt_output">
-                                                            <span class="user_profile">
-                                                                <span class="img_profile">
-
-                                                                </span>
-                                                                <span class="txt_name">후원자2</span>
-                                                            </span>
-                                                            <span class="txt_time">2020-02-12 17:02</span>
-                                                            <!-- 댓글 보이기 -->
-                                                            <div class="cmt_content">
-                                                                <p class="cont_cmt">질문2</p>
-
-                                                            </div>
-                                                            <!-- 댓글 수정  -->
-                                                            <div class="edit_cmt" style="display:none">
-                                                                <fieldset>
-                                                                    <legend class="screen_out">댓글달기</legend>
-                                                                    <div class="cmt_comm">
-                                                                        <div class="box_cmt">
-                                                                            <input type="hidden" name="commentSeq"
-                                                                                value="31543">
-                                                                            <input type="hidden" name="updateId" value="237248">
-                                                                            <textarea cols="30" rows="5" class="tf_cmt"
-                                                                                title="댓글 작성">질문2</textarea>
-                                                                            <div class="cmt_info"><span class="num_byte"><em>20</em>
-                                                                                    / 500byte</span></div>
-                                                                            <input type="submit" class="btn_submit"
-                                                                                value="수정" title="수정">
-                                                                        </div>
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                        </div>
-
-                                                        <ul class="list_reply">
-
-                                                            <li>
-                                                                <div class="cmt_reply">
-                                                                    <span class="ico_comm">댓글의 답글</span>
-
-                                                                    <span class="user_profile">
-                                                                        <span class="img_profile clear_empty_picture">
-                                                                            <img src="test.png" style="background: rgb(255, 255, 255);">
-                                                                        </span>
-                                                                        <span class="txt_name">크리에이터</span>
-                                                                    </span>
-
-                                                                    <span class="txt_time">2020-02-12 17:08</span>
-                                                                    <p class="cont_cmt">답변 드림 </p>
-                                                                </div>
-                                                            </li>
-
-                                                        </ul>
-
-                                                    </li>
-                                                </ul>
-
-                                                <div id="paging" class="paging_comm">
+                                                <div id="paging" class="paging_comm" style="margin-top:20px;">
                                                     <a class="link_page on">1</a>&nbsp;
 
                                                     <input id="pageIndex" name="pageIndex" type="hidden" value="1">
@@ -541,160 +515,87 @@ function comma(str) {
                                             </div>
                                         </div>
 
-                                        <script type="text/javascript">
-                                            $(document).ready(function () {
-                                                $('.login_required').focus(function () {
-                                                    if (!fnLoginCheck()) {
-                                                        fnShowLoginPopup("qna");
-                                                        return false;
-                                                    }
-                                                });
-
-                                                //댓글 등록
-                                                $(".btn_submit").on("click", function () {
-
-                                                    if (!fnLoginCheck()) {
-                                                        fnShowLoginPopup("qna");
-
-                                                        return false;
-                                                    }
-
-                                                    if ($(this).val() == "등록") {
-                                                        var createId = $(this).parent().parent().find("input[name=createId]").val();
-                                                        var inputBox = $(this).parent().parent().find('.tf_cmt');
-                                                        var content = inputBox.val();
-                                                        var projectSeq = $("#projectSeq").val();
-
-                                                        if (typeof createId !== 'string' || !createId.length) {
-                                                            fnShowLoginPopup("qna");
-                                                            return false;
-                                                        }
-
-                                                        if (content.length == 0) {
-                                                            alert("댓글을 입력해주세요.");
-                                                            inputBox.focus();
-                                                            return false;
-                                                        }
-
-                                                        $.ajaxSetup({ cache: false });
-                                                        $.ajax({
-                                                            type: "post",
-                                                            dataType: "json",
-                                                            url: "/reward/qnaInsertAjax.do",
-                                                            data: {
-                                                                "content": content
-                                                                , "projectSeq": projectSeq
-                                                                , "createId": createId
-                                                            },
-                                                            success: function (data) {
-                                                                if (data.updateCnt == "1") {
-                                                                    //alert("답변이 등록 되었습니다.");
-                                                                    link_page($("#pageIndex").val());
-                                                                    $("#cmt_cnt").html("<em>0</em> / 500byte")
-                                                                } else {
-                                                                    alert("댓글 등록에 실패 했습니다.");
-                                                                }
-                                                            },
-                                                            error: function (e) {
-                                                                alert("오류가 발생했습니다.");
-                                                            }
-                                                        });
-                                                    }
-                                                    else if ($(this).val() == "수정") {
-                                                        var updateId = $(this).parent().children("input[name=updateId]").val();
-                                                        var commentSeq = $(this).parent().children("input[name=commentSeq]").val();
-                                                        var inputBox = $(this).parent().children('.tf_cmt');
-                                                        var content = inputBox.val();
-
-                                                        if (content.length == 0) {
-                                                            alert("댓글을 입력해주세요.");
-                                                            inputBox.focus();
-                                                            return false;
-                                                        }
-                                                        $.ajaxSetup({ cache: false });
-                                                        $.ajax({
-                                                            type: "post",
-                                                            dataType: "json",
-                                                            url: "/reward/qnaUpdateAjax.do",
-                                                            data: {
-                                                                "content": content
-                                                                , "commentSeq": commentSeq
-                                                                , "updateId": updateId
-                                                            },
-                                                            success: function (data) {
-                                                                if (data.updateCnt == "1") {
-                                                                    //alert("답변이 수정 되었습니다.");
-                                                                    link_page($("#pageIndex").val());
-                                                                } else {
-                                                                    alert("댓글 수정에 실패 했습니다.");
-                                                                }
-                                                            },
-                                                            error: function (e) {
-                                                                alert("오류가 발생했습니다.");
-                                                            }
-                                                        });
-                                                    }
-                                                    return false; //폼 액션 막기
-                                                });
-
-                                                $(".btn_del").on("click", function () {
-                                                    var updateId = $(this).parent().children("input[name=updateId]").val();
-                                                    var commentSeq = $(this).parent().children("input[name=commentSeq]").val();
-
-                                                    if (confirm("삭제하시겠습니까?")) {
-                                                        $.ajaxSetup({ cache: false });
-                                                        $.ajax({
-                                                            type: "post",
-                                                            dataType: "json",
-                                                            url: "/reward/qnaDeleteAjax.do",
-                                                            data: {
-                                                                "commentSeq": commentSeq,
-                                                                "updateId": updateId
-                                                            },
-                                                            success: function (data) {
-                                                                if (data.deleteCnt == "1") {
-                                                                    //alert("글이 삭제 되었습니다.");
-                                                                    link_page($("#pageIndex").val());
-                                                                } else {
-                                                                    alert("댓글 삭제에 실패 했습니다.");
-                                                                }
-                                                            },
-                                                            error: function (e) {
-                                                                alert("오류가 발생했습니다.");
-                                                            }
-                                                        });
-                                                    }
-                                                });
-
-                                                //댓글 등록 및 수정 길이 체크
-                                                $(".tf_cmt").on("keyup", function () {
-                                                    var contentLength = getByteLength($(this).val());
-                                                    if (contentLength > 500) {
-                                                        alert("500byte 글자수를 초과하였습니다.");
-                                                        $(this).val(cutByLen($(this).val(), 500));
-                                                        $(this).focus();
-                                                    }
-                                                });
-
-                                                //댓글 수정 버튼 클릭시
-                                                $(".btn_edit").on("click", function () {
-                                                    $(this).parent().parent().parent('div').children('.cmt_content').hide();
-                                                    $(this).parent().parent().parent('div').children('.edit_cmt').show();
-                                                });
-                                            });
-
-                                            function link_page(pageNo) {
-                                                var projectSeq = $("#projectSeq").val();
-                                                var value = "/reward/" + projectSeq + "/qnaAjax?pageIndex=" + pageNo + "&isPreview=Y&mockFlag=N";
-                                                area = $("#reward_tab_content");
-                                                area.load(value, function () {
-                                                    if (UI.Project.isTabMenuFixed()) {
-                                                        UI.RewardProject.scrollInnerContent();
-                                                    }
-                                                });
-                                            }
-
-                                        </script>
+                                        <!-- <script>
+	
+											$(function(){
+												// 초기 페이지 로딩 시 댓글 불러오기
+												getReplyList();
+												
+												// 타 회원이 작성한 댓글도 지속적으로 불러오고 싶다면
+												/* setInterval(function(){
+													getReplyList();
+												}, 10000); */
+												
+												// 댓글 등록 ajax
+												$("#rSubmit").on("click", function(){
+													// 필요한 값을 가지고 db에 insert한 뒤
+													// 등록 성공 시 댓글리스트 다시 불러오기
+													// 요청 url : addReply.do
+													var rContent = $("#rContent").val();
+													var pNo = ${ project.pNo }; 
+													
+													$.ajax({
+														url:"addReply.do",
+														data:{rContent:rContent, pNo:pNo},
+														type:"post",
+														success:function(data){
+															if(data == "success"){
+																getReplyList(); // 등록 성공시 다시 댓글리스트 불러오기
+																$("#rContent").val("");
+															}else if(data == "fail"){
+																alert("댓글 등록 실패");
+															}
+														}
+													});
+												});
+											});
+											
+											
+											// 댓글 리스트 불러오는 ajax 함수
+											function getReplyList(){
+												var pNo = ${project.pNo};
+												
+												$.ajax({
+													url:"projectRList.do",
+													data:{pNo:pNo},
+													dataType:"json",
+													success:function(data){
+														console.log(data);
+														
+														$tableBody = $("#replyTable tbody");
+														$tableBody.html("");
+														
+														$("#rCount").text("댓글("+data.length+")");
+														
+														if(data.length > 0){
+															for(var i in data){
+																var $tr = $("<tr>");
+																var $rWriter = $("<td width='100'>").text(data[i].rWriter);
+																var $rContent = $("<td width='500'>").text(data[i].rContent);
+																var $rCreateDate = $("<td width='200'>").text(data[i].rCreateDate);
+																
+																$tr.append($rWriter);
+																$tr.append($rContent);
+																$tr.append($rCreateDate);
+																
+																$tableBody.append($tr);
+															}
+														}else{
+															// 댓글이 등록되지 않았을 때
+															var $tr = $("<tr>");
+															var $rContent = $("<td colspan='3'>").text("등록 된 댓글이 없습니다.");
+															$tr.append($rContent);
+															$tableBody.append($tr);
+														}
+														
+													},
+													error:function(e){
+														console.log(e);
+													}
+												});
+												
+											}
+											</script> -->
                                     </div>
 
 

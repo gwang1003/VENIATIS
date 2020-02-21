@@ -34,7 +34,13 @@ input{
 }
 </style>
 <body>
-<c:forTokens var="i" items="${Member.mInterest}" delims=",">
+<c:if test="${ !empty msg }">
+		<script>
+			alert('${msg}');
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
+<c:forTokens var="i" items="${loginUser.mInterest}" delims=",">
 							<c:choose>
 								<c:when test="${i eq '공간/리빙'}">
 									<c:set var="checked1" value="checked"/>
@@ -93,7 +99,7 @@ input{
                             <div class="user_photo">
 		                	
 		                		<span class="img_profile" id="img_profile">
-		                			<img src="${Member.filePath }" width="115" id="profileImg">
+		                			<img src="${loginUser.filePath }" width="115" id="profileImg">
 		                		</span>
 		                		<form id="ajaxform" method="post" enctype="multipart/form-data" action="asdf">
 		                		<label for="inpPhoto" class="btn_edit">편집<input type="file" id="inpPhoto" name="inpPhoto" class="inp_photo" accept=".jpg,.png"></label>
@@ -113,7 +119,7 @@ input{
 			                		<dd>
 				                		<span class="tf_comm">
 											<input type="text" class="tf_cont" name="mId"
-                                                   value="${Member.mId }" readonly="readonly">
+                                                   value="${loginUser.mId }" readonly="readonly">
 										</span>
                                         </dd>
                                     </dl>
@@ -123,7 +129,7 @@ input{
                                         <dd>
 				                		<span class="tf_comm">
 											<input type="text" id="memberName" name="mName" class="tf_cont"
-                                                   value="${Member.mName }">
+                                                   value="${loginUser.mName }">
 										</span>
                                         </dd>
                                     </dl>
@@ -144,7 +150,7 @@ input{
                                         <dd>
 			                			<span class="tf_comm">
 											<input type="text" id="email" name="mEmail" class="tf_cont"
-                                                   value="${Member.mEmail }">
+                                                   value="${loginUser.mEmail }">
 										</span>
                                         </dd>
                                     </dl>
@@ -153,7 +159,7 @@ input{
                                         <dd class="data_birth">
 			                			<span class="tf_comm">
 										<input type="text" id="birth" name="mBirth" class="tf_cont"
-                                               value="${Member.mBirth }" maxlength="8">
+                                               value="${loginUser.mBirth }" maxlength="8">
 										</span>
                                             <span class="txt_hint">생년월일 8자리 (예  2000년1월1일 > 20000101)</span>
                                         </dd>
@@ -164,11 +170,11 @@ input{
                                         <dd>
 			                			<span class="tf_comm">
 											<input type="text" id="mobile" name="mPhone" class="tf_cont"
-                                                   value="${Member.mPhone }" maxlength="20">
+                                                   value="${loginUser.mPhone }" maxlength="20">
 										</span>
 			                		</dd>
 			                	</dl>
-			                	<c:forTokens var="addr" items="${Member.mAddress }" delims="#"
+			                	<c:forTokens var="addr" items="${loginUser.mAddress }" delims="#"
 								varStatus="status">
 									<c:if test="${ status.index eq 0 }">
 										<c:set var="addr1" value="${ addr }"/>
@@ -224,7 +230,7 @@ input{
 <script>
 	function updateValidate() {
 		if($("#passwd").val() == $("#passwdCheck").val()) {
-			if($("#passwd").val() != "${Member.mPwd}") {
+			if($("#passwd").val() != "${loginUser.mPwd}") {
 				alert("비밀번호를 확인해주세요.")
 				return false;
 			}
@@ -234,8 +240,7 @@ input{
 		}
 		return true;
 	}
-	
-	$(function(){
+
 		$(".inp_photo").change(function(){
 			var form = $("#ajaxform")[0];
 			var formData = new FormData(form);
@@ -255,8 +260,7 @@ input{
 				
 				// success : Ajax 통신 성공 시 처리할 함수를 지정하는 속성
 				success : function(data){
-					alert(data);
-					$("#profileImg").css({"src":"data"})
+					$("#profileImg").attr("src", data)
 				},
 				
 				// error : Ajax 통신 실패 시 처리할 함수를 지정하는 속성
@@ -266,7 +270,6 @@ input{
 				}					
 			});
 		})
-	})
 </script>
 <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>

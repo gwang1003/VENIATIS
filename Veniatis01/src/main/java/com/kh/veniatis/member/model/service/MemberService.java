@@ -1,7 +1,11 @@
 package com.kh.veniatis.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface MemberService {
 	//로그인용
@@ -21,4 +25,12 @@ public interface MemberService {
 	int memberUpdate(Member m);
 
 	int mPhotoDelete(Member m);
+
+	ArrayList<ProjectView> myOpenProject(int getmNo);
+
+	int selectpNo(int getmNo);
+
+	int question(QnA qa);
+
+	ArrayList<Member> selectMemberList();
 }

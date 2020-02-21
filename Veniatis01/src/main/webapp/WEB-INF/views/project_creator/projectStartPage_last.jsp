@@ -22,6 +22,7 @@ datepicker가 menubar를 include하면 맛이 가버림
 	  background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 	 
 }
 
@@ -30,6 +31,7 @@ datepicker가 menubar를 include하면 맛이 가버림
 	 background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
 #icon3{
@@ -37,6 +39,7 @@ datepicker가 menubar를 include하면 맛이 가버림
 	   background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
 
 #icon4{
@@ -44,7 +47,10 @@ datepicker가 menubar를 include하면 맛이 가버림
 	  background-size:70%;
 	  background-position:50%;
 	  background-repeat:no-repeat;
+	  cursor: default;
 }
+
+
 
 #icon5{
  background-image:url("resources/project_creator/calendar.png");
@@ -113,36 +119,37 @@ $(document).on("click","#investEndDateButton",function(){
 					<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
 				</header>
 
-				<!-- 상단메뉴 -->
-				<div class="apply_cont apply_support">
-					<div class="box_comm">
-						<ol class="list_process">
-							<li><a href="projectStartPage.do" class="flow_reward" id="icon1">
-							 <span class="ico_comm ico_step1">개설자 정보	아이콘</span>
-							</a> <span class="fa fa-angle-right"></span>
-								<div class="flow_cont">
-									<p class="txt_step">개설자 정보</p>
-								</div></li>
-							<li><a href="projectStartPage2.do" class="flow_reward"	id="icon2"> 
-							<span class="ico_comm ico_step2">프로젝트 스토리	아이콘</span>
-							</a> <span class="fa fa-angle-right"></span>
-								<div class="flow_cont">
-									<p class="txt_step">프로젝트 스토리</p>
-								</div></li>
-							<li><a href="projectStartPage_reward.do" class="flow_reward" id="icon3">
-									<span class="ico_comm ico_step3">리워드 아이콘</span>
-							</a> <span class="fa fa-angle-right"></span>
-								<div class="flow_cont">
-									<p class="txt_step">리워드</p>
-								</div></li>
+				<!-- 신청서 -->
+			<div class="apply_cont apply_support">
+				<div class="box_comm">
 
-							<li  class="on"><a href="#" class="flow_reward"	id="icon4"> 
-								<span class="ico_comm ico_step5">정산 아이콘</span>
-							</a>
-								<div class="flow_cont">
-									<p class="txt_step">정산</p>
-								</div></li>
-						</ol>
+					<ol class="list_process">
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">개설자 정보</p>
+							</div></li>
+							
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon2">
+						</a> 
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">프로젝트 스토리</p>
+							</div></li>
+							
+						<li><a href="javascript:void(0)" class="flow_reward" id="icon3">
+						</a> 
+						 <span class="fa fa-angle-right"></span>
+							<div class="flow_cont">
+								<p class="txt_step">리워드</p>
+							</div></li>
+					
+						<li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
+
+							<div class="flow_cont">
+								<p class="txt_step">정산</p>
+							</div></li>
+					</ol>
 
 	                <div class="sheet_info">
 	                	<div class="txt_area">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -201,12 +202,30 @@
 										</div>
 										<div class="project_state">
 											<span class="total_amount"> 
-												<span class="screen_out">현재 참여금액</span> ${ prj.sumAmount }
+												<span class="screen_out">현재 참여금액</span> 
+												<fmt:formatNumber value="${ prj.sumAmount }" groupingUsed="true"/> 원
 											</span>
 											<div class="project_card_graph">
-												<span class="screen_out">참여율</span> <span class="bar_graph"
-													style="width: 100%;"></span> <span class="invest_rate">
-													(#)참여율 </span>
+												<c:if test="${ prj.sumAmount ne 0 }">
+													<c:set var="supportRate" value="${ prj.sumAmount *100 / prj.targetAmount } " />
+													<span class="screen_out">참여율</span> 
+													<c:if test="${ prj.sumAmount *100 / prj.targetAmount < 100 }">
+														<span class="bar_graph" style="width: ${ prj.sumAmount *100 / prj.targetAmount }%;"></span>
+													</c:if>
+													<c:if test="${ prj.sumAmount *100 / prj.targetAmount >= 100 }">
+														<span class="bar_graph" style="width: 100%;"></span>
+													</c:if>
+													<span class="invest_rate"><!-- (#)참여율 -->
+													${ supportRate }%
+													</span>
+												</c:if>
+												<c:if test="${ prj.sumAmount eq 0 }">
+													<span class="screen_out">참여율</span> 
+													<span class="bar_graph" style="width: 0%;"></span> 
+													<span class="invest_rate"><!-- (#)참여율 -->
+														0%
+													</span>
+												</c:if>
 											</div>
 	
 											<span class="funding_type">무조건 리워드</span>
@@ -214,9 +233,6 @@
 										</div>
 									</div>
 								</li>	
-								
-								
-								
 								
 								
 							</c:forEach>

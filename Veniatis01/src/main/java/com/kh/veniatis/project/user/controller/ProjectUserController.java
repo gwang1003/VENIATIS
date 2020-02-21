@@ -37,12 +37,18 @@ public class ProjectUserController {
 		//System.out.println(list);
 		
 		if(list != null) {
+			for(ProjectView p : list) {
+				System.out.println(p);
+				// 참여율(프로젝트 진행율)
+				/*int supportRate = 0;
+				if(p.getSumAmount()!=0) {
+					supportRate = p.getSumAmount()*100/p.getTargetAmount();
+				}*/
+			}
 			mv.addObject("projectList", list);
 			mv.addObject("pi", ProjectPagination.getPageInfo());
 			mv.setViewName("project_user/projectList");
-			for(ProjectView p : list) {
-				System.out.println(p);
-			}
+			
 		}else {
 			//throw new BoardException("게시글 전체 조회 실패!!");
 		}

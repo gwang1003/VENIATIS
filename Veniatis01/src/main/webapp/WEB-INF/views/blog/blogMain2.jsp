@@ -97,7 +97,7 @@
 <jsp:include page="../common/menubar.jsp"></jsp:include>
 
 
-<div class="container" style="background-color:;">
+<div class="container" style="background-color:${bd.cssBack};">
     <section class="blog_area">
 		
             <div class="row">

@@ -268,6 +268,13 @@ public class BlogDao {
 		return sqlSession.update("blogMapper.updateBlogDetail",bd);
 	}
 
+	
+	//블로그 css 수정
+	public int updateBlogCss(BlogDetail bd) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.updateBlogCss",bd);
+	}
+
 
 
 

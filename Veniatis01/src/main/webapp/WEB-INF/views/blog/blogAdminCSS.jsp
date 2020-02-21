@@ -8,7 +8,7 @@
 <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style type="text/css">
 *{
@@ -48,7 +48,34 @@ font-family: 'Noto Sans KR', sans-serif;
   border-radius: 4px;
   cursor: pointer;
 }
+
+*{
+color:black !important;
+}
+
 </style>
+
+
+    <link rel="stylesheet" href="resources/blog/colorpicker/ui.colorpicker.css"/>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<jsp:include page="../common/menubar.jsp"></jsp:include>
+    <script language="JavaScript" src="resources/blog/colorpicker/jq.js"></script>
+    <script language="JavaScript" src="resources/blog/colorpicker/jq.color.js"></script>
+    <script language="JavaScript">
+
+            $(document).ready(function() {
+                var hideit = function(e, ui) { 
+                    $(this).val('#'+ui.hex); $('.ui-colorpicker').css('display', 'none'); 
+                    $(".back").css("background-color",'#'+ui.hex);
+                };
+                $('#bg #colorpicker').colorpicker({ hide: hideit, submit: hideit });
+               
+            });
+            
+   </script>    
+    
+    
+    
   <link href="resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
@@ -56,7 +83,7 @@ font-family: 'Noto Sans KR', sans-serif;
   <link href="resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body style="background-color:#e2e7e6;">
-<jsp:include page="../common/menubar.jsp"></jsp:include>
+
     <div class="container">
 
             <div class="row" style="margin-top:2%;">
@@ -92,13 +119,115 @@ font-family: 'Noto Sans KR', sans-serif;
       <!-- DataTales Example -->
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">블로그 꾸미기</h6>
+          <h6 class="m-0 font-weight-bold text-primary" style="color:black !important;">블로그 꾸미기</h6>
         </div>
-        <form method="post">
+
         <div class="card-body">
           <div class="table-responsive">
           
-				ㅋㅋㅋ
+     <!-- ----------------------- -->     
+          
+    <div class="back" style="width:100%; height:500px; background-color:white;  border-radius: 20px; ">
+        <div style="width:60%;   height:500px; float:left;">
+            <div style="width:100%; margin-left:3%; margin-top:10px;height:100px; background-color:#fbf9ff; border-radius: 20px;">
+                블로그 제목
+            </div>
+            <br>
+            <div style="width:100%; height:350px;  margin-left:3%; border-radius: 20px; background-color:#fbf9ff;">
+                블로그 내용
+            </div>
+        </div>
+
+        <div style="width:30%; height:500px; display:inline-block;">
+            <div class="profile" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:rgb(189, 189, 189);">프로필</div>
+            <div class="search" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:rgb(189, 189, 189);">검색</div>
+            <div class="cate" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:rgb(189, 189, 189);">카테고리</div>
+            <div class="tag" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:#fbf9ff;">태그</div>
+            <div class="weather" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:#fbf9ff;">날씨</div>
+            <div class="time" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:#fbf9ff;">시간</div>
+            <div class="location" style="width:80%; height:50px; margin-top:13px; margin-left:20%;border-radius: 20px; background-color:#fbf9ff;">위치</div>
+        </div>
+    </div>
+		<c:if test="${ empty bd.blogTag}" >
+			<c:set var="tag1" value="checked"/>
+		</c:if>
+		
+		<c:if test="${ empty bd.cssWeather}" >
+			<c:set var="tag2" value="checked"/>
+		</c:if>
+
+		<c:if test="${ empty bd.cssTime}" >
+			<c:set var="tag3" value="checked"/>
+		</c:if>
+		
+		<c:if test="${ empty bd.cssLocation}" >
+			<c:set var="tag4" value="checked"/>
+		</c:if>
+		
+
+        <div id="bg">
+            <label for="colorpicker">배경화면 색깔 바꾸기</label>
+             <form action="badminCssChange.do"  method="post">
+	            <input type="text" id="colorpicker" name="cssBack"/><br>
+	            <input type="checkbox" id="checkTag" name="blogcss" value="blogTag" ${tag1 }> 태그&nbsp;&nbsp;
+	            <input type="checkbox" id="checkWeather" name="blogcss" value="cssWeather" ${tag2 }> 날씨&nbsp;&nbsp; 
+	            <input type="checkbox" id="checkTime" name="blogcss" value="cssTime" ${tag3 }> 시간&nbsp;&nbsp;
+	            <input type="checkbox" id="checkLocation" name="blogcss" value="cssLocation" ${tag4 }> 위치&nbsp;&nbsp;
+                <div style="text-align:right;"><button class="btn btn-success">수정하기</button></div>
+			</form>
+            <script>
+                $(document).ready(function(){
+                    $("#checkSearch").change(function(){
+                            if($("#checkSearch").is(":checked")){
+                                $(".search").show();
+                            }else{
+                                $(".search").hide();
+                            }
+                    });
+
+                    $("#checkTag").change(function(){
+                        
+                        if($("#checkTag").is(":checked")){
+                            $(".tag").show();
+                        }else{
+                            $(".tag").hide();
+                        }
+                    });
+
+                    $("#checkWeather").change(function(){
+                        if($("#checkWeather").is(":checked")){
+                            $(".weather").show();
+                        }else{
+                            $(".weather").hide();
+                        }
+                    });
+
+                    $("#checkTime").change(function(){
+
+                        if($("#checkTime").is(":checked")){
+                            $(".time").show();
+                        }else{
+                            $(".time").hide();
+                        }
+
+                    });
+
+                    $("#checkLocation").change(function(){
+                        if($("#checkLocation").is(":checked")){
+                            $(".location").show();
+                        }else{
+                            $(".location").hide();
+                        }
+
+                    })
+                });
+            </script>
+        </div>
+
+    </div>	
+          
+          
+    <!-- -------------------------- -->
           </div>
 
 
@@ -108,40 +237,18 @@ font-family: 'Noto Sans KR', sans-serif;
     </div>
     <!-- /.container-fluid -->
 
-  </div>
+
   <!-- End of Main Content -->
 
   <!-- Footer -->
 
   <!-- End of Footer -->
 
-  </div>
+
   <!-- End of Content Wrapper -->
 
-  </div>
-       </div>
-         </div>
-     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 crossorigin="anonymous"></script>
-  <!-- Bootstrap core JavaScript-->
-  <script src="resources/vendor/jquery/jquery.min.js"></script>
-  <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="resources/js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="resources/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  <script src="resources/vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="resources/js/demo/datatables-demo.js"></script>
-  <script src="resources/js/demo/chart-area-demo.js"></script>
 
 
 

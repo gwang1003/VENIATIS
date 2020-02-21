@@ -121,5 +121,8 @@ public interface BlogService {
 	// 35. 블로그 기본정보 수정
 	int updateBlogDetail(BlogDetail bd);
 	
+	// 36. css업뎃하기
+	int updateBlogCss(BlogDetail bd);
+	
 
 }

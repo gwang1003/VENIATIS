@@ -273,6 +273,12 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return bDao.updateBlogDetail(bd);
 	}
+
+	// 36. css업뎃하기
+	@Override
+	public int updateBlogCss(BlogDetail bd) {
+		return bDao.updateBlogCss(bd);
+	}
 	
 
 	

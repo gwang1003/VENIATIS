@@ -11,6 +11,20 @@ public class BlogDetail {
 	private String cssTime;
 	private String cssLocation;
 	private String blogInto;
+	private String blogTag;
+	public BlogDetail(int blogNo, int mNo, String blogTitle, String cssBack, String cssWeather, String cssTime,
+			String cssLocation, String blogInto, String blogTag) {
+		super();
+		this.blogNo = blogNo;
+		this.mNo = mNo;
+		this.blogTitle = blogTitle;
+		this.cssBack = cssBack;
+		this.cssWeather = cssWeather;
+		this.cssTime = cssTime;
+		this.cssLocation = cssLocation;
+		this.blogInto = blogInto;
+		this.blogTag = blogTag;
+	}
 	public int getBlogNo() {
 		return blogNo;
 	}
@@ -59,24 +73,21 @@ public class BlogDetail {
 	public void setBlogInto(String blogInto) {
 		this.blogInto = blogInto;
 	}
-	public BlogDetail(int blogNo, int mNo, String blogTitle, String cssBack, String cssWeather, String cssTime,
-			String cssLocation, String blogInto) {
-		super();
-		this.blogNo = blogNo;
-		this.mNo = mNo;
-		this.blogTitle = blogTitle;
-		this.cssBack = cssBack;
-		this.cssWeather = cssWeather;
-		this.cssTime = cssTime;
-		this.cssLocation = cssLocation;
-		this.blogInto = blogInto;
+	public String getBlogTag() {
+		return blogTag;
+	}
+	public void setBlogTag(String blogTag) {
+		this.blogTag = blogTag;
 	}
 	@Override
 	public String toString() {
 		return "BlogDetail [blogNo=" + blogNo + ", mNo=" + mNo + ", blogTitle=" + blogTitle + ", cssBack=" + cssBack
 				+ ", cssWeather=" + cssWeather + ", cssTime=" + cssTime + ", cssLocation=" + cssLocation + ", blogInto="
-				+ blogInto + "]";
+				+ blogInto + ", blogTag=" + blogTag + "]";
 	}
+	
+		
+	
 	
 	
 }

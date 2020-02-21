@@ -101,6 +101,7 @@
 		<result property="cssTime" column="BCSS_TIME"/>
 		<result property="cssLocation" column="BCSS_LOCATION"/>
 		<result property="blogInto" column="BLOG_INTO"/>
+		<result property="blogTag" column="BLOG_TAG"/>
 	</resultMap>	
 	
 	
@@ -323,6 +324,15 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		UPDATE BLOG_DETAIL
 		SET BLOG_TITLE=#{blogTitle},BLOG_INTO=#{blogInto}
 		WHERE M_NO=#{mNo}	 
+	
+	</update>
+	
+	<!-- 블로그 css 수정 -->
+	<update id="updateBlogCss" parameterType="BlogDetail">
+		UPDATE BLOG_DETAIL
+		SET BCSS_BACK=#{cssBack}, BCSS_WEATHER=#{cssWeather}, BCSS_TIME=#{cssTime}, BCSS_LOCATION=#{cssLocation},
+		BLOG_TAG=#{blogTag}
+		WHERE M_NO=#{mNo}
 	
 	</update>
 	

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springsource.loaded.SystemClassReflectionInvestigator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -1088,7 +1089,7 @@ public class BlogController {
 	}	
 	
 	
-	//블로그 관리-CSS수정
+	//블로그 관리-CSS수정(화면)
 	@RequestMapping("badminCss.do")
 	public ModelAndView badminCSS(ModelAndView mv,HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -1099,4 +1100,52 @@ public class BlogController {
 		mv.setViewName("blog/blogAdminCSS");
 		return mv;
 	}	
+	
+	//블로그관리-CSS수정
+	@RequestMapping("badminCssChange.do")
+	public ModelAndView badminCssChange(ModelAndView mv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        
+		BlogDetail bd = new BlogDetail();
+		// 변경된 색깔 갖고오기
+		if(request.getParameter("cssBack")!=null) {
+			bd.setCssBack(request.getParameter("cssBack"));
+		}
+		
+		bd.setBlogTag("none");
+		bd.setCssTime("none");
+		bd.setCssWeather("none");
+		bd.setCssLocation("none");
+		//체크박스 목록 갖고오기 (글번호목록)
+		bd.setmNo(nowUser.getmNo());
+		
+		if(request.getParameterValues("blogcss")!=null) {
+			String[] arr = request.getParameterValues("blogcss");
+			
+			
+			for(int i=0;i<arr.length;i++) {
+				if(arr[i].equals("blogTag")) {
+					bd.setBlogTag("");
+				}else if(arr[i].equals("cssWeather")) {
+					bd.setCssWeather("");
+				}else if(arr[i].equals("cssTime")) {
+					bd.setCssTime("");
+				}else if(arr[i].equals("cssLocation")) {
+					bd.setCssLocation("");
+				}
+			}
+		}
+		
+		
+		
+		//업뎃하기!
+		int num= bService.updateBlogCss(bd);
+		BlogDetail bds= bService.selectBlogDetail(nowUser.getmNo());
+        mv.addObject("bd",bds);
+		mv.setViewName("blog/blogAdminCSS");		
+
+		return mv;
+	}
+	
 }

@@ -173,7 +173,7 @@
 									<div class="project_card_inner">
 										<a class="project_detail_link"> 
 										<span class="project_thumbnail" 
-											style="background-image: url('test.png')"></span>
+											style="background-image: url('${ prj.thumbnail}')"></span>
 										</a>
 										<div class="project_card_info">
 											<span class="screen_out">프로젝트 제목</span>

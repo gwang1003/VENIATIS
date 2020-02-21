@@ -130,17 +130,28 @@ public class ProjectUserController {
 	*/
 	
 	@RequestMapping("rewardSelect.do")
-	public String RewardSelectView() {
-		return "project_user/rewardSelect";
+	public ModelAndView RewardSelectView(ModelAndView mv, int pNo) {
+		//System.out.println("리워드 목록 조회를 위한 pNo : "+pNo);
+		ProjectView p = pus.selectProject(pNo);
+		ArrayList<Reward> rList = pus.selectRewardList(pNo);
+		
+		mv.addObject("project", p);
+		mv.addObject("rewardList", rList);
+		mv.setViewName("project_user/rewardSelect");
+		return mv;
 	}
 	
 	@RequestMapping("rewardOrder.do")
-	public String RewardOrderView() {
-		return "project_user/rewardOrder";
+	public ModelAndView RewardOrderView(ModelAndView mv) {
+		mv.setViewName("project_user/rewardOrder");
+		return mv;
 	}
 	
 	@RequestMapping("rewardSuccess.do")
-	public String RewardSuccessView() {
-		return "project_user/rewardSuccess";
+	public ModelAndView RewardSuccessView(ModelAndView mv) {
+		mv.setViewName("project_user/rewardSuccess");
+		return mv;
 	}
+	
+	
 }

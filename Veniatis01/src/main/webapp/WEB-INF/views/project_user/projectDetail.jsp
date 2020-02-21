@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,17 +228,33 @@ function comma(str) {
         										<span style="color:blue;">오늘:${nDate}</span> --%>
                                         </span><span class="txt_value"> 일 남음</span>
 										<!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
-                                        <button type="button" class="link_join" onclick="">참여하기</button>
+										<c:url var="rSelect" value="rewardSelect.do">
+											<c:param name="pNo" value="${ project.pNo }"/>
+											<%-- <c:param name="creName" value="${ project.creName }"/>
+											<c:param name="creProfile" value="${ project.creProfile }"/> --%>
+										</c:url>
+										
+										
+										<c:if test="${ empty loginUser }">
+											<button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
+										</c:if>
+										<c:if test="${ !empty loginUser }">
+                                        	<button type="submit" class="link_join" onclick="location.href='${ rSelect }';">참여하기</button>
+                                        </c:if>
+                                        <script>
+	                                        function checkLogin(){
+	                            				alert("로그인 후 이용 가능합니다.");
+	                            			}
+                                        </script>
+                                        
                                     </div>
 
                                     <div class="txt_notice ">
-
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
                                            	 목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
 											결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
-
                                     </div>
 
                                 </div>
@@ -663,10 +680,10 @@ function comma(str) {
                                             <fieldset>
                                                 <ul class="list_reward">
                                                 <c:forEach var="reward" items="${ rewardList }">
-                                                	<!-- 리워드 수량 제한 없 경우 -->
+                                                	<!-- 리워드 수량 제한 없는 경우 -->
                                                 	<c:if test="${reward.rLimit eq 'N'}">
                                                 	<li>
-														<a href="" class="box_reward"> 
+														<a onclick="location.href='rewardSelect.do';" class="box_reward"> 
 															<strong class="tit_reward">
 																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
 															</strong>

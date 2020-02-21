@@ -16,18 +16,20 @@ public class ProjectView {
 	private Date endDate;	// 프로젝트 마감 날짜
 	private int targetAmount;	// 목표금액
 	private int sumAmount;	// 모인금액
+	private String thumbnail;	// 프로젝트 썸네일 이미지 주소
 	private int creNo;		// 크리에이터 번호
 	private String creId;	// 크리에이터 아이디
 	private String creName;	// 크리에이터 이름
 	private String creEmail;// 크리에이터 이메일
 	private String creProfile;	// 프로필이미지 경로
 	private String pStatus;	// 프로젝트 상태
+	private String progress;	// 진행 상태
 	
 	public ProjectView() {}
 
 	public ProjectView(int pNo, String cate, String pTitle, String pText, String pDesc, String pUrl, String pVideo,
-			String hashtag, Date startDate, Date endDate, int targetAmount, int sumAmount, int creNo, String creId,
-			String creName, String creEmail, String creProfile, String pStatus) {
+			String hashtag, Date startDate, Date endDate, int targetAmount, int sumAmount, String thumbnail, int creNo,
+			String creId, String creName, String creEmail, String creProfile, String pStatus, String progress) {
 		super();
 		this.pNo = pNo;
 		this.cate = cate;
@@ -41,13 +43,17 @@ public class ProjectView {
 		this.endDate = endDate;
 		this.targetAmount = targetAmount;
 		this.sumAmount = sumAmount;
+		this.thumbnail = thumbnail;
 		this.creNo = creNo;
 		this.creId = creId;
 		this.creName = creName;
 		this.creEmail = creEmail;
 		this.creProfile = creProfile;
 		this.pStatus = pStatus;
+		this.progress = progress;
 	}
+
+
 
 	public int getpNo() {
 		return pNo;
@@ -144,6 +150,14 @@ public class ProjectView {
 	public void setSumAmount(int sumAmount) {
 		this.sumAmount = sumAmount;
 	}
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 
 	public int getCreNo() {
 		return creNo;
@@ -197,9 +211,10 @@ public class ProjectView {
 	public String toString() {
 		return "ProjectView [pNo=" + pNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText + ", pDesc="
 				+ pDesc + ", pUrl=" + pUrl + ", pVideo=" + pVideo + ", hashtag=" + hashtag + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount + ", creNo="
-				+ creNo + ", creId=" + creId + ", creName=" + creName + ", creEmail=" + creEmail + ", creProfile="
-				+ creProfile + ", pStatus=" + pStatus + "]";
+				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount
+				+ ", thumbnail=" + thumbnail + ", creNo=" + creNo + ", creId=" + creId + ", creName=" + creName
+				+ ", creEmail=" + creEmail + ", creProfile=" + creProfile + ", pStatus=" + pStatus + ", progress="
+				+ progress + "]";
 	}
 
 	

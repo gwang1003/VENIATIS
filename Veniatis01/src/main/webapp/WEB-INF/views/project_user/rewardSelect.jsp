@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -378,230 +379,144 @@
                             </div>
                         </div>
                         <div class="box_comm">
-                            <form id="selectForm" name="selectForm" method="post">
-                                <input type="hidden" id="totalAmt" value="0" />
-                                <input type="hidden" id="projectSeq" name="rewardProject.projectSeq" value="7795" />
-                                <input type="hidden" id="simulationFlag" name="rewardProject.simulationFlag" value="N" />
-
-                                <input type="hidden" id="investorSeq" name="rewardInvestor.investorSeq" value="" />
-                                <input type="hidden" id="norewardflag" name="norewardflag" value="N">
-
-
-                                <fieldset>
-                                    <legend class="screen_out">리워드 선택</legend>
-                                    <div class="order_sheet">
-
-                                        <input type="hidden" name="rewardItemList[0].rewardAmt" value="8000" />
-                                        <input type="hidden" name="rewardItemList[0].title" value="(얼리버드) 독립운동가 그립톡 1개 " />
-                                        <input type="hidden" name="rewardItemList[0].rewardExpectText" value="2019년 2월 20일부터 27일 까지 순차적으로 제공" />
-                                        <input type="hidden" name="rewardItemList[0].rewardSelFlag" value="Y" />
-
-
-
-                                        <!-- 리워드 수량 제한이 있는 경우 -->
-
-
-                                        <!-- 리워드 진행중인 경우 -->
-                                        <div class="reward_item">
-                                            <input type="hidden" name="rewardItemList[0].rewardSeq" id="rewardSeq"
-                                                value="13775" />
-                                            <span class="item_amount">
-                                                <span class="num_cont">
-                                                    8,000
-                                                </span>
-                                                <span class="txt_funding">원 펀딩</span>
-                                            </span>
-                                            <strong class="name_reward">
-                                                (얼리버드) 독립운동가 그립톡 1개
-                                            </strong>
-                                            <span class="info_dely">
-                                                <span class="tit_cont">배송 예정일 : </span>
-                                                <span class="txt_desc">
-                                                    2019년 2월 20일부터 27일 까지 순차적으로 제공
-                                                </span>
-                                            </span>
-                                            <span class="txt_satea">
-                                                <em class="num_state">
-                                                    2명
-                                                </em> 참여하였습니다.
-                                                <small class="txt_count">
-                                                    (수량 5개 남음)
-                                                </small>
-                                            </span>
-                                            <label for="inpChkReward0" class="lab_select">
-                                                <input type="checkbox" id="inpChkReward0" name="reward_select" class="chk_reward">
-                                                <i class="check-icon"></i>
-                                            </label>
-                                            <fieldset class="count_control">
-                                                <input type="hidden" id="extraCount" value="5" />
-                                                <input type="hidden" id="rewardQty" name="rewardItemList[0].rewardQty"
-                                                    value="10" />
-                                                <legend class="tit_count">수량</legend>
-                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[0].selectCount"
-                                                    title="리워드 수량" value="0">
-                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
-                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
-                                            </fieldset>
-
-                                            <!--리워드옵션입력 필요여부에 따라 노출 -->
-                                            <div class="ask_details">
-                                                <label for="tfRewardInfo" class="lab_tf_reward">
-                                                    리워드정보입력
-                                                    <small class="txt_noti">
-                                                        (<span class="mark_vital">*</span>필수입력)
-                                                    </small>
-                                                </label>
-                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
-                                                    name="rewardItemList[0].optionText" onfocus="this.placeholder = ''"
-                                                    onblur="this.placeholder = ' 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   '"
-                                                    placeholder=" 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   "></textarea>
-                                            </div>
-
-                                        </div>
-
-                                        <input type="hidden" name="rewardItemList[1].rewardAmt" value="10000" />
-                                        <input type="hidden" name="rewardItemList[1].title" value="독립운동가 그립톡 1개" />
-                                        <input type="hidden" name="rewardItemList[1].rewardExpectText" value="2019년 2월 20일부터 27일 까지 순차적으로 제공" />
-                                        <input type="hidden" name="rewardItemList[1].rewardSelFlag" value="Y" />
-
-
-                                        <!-- 리워드 수량이 무한한 경우 -->
-                                        <div class="reward_item">
-                                            <input type="hidden" name="rewardItemList[1].rewardSeq" id="rewardSeq"
-                                                value="13776" />
-                                            <span class="item_amount">
-                                                <span class="num_cont">
-                                                    10,000
-                                                </span>
-                                                <span class="txt_funding">원 펀딩</span>
-                                            </span>
-                                            <strong class="name_reward">독립운동가 그립톡 1개</strong>
-                                            <span class="info_dely">
-                                                <span class="tit_cont">배송 예정일 : </span>
-                                                <span class="txt_desc">
-                                                    2019년 2월 20일부터 27일 까지 순차적으로 제공
-                                                </span>
-                                            </span>
-                                            <span class="txt_satea">
-                                                <em class="num_state">0명</em> 참여하였습니다.
-                                            </span>
-                                            <label for="inpChkReward1" class="lab_select">
-                                                <input type="checkbox" name="reward_select" id="inpChkReward1" class="chk_reward">
-                                                <i class="check-icon"></i>   
-                                            </label>
-
-                                            <fieldset class="count_control">
-                                                <input type="hidden" id="extraCount" value="0" />
-                                                <input type="hidden" id="rewardQty" name="rewardItemList[1].rewardQty"
-                                                    value="0" />
-                                                <legend class="tit_count">수량</legend>
-                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[1].selectCount"
-                                                    title="리워드 수량" value="0">
-                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
-                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
-                                            </fieldset>
-
-
-                                            <!--리워드옵션입력 필요여부에 따라 노출 -->
-                                            <div class="ask_details">
-                                                <label for="tfRewardInfo" class="lab_tf_reward">
-                                                    리워드정보입력
-                                                    <small class="txt_noti">(<span class="mark_vital">*</span>필수입력)</small>
-                                                </label>
-                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
-                                                    name="rewardItemList[1].optionText" rows="5" onfocus="this.placeholder = ''"
-                                                    onblur="this.placeholder = ' 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   '"
-                                                    placeholder=" 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   "></textarea>
-                                            </div>
-
-                                        </div>
-
-                                        <input type="hidden" name="rewardItemList[2].rewardAmt" value="17000" />
-                                        <input type="hidden" name="rewardItemList[2].title" value="독립운동가 그립톡 2개" />
-                                        <input type="hidden" name="rewardItemList[2].rewardExpectText" value="2019년 2월 20일부터 27일 까지 순차적으로 제공" />
-                                        <input type="hidden" name="rewardItemList[2].rewardSelFlag" value="Y" />
-
-
-                                        <!-- 리워드 수량이 무한한 경우 -->
-                                        <div class="reward_item">
-                                            <input type="hidden" name="rewardItemList[2].rewardSeq" id="rewardSeq"
-                                                value="13777" />
-                                            <span class="item_amount">
-                                                <span class="num_cont">
-                                                    17,000
-                                                </span>
-                                                <span class="txt_funding">원 펀딩</span>
-                                            </span>
-                                            <strong class="name_reward">독립운동가 그립톡 2개</strong>
-                                            <span class="info_dely">
-                                                <span class="tit_cont">배송 예정일 : </span>
-                                                <span class="txt_desc">
-                                                    2019년 2월 20일부터 27일 까지 순차적으로 제공
-                                                </span>
-                                            </span>
-                                            <span class="txt_satea">
-                                                <em class="num_state">0명</em> 참여하였습니다.
-                                            </span>
-                                            <label for="inpChkReward2" class="lab_select">
-                                                <input type="checkbox" id="inpChkReward2" name="reward_select" class="chk_reward">
-                                                <i class="check-icon"></i>
-                                            </label>
-
-                                            <fieldset class="count_control">
-                                                <input type="hidden" id="extraCount" value="0" />
-                                                <input type="hidden" id="rewardQty" name="rewardItemList[2].rewardQty"
-                                                    value="0" />
-                                                <legend class="tit_count">수량</legend>
-                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[2].selectCount"
-                                                    title="리워드 수량" value="0">
-                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
-                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
-                                            </fieldset>
-
-
-                                            <!--리워드옵션입력 필요여부에 따라 노출 -->
-                                            <div class="ask_details">
-                                                <label for="tfRewardInfo" class="lab_tf_reward">
-                                                    리워드정보입력
-                                                    <small class="txt_noti">(<span class="mark_vital">*</span>필수입력)</small>
-                                                </label>
-                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
-                                                    name="rewardItemList[2].optionText" rows="5" onfocus="this.placeholder = ''"
-                                                    onblur="this.placeholder = ' 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   '"
-                                                    placeholder=" 독립운동가분(안창호 선생님 / 유관순 열사님)을 선택하여 입력해주세요.   "></textarea>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="add_amount">
-                                            <label for="inpChkReward100" class="lab_select">
-                                                <input type="checkbox" id="inpChkReward100" name="reward_select" class="chk_reward">
-                                                <i class="check-icon"></i>
-                                                <span class="tit_cont">참여금 추가입력(선택)<br> <span class="txt_refer">참여금을
-                                                        추가로
-                                                        후원할 수 있습니다.</span>
-                                                </span>
-                                            </label>
-                                            <div class="inp_amount">
-                                                <input type="text" id="tfAmount" class="tf_amount" title="금액입력" name="rewardInvestor.addAmt"
-                                                    value="0" readOnly>
-                                                <span class="txt_won"> 원</span>
-                                                <span class="txt_min">1,000원 이상부터 가능</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!-- // oder sheet -->
-                                </fieldset>
-                                <footer class="reward_foot">
-                                    <p class="total_info">
-                                        선택한 리워드 총 <span class="num">0</span>개이며 참여금액 <span class="num">0</span>원
-                                        입니다.
-                                    </p>
-                                    <button type="button" class="btn_next" onclick="fnMoveNext(7795)">다음단계</button>
-                                </footer>
-                            </form>
+                            <fieldset>
+                            	<legend class="screen_out">리워드 선택</legend>
+                                <div class="order_sheet">
+                                <!-- 리워드 수량 제한이 있는 경우 -->
+                                	<c:forEach var="reward" items="${ rewardList }">
+                                		<c:if test="${ reward.rLimit eq 'Y' }">
+	                                		<div class="reward_item">
+	                                            <input type="hidden" name="rewardItemList[0].rewardSeq" id="rewardSeq"
+	                                                value="13775" />
+	                                            <span class="item_amount">
+	                                                <span class="num_cont">
+	                                                    <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>
+	                                                </span>
+	                                                <span class="txt_funding">원 펀딩</span>
+	                                            </span>
+	                                            <strong class="name_reward">${ reward.rItem }</strong>
+	                                            <span class="info_dely">
+	                                                <span class="tit_cont">배송 예정일 : </span>
+	                                                <span class="txt_desc">
+	                                                    <fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/> 부터 순차적으로 제공
+	                                                </span>
+	                                            </span>
+	                                            <span class="txt_satea">
+	                                                <em class="num_state">
+	                                                    2명
+	                                                </em> 참여하였습니다.
+	                                                <small class="txt_count">
+	                                                    (수량 ${ reward.rCount }개 남음)
+	                                                </small>
+	                                            </span>
+	                                            <label for="inpChkReward0" class="lab_select">
+	                                                <input type="checkbox" id="inpChkReward0" name="reward_select" class="chk_reward">
+	                                                <i class="check-icon"></i>
+	                                            </label>
+	                                            <fieldset class="count_control">
+	                                                <input type="hidden" id="extraCount" value="${ reward.rCount }" />
+	                                                <input type="hidden" id="rewardQty" name="rewardItemList[0].rewardQty"
+	                                                    value="${ reward.rCount }" />
+	                                                <legend class="tit_count">수량</legend>
+	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[0].selectCount"
+	                                                    title="리워드 수량" value="0">
+	                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
+	                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
+	                                            </fieldset>
+	
+	                                            <!--리워드옵션입력 필요여부에 따라 노출 -->
+	                                            <c:if test="${ reward.rOption ne null }">
+		                                            <div class="ask_details">
+		                                                <label for="tfRewardInfo" class="lab_tf_reward">
+		                                                	리워드정보입력
+		                                                    <small class="txt_noti">
+		                                                        (<span class="mark_vital">*</span>필수입력)
+		                                                    </small>
+		                                                </label>
+		                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
+		                                                    name="rewardItemList[0].optionText" onfocus="this.placeholder = ''"
+		                                                    onblur="this.placeholder = '${reward.rOption}'"
+		                                                    placeholder="${reward.rOption}"></textarea>
+		                                            </div>
+	                                            </c:if>
+	                                        </div>
+                                		</c:if>
+                                		
+                                		<!-- 리워드 수량 제한이 없는 경우 -->
+                                		<c:if test="${ reward.rLimit eq 'N' }">
+	                                		<div class="reward_item">
+	                                            <input type="hidden" name="rewardItemList[1].rewardSeq" id="rewardSeq"
+	                                                value="13776" />
+	                                            <span class="item_amount">
+	                                                <span class="num_cont">
+	                                                    <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>
+	                                                </span>
+	                                                <span class="txt_funding">원 펀딩</span>
+	                                            </span>
+	                                            <strong class="name_reward">${ reward.rItem }</strong>
+	                                            <span class="info_dely">
+	                                                <span class="tit_cont">배송 예정일 : </span>
+	                                                <span class="txt_desc">
+	                                                    <fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/> 부터 순차적으로 제공
+	                                                </span>
+	                                            </span>
+	                                            <span class="txt_satea">
+	                                                <em class="num_state">0명</em> 참여하였습니다.
+	                                            </span>
+	                                            <label for="inpChkReward1" class="lab_select">
+	                                                <input type="checkbox" name="reward_select" id="inpChkReward1" class="chk_reward">
+	                                                <i class="check-icon"></i>   
+	                                            </label>
+	
+	                                            <fieldset class="count_control">
+	                                                <input type="hidden" id="extraCount" value="0" />
+	                                                <input type="hidden" id="rewardQty" name="rewardItemList[1].rewardQty"
+	                                                    value="0" />
+	                                                <legend class="tit_count">수량</legend>
+	                                                <input type="text" id="inpCount" class="num_count" name="rewardItemList[1].selectCount"
+	                                                    title="리워드 수량" value="0">
+	                                                <button type="button" class="btn_minus" title="빼기">빼기</button>
+	                                                <button type="button" class="btn_plus" title="더하기">더하기</button>
+	                                            </fieldset>
+	
+	
+	                                            <!--리워드옵션입력 필요여부에 따라 노출 -->
+	                                            <c:if test="${ reward.rOption ne null }">
+		                                            <div class="ask_details">
+		                                                <label for="tfRewardInfo" class="lab_tf_reward">리워드정보입력
+		                                                    <small class="txt_noti">(<span class="mark_vital">*</span>필수입력)</small>
+		                                                </label>
+		                                                <textarea id="tfRewardInfo" class="tf_reward_info" cols="30" rows="5"
+		                                                    name="rewardItemList[0].optionText" onfocus="this.placeholder = ''"
+		                                                    onblur="this.placeholder = '${reward.rOption}'"
+		                                                    placeholder="${reward.rOption}"></textarea>
+		                                            </div>
+	                                            </c:if>
+	
+	                                        </div>
+                                		</c:if>
+                                	</c:forEach>
+                                	
+                                </div>
+                            </fieldset>
+	                            <div class="add_amount">
+		                            <label for="inpChkReward100" class="lab_select">
+		                                <input type="checkbox" id="inpChkReward100" name="reward_select" class="chk_reward">
+		                                <i class="check-icon"></i>
+		                                <span class="tit_cont">참여금 추가입력(선택)<br> 
+		                                	<span class="txt_refer">참여금을 추가로 후원할 수 있습니다.</span>
+		                                </span>
+		                            </label>
+		                            <div class="inp_amount">
+		                                <input type="text" id="tfAmount" class="tf_amount" title="금액입력" name="rewardInvestor.addAmt"
+		                                    value="0" readOnly>
+		                                <span class="txt_won"> 원</span>
+		                                <span class="txt_min">1,000원 이상부터 가능</span>
+		                            </div>
+		                        </div>
+		
+		                    </div>
+                            
                         </div>
                     </div>
                 </article>

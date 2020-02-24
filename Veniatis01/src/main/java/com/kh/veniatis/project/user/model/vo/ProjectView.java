@@ -206,6 +206,14 @@ public class ProjectView {
 	public void setpStatus(String pStatus) {
 		this.pStatus = pStatus;
 	}
+	
+	public String getProgress(){
+		return progress;
+	}
+	
+	public void setProgress(String progress) {
+		this.progress = progress;
+	}
 
 	@Override
 	public String toString() {

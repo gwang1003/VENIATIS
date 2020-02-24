@@ -60,11 +60,12 @@
 		<result property="endDate" column="P_END_DATE"/>
 		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
 		<result property="sumAmount" column="P_SUM_AMOUNT"/>
+		<result property="thumbnail" column="THUMB"/>
 		<result property="creNo" column="CRE_NO"/>
 		<result property="creId" column="M_ID"/>
 		<result property="creName" column="CRE_NAME"/>
 		<result property="creEmail" column="CRE_EMAIL"/>
-		<result property="creProfile" column="FILE_PATH"/>
+		<result property="creProfile" column="PROFILE"/>
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 
@@ -145,6 +146,30 @@
 		SELECT *
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="myInterestProject" resultMap="prjView">
+		SELECT *
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="likesListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="interestListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="openListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_PROJECT
+		WHERE CRE_NO = #{getCreNo}
 	</select>
 	
 	

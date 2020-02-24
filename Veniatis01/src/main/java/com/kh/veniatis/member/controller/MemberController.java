@@ -26,8 +26,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
-import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
@@ -55,8 +55,6 @@ public class MemberController {
 	public String memberLogin(Member m, Model model) { 
 		// HttpSession 커맨드 객체 생략
 		Member loginUser = mService.loginMember(m);
-		System.out.println(m);
-		System.out.println(loginUser);
 		if(loginUser != null) {
 
 			// 조회 성공 시 Model에 loginUser 정보를 담는다.
@@ -176,10 +174,16 @@ public class MemberController {
 		return "myPage/My/memberInsertInfo";
 	}
 	@RequestMapping("attendProject.do")
-	public ModelAndView attendProject(HttpSession session) {
+	public ModelAndView attendProject(HttpSession session,
+			@RequestParam(value="page", required = false) Integer page,
+			@RequestParam(value="align", required = false) String align) {
+		
+		int currentPage = page != null ? page : 1;
+		String l = align != null ? align : "All";
+		
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		ArrayList<ProjectView> likeProject = mService.selectLikes(loginUser.getmNo());
-		int[] index = new int[4];
+		ArrayList<ProjectView> likeProject = mService.selectLikes(loginUser.getmNo(), currentPage);
+		int[] index = new int[3];
 		int allIndex = 0;
 		int ingIndex = 0;
 		int endIndex = 0;
@@ -190,23 +194,23 @@ public class MemberController {
 			for(int i = 0; i < likeProject.size(); i++) {
 
 					if(likeProject.get(i).getEndDate().getTime() > date.getTime() && likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
-						likeProject.get(i).setPrograss("진행중(성공)");
+						likeProject.get(i).setProgress("진행중(성공)");
 						ingIndex++;
 					}else if(likeProject.get(i).getEndDate().getTime() > date.getTime() && likeProject.get(i).getSumAmount() < likeProject.get(i).getTargetAmount()){
-						likeProject.get(i).setPrograss("진행중");
+						likeProject.get(i).setProgress("진행중");
 						ingIndex++;
 					}else if(likeProject.get(i).getEndDate().getTime() < date.getTime() && likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
-						likeProject.get(i).setPrograss("종료(성공)");
+						likeProject.get(i).setProgress("종료(성공)");
 						endIndex++;
 					}else {
-						likeProject.get(i).setPrograss("종료(실패)");
+						likeProject.get(i).setProgress("종료(실패)");
 						endIndex++;
 					}
 				}
 			index = new int[]{allIndex, ingIndex, endIndex};
 			mv.addObject("likeProject", likeProject);
+			mv.addObject("pi", Pagination.getPageInfo());
 			mv.addObject("index", index);
-			System.out.println(likeProject);
 			mv.setViewName("myPage/My/attendProject");
 			
 			return mv;
@@ -217,15 +221,54 @@ public class MemberController {
 	
 	}
 	@RequestMapping("myInterestProject.do")
-	public String myInterestProject(HttpSession session) {
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		int pNo = mService.selectpNo(loginUser.getmNo());
-		System.out.println(pNo);
+	public ModelAndView myInterestProject(HttpSession session,
+			@RequestParam(value="page", required = false) Integer page) {
 		
-		return "redirect:myPage/My/myInterestProject";
+		int currentPage = page != null ? page : 1;
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		ArrayList<ProjectView> interestList = mService.myInterestProject(loginUser.getmNo(), currentPage);
+		int[] index = new int[3];
+		int allIndex = 0;
+		int ingIndex = 0;
+		int endIndex = 0;
+		Date date = new Date();
+		ModelAndView mv = new ModelAndView();
+		if(interestList != null) {
+			allIndex = interestList.size();
+			for(int i = 0; i < interestList.size(); i++) {
+					if(interestList.get(i).getEndDate().getTime() > date.getTime() && interestList.get(i).getSumAmount() >= interestList.get(i).getTargetAmount()) {
+						interestList.get(i).setProgress("진행중(성공)");
+						ingIndex++;
+					}else if(interestList.get(i).getEndDate().getTime() > date.getTime() && interestList.get(i).getSumAmount() < interestList.get(i).getTargetAmount()){
+						interestList.get(i).setProgress("진행중");
+						ingIndex++;
+					}else if(interestList.get(i).getEndDate().getTime() < date.getTime() && interestList.get(i).getSumAmount() >= interestList.get(i).getTargetAmount()) {
+						interestList.get(i).setProgress("종료(성공)");
+						endIndex++;
+					}else {
+						interestList.get(i).setProgress("종료(실패)");
+						endIndex++;
+					}
+				}
+			index = new int[]{allIndex, ingIndex, endIndex};
+			mv.addObject("interestList", interestList);
+			mv.addObject("pi", Pagination.getPageInfo());
+			mv.addObject("index", index);
+			mv.setViewName("myPage/My/myInterestProject");
+			
+			return mv;
+		
+			}else {
+				throw new MemberException("프로젝트 조회 실패!!");
+			}
 	}
 	@RequestMapping("myOpenProject.do")
-	public ModelAndView myOpenProject(HttpSession session) {
+	public ModelAndView myOpenProject(HttpSession session,
+			@RequestParam(value="page", required = false) Integer page) {
+		
+		int currentPage = page != null ? page : 1;
+		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		Creator cre = mService.selectCreator(loginUser.getmNo());
 		ModelAndView mv = new ModelAndView();
@@ -236,24 +279,24 @@ public class MemberController {
 		int waitIndex = 0;
 		Date date = new Date();
 		if(cre != null) {
-			ArrayList<ProjectView> pList = mService.myOpenProject(cre.getCreNo());
+			ArrayList<ProjectView> pList = mService.myOpenProject(cre.getCreNo(), currentPage);
 			allIndex = pList.size();
 			for(int i = 0; i < pList.size(); i++) {
 				if(pList.get(i).getpStatus().equals("N")) {
-					pList.get(i).setPrograss("승인대기");
+					pList.get(i).setProgress("승인대기");
 					waitIndex++;
 				}else {
 					if(pList.get(i).getEndDate().getTime() > date.getTime() && pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
-						pList.get(i).setPrograss("진행중(성공)");
+						pList.get(i).setProgress("진행중(성공)");
 						ingIndex++;
 					}else if(pList.get(i).getEndDate().getTime() > date.getTime() && pList.get(i).getSumAmount() < pList.get(i).getTargetAmount()){
-						pList.get(i).setPrograss("진행중");
+						pList.get(i).setProgress("진행중");
 						ingIndex++;
 					}else if(pList.get(i).getEndDate().getTime() < date.getTime() && pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
-						pList.get(i).setPrograss("종료(성공)");
+						pList.get(i).setProgress("종료(성공)");
 						endIndex++;
 					}else {
-						pList.get(i).setPrograss("종료(실패)");
+						pList.get(i).setProgress("종료(실패)");
 						endIndex++;
 					}
 				}
@@ -261,6 +304,7 @@ public class MemberController {
 			index = new int[]{allIndex, ingIndex, endIndex, waitIndex};
 			if(pList != null) {
 				mv.addObject("pList", pList);
+				mv.addObject("pi", Pagination.getPageInfo());
 				mv.addObject("index", index);
 				mv.setViewName("myPage/My/myOpenProject");
 				
@@ -300,7 +344,6 @@ public class MemberController {
 		m.setmAddress(post + "#" + address1 + "#" + address2);
 		int result = mService.memberInsert(m);
 		Member member = mService.selectOneMember(m.getmId());
-		System.out.println("dl Member : " + member);
 		Files files = new Files(3, "basicImg.jpg", "basicImg.jpg", "resources/memberPhoto/basicImg.jpg");
 		ModelAndView mv = new ModelAndView();
 		if(result > 0) {

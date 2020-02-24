@@ -29,7 +29,7 @@ public interface MemberService {
 
 	int mPhotoDelete(Member m);
 
-	ArrayList<ProjectView> myOpenProject(int getCreNo);
+	ArrayList<ProjectView> myOpenProject(int getCreNo, int currentPage);
 
 	int selectpNo(int getmNo);
 
@@ -39,5 +39,7 @@ public interface MemberService {
 
 	Creator selectCreator(int getmNo);
 
-	ArrayList<ProjectView> selectLikes(int getmNo);
+	ArrayList<ProjectView> selectLikes(int getmNo, int currentPage);
+
+	ArrayList<ProjectView> myInterestProject(int getmNo, int currentPage);
 }

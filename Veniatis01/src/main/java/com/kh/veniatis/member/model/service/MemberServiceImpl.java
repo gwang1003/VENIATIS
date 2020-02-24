@@ -13,8 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.kh.veniatis.common.PageInfo;
+import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
-import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.dao.MemberDao;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
@@ -113,8 +114,13 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public ArrayList<ProjectView> myOpenProject(int getCreNo) {
-		return mDao.myOpenProject(getCreNo);
+	public ArrayList<ProjectView> myOpenProject(int getCreNo, int currentPage) {
+		int listCount = mDao.openListCount(getCreNo);
+		
+		// 페이지 정보 저장
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 3, 5);
+		
+		return mDao.myOpenProject(getCreNo, pi);
 	}
 
 
@@ -143,9 +149,27 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public ArrayList<ProjectView> selectLikes(int getmNo) {
-		return mDao.selectLikes(getmNo);
+	public ArrayList<ProjectView> selectLikes(int getmNo, int currentPage) {
+		int listCount = mDao.likesListCount(getmNo);
+		
+		// 페이지 정보 저장
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4, 5);
+		
+		return mDao.selectLikes(getmNo, pi);
 	}
+
+
+	@Override
+	public ArrayList<ProjectView> myInterestProject(int getmNo, int currentPage) {
+		int listCount = mDao.interestListCount(getmNo);
+		
+		// 페이지 정보 저장
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 2, 5);
+		
+		return mDao.myInterestProject(getmNo, pi);
+	}
+
+
 
 
 

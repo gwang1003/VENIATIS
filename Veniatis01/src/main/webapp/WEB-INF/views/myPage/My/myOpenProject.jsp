@@ -18,6 +18,25 @@
 		width: 10%;
 		border:1px solid black;
 	}
+	
+	.pagingTable {
+		margin-top:40px;
+		height:30px;
+		background : darkgray;
+	}
+	
+	.pagingTable td {
+		font-size:20px;
+		width:40px;
+		height:40px;
+		border:1px solid ghostwhite;
+	}
+	
+	.pagingTable a:hover {
+		background : #40c8b5;
+		color:white;
+		cursor:pointer;
+	} 
 </style>
 </head>
 <body class="login">
@@ -47,7 +66,9 @@
                                 	<c:forEach var="p" items="${pList }">                              
                                     <li>
                                         <div class="img_thumb">
-                                            <div style="width:290px;height:174px"></div>
+                                            <div style="width:290px;height:174px;">
+                                            	<img src="${p.thumbnail }" style="width:290px;height:174px;">
+                                            </div>
                                         </div>
                                         <div class="box_text_area">
                                             <dl>
@@ -61,7 +82,7 @@
                                             <dl>
                                                 <dt>상태</dt>       
                                                 
-                                                            <dd>${p.prograss }<em class="num_state"></em></dd>
+                                                            <dd>${p.progress }<em class="num_state"></em></dd>
                                             </dl>
                                             <dl>
                                                 <dt>등록일</dt>
@@ -71,8 +92,11 @@
                                                 </dd>
                                             </dl>
                                         </div>
+                                        <c:url var="pDetail" value="projectDetail.do">
+											<c:param name="pNo" value="${ p.pNo }"/>
+										</c:url>
                                         <div class="box_btn_area">
-                                                    <a class="btn_preview" href="/reward/preview/7939" title="미리보기" target="_blank">미리보기</a>											
+                                                    <a class="btn_preview" href="${pDetail }" title="미리보기" target="_blank">미리보기</a>											
                                                         <a class="btn_edit" href="/apply/7939/maker" title="수정하기" target="_blank">수정하기</a>
                                             <a class="btn_delete" href="javascript:void(0);" onclick="javascript:fnDeleteProject('','7939'); return false;" title="삭제하기">삭제하기</a>
                                         </div>
@@ -80,11 +104,52 @@
                                     </c:forEach>
                                 </ul>
                                 
-                                <div id="paging" class="paging_comm">
-                                       <a class="link_page on">1</a>&nbsp;
-    
-                                       <input id="pageIndex" name="pageIndex" type="hidden" value="1">
-                                    </div>
+                                <table align="center" class="pagingTable">
+								<tr align="center" height="20">
+									<td colspan="6">
+										<!-- [이전] -->
+										<c:if test="${ pi.currentPage <= 1 }">
+										<
+										</c:if>
+										<c:if test="${ pi.currentPage > 1 }">
+											<c:url var="before" value="blist.do">
+												<c:param name="page" value="${ pi.currentPage -1 }"/>
+											</c:url>
+											<a href="${ before }"><</a>
+										</c:if>
+									</td>
+										&nbsp;
+									
+										<!-- 페이지 숫자 -->
+									<td>
+										<c:forEach var="p" begin="${pi.startPage }" end="${ pi.endPage }">
+											<c:if test="${ pi.currentPage eq p }">
+												${ p }
+											</c:if>
+											<c:if test="${ pi.currentPage ne p }">
+												<c:url var="pagination" value="myInterestProject.do">
+													<c:param name="page" value="${p }"/>
+												</c:url>
+												<a href="${ pagination }"><button type="button">${ p }</button></a>
+											</c:if>
+									</td>
+											&nbsp;
+										</c:forEach>
+										
+										<!-- [다음] -->
+									<td>
+										<c:if test="${ pi.currentPage >= pi.maxPage }">
+										>
+										</c:if>
+										<c:if test="${ pi.currentPage < pi.maxPage }">
+											<c:url var="after" value="blist.do">
+												<c:param name="page" value="${ pi.currentPage +1 }"/>
+											</c:url>
+											<a href="${ after }">></a>
+										</c:if>
+									</td>
+								</tr>
+							</table>				
                                 </div>
                             </div>
                         </article></div>

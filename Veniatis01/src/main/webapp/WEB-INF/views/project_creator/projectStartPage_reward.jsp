@@ -102,7 +102,8 @@
 				</p>
 			</div>
 			<div class="form_area bg_smoke">
-				<form name="addForm" method="post">
+				<form action="insertReward.do" name="addForm" method="post">
+				<input type="hidden" value="${project.pNo }" name="pNo">
 					<fieldset class="fld_comm">
 						<div class="tit_area">
 							<legend class="tit_sub">
@@ -124,10 +125,8 @@
 									<li class="box_info">
 										<p class="tit_name">금액</p>
 										<p class="txt_input">
-											<label for="rewardAmt_0" class="tf_comm"> <input
-												type="text" id="rewardAmt_0"
-												name="rewardList[0].rewardAmt" value=""
-												class="tf_cont amt" onkeydown="inputNumberFormat(this)">
+											<label for="rewardAmt_0" class="tf_comm"> 
+											<input	type="text" id="rewardAmt_0" name="rewards[0].rPrice" value=""class="tf_cont amt">
 											</label>
 										</p> <span class="txt_won">원</span>
 									</li>
@@ -135,9 +134,8 @@
 									<li class="box_info">
 										<p class="tit_name">리워드 구성</p>
 										<p class="txt_input input_full">
-											<label for="rewardTitle_0" class="tf_comm"> <input
-												type="text" id="rewardTitle_0"
-												name="rewardList[0].title" class="tf_cont title"
+											<label for="rewardTitle_0" class="tf_comm">
+											 <input	type="text" id="rewardTitle_0"	name="rewards[0].rItem" class="tf_cont title"
 												placeholder="ex) 성공하는 사람들을 위한 책 한 권 + 북콘서트 초대권 1매">
 											</label>
 										</p>
@@ -147,7 +145,7 @@
                                         <div class="check_area">
                                             <input type="radio" id="amountCheck1_0" name="amountChecks_0" checked="checked" value="N" class="amount" onclick="fn_amount($(this))"><label for="amountCheck1_0" class="radio_label">수량무한</label>
                                             <input type="radio" id="amountCheck2_0" name="amountChecks_0" value="Y" class="amount" onclick="fn_amount($(this))"><label for="amountCheck2_0" class="radio_label">수량한정</label>
-                                            <input type="number" id="rewardQty_0" name="rewardList[0].rewardQty" class="limit_count"  readonly="readonly"><span class="txt_count">개</span>
+                                            <input type="number" id="rewardQty_0" name="rewards[0].rCount" class="limit_count"  readonly="readonly" value="0"><span class="txt_count">개</span>
                                         </div>
                                     </li>
 									<li class="box_info box_radio">
@@ -166,10 +164,8 @@
 											<li class="box_info">
 												<p class="tit_name"></p>
 												<p class="txt_input input_full">
-													<label for="rewardSelText_0" class="tf_comm"> <input
-														type="text" id="rewardSelText_0"
-														name="rewardList[0].rewardSelText"
-														class="tf_cont input_hold" readonly="readonly"
+													<label for="rewardSelText_0" class="tf_comm"> 
+													<input	type="text" id="rewardSelText_0" name="rewards[0].rOption" class="tf_cont input_hold" readonly="readonly"
 														placeholder="ex) 리워드를 선택 시 원하는 컬러를 입력해주세요.">
 													</label>
 												</p>
@@ -186,8 +182,8 @@
 													class="fa fa-check"></span></span> <span class="txt_cont">일괄적용</span>
 											</label> <label for="rewardExpectText_0" class="tf_comm">
 												
-												<input type="text" id="rewardExpectText_0" placeholder="ex) 2020년 1월 1일부터 리워드 발송"
-												name="rewardList[0].rewardExpectText" class="tf_cont">
+												<input type="text" id="rewardExpectText_0" placeholder="8자리 숫자로 입력해주세요 ex) 2020년 1월 1일 -> 20200101"
+												name="rDelivery0" class="tf_cont">
 											</label>
 										</p>
 									</li>
@@ -199,16 +195,15 @@
 						</ul>
 						<div id="add_area"></div>
 					</fieldset>
-				</form>
+			
 			</div>
 			<!-- // 개설자 정보 -->
 		</div>
 		<div class="btn_area">
-			<input type="submit" class="btn_temporarily_save" title="임시저장"
-				value="임시저장" onclick="fn_save('save');"> <input
-				type="submit" class="btn_next" title="다음단계" value="다음단계"
-				onclick="javascript:location.href='projectStartPage_last.do';">
+			<input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> 
+				<input	type="submit" class="btn_next" title="다음단계" value="다음단계">
 		</div>
+			</form>
 	</div>
 </div>
 <!-- //신청서 -->
@@ -229,7 +224,7 @@ function fn_copyDeliveryDate(obj){
 function fn_amount(obj){
 	
     if(obj.val()=='N'){
-        $(obj).parent().children(".limit_count").val('');
+        $(obj).parent().children(".limit_count").val(0);
         $(obj).parent().children(".limit_count").attr("readonly","readonly");
     }else if(obj.val()=='Y'){
         $(obj).parent().children(".limit_count").removeAttr("readonly");
@@ -238,7 +233,7 @@ function fn_amount(obj){
 }
   function fn_selOption(obj){
        if(obj.val()=='N'){
-           $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").val('');
+           $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").val(null);
            $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").attr("readonly","readonly");
            $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").removeClass("input");
            $(obj).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").addClass("input_hold");
@@ -253,7 +248,7 @@ function fn_amount(obj){
 	  $('input[type=radio][class=selOption]').change(function() {
           if($(this).val()=='N'){
               //$("#rewardSelFlag_0").val('N');
-              $(this).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").val('');
+              $(this).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").val(null);
               $(this).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").attr("readonly","readonly");
               $(this).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").removeClass("input");
               $(this).parent().parent().siblings(".box_info").children(".txt_input").children(".tf_comm").children(".tf_cont").addClass("input_hold");
@@ -309,7 +304,9 @@ function fn_amount(obj){
       var rewardNum = $("#reward_ul > div").size();
       var addRewardNum = $("#add_area > div").size();
       rewardNum = rewardNum + addRewardNum + 1;
-
+	if(rewardNum>3){
+		alert('리워드는 3개까지만 추가가 가능합니다.')
+	}else{
       // - 리워드 List를 위한 배열의 Number : rewardList[0], rewardList[1], rewardList[2], ....
       while($("#rewardAmt_"+makeRewardDiv).length > 0){
           makeRewardDiv++;
@@ -321,20 +318,19 @@ function fn_amount(obj){
       html += '	<button type="button" class="btn_delete">삭제</button></li>';
       html += '	<ul><li class="box_info">';
       html += '	<p class="tit_name">금액</p>';
-      html += '	<p class="txt_input"><label for="rewardAmt_'+makeRewardDiv+'" class="tf_comm"><input type="text" id="rewardAmt_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardAmt" class="tf_cont amt" onkeydown="inputNumberFormat(this)"></label></p>';
+      html += '	<p class="txt_input"><label for="rewardAmt_'+makeRewardDiv+'" class="tf_comm"><input type="text" id="rewardAmt_'+makeRewardDiv+'" name="rewards['+makeRewardDiv+'].rPrice" class="tf_cont amt"></label></p>';
       html += '	<span class="txt_won">원</span></li>';
       html += '	<li class="box_info">';
       html += '		<p class="tit_name">리워드 구성</p>';
       html += '		<p class="txt_input input_full">';
       html += '		<label for="rewardTitle_'+makeRewardDiv+'" class="tf_comm">';
-      html += '           <span class="placehoder">ex) 날아라 슈퍼보드 기념 티셔츠1개 + 감사의 손편지</span>';
-      html += '			<input type="text" id="rewardTitle_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].title" class="tf_cont title"></label></p></li>';
+      html += '			<input type="text" id="rewardTitle_'+makeRewardDiv+'" name="rewards['+makeRewardDiv+'].rItem" class="tf_cont title" placeholder="ex) 날아라 슈퍼보드 기념 티셔츠1개 + 감사의 손편지"></label></p></li>';
       html += '	<li class="box_info box_radio">';
       html += '		<p class="tit_name">수량구분</p>';
       html += '			<div class="check_area">';
       html += '				<input type="radio" id="amountCheck1_'+makeRewardDiv+'" name="amountChecks_'+makeRewardDiv+'" value="N"  checked="checked" class="amount" onclick="fn_amount($(this))"><label for="amountCheck1_'+makeRewardDiv+'" class="radio_label">수량무한</label>';
       html += '				<input type="radio" id="amountCheck2_'+makeRewardDiv+'" name="amountChecks_'+makeRewardDiv+'" value="Y"  class="amount" onclick="fn_amount($(this))"><label for="amountCheck2_'+makeRewardDiv+'" class="radio_label">수량한정</label>';
-      html += '				<input type="number" id="rewardQty_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardQty" class="limit_count" readonly="readonly"><span class="txt_count">개</span></div></li>';
+      html += '				<input type="number" id="rewardQty_'+makeRewardDiv+'" name="rewards['+makeRewardDiv+'].rCount" class="limit_count" readonly="readonly" value="0"><span class="txt_count">개</span></div></li>';
       html += '	<li class="box_info box_radio">';
       html += '		<ul><li class="box_info">';
       html += '			<p class="tit_name">리워드 선택옵션</p>';
@@ -346,16 +342,16 @@ function fn_amount(obj){
       html += '			<p class="tit_name"></p>';
       html += '			<p class="txt_input input_full">';
       html += '			<label for="rewardSelText_'+makeRewardDiv+'" class="tf_comm">';
-      html += '				<input type="text" id="rewardSelText_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardSelText" class="tf_cont input_hold" placeholder="ex) 리워드를 선택 시 원하는 컬러를 입력해주세요.">';
+      html += '				<input type="text" id="rewardSelText_'+makeRewardDiv+'" name="rewards['+makeRewardDiv+'].rOption" class="tf_cont input_hold" placeholder="ex) 리워드를 선택 시 원하는 컬러를 입력해주세요.">';
       html += '				</label></p></li></ul></li>';
       html += '	<li class="box_info">';
       html += '		<p class="tit_name">리워드 예상제공일</p>';
       html += '		<p class="txt_input input_full">';
       html += '		<label for="rewardExpectText_'+makeRewardDiv+'" class="tf_comm">';
-      html += '			<input type="text" id="rewardExpectText_'+makeRewardDiv+'" name="rewardList['+makeRewardDiv+'].rewardExpectText" placeholder="ex) 2017년 1월 1일부터 리워드 발송" class="tf_cont deliv">';
+      html += '			<input type="text" id="rewardExpectText_'+makeRewardDiv+'" name="rDelivery'+makeRewardDiv+'" placeholder="8자리 숫자로 입력해주세요 ex) 20200101" class="tf_cont deliv">';
       html += '			</label></p></ul></li>';
       $("#add_area").append(html);
- 
+	}
   }
   /*
   파일 삭제처리

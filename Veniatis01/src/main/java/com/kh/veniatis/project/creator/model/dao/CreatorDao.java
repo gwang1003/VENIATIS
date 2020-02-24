@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 
 @Repository("cDao")
 public class CreatorDao {
@@ -56,6 +57,15 @@ public class CreatorDao {
 		}
 		
 		return sqlSession.insert("creatorMapper.pPhotoMainInsert",files.get(0));
+	}
+	public int rewardInsert(ArrayList<Reward> rewardInsertList) {
+		int num = 0;
+		for(int i=0;i<rewardInsertList.size();i++) {
+			System.out.println(rewardInsertList.get(i));
+			num = sqlSession.insert("creatorMapper.rewardInsert",rewardInsertList.get(i));
+		}
+		
+		return num;
 	}
 	
 

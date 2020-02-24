@@ -1,6 +1,6 @@
 package com.kh.veniatis.project.creator.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Reward {
 	
@@ -10,8 +10,8 @@ public class Reward {
 	private String rItem;	// 리워드 구성
 	private int rPrice;		// 리워드 금액
 	private String rLimit;	// 리워드 제한
-	private int rCount;		// 수량
-	private String rOption;	// 선택 옵션
+	private int rCount =0;		// 수량
+	private String rOption=null;	// 선택 옵션
 	private Date rDelivery;	// 배송예정일
 	
 	public Reward() {}

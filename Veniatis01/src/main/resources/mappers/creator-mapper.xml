@@ -37,6 +37,18 @@
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
 	
+	<resultMap id="rewardResultSet" type="Reward">
+		<id property="rNo" column="R_NO"></id>
+		<result property="pNo" column="P_NO"/>
+		<result property="rSeq" column="R_SEQ"/>
+		<result property="rItem" column="R_ITEM"/>
+		<result property="rPrice" column="R_PRICE"/>
+		<result property="rLimit" column="R_LIMIT"/>
+		<result property="rCount" column="R_COUNT"/>
+		<result property="rOption" column="R_OPTION"/>
+		<result property="rDelivery" column="R_DELIVERY"/>
+	</resultMap>
+	
 	<insert id="creatorInsert" parameterType="Creator">
 		INSERT INTO CREATOR
 		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,1,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
@@ -76,6 +88,11 @@
 	INSERT INTO FILES
 	VALUES(SEQ_FID.NEXTVAL,null,#{pNo},null,null,null,2,#{originName},#{changeName},#{filePath},SYSDATE,'Y',2)
 	
+	</insert>
+	
+	<insert id="rewardInsert">
+	INSERT INTO REWARD
+	VALUES(SEQ_RID.NEXTVAL,#{pNo},#{rSeq},#{rItem},#{rPrice},#{rCount},#{rOption},#{rDelivery},#{rLimit})
 	</insert>
 	
 	

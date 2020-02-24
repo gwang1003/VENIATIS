@@ -9,6 +9,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.dao.CreatorDao;
 import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 
 @Service("cService")
 public class CreatorServiceImpl implements CreatorService {
@@ -68,6 +69,12 @@ public class CreatorServiceImpl implements CreatorService {
 	public int pPhotoInsert(ArrayList<Files> files) {
 		// TODO Auto-generated method stub
 		return cDao.pPhotoInsert(files);
+	}
+
+	@Override
+	public int rewardInsert(ArrayList<Reward> rewardInsertList) {
+		
+		return cDao.rewardInsert(rewardInsertList);
 	}
 
 

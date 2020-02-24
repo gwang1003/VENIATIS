@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.creator.model.vo.Project;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 
 public interface CreatorService {
 
@@ -25,6 +26,8 @@ public interface CreatorService {
 	Project selectOneProject(Project p);
 
 	int pPhotoInsert(ArrayList<Files> files);
+
+	int rewardInsert(ArrayList<Reward> rewardInsertList);
 
 	
 

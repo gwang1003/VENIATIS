@@ -18,6 +18,7 @@
 		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	
 		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Project" alias="Project"/>			
 		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Creator" alias="Creator"/>	
+		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Reward" alias="Reward"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>

@@ -200,7 +200,7 @@
 			<!-- // 개설자 정보 -->
 		</div>
 		<div class="btn_area">
-			<input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> 
+			<!-- <input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">  -->
 				<input	type="submit" class="btn_next" title="다음단계" value="다음단계">
 		</div>
 			</form>

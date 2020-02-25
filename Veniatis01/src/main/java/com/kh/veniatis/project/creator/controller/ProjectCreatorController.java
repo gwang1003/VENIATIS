@@ -65,6 +65,7 @@ public class ProjectCreatorController {
 
 		int result = cService.projectInsert(p);
 		Project project = cService.selectOneProject(p);
+		System.out.println("projectInsert project(호출해온것)"+project);
 
 		ArrayList<Files> files = new ArrayList<Files>();
 
@@ -72,7 +73,7 @@ public class ProjectCreatorController {
 
 			if (image1 != null) {
 				Files file = new Files();
-				file.setpNo(project.getpNo());
+				
 
 				file = saveFile(image1, request);
 
@@ -80,7 +81,7 @@ public class ProjectCreatorController {
 			}
 			if (image2 != null) {
 				Files file = new Files();
-				file.setpNo(project.getpNo());
+				
 
 				file = saveFile(image2, request);
 
@@ -88,15 +89,14 @@ public class ProjectCreatorController {
 			}
 			if (image3 != null) {
 				Files file = new Files();
-				file.setpNo(project.getpNo());
-
+				
 				file = saveFile(image3, request);
 
 				files.add(file);
 			}
 			if (image4 != null) {
 				Files file = new Files();
-				file.setpNo(project.getpNo());
+				
 
 				file = saveFile(image4, request);
 
@@ -104,13 +104,17 @@ public class ProjectCreatorController {
 			}
 			if (image5 != null) {
 				Files file = new Files();
-				file.setpNo(project.getpNo());
+				
 
 				file = saveFile(image5, request);
 
 				files.add(file);
 			}
 
+			for(int i=0;i<files.size();i++) {
+				files.get(i).setpNo(project.getpNo());
+				System.out.println(files);
+			}
 			int result2 = cService.pPhotoInsert(files);
 
 			if (result2 > 0) {
@@ -131,7 +135,7 @@ public class ProjectCreatorController {
 	private Files saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 
-		String savePath = root + "\\project_creator\\projectImage";
+		String savePath = root + "\\project_creator";
 
 		File folder = new File(savePath);
 
@@ -149,7 +153,7 @@ public class ProjectCreatorController {
 
 		String filePath = folder + "\\" + renameFilename;
 		Files files = new Files(3, file.getOriginalFilename(), renameFilename,
-				"resources/project_creator/projectImage" + renameFilename);
+				"resources/project_creator/" + renameFilename);
 		try {
 			// 이 순간 서버에 파일이 저장 된다
 			file.transferTo(new File(filePath));
@@ -261,12 +265,53 @@ public class ProjectCreatorController {
 		int result = cService.rewardInsert(rewardInsertList);
 		System.out.println(result);
 		ModelAndView mv = new ModelAndView();
-
+		
+		// project 정보를 위해 담아서 다음페이지로 보내기
+		Project project = cService.selectProject(pNo);
+		mv.addObject("project", project);
 		mv.setViewName("project_creator/projectStartPage_last");
 
 		return mv;
 	}
 
+	
+	@RequestMapping("finishProject.do")
+	public ModelAndView finishProject(Project project,@RequestParam(value="pNo") Integer pNo,
+			@RequestParam(value="pStartDate_str") String pStartDate_str,
+			@RequestParam(value="pEndDate_str") String pEndDate_str,
+			@RequestParam(value="pAccount_num") String pAccount_num,
+			@RequestParam(value="pAccount_bank") String pAccount_bank
+			) throws ParseException {
+		
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
+		Date pStartDate = sdf2.parse(pStartDate_str);
+		Date pEndDate = sdf2.parse(pEndDate_str);
+		String pAccount=pAccount_num+", "+pAccount_bank;
+		project.setpNo(pNo);
+		project.setpStartDate(pStartDate);
+		project.setpEndDate(pEndDate);
+		project.setpAccount(pAccount);
+		
+		
+		System.out.println(project);
+		
+		ModelAndView mv = new ModelAndView();
+		int result = cService.finishProject(project);
+		System.out.println("finishProject int result : "+result);
+		
+		if(result>0) {
+			mv.addObject("msg","프로젝트가 등록되었습니다. 승인여부는 마이페이지에서 확인해주세요");
+			mv.setViewName("main");
+			return mv;	
+		}else {
+			throw new ProjectException("프로젝트 등록에 실패했습니다!");
+		}
+				
+	}
+	
+	
 	@RequestMapping("projectUpdate.do")
 	public ModelAndView projectUpdate(@RequestParam(value = "pNo") int pNo) {
 		int result = cService.projectUpdate(pNo);

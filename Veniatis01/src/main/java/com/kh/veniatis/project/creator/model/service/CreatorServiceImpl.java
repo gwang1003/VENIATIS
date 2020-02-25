@@ -77,6 +77,18 @@ public class CreatorServiceImpl implements CreatorService {
 		return cDao.rewardInsert(rewardInsertList);
 	}
 
+	@Override
+	public Project selectProject(Integer pNo) {
+		// TODO Auto-generated method stub
+		return cDao.selectOneProject(pNo);
+	}
+
+	@Override
+	public int finishProject(Project project) {
+		// TODO Auto-generated method stub
+		return cDao.finishProject(project);
+	}
+
 
 
 	

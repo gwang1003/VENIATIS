@@ -67,10 +67,10 @@
 	
 	<insert id="projectInsert" parameterType="Project">
 		INSERT INTO PROJECT
-		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'N')
+		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W')
 	</insert>
 	
-	<select id="selectOneProject" parameterType="project" resultMap="projectResultSet">
+	<select id="selectOneProject" parameterType="Project" resultMap="projectResultSet">
 		SELECT * FROM
 		PROJECT
 		WHERE CRE_NO=#{creNo}
@@ -94,6 +94,24 @@
 	INSERT INTO REWARD
 	VALUES(SEQ_RID.NEXTVAL,#{pNo},#{rSeq},#{rItem},#{rPrice},#{rCount},#{rOption},#{rDelivery},#{rLimit})
 	</insert>
+	
+	<select id="selectProject" parameterType="Project" resultMap="projectResultSet">
+		SELECT * FROM PROJECT
+		WHERE P_NO=#{pNo}
+	</select>
+	
+	<update id="finishProject" parameterType="Project">
+	UPDATE PROJECT
+	SET P_START_DATE=#{pStartDate},
+		P_END_DATE=#{pEndDate},
+		P_TARGET_AMOUNT=#{pTargetAmount},
+		P_SUM_AMOUNT=0,
+		P_ACCOUNT=#{pAccount},
+		P_STATUS='N'
+	WHERE P_NO=#{pNo}
+		
+		
+	</update>
 	
 	
 </mapper>

@@ -109,7 +109,7 @@ $(document).on("click","#investEndDateButton",function(){
 </head>
 <body>
 
- <%-- <jsp:include page="../common/menubar.jsp" />  --%>
+ <jsp:include page="../common/secondMenubar.jsp" />  
 
 <div id="omcContainer" class="cont_support">
 		<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
@@ -154,15 +154,12 @@ $(document).on("click","#investEndDateButton",function(){
 	                <div class="sheet_info">
 	                	<div class="txt_area">
 	                		<span class="txt_desc"><span class="txt_warning">*</span>은 필수입력 항목입니다.</span>
-							<p class="link_area">
-								<a class="link_guide" href="/omc/download/apply/omc_reward_uploadguide_2019_2.pdf#page=18" title="업로드 가이드" target="_blank">업로드 가이드</a>
-								<a class="link_guide" href="/guide/maker/reward#project_guide" title="정산 가이드" target="_blank">정산 가이드</a>
-								<a class="link_prewindow" href="/reward/preview/8111" title="미리보기" target="_blank">미리보기</a>
-							</p>
+							
 	                	</div>
 	                	<!-- 개설자 정보 -->
 	                	<div class="form_area">
-		                    <form name="addForm" method="post" enctype="multipart/form-data">
+		                    <form action="finishProject.do"name="addForm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck();">
+		                    <input type="hidden" value="${project.pNo }" name="pNo"> 
 								<fieldset class="fld_comm">
 									<legend class="tit_sub"></legend>
 									<ul>
@@ -170,7 +167,7 @@ $(document).on("click","#investEndDateButton",function(){
 											<p class="tit_name">펀딩시작일<span class="txt_warning">*</span></p>
 											<p class="txt_input">
 												<label for="tfFundingStart" class="tf_comm">	
-													<input type="text" id="investStartDate" name="investStartDate" value="" class="tf_cont input_hold">
+													<input type="text" id="investStartDate" name="pStartDate_str" value="" class="tf_cont input_hold">
 												</label>
 											</p>
 											
@@ -181,7 +178,7 @@ $(document).on("click","#investEndDateButton",function(){
 											<p class="txt_input">
 												<label for="tfFundingEnd" class="tf_comm">
                                                     
-													<input type="text" id="investEndDate" name="investEndDate" value="" class="tf_cont input_hold">
+													<input type="text" id="investEndDate" name="pEndDate_str" value="" class="tf_cont input_hold">
 												</label>
 											</p>
 											<button type="button" id="investEndDateButton" class="btn_calendar"><span class="ico_comm ico_calendar" id="icon6">캘린더 아이콘</span></button>
@@ -191,27 +188,57 @@ $(document).on("click","#investEndDateButton",function(){
                                             <p class="tit_name">펀딩목표금액<span class="txt_warning">*</span></p>
                                             <p class="txt_input">
                                                 <label for="targetAmt" class="tf_comm">
-                                                <span class="placehoder"></span>
-                                                <input type="text" id="targetAmt" name="targetAmt" value=""  class="tf_cont"  onkeydown="inputNumberFormat(this)">
+                                             
+                                                <input type="text" id="targetAmt" name="pTargetAmount" value=""  class="tf_cont">
                                                 </label>
                                             </p>
 											<span class="txt_won">원</span>
 										</li>
-										<li class="box_info">
-                                            <p class="tit_name">리워드 배송비<span class="txt_warning">*</span></p>
+									                                         									
+									
+										
+									<li>
+									<ul>
+										<li class="box_info box_radio">
+											  <p class="tit_name">계좌번호<span class="txt_warning">*</span></p>
                                             <p class="txt_input">
                                                 <label for="deliveryAmt" class="tf_comm">
 	                                                <span class="placehoder"></span>
-	                                                <input type="text" id="deliveryAmt" name="deliveryAmt" value="0" class="tf_cont"  onkeydown="inputNumberFormat(this)">
+	                                                <input type="text" id="deliveryAmt" name="pAccount_num" class="tf_cont" placeholder="- 제외하고 숫자만 입력해주세요">
                                                 </label>
                                             </p>
-											<span class="txt_won">원</span>
+										</li>
+									</ul>
+									<br>
+									<ul class="projectUrlField">
+										<li class="box_info box_group">
+											<p class="tit_name">은행선택<span class="txt_warning">*</span></p>
+											<div class="box_select">
+												<select class="select_sort" id="groupCate" name="pAccount_bank" title="은행">
+													<option>선택</option>
+													
+													<option value="KB국민은행" >KB국민은행</option>
+													<option value="신한은행" >신한은행</option>													
+													<option value="우리은행" >우리은행</option>													
+													<option value="하나은행" >하나은행</option>													
+													<option value="농협은행" >농협은행</option>													
+													<option value="제일은행" >SC제일은행</option>													
+													<option value="외환은행" >외환은행</option>													
+													<option value="카카오뱅크" >카카오뱅크</option>
+													
+												</select>
+											</div>
+										</li>
+									</ul>
+									</li>
+									
+
+										
 										</li>
 
                                         <li class="box_info">
 											<div class="box_guide">
 												<strong>안내문</strong>
-												ㆍ입력한 프로젝트 신청 내용은 상단 미리보기를 통해 다시한번 확인해주세요.<br/>
 												ㆍ접수된 프로젝트 심사는 영업일 기준 3 ~ 5일이 소요됩니다.<br/>
 												ㆍ펀딩 시작 전까지 프로젝트 수정이 가능합니다. 마이페이지>개설 프로젝트>수정하기에서 진행해주세요.<br/>
 												ㆍ펀딩 정산은 펀딩 종료 후 5 ~ 10일 가량이 소요됩니다.
@@ -219,17 +246,18 @@ $(document).on("click","#investEndDateButton",function(){
                                         </li>
 									</ul>
 								</fieldset>
-							</form>
+							
 	                    </div>
 	                    <!-- // 개설자 정보 -->
 	                </div>
                     <div class="btn_area">
-                        <input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">
+                     <!--    <input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');"> -->
                         
                         
-                        	<input type="submit" class="btn_enroll" title="프로젝트 접수" value="프로젝트 접수" onclick="alert('이전 단계를 모두 작성하셔야 프로젝트 접수를 하실 수 있습니다.');">
+                        	<input type="submit" class="btn_enroll" title="프로젝트 접수" value="프로젝트 접수">
                         
                     </div>
+                    </form>
                 </div>
             </div>
 			<!-- //신청서 -->
@@ -241,7 +269,30 @@ $(document).on("click","#investEndDateButton",function(){
 		<br>
 		<jsp:include page="../common/footer.jsp"/>
 		
+<script>
+function fn_validateCheck(){
+    var targetAmt = uncomma(jQuery('#targetAmt').val());
+    var deliveryAmt = uncomma(jQuery('#deliveryAmt').val());
+	if(isEmpty(jQuery('#investStartDate').val())){
+		alert("펀딩시작일을 입력하세요.");
+		jQuery('#investStartDate').focus();
+		return false;
+	}
+	if(isEmpty(jQuery("#investEndDate").val())){
+		alert("펀딩마감일을 입력하세요.");
+		jQuery('#investEndDate').focus();
+		return;
+	}
+	if(isEmpty(targetAmt)){
+		alert("펀딩목표금액을 입력하세요.");
+		jQuery('#targetAmt').focus();
+		return;
+	}
+
+	return true;
+} 		
 		
+</script>
 
 
 </body>

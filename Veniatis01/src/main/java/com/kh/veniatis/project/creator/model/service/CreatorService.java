@@ -29,6 +29,10 @@ public interface CreatorService {
 
 	int rewardInsert(ArrayList<Reward> rewardInsertList);
 
+	Project selectProject(Integer pNo);
+
+	int finishProject(Project project);
+
 	
 
 }

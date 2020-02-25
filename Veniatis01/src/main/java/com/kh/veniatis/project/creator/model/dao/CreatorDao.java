@@ -67,6 +67,14 @@ public class CreatorDao {
 		
 		return num;
 	}
+	public Project selectOneProject(Integer pNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("creatorMapper.selectProject",pNo);
+	}
+	public int finishProject(Project project) {
+		
+		return sqlSession.update("creatorMapper.finishProject",project);
+	}
 	
 
 }

@@ -113,7 +113,7 @@
                                         </div>
                                         <div class="state_project">                          
                                                 <p class="txt_state"><span class="num">83</span>명이 프로젝트를 참여했습니다.<br>
-                                                총 <span class="num">${p.sumAmount }</span> 모집<span class="txt_success">${p.progress }</span></p>
+                                                총 <span class="num">${p.sumAmount }</span> 모집 [<span class="txt_success">${p.progress }</span>]</p>
                                         
                                         </div>
                                     </div>
@@ -129,8 +129,11 @@
 										<
 										</c:if>
 										<c:if test="${ pi.currentPage > 1 }">
-											<c:url var="before" value="blist.do">
+											<c:url var="before" value="attendProject.do">
 												<c:param name="page" value="${ pi.currentPage -1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ before }"><</a>
 										</c:if>
@@ -138,14 +141,17 @@
 										&nbsp;
 									
 										<!-- 페이지 숫자 -->
-									<td>
 										<c:forEach var="p" begin="${pi.startPage }" end="${ pi.endPage }">
+									<td>
 											<c:if test="${ pi.currentPage eq p }">
 												${ p }
 											</c:if>
 											<c:if test="${ pi.currentPage ne p }">
-												<c:url var="pagination" value="myInterestProject.do">
+												<c:url var="pagination" value="attendProject.do">
 													<c:param name="page" value="${p }"/>
+													<c:if test="${!empty align }">
+														<c:param name="align" value="${ align }"/>
+													</c:if>
 												</c:url>
 												<a href="${ pagination }"><button type="button">${ p }</button></a>
 											</c:if>
@@ -159,8 +165,11 @@
 										>
 										</c:if>
 										<c:if test="${ pi.currentPage < pi.maxPage }">
-											<c:url var="after" value="blist.do">
+											<c:url var="after" value="attendProject.do">
 												<c:param name="page" value="${ pi.currentPage +1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ after }">></a>
 										</c:if>

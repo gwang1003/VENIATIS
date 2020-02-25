@@ -102,9 +102,19 @@
 							</div>
 							<div class="list_prj" style="padding-top:15px;">
 								<div class="box_txt">
-                                        <button>모두 보기 ${index[0] }</button>
-                                        <button>진행중 ${index[1] }</button>
-                                        <button>마감 ${index[2] }</button>
+								<div class="box_txt">
+		                            <c:url var="All" value="myInterestProject.do">
+										<c:param name="align" value="All"/>
+									</c:url>
+									<c:url var="Ing" value="myInterestProject.do">
+										<c:param name="align" value="Ing"/>
+									</c:url>
+									<c:url var="End" value="myInterestProject.do">
+										<c:param name="align" value="End"/>
+									</c:url>
+                                    <a href="${ All }"><button>모두 보기 ${index[0] }</button></a>
+                                    <a href="${ Ing }"><button>진행중 ${index[1] }</button></a>
+                                    <a href="${ End }"><button>마감 ${index[2] }</button></a>
                                 </div>
 								<hr>
 								<c:forEach var="i" items="${interestList }">
@@ -152,8 +162,11 @@
 										<
 										</c:if>
 										<c:if test="${ pi.currentPage > 1 }">
-											<c:url var="before" value="blist.do">
+											<c:url var="before" value="myInterestProject.do">
 												<c:param name="page" value="${ pi.currentPage -1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ before }"><</a>
 										</c:if>
@@ -161,14 +174,17 @@
 										&nbsp;
 									
 										<!-- 페이지 숫자 -->
-									<td>
 										<c:forEach var="p" begin="${pi.startPage }" end="${ pi.endPage }">
+									<td>
 											<c:if test="${ pi.currentPage eq p }">
 												${ p }
 											</c:if>
 											<c:if test="${ pi.currentPage ne p }">
 												<c:url var="pagination" value="myInterestProject.do">
 													<c:param name="page" value="${p }"/>
+													<c:if test="${!empty align }">
+														<c:param name="align" value="${ align }"/>
+													</c:if>
 												</c:url>
 												<a href="${ pagination }"><button type="button">${ p }</button></a>
 											</c:if>
@@ -182,8 +198,11 @@
 										>
 										</c:if>
 										<c:if test="${ pi.currentPage < pi.maxPage }">
-											<c:url var="after" value="blist.do">
+											<c:url var="after" value="myInterestProject.do">
 												<c:param name="page" value="${ pi.currentPage +1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ after }">></a>
 										</c:if>

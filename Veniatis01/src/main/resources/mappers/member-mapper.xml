@@ -139,38 +139,75 @@
 	<select id="myOpenProject" resultMap="prjView">
 		SELECT *
 		FROM V_PROJECT
-		WHERE CRE_NO = #{getCreNo}
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
 	</select>
 	
 	<select id="selectLikes" resultMap="prjView">
 		SELECT *
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
 	</select>
 	
 	<select id="myInterestProject" resultMap="prjView">
 		SELECT *
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
 	</select>
 	
 	<select id="likesListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
 	</select>
 	
 	<select id="interestListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
 	</select>
 	
 	<select id="openListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_PROJECT
-		WHERE CRE_NO = #{getCreNo}
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
 	</select>
 	
+	<select id="selectLikesList" resultMap="prjView">
+		SELECT *
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="selectInterestList" resultMap="prjView">
+		SELECT *
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
 	
 </mapper>

@@ -2,6 +2,7 @@ package com.kh.veniatis.member.model.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -114,13 +115,13 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public ArrayList<ProjectView> myOpenProject(int getCreNo, int currentPage) {
-		int listCount = mDao.openListCount(getCreNo);
+	public ArrayList<ProjectView> myOpenProject(int getmNo, int currentPage) {
+		int listCount = mDao.openListCount(getmNo);
 		
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 3, 5);
 		
-		return mDao.myOpenProject(getCreNo, pi);
+		return mDao.myOpenProject(getmNo, pi);
 	}
 
 
@@ -149,24 +150,36 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public ArrayList<ProjectView> selectLikes(int getmNo, int currentPage) {
-		int listCount = mDao.likesListCount(getmNo);
+	public ArrayList<ProjectView> selectLikes(int currentPage, Map map) {
+		int listCount = mDao.likesListCount(map);
 		
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4, 5);
 		
-		return mDao.selectLikes(getmNo, pi);
+		return mDao.selectLikes(pi, map);
 	}
 
 
 	@Override
-	public ArrayList<ProjectView> myInterestProject(int getmNo, int currentPage) {
-		int listCount = mDao.interestListCount(getmNo);
+	public ArrayList<ProjectView> myInterestProject(int currentPage, Map map) {
+		int listCount = mDao.interestListCount(map);
 		
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 2, 5);
 		
-		return mDao.myInterestProject(getmNo, pi);
+		return mDao.myInterestProject(pi, map);
+	}
+
+
+	@Override
+	public ArrayList<ProjectView> selectLikesList(int getmNo) {
+		return mDao.selectLikesList(getmNo);
+	}
+
+
+	@Override
+	public ArrayList<ProjectView> selectInterestList(int getmNo) {
+		return mDao.selectInterestList(getmNo);
 	}
 
 

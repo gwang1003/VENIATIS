@@ -1,13 +1,12 @@
 package com.kh.veniatis.member.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.veniatis.common.files.model.vo.Files;
-import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Creator;
-import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface MemberService {
@@ -29,7 +28,7 @@ public interface MemberService {
 
 	int mPhotoDelete(Member m);
 
-	ArrayList<ProjectView> myOpenProject(int getCreNo, int currentPage);
+	ArrayList<ProjectView> myOpenProject(int getmNo, int currentPage);
 
 	int selectpNo(int getmNo);
 
@@ -39,7 +38,11 @@ public interface MemberService {
 
 	Creator selectCreator(int getmNo);
 
-	ArrayList<ProjectView> selectLikes(int getmNo, int currentPage);
+	ArrayList<ProjectView> selectLikes(int currentPage, Map map);
 
-	ArrayList<ProjectView> myInterestProject(int getmNo, int currentPage);
+	ArrayList<ProjectView> myInterestProject(int getmNo, Map map);
+
+	ArrayList<ProjectView> selectLikesList(int getmNo);
+
+	ArrayList<ProjectView> selectInterestList(int getmNo);
 }

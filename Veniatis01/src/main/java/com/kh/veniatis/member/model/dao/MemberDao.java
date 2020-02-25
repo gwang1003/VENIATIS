@@ -1,7 +1,7 @@
 package com.kh.veniatis.member.model.dao;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,11 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
-import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Creator;
-import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -60,12 +58,12 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<ProjectView> myOpenProject(int getCreNo, PageInfo pi) {
+	public ArrayList<ProjectView> myOpenProject(int getmNo, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", getCreNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", getmNo, rowBounds);
 	}
 
 
@@ -89,35 +87,45 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<ProjectView> selectLikes(int getmNo, PageInfo pi) {
+	public ArrayList<ProjectView> selectLikes(PageInfo pi, Map map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectLikes", getmNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikes", map, rowBounds);
 	}
 
 
-	public ArrayList<ProjectView> myInterestProject(int getmNo, PageInfo pi) {
+	public ArrayList<ProjectView> myInterestProject(PageInfo pi, Map map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.myInterestProject", getmNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.myInterestProject", map, rowBounds);
 	}
 
 
-	public int likesListCount(int getmNo) {
-		return sqlSession.selectOne("memberMapper.likesListCount", getmNo);
+	public int likesListCount(Map map) {
+		return sqlSession.selectOne("memberMapper.likesListCount", map);
 	}
 
 
-	public int openListCount(int getCreNo) {
-		return sqlSession.selectOne("memberMapper.openListCount", getCreNo);
+	public int openListCount(int getmNo) {
+		return sqlSession.selectOne("memberMapper.openListCount", getmNo);
 	}
 
 
-	public int interestListCount(int getmNo) {
-		return sqlSession.selectOne("memberMapper.interestListCount", getmNo);
+	public int interestListCount(Map map) {
+		return sqlSession.selectOne("memberMapper.interestListCount", map);
+	}
+
+
+	public ArrayList<ProjectView> selectLikesList(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikesList", getmNo);
+	}
+
+
+	public ArrayList<ProjectView> selectInterestList(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectInterestList", getmNo);
 	}
 }

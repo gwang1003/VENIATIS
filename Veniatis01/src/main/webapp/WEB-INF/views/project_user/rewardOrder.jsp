@@ -100,6 +100,9 @@
                                     <input type="hidden" id="optionText" name="rewardItemList[0].optionText" value="1번 선택">
                                     <input type="hidden" name="rewardItemList[0].rewardQty" value="10">
                                     <span class="item_amount">
+                                    		<c:forEach var='s' items="${ sList }">
+                                    			${s}<br>
+                                    		</c:forEach>
                                             <span class="tit_cont">참여금액 (수량<span class="num">1</span>)</span>
                                             <em class="num_cont">8,000</em><span class="txt_won">원</span>
                                         </span>

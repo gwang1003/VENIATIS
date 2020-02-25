@@ -216,7 +216,8 @@
 														<span class="bar_graph" style="width: 100%;"></span>
 													</c:if>
 													<span class="invest_rate"><!-- (#)참여율 -->
-													${ supportRate }%
+													<fmt:parseNumber var="sRate" value="${ supportRate }" integerOnly="true"/>
+														${sRate}%
 													</span>
 												</c:if>
 												<c:if test="${ prj.sumAmount eq 0 }">
@@ -228,7 +229,7 @@
 												</c:if>
 											</div>
 	
-											<span class="funding_type">무조건 리워드</span>
+											<span class="funding_type"><!-- 무조건 리워드 --></span>
 	
 										</div>
 									</div>

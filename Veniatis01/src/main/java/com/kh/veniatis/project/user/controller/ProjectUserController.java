@@ -1,9 +1,11 @@
 package com.kh.veniatis.project.user.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
+import com.kh.veniatis.project.user.model.vo.Funding;
+import com.kh.veniatis.project.user.model.vo.MultiRowFunding;
 import com.kh.veniatis.project.user.model.vo.ProjectPagination;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -43,8 +47,10 @@ public class ProjectUserController {
 				/*int supportRate = 0;
 				if(p.getSumAmount()!=0) {
 					supportRate = p.getSumAmount()*100/p.getTargetAmount();
-				}*/
+				}
+				System.out.println("참여율:"+supportRate);*/
 			}
+			
 			mv.addObject("projectList", list);
 			mv.addObject("pi", ProjectPagination.getPageInfo());
 			mv.setViewName("project_user/projectList");
@@ -61,7 +67,6 @@ public class ProjectUserController {
 		//"project_user/projectDetail"
 		
 		ProjectView p = pus.selectProject(pNo);
-		System.out.println("프로젝트 : " + p);
 		
 		if(p != null) {
 			
@@ -147,7 +152,27 @@ public class ProjectUserController {
 	}
 	
 	@RequestMapping("rewardOrder.do")
-	public ModelAndView RewardOrderView(ModelAndView mv) {
+	public ModelAndView RewardOrderView(ModelAndView mv,
+			@RequestParam("totalAmt") int totalAmt,
+			@RequestParam("addAmt") int addAmt,
+			@ModelAttribute("selectedReward") MultiRowFunding fundings) {
+		
+		System.out.println("합계 : "+totalAmt);
+		ArrayList<Funding> sList = new ArrayList<Funding>();
+		
+		List<Funding> fundingList = fundings.getFundings();
+		int listSize = fundingList.size();
+		
+		System.out.println("list 사이즈 : "+listSize);
+		
+		for(int i = 0; i<listSize; i++) {
+			System.out.println(fundingList.get(i));
+			sList.add(fundingList.get(i));
+		}
+		
+		mv.addObject("sList", sList);
+		mv.addObject("totalAmt", totalAmt);
+		mv.addObject("addAmt", addAmt);
 		mv.setViewName("project_user/rewardOrder");
 		return mv;
 	}

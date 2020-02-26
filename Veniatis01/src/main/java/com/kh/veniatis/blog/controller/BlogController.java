@@ -861,6 +861,21 @@ public class BlogController {
 	}
 	
 	
+	///@페이징
+	//댓글리스트 가져오깅
+	@RequestMapping(value="alertpaging.do", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String homePaging(int page,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member nowUser = (Member) session.getAttribute("loginUser");
+        
+		 ArrayList<BlogAlert> ba = bService.selectAlertList(nowUser.getmNo());
+		return "success";
+	}
+	
+	
+	
+	
 	//알림삭제
 	@RequestMapping("deleteAlert.do")
 	@ResponseBody

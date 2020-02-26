@@ -31,6 +31,11 @@
 	 <link rel="stylesheet" href="resources/css/네이버2.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<script>
+
+	</script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -97,8 +102,6 @@
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
-                                            <img bg-image="test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
-                                                src="resources/img/test.png">
                                         </div>
                                         <span class="nickname">${popPost[0].mId}
                                     </a>
@@ -118,8 +121,6 @@
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
-                                            <img bg-image="resources/img/test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
-                                                src="resources/img/test.png">
                                         </div>
                                         <span class="nickname">${popPost[1].mId}</span>
                                     </a>
@@ -139,8 +140,6 @@
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
-                                            <img bg-image="resources/img/test.png" alt="블로거섬네일" width="46" height="46" class="img_author"
-                                                src="resources/img/test.png">
                                         </div>
                                            <span class="nickname">${popPost[2].mId}</span>
                                     </a>
@@ -168,7 +167,7 @@
                         <div class="title _buddy_dropdown_container">
                             <h3 class="title_heading">테마별 최근글</h3>
                             <div class="area_dropdown" data-set="buddy">
-                              	  분류 선택 :
+                              	  
                                 <select>
                                     <option>창업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                                     <option>IT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
@@ -190,7 +189,7 @@
                                                 <span class="time">2020. 1. 27.</span>
                                             </div>
                                         </a>
-                                        <a href="#" class="button_del_post" aria-label="삭제" role="button"><i class="sp_common icon_delete">삭제</i></a><!-- end ngIf: blogHomeCtrl.isBuddyPost -->
+                                        
                                         <div class="desc">
                                             <a ng-href="#" class="desc_inner" href="#">
                                                 <strong class="title_post" ng-bind="post.title">글 제목</strong>
@@ -230,7 +229,7 @@
                                                         1. 27.</span>
                                                 </div>
                                             </a>
-                                            <a href="#" class="button_del_post" aria-label="삭제" role="button"><i class="sp_common icon_delete">삭제</i></a><!-- end ngIf: blogHomeCtrl.isBuddyPost -->
+                                            
                                             <div class="desc">
                                                 <a ng-href="#" class="desc_inner" href="#">
                                                     <strong class="title_post" ng-bind="post.title">글 제목</strong>
@@ -272,7 +271,7 @@
                                                             1. 27.</span>
                                                     </div>
                                                 </a>
-                                                <a href="#" class="button_del_post" aria-label="삭제" role="button"><i class="sp_common icon_delete">삭제</i></a><!-- end ngIf: blogHomeCtrl.isBuddyPost -->
+                                                
                                                 <div class="desc">
                                                     <a ng-href="#" class="desc_inner" href="#">
                                                         <strong class="title_post" ng-bind="post.title">글 제목</strong>
@@ -333,7 +332,6 @@
 	                <div class="item">
 	                
 	                <i class="sp_common icon_comment" ></i>
-	                    
 	                    	<a href="blogDetail.do?userId=${loginUser.mId}&uniNo=${a.uniNo}">
 	                    	<strong class="title_my_post">${a.mName }</strong> 님께서
 	                        <strong class="title_my_post">${a.bTitle }</strong><span><span>&nbsp;글에 댓글을 남기셨습니다.</span></span>
@@ -344,7 +342,6 @@
 	                    </a>
 	                </div>
 	               </c:if>
-	            
 			<!-- 댓글 알림 -->
 				<c:if test="${a.rNo eq 0 }">
 	                <div class="item">
@@ -360,6 +357,10 @@
 	                </div>
 	            </c:if>
 	            </c:forEach>
+	       <!-- 암것도 없을 때 -->
+	       		<c:if test="${empty alert  }">
+	       			알림이 없습니다!
+	       		</c:if>
 			 </div>
 		 </div>
                         </div>

@@ -88,6 +88,9 @@ font-family: 'Noto Sans KR', sans-serif;
                 <a href="badminCss.do" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
                 </a>
+                <a href="badminCss.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 좋아요 내역 관리
+                </a>
            </div>        
        </div>
        <div style="margin-left:2%;float:left;width:70%;">

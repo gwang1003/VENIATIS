@@ -9,10 +9,23 @@ public class Reply {
 	private int pNo;
 	private Date wDate;
 	private String rContent;
-	
 	private String rWriter;
+	private String filePath;
 
-	public Reply() {};
+	public Reply() {}
+
+	public Reply(int rNo, int mNo, int bNo, int pNo, Date wDate, String rContent, String rWriter, String filePath) {
+		super();
+		this.rNo = rNo;
+		this.mNo = mNo;
+		this.bNo = bNo;
+		this.pNo = pNo;
+		this.wDate = wDate;
+		this.rContent = rContent;
+		this.rWriter = rWriter;
+		this.filePath = filePath;
+	}
+
 	public int getrNo() {
 		return rNo;
 	}
@@ -69,21 +82,22 @@ public class Reply {
 		this.rWriter = rWriter;
 	}
 
-	public Reply(int rNo, int mNo, int bNo, int pNo, Date wDate, String rContent, String rWriter) {
-		super();
-		this.rNo = rNo;
-		this.mNo = mNo;
-		this.bNo = bNo;
-		this.pNo = pNo;
-		this.wDate = wDate;
-		this.rContent = rContent;
-		this.rWriter = rWriter;
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	@Override
 	public String toString() {
 		return "Reply [rNo=" + rNo + ", mNo=" + mNo + ", bNo=" + bNo + ", pNo=" + pNo + ", wDate=" + wDate
-				+ ", rContent=" + rContent + ", rWriter=" + rWriter + "]";
-	}
+				+ ", rContent=" + rContent + ", rWriter=" + rWriter + ", filePath=" + filePath + "]";
+	};
+
+	
+	
+	
 	
 }

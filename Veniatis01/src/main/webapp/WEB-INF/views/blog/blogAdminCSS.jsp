@@ -127,7 +127,7 @@ color:black !important;
           
      <!-- ----------------------- -->     
           
-    <div class="back" style="width:100%; height:500px; background-color:white;  border-radius: 20px; ">
+    <div class="back" style="width:100%; height:500px; background-color:${bd.cssBack };  border-radius: 20px; ">
         <div style="width:60%;   height:500px; float:left;">
             <div style="width:100%; margin-left:3%; margin-top:10px;height:100px; background-color:#fbf9ff; border-radius: 20px;">
                 블로그 제목
@@ -168,7 +168,7 @@ color:black !important;
         <div id="bg">
             <label for="colorpicker">배경화면 색깔 바꾸기</label>
              <form action="badminCssChange.do"  method="post">
-	            <input type="text" id="colorpicker" name="cssBack"/><br>
+	            <input type="text" id="colorpicker" name="cssBack" value="${bd.cssBack }"/><br>
 	            <input type="checkbox" id="checkTag" name="blogcss" value="blogTag" ${tag1 }> 태그&nbsp;&nbsp;
 	            <input type="checkbox" id="checkWeather" name="blogcss" value="cssWeather" ${tag2 }> 날씨&nbsp;&nbsp; 
 	            <input type="checkbox" id="checkTime" name="blogcss" value="cssTime" ${tag3 }> 시간&nbsp;&nbsp;

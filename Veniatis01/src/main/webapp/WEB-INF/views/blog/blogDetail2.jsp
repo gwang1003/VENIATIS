@@ -282,7 +282,7 @@ function replyList(){
 					var $r2 = $("<div class='single-comment justify-content-between d-flex'>");
 					var $r3 = $("<div class='user justify-content-between d-flex'>");
 					var $r4 = $("<div class='thumb'>");
-					var $r5 = $("<img>").attr("src",'#');
+					var $r5 = $("<img width=50px height=70px>").attr("src",""+data[i].filePath+"");
 					var $r6 = $("<div class='desc'>");
 					var $r7 = $("<p class='comment'>").text(data[i].rContent); //댓글내용
 					var $r8 = $("<div class='d-flex justify-content-between'>");
@@ -348,7 +348,7 @@ function replyList(){
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"></jsp:include>
-        <div class="container">
+        <div class="container" style="background-color:${bd.cssBack};">
             <div class="row" >
                         <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
             		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
@@ -541,38 +541,9 @@ function replyList(){
                               
                             </ul>
                         </aside>
-                        <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">최근 게시글</h3>
-                            <div class="media post_item">
-
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>하이하이</h3>
-                                    </a>
-                                    <p>1월 12일 2019년</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>하이하이</h3>
-                                    </a>
-                                    <p>02 시간 전</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>하이하이</h3>
-                                    </a>
-                                    <p>03 시간 전</p>
-                                </div>
-                            </div>
-                        </aside>
+                        
 <!-- 태그 -->                    
-                        <aside class="single_sidebar_widget tag_cloud_widget">
+                        <aside class="single_sidebar_widget tag_cloud_widget" style="display:${bd.blogTag};">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
                                  <c:choose>
@@ -629,7 +600,7 @@ function replyList(){
                         </aside>
 <!--  --> 
 				<!-- 날씨 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssWeather};">
 							<h4 class="widget_title">Weather</h4>
 							<div id="we">
 								<img id="weather" src="">
@@ -637,7 +608,7 @@ function replyList(){
 							</div>
 						</aside>
 				<!-- 현재시간 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssTime};">
 							<h4 class="widget_title">Time</h4>						
 								<div id="clock" class="light" style="margin:0; width:100%; padding:20px;">
 									<div class="display" style="padding:0; width:100%;">
@@ -646,7 +617,7 @@ function replyList(){
 								</div>
 						</aside>
 				<!-- 위치 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssLocation};">
 							<h4 class="widget_title">Location</h4>
 							<div class="map_wrap">
 							    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>

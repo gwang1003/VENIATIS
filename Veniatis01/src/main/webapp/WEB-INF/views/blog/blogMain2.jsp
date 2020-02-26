@@ -249,7 +249,7 @@
                             </ul>
                         </aside>
 <!-- 태그 -->                    
-                        <aside class="single_sidebar_widget tag_cloud_widget" style="display:;">
+                        <aside class="single_sidebar_widget tag_cloud_widget" style="display:${bd.blogTag};">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
                             	<c:choose>
@@ -306,7 +306,7 @@
                             </ul>
                         </aside>
 				<!-- 날씨 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssWeather};">
 							<h4 class="widget_title">Weather</h4>
 							<div id="we">
 								<img id="weather" src="">
@@ -314,7 +314,7 @@
 							</div>
 						</aside>
 				<!-- 현재시간 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssTime};">
 							<h4 class="widget_title">Time</h4>						
 								<div id="clock" class="light" style="margin:0; width:100%; padding:20px;">
 									<div class="display" style="padding:0; width:100%;">
@@ -323,7 +323,7 @@
 								</div>
 						</aside>
 				<!-- 위치 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssLocation};">
 							<h4 class="widget_title">Location</h4>
 							<div class="map_wrap">
 							    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>

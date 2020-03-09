@@ -11,7 +11,9 @@ import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.BlogSub;
 import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
@@ -236,8 +238,11 @@ public class BlogDao {
 	
 	
 	// 알림 정보 가져오기
-	public ArrayList<BlogAlert> selectAlertList(int mNo) {
-		return (ArrayList)sqlSession.selectList("blogMapper.selectAlertList",mNo);
+	public ArrayList<BlogAlert> selectAlertList(int mNo, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("blogMapper.selectAlertList",mNo,rowBounds);
 	}
 
 	// 알림삭제
@@ -273,6 +278,104 @@ public class BlogDao {
 	public int updateBlogCss(BlogDetail bd) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("blogMapper.updateBlogCss",bd);
+	}
+
+	// 구독 블로거 목록 갖고오기
+	public ArrayList<BlogSub> selectSubList(String mId) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.selectSubList",mId);
+	}
+
+	// 구독 블로거들의 글 목록 갖고오기(오늘부터 7일차만(
+	public ArrayList<BlogPost> subPostList(ArrayList<BlogSub> subList) {
+		
+		ArrayList<BlogPost> list = new ArrayList<BlogPost>();
+		
+		for(int i=0; i<subList.size();i++) {
+			String mId= subList.get(i).getSubId();
+			
+			ArrayList<BlogPost> blist = new ArrayList<BlogPost>();
+			blist=(ArrayList)sqlSession.selectList("blogMapper.subPostList",mId);
+			
+			for(int k=0; k<blist.size();k++) {
+				list.add(blist.get(k));
+			}
+			
+		}
+		
+		
+		return list;
+	}
+
+	
+	// 구독 추가
+	public int subPlus(BlogSub bs) {
+		return sqlSession.insert("blogMapper.subPlus",bs);
+	}
+	
+	// 구독취소
+	public int subDelete(BlogSub bs) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.subDelete",bs);
+	}
+
+	// 관리 - 내 구독리스트
+	public ArrayList<BlogDetail> selectSubDetail(ArrayList<BlogSub> subList) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<BlogDetail> bd = new ArrayList<BlogDetail>();
+		for(int i=0; i<subList.size(); i++) {
+			bd.add(sqlSession.selectOne("blogMapper.selectSubDetail",subList.get(i).getSubId()));
+		}
+		
+		return bd;
+	}
+
+	// 알림 페이징을 위한 알림 갯수 가져오기
+	public int getAlertListCount(int mNo) {
+		return sqlSession.selectOne("blogMapper.getAlertListCount",mNo);
+	}
+
+	//글수정 폼갖고오기
+	public BlogPost selectUpdateDetail(BlogPost b) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("blogMapper.selectUpdateDetail",b);
+	}
+
+	
+	// 글수정
+	public int updatePost(BlogPost b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.updatePost",b);
+	}
+
+	//썸네일수정
+	public int insertThumbUpdate(Files f) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("filesMapper.updateThumb",f);
+	}
+
+	// 사진수정
+	public int insertFilesUpdate(Files f) {
+		return sqlSession.insert("filesMapper.insertFilesUpdate",f);
+	}
+
+	// 글삭
+	public int blogPostDelete(BlogPost bp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.blogPostDelete",bp);
+	}
+
+	//답글불러오기
+	public ArrayList<ReReply> selectReReplyList(ReReply r) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.selectReReplyList",r);
+	}
+
+	// 답글작성
+	public int inseretRReply(ReReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("blogMapper.insertRReply",r);
 	}
 
 

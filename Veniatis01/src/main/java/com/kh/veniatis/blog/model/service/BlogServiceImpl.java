@@ -11,7 +11,9 @@ import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.BlogSub;
 import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
@@ -33,7 +35,6 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public ArrayList<BlogPost> selectPostList(String userId, int currentPage) {
 		int listCount = bDao.getListCount(userId);
-		System.out.println(listCount);
 		PageInfo pi = BlogPagination.getPageInfo(currentPage, listCount);
 		
 		
@@ -241,9 +242,11 @@ public class BlogServiceImpl implements BlogService{
 
 	// 31. 알림 정보 가져오기
 	@Override
-	public ArrayList<BlogAlert> selectAlertList(int mNo) {
-		// TODO Auto-generated method stub
-		return bDao.selectAlertList(mNo);
+	public ArrayList<BlogAlert> selectAlertList(int mNo, int currentPage) {
+		int listCount = bDao.getAlertListCount(mNo);
+		PageInfo pi = BlogPagination.getPageInfo(currentPage, listCount);
+		
+		return bDao.selectAlertList(mNo,pi);
 	}
 	
 	// 32. 알림삭제
@@ -278,6 +281,91 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public int updateBlogCss(BlogDetail bd) {
 		return bDao.updateBlogCss(bd);
+	}
+	
+	// 37. 구독 블로거 목록 갖고오기
+	@Override
+	public ArrayList<BlogSub> selectSubList(String mId) {
+		// TODO Auto-generated method stub
+		return bDao.selectSubList(mId);
+	}
+	
+	
+	//38.구독 블로거들의 글 목록 갖고오기(오늘부터 7일차만)
+	@Override
+	public ArrayList<BlogPost> subPostList(ArrayList<BlogSub> subList) {
+		// TODO Auto-generated method stub
+		return bDao.subPostList(subList);
+	}
+	
+	//39. 구독추가
+	@Override
+	public int subPlus(BlogSub bs) {
+		// TODO Auto-generated method stub
+		return bDao.subPlus(bs);
+	}
+	
+	//40. 구독취소
+	@Override
+	public int subDelete(BlogSub bs) {
+		// TODO Auto-generated method stub
+		return bDao.subDelete(bs);
+	}
+	
+	//41. 관리 - 내 구독리스트
+	@Override
+	public ArrayList<BlogDetail> selectSubDetail(ArrayList<BlogSub> subList) {
+		// TODO Auto-generated method stub
+		return bDao.selectSubDetail(subList);
+	}
+	
+	// 42. 수정용
+	@Override
+	public BlogPost selectUpdateDetail(BlogPost b) {
+		// TODO Auto-generated method stub
+		return bDao.selectUpdateDetail(b);
+	}
+	
+	//43.수정
+	@Override
+	public int updatePost(BlogPost b) {
+		// TODO Auto-generated method stub
+		return bDao.updatePost(b);
+	}
+	
+	// 44. 썸네일수정
+	@Override
+	public int insertThumbUpdate(Files f) {
+		// TODO Auto-generated method stub
+		return bDao.insertThumbUpdate(f);
+	}
+	
+	//45.사진수정
+	@Override
+	public int insertFilesUpdate(Files f) {
+		// TODO Auto-generated method stub
+		return bDao.insertFilesUpdate(f);
+	}
+
+		//46. 글삭
+	@Override
+	public int blogPostDelete(BlogPost bp) {
+		// TODO Auto-generated method stub
+		return bDao.blogPostDelete(bp);
+	}
+	
+	//47.답글
+	@Override
+	public ArrayList<ReReply> selectReReplyList(ReReply r) {
+		// TODO Auto-generated method stub
+		return bDao.selectReReplyList(r);
+	}
+	
+	//48. 답글작성
+	@Override
+	public int insertRReply(ReReply r) {
+		// TODO Auto-generated method stub
+		return bDao.inseretRReply(r);
 	}
 	
 

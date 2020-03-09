@@ -85,7 +85,7 @@
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<jsp:include page="menubar.jsp"></jsp:include>
+<jsp:include page="../common/menubar.jsp"></jsp:include>
 
 
 	<div id="omcWrap">
@@ -93,21 +93,7 @@
 		<div id="cMain">
 			<article id="mContent" class="guide_top">
 				<h2 id="omcBody" class="screen_out">이용가이드</h2>
-				<div class="search_area">
-					<form name="listForm" method="post" class="search_form">
-						<fieldset class="fld_comm">
-							<legend class="tit_search">FAQ 검색하기</legend>
-							<label for="searchKeyword" class="tf_comm"> <input
-								type="text" id="searchKeyword" name="searchKeyword"
-								class="tf_cont">
-								<button type="button" class="btn_search" title="검색하기"
-									onclick="javascript:fn_selectFaqList();">
-									<span class="ico_comm">검색하기</span>
-								</button>
-							</label>
-						</fieldset>
-					</form>
-				</div>
+				
 				<script>
 					$(document).ready(function() {
 						var divId = window.location.hash;
@@ -2289,16 +2275,7 @@
 								</div>
 							</div>
 						</div>
-						<ul class="guide_links">
-							<li><strong class="tit_common">공통<br>이용가이드
-							</strong> <a href="/guide/common#crowd" class="link_cont">자세히 보기</a></li>
-							<li><strong class="tit_guest">펀딩 참여자<br>이용가이드
-							</strong> <a href="/guide/guest/reward" class="link_support">후원형</a> <a
-								href="/guide/guest/invest" class="link_stock">증권형</a></li>
-							<li><strong class="tit_host">펀딩 개설자<br>이용가이드
-							</strong> <a href="/guide/maker/reward" class="link_support">후원형</a> <a
-								href="/guide/maker/invest" class="link_stock">증권형</a></li>
-						</ul>
+						
 					</div>
 				</article>
 		</div>
@@ -2310,8 +2287,9 @@
 
 	<!-- footer -->
 	</div></div></div></div>
-      <jsp:include page="footer2.jsp"></jsp:include>
+
 
 
 </body>
+<jsp:include page="../common/footer.jsp"></jsp:include>
 </html>

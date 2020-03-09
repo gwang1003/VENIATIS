@@ -26,6 +26,26 @@
 	
 	}
 	
+	.tag {
+    width: 10%;
+    height: 45px;
+    cursor: pointer;
+    margin: 0 auto;
+    border: .5px solid rgb(232, 238, 241);
+    border-radius: 28px;
+    font: normal 14px/28px "Advent Pro", Helvetica, sans-serif;
+    color: rgb(119, 126, 128);
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    letter-spacing: 1px;
+    background: rgba(0,0,0,0);
+	}
+	
+	.wrap_my_information .area_my_content .my_content_news, .wrap_my_information .area_my_content .my_content_written, .wrap_my_information .area_my_content .my_content_buddy {
+		height:310px !important;
+	
+	}
 	
 	</style>
 	 <link rel="stylesheet" href="resources/css/네이버2.css">
@@ -85,9 +105,7 @@
                     <div class="list_group">
                         <div class="list_hottopic">
                             <div class="item_wrap">
-                                <!-- [D] 활성화된 .item에 aria-current="true"를 추가해주세요. -->
-                                <!-- ngRepeat: postView in todayHotTopic.hotTopicPostViewList | limitTo : 3 -->
-                                <div class="item">
+							 <div class="item">
                                     <a ng-href="" class="item_inner" href="<%= request.getContextPath() %>/blogDetail.do?userId=${popPost[0].mId}&uniNo=${popPost[0].uniNo}">
                                         <img bg-image="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[0].changeName}"
                                         width="252" height="240" src="<%= request.getContextPath() %>/resources/buploadFiles/${popPost[0].changeName}">
@@ -102,8 +120,9 @@
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
+                                       
                                         </div>
-                                        <span class="nickname">${popPost[0].mId}
+                                        <span class="nickname">${popPost[0].mName}(${popPost[0].mId})</span>
                                     </a>
                                 </div>
                                 <div class="item">
@@ -121,8 +140,9 @@
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
+                                       
                                         </div>
-                                        <span class="nickname">${popPost[1].mId}</span>
+                                        <span class="nickname">${popPost[1].mName}(${popPost[1].mId})</span>
                                     </a>
                                 </div>
                                 <div class="item">
@@ -135,13 +155,14 @@
                                                    <strong class="title_post">${popPost[2].bTitle}</strong>
                                                 </span>
                                             </div>
- <p class="text_post">${popPost[2].bTContent}</p>
+											 <p class="text_post">${popPost[2].bTContent}</p>
                                         </div>
                                     </a>
                                     <a ng-href="#" class="link_author" href="#">
                                         <div class="thumbnail_author">
+                                        
                                         </div>
-                                           <span class="nickname">${popPost[2].mId}</span>
+                                           <span class="nickname">${popPost[2].mName}(${popPost[2].mId})</span>
                                     </a>
                                 </div>
                             </div>
@@ -165,139 +186,36 @@
                 <section class="wrap_thumbnail_post_list" data-post-type="buddy">
                     <div class="heading">
                         <div class="title _buddy_dropdown_container">
-                            <h3 class="title_heading">테마별 최근글</h3>
-                            <div class="area_dropdown" data-set="buddy">
-                              	  
-                                <select>
-                                    <option>창업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                    <option>IT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                    <option>일상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                </select>
-                            </div>
+                            <h3 class="title_heading">구독 블로거 최근글</h3> 
                         </div>
+                <c:if test="${empty sp  }">
+                	최근 글이 없습니다!
+                </c:if>       
+				<c:forEach var="sp" items="${sp}">                
                         <div class="list_post_article list_post_article_comments">
                             <div class="item">
                                 <div class="item_inner">
                                     <div class="info_post only_post">
                                         <a class="author">
-                                            <div class="thumbnail_author">
-                                                <img alt="블로거 썸네일" bg-image="" class="img_author no_image" height="32"
-                                                    width="32" src="resources/img/test.png">
-                                            </div>
+
                                             <div class="info_author">
-                                                <em class="name_author">누구누구</em>
-                                                <span class="time">2020. 1. 27.</span>
+                                                <em class="name_author">${sp.mName } (${sp.mId }) &nbsp;&nbsp;<span class="time">${sp.bEnrollDate }</span></em>
+                                                
                                             </div>
                                         </a>
                                         
                                         <div class="desc">
-                                            <a ng-href="#" class="desc_inner" href="#">
-                                                <strong class="title_post" ng-bind="post.title">글 제목</strong>
+                                            <a ng-href="#" class="desc_inner" href="blogDetail.do?userId=${sp.mId}&uniNo=${sp.uniNo}">
+                                                <strong class="title_post" ng-bind="post.title">${sp.bTitle }</strong>
                                             </a>
-                                            <a class="text" href="#">글 내용</a>
+                                            <a class="text" href="blogDetail.do?userId=${sp.mId}&uniNo=${sp.uniNo}">${sp.bTContent }</a>
                                         </div>
-                                        <div class="comments">
-                                            <div class="like" ng-if="post.sympathyEnable">
-                                                <div class="u_likeit_list_module _reactionModule">
-                                                    <a href="#" class="u_likeit_list_btn _button off double_heart" role="button"
-                                                        data-type="like" data-ishiddenzerocount="true" aria-pressed="false">
-                                                        <span class="u_ico _icon"></span>
-                                                        <em class="u_txt _label">좋아요</em>
-                                                        <em class="u_cnt _count">111</em>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <a ng-href="#" href="#"><span class="reply"><i class="sp_common icon_comment2">댓글</i>
-                                                    <em>332</em></span></a>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="list_post_article list_post_article_comments">
-                                <div class="item">
-                                    <div class="item_inner">
-                                        <div class="info_post only_post">
-                                            <a class="author">
-                                                <div class="thumbnail_author">
-                                                    <img alt="블로거 썸네일" bg-image="" class="img_author no_image" height="32"
-                                                        width="32" src="resources/img/test.png">
-                                                </div>
-                                                <div class="info_author">
-                                                    <em class="name_author">누구누구</em>
-                                                    <span class="time">2020.
-                                                        1. 27.</span>
-                                                </div>
-                                            </a>
-                                            
-                                            <div class="desc">
-                                                <a ng-href="#" class="desc_inner" href="#">
-                                                    <strong class="title_post" ng-bind="post.title">글 제목</strong>
-                                                </a>
-                                                <a class="text" href="#">글 내용</a>
-                                            </div>
-                                            <div class="comments">
-                                                <div class="like" ng-if="post.sympathyEnable">
-                                                    <div class="u_likeit_list_module _reactionModule">
-                                                        <a href="#" class="u_likeit_list_btn _button off double_heart" role="button"
-                                                            data-type="like" data-ishiddenzerocount="true" aria-pressed="false">
-                                                            <span class="u_ico _icon"></span>
-                                                            <em class="u_txt _label">좋아요</em>
-                                                            <em class="u_cnt _count">111</em>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <a ng-href="#" href="#"><span class="reply"><i class="sp_common icon_comment2">댓글</i>
-                                                        <em>332</em></span></a>
-                                            </div>
-                                        </div>
-    
-    
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list_post_article list_post_article_comments">
-                                    <div class="item">
-                                        <div class="item_inner">
-                                            <div class="info_post only_post">
-                                                <a class="author">
-                                                    <div class="thumbnail_author">
-                                                        <img alt="블로거 썸네일" bg-image="" class="img_author no_image" height="32"
-                                                            width="32" src="resources/img/test.png">
-                                                    </div>
-                                                    <div class="info_author">
-                                                        <em class="name_author">누구누구</em>
-                                                        <span class="time">2020.
-                                                            1. 27.</span>
-                                                    </div>
-                                                </a>
-                                                
-                                                <div class="desc">
-                                                    <a ng-href="#" class="desc_inner" href="#">
-                                                        <strong class="title_post" ng-bind="post.title">글 제목</strong>
-                                                    </a>
-                                                    <a class="text" href="#">글 내용</a>
-                                                </div>
-                                                <div class="comments">
-                                                    <div class="like">
-                                                        <div class="u_likeit_list_module _reactionModule">
-                                                            <a href="#" class="u_likeit_list_btn _button off double_heart">
-                                                                <span class="u_ico _icon"></span>
-                                                                <em class="u_txt _label">좋아요</em>
-                                                                <em class="u_cnt _count">111</em>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <a ng-href="#" href="#"><span class="reply"><i class="sp_common icon_comment2">댓글</i>
-                                                            <em>332</em></span></a>
-                                                </div>
-                                            </div>
-        
-        
-                                        </div>
-                                    </div>
-                                </div>
-
+                </c:forEach>    
                                 <!-테마별 최근 글 끝-->
 
                 </section>
@@ -308,6 +226,7 @@
                     <div >
                         <div class="area_my_account" >
                             <a  class="name" alt="내 블로그" href="#"><span class="thumbnail"><img bg-image="" width="46" height="46" alt="프로필" class="no_image" src="${loginUser.filePath }"></span><span>${loginUser.mName } 님</span></a>
+                            (${loginUser.mId}) <a href="testDisplay.do">테스트</a>
                             </div>
                         <nav class="menu_my_blog">
                         
@@ -320,8 +239,8 @@
                     </div>
                     <div class="login">
                         <div class="menu_my_article" role="tablist">
-                            <a href="#" class="item">내 소식</a>
-                            <a href="#" class="item">내가 남긴 글</a>
+                            <a href="#" class="item">내 소식 <b>${pi.currentPage } / ${pi.maxPage }</b></a>
+                            
                         </div>
                         <div class="area_my_content">
                             <div class="my_content_news"  id="my_content_news">
@@ -365,10 +284,39 @@
 		 </div>
                         </div>
                         <div class="area_pagination">
+                      
                             <div class="pagination" role="navigation" data-page="my_pagination">
-                                <a href="#" class="button_prev" ><i class="sp_common icon_arrow_left">이전</i></a>
-                                <a href="#" class="button_next"><i class="sp_common icon_arrow_right">다음</i></a>
-                            </div>
+                            
+                          
+                            <c:if test="${pi.currentPage <= 1 }">
+                            	<a href="#" class="button_prev" ><i class="sp_common icon_arrow_left">이전</i></a>
+                            </c:if>
+                            
+                            
+                            <c:if test="${pi.currentPage >1 }">
+								<c:url var="before" value="blogHome.do">
+									<c:param name="page" value="${pi.currentPage -1 }" />
+								</c:url>
+								<a href="${before}" class="button_prev" ><i class="sp_common icon_arrow_left">이전</i></a>
+							</c:if>
+							
+							
+							<c:if test="${pi.currentPage>= pi.maxPage }">
+									<a href="#" class="button_next"><i class="sp_common icon_arrow_right">다음</i></a>
+							</c:if>
+
+							<c:if test="${pi.currentPage < pi.maxPage}">
+								<c:url var="after" value="blogHome.do">
+									<c:param name="page" value="${pi.currentPage +1 }" />
+								</c:url>
+								<a href="${after}" class="button_next"><i class="sp_common icon_arrow_right">다음</i></a>
+							</c:if>
+
+
+
+
+
+						</div>
                         </div>
                     </div>
                 </div>
@@ -388,7 +336,7 @@
     			dataType : "text",
     			data : {baNo:baNo},
     			success: function(data){
-    				location.href="blogHome.do"; // 아작스만들기존나귀찬은데........나중에 시간나면 만들긔 ^_^
+    				location.href="blogHome.do"; 
     			},
     			error : function(){
     				console.log('ajax 통신 실패');

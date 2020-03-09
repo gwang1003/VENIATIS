@@ -54,6 +54,7 @@ font-family: 'Noto Sans KR', sans-serif;
     rel="stylesheet">
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  
 </head>
 <body style="background-color:#e2e7e6;">
 <jsp:include page="../common/menubar.jsp"></jsp:include>
@@ -72,11 +73,11 @@ font-family: 'Noto Sans KR', sans-serif;
                    블로그 관리하기
 
                 </span>
-                <a href="badminDetail.do" class="list-group-item"  >
+                <a href="badminDetail.do" class="list-group-item"   >
                     <i class="fa fa-search"></i> 기본정보 관리
                 </a>
-                <a href="badminPost.do" class="list-group-item"  style="background-color:#d4f3ef;
-                											border-color:#d4f3ef;">
+                <a href="badminPost.do" class="list-group-item" style="background-color:#d4f3ef;
+                											border-color:#d4f3ef;" >
                     <i class="fa fa-search"></i> 게시글 관리
                 </a>
                 <a href="badminCate.do" class="list-group-item">
@@ -84,6 +85,12 @@ font-family: 'Noto Sans KR', sans-serif;
                 </a>
                 <a href="badminCss.do" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
+                </a>
+                <a href="badminActive.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 내 활동 관리
+                </a>
+                <a href="badminSub.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 구독 관리
                 </a>
            </div>        
        </div>
@@ -156,7 +163,7 @@ font-family: 'Noto Sans KR', sans-serif;
     </div>
  <!-- ㅋㅋ -->
  
-          <button formaction="badminPostDelete.do">글 삭제하기</button>
+          <button class="btn btn-danger" formaction="badminPostDelete.do">글 삭제하기</button>
 		  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zz">카테고리 이동하기</button>
           </form>
         </div>

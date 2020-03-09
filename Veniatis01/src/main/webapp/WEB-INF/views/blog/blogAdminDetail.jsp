@@ -88,8 +88,11 @@ font-family: 'Noto Sans KR', sans-serif;
                 <a href="badminCss.do" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
                 </a>
-                <a href="badminCss.do" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> 좋아요 내역 관리
+                <a href="badminActive.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 내 활동 관리
+                </a>
+                <a href="badminSub.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 구독 관리
                 </a>
            </div>        
        </div>
@@ -107,14 +110,17 @@ font-family: 'Noto Sans KR', sans-serif;
           <b>블로그 이름</b>  <input type="text" class="form-control bg-light border-0 small" 
           						value="${bd.blogTitle}" 
           						style="width:100%; height:90%;"
-          						name="blogTitle"><br>
+          						name="blogTitle" id="blogTitle">
+          						<p style="text-align:right"><span id="counter">0</span>/50</p>
           <b>블로그 소개</b>  <br>
           <textarea class="form-control" rows="3" style="background-color: #f8f9fa; border-color:white;"
-          name="blogInto">${bd.blogInto}</textarea>    
+          name="blogInto" id="blogInto">${bd.blogInto}</textarea>
+          <p style="text-align:right"><span id="counter2">0</span>/100</p>    
           <br><br>						
 				<div style="text-align:right;"><button  class="btn btn-success">수정하기</button></div>
-          </form>
           
+          </form>
+
           
           
           </div>
@@ -160,7 +166,45 @@ crossorigin="anonymous"></script>
   <script src="resources/js/demo/datatables-demo.js"></script>
   <script src="resources/js/demo/chart-area-demo.js"></script>
 
+  		  <script>
+          $(document).ready(function(){
+        	  var inputLength=$("#blogTitle").val().length;
+        	  $("#counter").html(inputLength);
+        	  
+        	  var inputLength2=$("#blogInto").val().length;
+        	  $("#counter2").html(inputLength2);
+        	  
+          		$("#blogTitle").keyup(function(){
+          			var inputLength=$(this).val().length;
+          			$("#counter").html(inputLength);
+          			
+          			var remain=50-inputLength;
 
+                    if(remain >= 0){
+                        $("#counter").css("color", "black");
+                    }else{
+                        $("#counter").css("color", "red");
+                    }
+          			
+          		});
+
+          		$("#blogInto").keyup(function(){
+          			var inputLength2=$(this).val().length;
+          			$("#counter2").html(inputLength2);
+          			
+          			var remain2=100-inputLength2;
+
+                    if(remain2 >= 0){
+                        $("#counter2").css("color", "black");
+                    }else{
+                        $("#counter2").css("color", "red");
+                    }
+          			
+          		});
+          		
+          	});
+          
+          </script>
 
 
 </body>

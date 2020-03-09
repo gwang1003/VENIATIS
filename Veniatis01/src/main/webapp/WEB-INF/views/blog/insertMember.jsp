@@ -95,7 +95,7 @@
                                                 <input id="phone3" name="phone3" maxlength="4" type="text" required />
                                             </td>
                                         </tr>
-                                        <tr>
+<!--                                         <tr>
                                             <th scope="row">* 이메일 (인증 필수)</th>
                                             <td>
                                                 <div id="email">
@@ -107,7 +107,7 @@
                                                         id="emailcheck1" name="emailcheck">인증번호 확인</button><br>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <th scope="row">관심 분야</th>
                                             <td>
@@ -206,11 +206,11 @@
                     return false;
                 }	
                 
-                if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=userPwd]").val())))){
+/*                 if(!((/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣]).{8,}/.test($("#joinForm input[name=userPwd]").val())))){
                     alert('비밀번호는 8자 이상으로 영문 대소문자, 숫자, 특수문자 1개 이상 포함해주세요');
                     $("#joinForm input[name=userPwd]").select();
                     return false;
-                }	
+                }	 */
                 
                 if($(".emailcheck").length==0){
                     alert('이메일 인증을 해주세요');

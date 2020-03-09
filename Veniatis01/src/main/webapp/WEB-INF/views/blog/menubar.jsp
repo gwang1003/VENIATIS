@@ -58,7 +58,7 @@ s0.parentNode.insertBefore(s1,s0);
                                             </li>
                                             <li><a href="contact.html">공모전</a></li>
                                             <li><a href="contact.html">Blog</a></li>
-                                            <li><a href="contact.html">가이드</a></li>
+                                            <li><a href="guideGo.do">가이드</a></li>
                                         </ul>
                                     </nav>
                                 </div>

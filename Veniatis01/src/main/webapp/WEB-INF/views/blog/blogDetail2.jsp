@@ -489,7 +489,7 @@ function replyList(){
 <body>
 
 <jsp:include page="../common/menubar.jsp"></jsp:include>
-        <div class="container" style="background-color:${bd.cssBack};">
+        <div class="container" style="background-color:${bd.cssBack}; ">
             <div class="row" >
                         <div class="col-lg-8 mb-5 mb-lg-10" style='padding-top:10px;'">
             		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				

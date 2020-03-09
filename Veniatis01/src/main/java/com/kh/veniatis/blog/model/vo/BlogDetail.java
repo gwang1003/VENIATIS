@@ -12,6 +12,38 @@ public class BlogDetail {
 	private String cssLocation;
 	private String blogInto;
 	private String blogTag;
+	
+	private String mId;
+	private String mName;
+	
+	
+	public BlogDetail(int blogNo, int mNo, String blogTitle, String cssBack, String cssWeather, String cssTime,
+			String cssLocation, String blogInto, String blogTag, String mId, String mName) {
+		super();
+		this.blogNo = blogNo;
+		this.mNo = mNo;
+		this.blogTitle = blogTitle;
+		this.cssBack = cssBack;
+		this.cssWeather = cssWeather;
+		this.cssTime = cssTime;
+		this.cssLocation = cssLocation;
+		this.blogInto = blogInto;
+		this.blogTag = blogTag;
+		this.mId = mId;
+		this.mName = mName;
+	}
+	public String getmId() {
+		return mId;
+	}
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
+	public String getmName() {
+		return mName;
+	}
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
 	public BlogDetail(int blogNo, int mNo, String blogTitle, String cssBack, String cssWeather, String cssTime,
 			String cssLocation, String blogInto, String blogTag) {
 		super();
@@ -83,7 +115,7 @@ public class BlogDetail {
 	public String toString() {
 		return "BlogDetail [blogNo=" + blogNo + ", mNo=" + mNo + ", blogTitle=" + blogTitle + ", cssBack=" + cssBack
 				+ ", cssWeather=" + cssWeather + ", cssTime=" + cssTime + ", cssLocation=" + cssLocation + ", blogInto="
-				+ blogInto + ", blogTag=" + blogTag + "]";
+				+ blogInto + ", blogTag=" + blogTag + ", mId=" + mId + ", mName=" + mName + "]";
 	}
 	
 		

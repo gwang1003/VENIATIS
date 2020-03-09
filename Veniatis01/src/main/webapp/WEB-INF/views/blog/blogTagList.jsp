@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 	<style>
 	#btn2{
 	 background-color: #40c8b5;
@@ -19,6 +19,9 @@
 	font-size:11pt;
 	}
 	
+	b{
+	color:black !important;
+	}
 	.card-img{
 		opacity:0.4;
 	}
@@ -93,7 +96,7 @@
 <jsp:include page="menubar.jsp"></jsp:include>
 
 
-<div class="container">
+<div class="container" style="background-color:${bd.cssBack};">
     <section class="blog_area">
 		
             <div class="row">
@@ -104,15 +107,14 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                     <!-- 목록 가져오긔 -->
-                   <h2>#${tag }</h2><br><br>                   
+                   <h1 style="font-family: 'Nanum Pen Script';">#${tag }</h2><br><br>                   
                     <c:forEach var="p" items="${post}"> 
                 
                        <article class="blog_item">
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="<%= request.getContextPath() %>/resources/buploadFiles/${p.changeName}" style="height:400px; opacity:0.8;">
                                 <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
+									<h3>${p.bEnrollDate }</h3>
                                 </a>
                             </div>
                 <c:url var="detail" value="blogDetail.do">
@@ -140,6 +142,18 @@
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget" style="display:;">
 							<b>${user.mName }</b>(${user.mId })
+								<c:if test="${loginUser.mId ne user.mId }">
+								 
+									<c:if test=	"${!(subtf )}">
+									&nbsp;&nbsp;&nbsp;<b><a href="javascript:subscribe();" style="color:orange !important;" class="blogSub">구독하기</a></b>
+									</c:if>
+									
+									<c:if test=	"${(subtf )}">
+									&nbsp;&nbsp;&nbsp;<b><a href="javascript:deleteSub();" style="color:orange !important;" class="blogSub">구독해제</a></b>
+									</c:if>
+																
+									
+								</c:if>
 							<hr>
 							${bd.blogInto }
 						</aside>
@@ -183,7 +197,7 @@
                         </aside>
                     
 <!-- 태그 -->                    
-                        <aside class="single_sidebar_widget tag_cloud_widget">
+                        <aside class="single_sidebar_widget tag_cloud_widget" style="display:${bd.blogTag};">
                             <h4 class="widget_title">Tag Clouds</h4>
                             <ul class="list">
 	                            <!-- 태그가 10개 이하일 때 : 전체 출력-->
@@ -237,7 +251,7 @@
                         </aside>
 <!--  -->   
  				<!-- 날씨 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget"  style="display:${bd.cssWeather};">
 							<h4 class="widget_title">Weather</h4>
 							<div id="we">
 								<img id="weather" src="">
@@ -245,7 +259,7 @@
 							</div>
 						</aside>
 				<!-- 현재시간 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget" style="display:${bd.cssTime};">
 							<h4 class="widget_title">Time</h4>						
 								<div id="clock" class="light" style="margin:0; width:100%; padding:20px;">
 									<div class="display" style="padding:0; width:100%;">
@@ -254,7 +268,7 @@
 								</div>
 						</aside>
 				<!-- 위치 -->
-						<aside class="single_sidebar_widget" style="display:;">
+						<aside class="single_sidebar_widget"  style="display:${bd.cssLocation};">
 							<h4 class="widget_title">Location</h4>
 							<div class="map_wrap">
 							    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
@@ -263,7 +277,7 @@
 							        <span id="centerAddr"></span>
 							    </div>
 							</div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2b97e562cf05e725aa47841da3aa179c&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a5d7fcf1a98faf68aad6298992293d2&libraries=services"></script>
 <script>
 var lat1=0;
 var lon1=0;
@@ -362,6 +376,55 @@ function displayCenterInfo(result, status) {
 	
 }
 
+	
+	// 구독관련	
+	function subscribe(){
+		var result= confirm("${user.mName} 님을 구독하시겠습니까?");
+		var subId= '${user.mId}';
+		if(result){
+			$.ajax({
+		        url :'blogSubPlus.do',
+		        type :'POST',
+		        data : {subId : subId},
+		        dataType:"text",
+		        success : function(data){
+					alert("구독 완료되었습니다!");
+					$(".blogSub").text("구독해제");
+					$(".blogSub").attr("href", "javascript:deleteSub();");
+
+		        },error:function(e){
+		              alert("error code : " + e.status + "\n"
+		                      + "message : " + e.responseText);
+		        }
+		    });	
+		}
+		
+		
+	}
+	
+	
+	// 구취
+	function deleteSub(){
+		var result=confirm("${user.mName} 님의 블로그 구독을 취소하시겠습니까?");
+		var subId='${user.mId}';
+		if(result){
+			$.ajax({
+		        url :'blogSubDelete.do',
+		        type :'POST',
+		        data : {subId : subId},
+		        dataType:"text",
+		        success : function(data){
+					alert("구독 취소되었습니다!");
+					$(".blogSub").text("구독하기");
+					$(".blogSub").attr("href", "javascript:subscribe();");
+
+		        },error:function(e){
+		              alert("error code : " + e.status + "\n"
+		                      + "message : " + e.responseText);
+		        }
+		    });				
+		}
+	}
 </script>
 
 

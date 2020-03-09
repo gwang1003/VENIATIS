@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,44 +128,58 @@
 	}
 </script>
 </head>
-<body style="background-color:rgba(128, 128, 128, 0.068);">
+<body>
 <jsp:include page="../common/menubar.jsp"></jsp:include>
     <div class="container">
-		<form action="blogInsert.do" method="post" id="frm" enctype="multipart/form-data" onsubmit="values();">
-		<h1 style="text-align:center;">글 작성하기</h1>
+		<form action="blogUpdate.do" method="post" id="frm" enctype="multipart/form-data" onsubmit="values();">
+			<select name="cateNo">
+				
+					<c:forEach var="cate" items="${cate}">  
+						<c:if test="${cate.bCateName eq post.cateName}" >
+						<option value="${cate.cateNo}" selected >${cate.bCateName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>	
+						</c:if>
+						<c:if test="${cate.bCateName ne post.cateName}" >
+						<option value="${cate.cateNo}">${cate.bCateName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+						</c:if>						
+						
+					</c:forEach>
+            </select>
             <br>
-            하단 이미지를 클릭하시면 썸네일 이미지를 입력하실 수 있습니다.(미입력시 기본 이미지로 작성됩니다)
 	            <div id="represent" class="represent-img">
-					<img id="represent1" class="images" src="resources/buploadFiles/BasicThumbs.jpg" width="400px" height="300px">
+					<img id="represent1" class="images" src="<%= request.getContextPath() %>/resources/buploadFiles/${post.changeName}" width="400px" height="300px">
 				</div>                
 				<input type="file" name="represent" style="display:none;"class="hidden" id="represent-btn" onchange="loadImg(this,1)">                            
 				<input type="hidden" name ="bTContent" id ="bTContent" value="">
 			<br>           
 			<br>
-			<select name="cateNo">
-					<c:forEach var="cate" items="${cate}">  
-						<option value="${cate.cateNo}">${cate.bCateName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-					</c:forEach>
-            </select>
-			 &nbsp;&nbsp;&nbsp;
-				<input type="text" name="bTitle" value="" style="width:570px; height:42px; border : 1px solid lightgray;"><br><br>
-				<textarea name="bContent" id="smarteditor" rows="10" cols="100" style="width:766px; height:412px;  "></textarea> 
-			<div><b>태그 입력 (엔터키를 입력하면 입력, 백스페이스 키를 입력하면 삭제 됩니다)</b></div>
+			제목:
+				<input type="text" name="bTitle" value="${post.bTitle } "><br><br>
+				<textarea name="bContent" id="smarteditor" rows="10" cols="100" style="width:766px; height:412px;">${post.bContent }</textarea> 
+			태그:
 	    		<div id="taglist" style="display:inline;">
+	    		<%int a=1; %>
+	    		<c:forEach var="t" items="${detailTagList}"> 
+	    			<input type='text'  readonly  class='tag' id="num<%=a %>" value='#${t}'>
+	    			<%a=a+1; %>
+	    		</c:forEach>
+	    		
 	    		</div>
 				<br>
 	    		<div class="inner-addon right-addon enjoy-cssx" style="float:left;">
 					<input type="text"  id="test1" onKeyDown="onKeyDown();"  placeholder="#태그입력" class="form-control enjoy-css" />
 	    		</div>
-	    		<br><br><br>
 			<input type="button" id="savebutton" value="글쓰기" />
+			${fn:length(detailTagList)} 
+			<input type="hidden" name="uniNo" value="${post.uniNo }">
 	</form>
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
-	
 <script>
 	var num = 1;
+	if(${fn:length(detailTagList)} >0){
+		num=${fn:length(detailTagList)}+1;
+	}
 	// 태그 생성
 	function onKeyDown() {
 	    //엔터 눌러졌을 때 (태그 생성)

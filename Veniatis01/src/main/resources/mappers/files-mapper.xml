@@ -47,6 +47,17 @@
 		WHERE FILE_LEVEL=1  AND B_NO=#{bNo}
 	</select>	
 	
+	<!-- 썸네일 바꾸기 -->
+	<update id="updateThumb" parameterType="Files">
+		UPDATE FILES
+		SET ORIGIN_NAME=#{originName}, CHANGE_NAME=#{changeName}, FILE_PATH=#{filePath},UPLOAD_DATE=SYSDATE
+		WHERE B_NO=#{bNo} AND FILE_LEVEL=1
+	</update>
 	
+	<!-- 수정할떄 사진 다시 넣기 -->
+	<insert id="insertFilesUpdate" parameterType="Files">
+		INSERT INTO FILES
+		VALUES(SEQ_FILES_NO.NEXTVAL,#{bNo},null,null,null,null,1,#{originName}, #{changeName},#{filePath},SYSDATE,'Y',#{fileLevel})
+	</insert>
 	
 </mapper>

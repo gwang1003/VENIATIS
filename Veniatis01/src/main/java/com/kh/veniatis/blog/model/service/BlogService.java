@@ -6,6 +6,8 @@ import com.kh.veniatis.blog.model.vo.BlogAlert;
 import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.BlogSub;
+import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
@@ -107,7 +109,7 @@ public interface BlogService {
 	int alertHeart(BlogAlert ba);
 	
 	// 31. 알림 정보 가져오기
-	ArrayList<BlogAlert> selectAlertList(int getmNo);
+	ArrayList<BlogAlert> selectAlertList(int getmNo, int currentPage);
 	
 	// 32. 알림 삭제
 	int deleteAlert(int baNo);
@@ -124,5 +126,42 @@ public interface BlogService {
 	// 36. css업뎃하기
 	int updateBlogCss(BlogDetail bd);
 	
+	
+	// 37. 구독 블로거 목록 갖고오기
+	ArrayList<BlogSub> selectSubList(String getmId);
+	
+	// 38. 구독 블로거들의 글 목록 갖고오기(오늘부터 7일차만)
+	ArrayList<BlogPost> subPostList(ArrayList<BlogSub> subList);
+	
+	// 39. 구독추가
+	int subPlus(BlogSub bs);
+	
+	// 40. 구독취소
+	int subDelete(BlogSub bs);
+	
+	//  41. 블로그 관리 : 구독 리스트 갖고오기
+	ArrayList<BlogDetail> selectSubDetail(ArrayList<BlogSub> subList);
+	
+	// 42. 수정용..ㅋㅋㅋ
+	BlogPost selectUpdateDetail(BlogPost b);
+	
+	// 43. 수정
+	int updatePost(BlogPost b);
+	
+	// 44. 썸네일수정
+	int insertThumbUpdate(Files f);
+	
+	// 45. 사진수정
+	int insertFilesUpdate(Files f);
+	
+	// 46. 글 삭제
+	int blogPostDelete(BlogPost bp);
+	
+	// 47. 답글가져오기
+	ArrayList<ReReply> selectReReplyList(ReReply r);
+	
+	// 48. 답글작성
+	int insertRReply(ReReply r);
+
 
 }

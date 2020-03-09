@@ -19,7 +19,39 @@ public class BlogPost {
 	private String searchValue; //검색어
 	private String bTContent; // 글요약
 	private int countLike; //좋아요 수
+	private String mName; // 이름
 	
+	
+	
+	public String getmName() {
+		return mName;
+	}
+
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
+
+	public BlogPost(int bNo, String mId, String bTitle, String bContent, Date bEnrollDate, Date bUpdateDate,
+			String bTag, int cateNo, int uniNo, String cateName, String changeName, String searchValue,
+			String bTContent, int countLike, String mName) {
+		super();
+		this.bNo = bNo;
+		this.mId = mId;
+		this.bTitle = bTitle;
+		this.bContent = bContent;
+		this.bEnrollDate = bEnrollDate;
+		this.bUpdateDate = bUpdateDate;
+		this.bTag = bTag;
+		this.cateNo = cateNo;
+		this.uniNo = uniNo;
+		this.cateName = cateName;
+		this.changeName = changeName;
+		this.searchValue = searchValue;
+		this.bTContent = bTContent;
+		this.countLike = countLike;
+		this.mName = mName;
+	}
+
 	public BlogPost() {}
 
 	public int getbNo() {
@@ -159,7 +191,8 @@ public class BlogPost {
 		return "BlogPost [bNo=" + bNo + ", mId=" + mId + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bEnrollDate=" + bEnrollDate + ", bUpdateDate=" + bUpdateDate + ", bTag=" + bTag + ", cateNo="
 				+ cateNo + ", uniNo=" + uniNo + ", cateName=" + cateName + ", changeName=" + changeName
-				+ ", searchValue=" + searchValue + ", bTContent=" + bTContent + ", countLike=" + countLike + "]";
+				+ ", searchValue=" + searchValue + ", bTContent=" + bTContent + ", countLike=" + countLike + ", mName="
+				+ mName + "]";
 	}
 
 }

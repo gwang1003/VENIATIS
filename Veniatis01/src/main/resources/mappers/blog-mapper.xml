@@ -51,7 +51,24 @@
 		<result property="bTContent" column="B_TCONTENT"/>	
 		<result property="cateName" column="B_CATE_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>		
-
+		<result property="mName" column="M_NAME"/>	
+	</resultMap>
+	
+		<resultMap type="BlogPost" id="BlogPostResultSet3">
+		<id property="bNo" column="B_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property = "bContent" column="B_CONTENT"/>
+		<result property="bEnrollDate" column="B_ENROLLDATE"/>
+		<result property="bUpdateDate" column="B_UPDATEDATE"/>
+		<result property="bTag" column="B_TAG"/>
+		<result property="cateNo" column="B_CATE_NO"/>
+		<result property="uniNo" column="UNINO"/>
+		<result property="bTContent" column="B_TCONTENT"/>	
+		<result property="cateName" column="B_CATE_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>		
+		<result property="mName" column="M_NAME"/>	
+				<result property="cateName" column="B_CATE_NAME"/>
 	</resultMap>
 	
 	<resultMap type="Reply" id="replyResultSet">
@@ -90,8 +107,7 @@
 		<result property="bTitle" column="B_TITLE"/>
 		<result property="uniNo" column="UNINO"/>
 	</resultMap>
-	
-	
+
 	<resultMap type="BlogDetail" id="blogDetailResultSet">
 		<id property="blogNo" column="BLOG_NO"/>
 		<result property="mNo" column="M_NO"/>
@@ -104,9 +120,36 @@
 		<result property="blogTag" column="BLOG_TAG"/>
 	</resultMap>	
 	
+	<resultMap type="BlogSub" id="blogSubResultSet">
+		<result property="mId" column="M_ID"/>
+		<result property="subId" column="SUB_ID"/>
 	
+	</resultMap>
 	
+	<resultMap type="BlogDetail" id="blogDetailView">
+		<id property="blogNo" column="BLOG_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="blogTitle" column="BLOG_TITLE"/>
+		<result property = "cssBack" column="BCSS_BACK"/>
+		<result property="cssWeather" column="BCSS_WEATHER"/>
+		<result property="cssTime" column="BCSS_TIME"/>
+		<result property="cssLocation" column="BCSS_LOCATION"/>
+		<result property="blogInto" column="BLOG_INTO"/>
+		<result property="blogTag" column="BLOG_TAG"/>
+		<result property="mId" column="M_ID"/>
+		<result property="mName" column="M_NAME"/>
+	</resultMap>
 	
+	<resultMap type="ReReply" id="ReReplyResultSet">
+		<id property="rreplyNo" column="RREPLY_NO"/>
+		<result property="rNo" column="REPLY_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="wDate" column="WDATE"/>
+		<result property="rWriter" column="M_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="mId" column="M_ID"/>
+	</resultMap>
 <!-- ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ -->
 
 	<!-- 신규회원 기본 카테고리 만들기 -->
@@ -122,6 +165,13 @@
 		SELECT COUNT(*)
 	FROM BLOG_THUMB
 	WHERE M_ID=#{mId} 
+</select>
+
+<!-- 알림 수 갖고오기 -->
+<select id="getAlertListCount" resultType="_int">
+	SELECT COUNT(*)
+	FROM BLOG_ALERT
+	WHERE M_NO=#{mNo}
 </select>
 
 	<!-- 카테고리 목록 갖고오기 -->
@@ -149,12 +199,12 @@
 	</select>	
 
 	<!-- 게시글한개조회! -->
-	<select id="selectPostDetail" parameterType="BlogPost" resultMap="BlogPostResultSet">
-		SELECT BP.* , BC.B_CATE_NAME
-		FROM BLOG_POST BP,BLOG_CATE BC
-		WHERE BP.M_ID=#{mId} 
-				AND BP.UNINO=#{uniNo}
-				AND BP.B_CATE_NO=BC.B_CATE_NO 
+	<select id="selectPostDetail" parameterType="BlogPost" resultMap="BlogPostResultSet3">
+SELECT BLOG_THUMB.*,BLOG_CATE.B_CATE_NAME
+FROM BLOG_THUMB,BLOG_CATE
+WHERE BLOG_THUMB.M_ID=#{mId} 
+	AND BLOG_THUMB.UNINO=#{uniNo}
+	AND BLOG_THUMB.B_CATE_NO=BLOG_CATE.B_CATE_NO
 	</select>	
 
 	<!-- uniNo를 위해 MAXNUM 갖고오기 -->
@@ -172,6 +222,31 @@
 		VALUES(SEQ_BLOG_POST_NO.NEXTVAL,#{mId}, #{bTitle}, #{bContent}, SYSDATE,
 		SYSDATE,#{bTag}, #{cateNo}, #{uniNo}, #{bTContent})
 	</insert> 
+	
+	
+	<!-- 업데이트용 글 갖고오기 -->
+	<select id="selectUpdateDetail" parameterType="BlogPost" resultMap="BlogPostResultSet2">
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE M_ID=#{mId} AND UNINO=#{uniNo}
+	
+	</select>
+	
+	<!-- 글수정 -->
+	<update id="updatePost" parameterType="BlogPost">
+		UPDATE BLOG_POST
+		SET B_TITLE=#{bTitle},B_CONTENT=#{bContent},B_UPDATEDATE=SYSDATE,B_TAG=#{bTag},
+		B_CATE_NO=#{cateNo},B_TCONTENT=#{bTContent}
+		WHERE UNINO=#{uniNo} AND M_ID=#{mId}
+	
+	</update>
+	
+	<!-- 글삭 -->
+	<delete id="blogPostDelete" parameterType="BlogPost">
+		DELETE FROM BLOG_POST
+		WHERE M_ID=#{mId} AND UNINO=#{uniNo}		
+	</delete>
+	
 	
 	<!-- 스크랩위해 글번호를 통한 정보 갖고오기 - 블로그 -->
 	<select id="selectScrapPost" parameterType="BlogPost" resultMap="BlogPostResultSet1">
@@ -315,7 +390,7 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 	<!-- 블로그첨일떄 만들기 -->
 	<insert id="insertBlogDetail" parameterType="Member">
 		INSERT INTO BLOG_DETAIL
-		VALUES(SEQ_BLOG_NO.NEXTVAL,#{mNo},#{mName},null,null,null,null,#{mName})
+		VALUES(SEQ_BLOG_NO.NEXTVAL,#{mNo},#{mName},null,null,null,null,#{mName},null)
 	</insert>
 	
 	
@@ -328,7 +403,7 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 	</update>
 	
 	<!-- 블로그 css 수정 -->
-	<update id="updateBlogCss" parameterType="BlogDetail">
+	<update id="updateBlogCss" parameterType="BlogDetail" >
 		UPDATE BLOG_DETAIL
 		SET BCSS_BACK=#{cssBack}, BCSS_WEATHER=#{cssWeather}, BCSS_TIME=#{cssTime}, BCSS_LOCATION=#{cssLocation},
 		BLOG_TAG=#{blogTag}
@@ -336,4 +411,58 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 	
 	</update>
 	
+	
+	<!-- 구독블로거 리스트 갖고오기 -->
+	<select id="selectSubList" parameterType="BlogSub" resultMap="blogSubResultSet">
+		SELECT SUB_ID
+		FROM BLOG_SUB
+		WHERE M_ID=#{mId}
+	
+	</select>
+	
+	
+	<!-- 구독블로거들의 글 갖고오기 -->
+	<select id="subPostList" parameterType="BlogPost" resultMap="BlogPostResultSet2">
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE M_ID=#{mId}
+		AND B_ENROLLDATE>(SYSDATE-7)
+		ORDER BY B_ENROLLDATE DESC
+	</select>
+	
+	
+	<!-- 구독 추가 -->
+	<insert id="subPlus" parameterType="BlogSub">
+		INSERT INTO BLOG_SUB
+		VALUES(#{mId},#{subId})
+	</insert>
+	
+	<!-- 구취 -->
+	<delete id="subDelete" parameterType="BlogSub">
+		DELETE FROm BLOG_SUB
+		WHERE SUB_ID=#{subId} AND M_ID=#{mId}
+	</delete>
+	
+	
+	<!-- 관리:구독리스트 -->
+	<select id="selectSubDetail" parameterType="BlogSub" resultMap="blogDetailView">
+		SELECT *
+		FROM BDETAILVIEW
+		WHERE M_ID=#{subId}
+	</select>
+	
+	
+	<!-- 답글 -->
+	<select id="selectReReplyList" parameterType="ReReply" resultMap="ReReplyResultSet">
+		SELECT *
+		FROM RRLISTVIEW
+		WHERE REPLY_NO=#{rNo}
+	</select>
+	
+	<!-- 답글작성 -->
+	<insert id="insertRReply" parameterType="ReReply">
+		INSERT INTO REPLY_RE
+		VALUES(SEQ_RREPLY_NO.NEXTVAL,#{rNo},#{mNo},#{content},SYSDATE)
+		
+	</insert>
 </mapper>

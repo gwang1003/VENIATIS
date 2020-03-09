@@ -11,6 +11,30 @@ public class Reply {
 	private String rContent;
 	private String rWriter;
 	private String filePath;
+	private String mId;
+	
+
+	public Reply(int rNo, int mNo, int bNo, int pNo, Date wDate, String rContent, String rWriter, String filePath,
+			String mId) {
+		super();
+		this.rNo = rNo;
+		this.mNo = mNo;
+		this.bNo = bNo;
+		this.pNo = pNo;
+		this.wDate = wDate;
+		this.rContent = rContent;
+		this.rWriter = rWriter;
+		this.filePath = filePath;
+		this.mId = mId;
+	}
+
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
 
 	public Reply() {}
 
@@ -93,7 +117,7 @@ public class Reply {
 	@Override
 	public String toString() {
 		return "Reply [rNo=" + rNo + ", mNo=" + mNo + ", bNo=" + bNo + ", pNo=" + pNo + ", wDate=" + wDate
-				+ ", rContent=" + rContent + ", rWriter=" + rWriter + ", filePath=" + filePath + "]";
+				+ ", rContent=" + rContent + ", rWriter=" + rWriter + ", filePath=" + filePath + ", mId=" + mId + "]";
 	};
 
 	

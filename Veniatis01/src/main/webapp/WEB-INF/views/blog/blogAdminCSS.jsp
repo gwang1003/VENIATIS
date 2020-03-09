@@ -102,15 +102,21 @@ color:black !important;
                 <a href="badminDetail.do" class="list-group-item"  >
                     <i class="fa fa-search"></i> 기본정보 관리
                 </a>
-                <a href="badminPost.do" class="list-group-item"  >
+                <a href="badminPost.do" class="list-group-item" >
                     <i class="fa fa-search"></i> 게시글 관리
                 </a>
                 <a href="badminCate.do" class="list-group-item">
                     <i class="fa fa-user"></i> 카테고리 관리 
                 </a>
                 <a href="badminCss.do" class="list-group-item" style="background-color:#d4f3ef;
-                											border-color:#d4f3ef;"> 
+                											border-color:#d4f3ef;" >
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
+                </a>
+                <a href="badminActive.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 내 활동 관리
+                </a>
+                <a href="badminSub.do" class="list-group-item">
+                    <i class="fa fa-folder-open-o"></i> 구독 관리
                 </a>
            </div>        
        </div>
@@ -177,6 +183,26 @@ color:black !important;
 			</form>
             <script>
                 $(document).ready(function(){
+                	var tag = '${bd.blogTag}' ;
+                	if(tag != ""){
+                		$(".tag").hide();
+                	}
+                	if('${bd.cssWeather}' !=""){
+                		$(".weather").hide();
+                	}
+                	if('${bd.cssTime}' !=""){
+                		$(".time").hide();
+                	}
+                	if('${bd.cssLocation}' !=""){
+                		$(".location").hide();
+                	}                	
+                	
+                	
+                	
+                	
+                	
+                	
+                	
                     $("#checkSearch").change(function(){
                             if($("#checkSearch").is(":checked")){
                                 $(".search").show();

@@ -1,36 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
 	<style>
-	#btn2{
-	 background-color: #40c8b5;
+	
+	#btn2 {
+		background-color: #40c8b5;
 	}
-	*{
-	font-family: 'Noto Sans KR', sans-serif;
+	
+	* {
+		font-family: 'Noto Sans KR', sans-serif;
 
 	}
 	
-	        #taginner{
-            margin-top:2%;
-            margin-bottom:2%;
-        }
-       #tag{
-           display: inline;
-           margin:1%;
-           padding-right: 12px;
-           padding-left:12px;
-           padding-top:5px;
-           padding-bottom:5px;
-           border: 1px rgba(179, 179, 179, 0.753) solid;
-       }
+	#taginner {
+		margin-top:2%;
+		margin-bottom:2%;
+    }
+    
+    #tag {
+		display: inline;
+		margin:1%;
+		padding-right: 12px;
+		padding-left:12px;
+		padding-top:5px;
+		padding-bottom:5px;
+		border: 1px rgba(179, 179, 179, 0.753) solid;
+	}
        
        #tag:hover{
            background-color: rgba(42, 202, 154, 0.753);
@@ -88,6 +91,25 @@
     .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
     #centerAddr {display:block;margin-top:2px;font-weight: normal;}
     .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}       
+    
+    
+    
+    
+     .comments-area .comment-list {
+    	padding-bottom: 30px !important;
+    	padding:1%;
+	}	
+	
+	.single-comment{
+		padding:1% !important;
+	}
+
+	 .comment-form{
+	 	margin-top:0px !important;
+	 }
+	#myReply{
+		background-color:rgba(240, 248, 255, 0.404);
+	}
 	</style>
 
     <link href="resources/blog/assets/css/style.css" rel="stylesheet" />
@@ -260,11 +282,12 @@ $(document).ready(function () {
 //댓글가져오기
 function replyList(){
 	var bId = ${post.bNo};
-	console.log(bId+"ㅋㅋㅋㅋㅋ");
+	var num=0;
 	$.ajax({
 		url:"rList.do",
 		data:{bId:bId},
 		dataType:"json",
+		async: false,
 		success:function(data){
 
 			$tableBody = $(".comments-area");
@@ -272,14 +295,21 @@ function replyList(){
 			
 			if(data.length>0){
 			// 댓글등록 됐을 때
-			var $r0 = $("<h5>").text(data.length+"개의 댓글");
+			
+			num=data.length;
+			
+			var $r0 = $("<h5>").text(num+"개의 댓글");
 			$tableBody.append($r0);
 			$tableBody.append("<br>");
 				for(var i in data){
+					var $r1 = $("<div class='comment-list' id='rNo"+data[i].rNo+"'>");
+
+					if('${user.mId}'==data[i].mId){
+						var $r2 = $("<div class='single-comment justify-content-between d-flex' style='background-color: rgba(240, 248, 255);'> ");
+					}else{
+						var $r2 = $("<div class='single-comment justify-content-between d-flex'>");
+					}
 					
-					
-					var $r1 = $("<div class='comment-list'>");
-					var $r2 = $("<div class='single-comment justify-content-between d-flex'>");
 					var $r3 = $("<div class='user justify-content-between d-flex'>");
 					var $r4 = $("<div class='thumb'>");
 					var $r5 = $("<img width=50px height=70px>").attr("src",""+data[i].filePath+"");
@@ -288,7 +318,7 @@ function replyList(){
 					var $r8 = $("<div class='d-flex justify-content-between'>");
 					var $r9 = $("<div class='d-flex align-items-center'>");
 					var $r10 = $("<h5>");
-					var $r11 = $("<a href='blogMain2.do?userId="+data[i].rWriter+"'>").text(data[i].rWriter);
+					var $r11 = $("<a href='blogMain2.do?userId="+data[i].mId+"'>").text(data[i].rWriter);
 					var $r12 = $("<p class='date'>").text(data[i].wDate);
 					var $r13 = $("<div class='reply-btn'>");
 					var $r14 = $(" <a href='#' class='btn-reply text-uppercase'>reply");
@@ -305,6 +335,7 @@ function replyList(){
 						 $r18 = $("<span style='display:none;' class='replyContent'>").text(data[i].rContent);
 
 					}
+					var $r19=$("<a href = 'javascript:rReReply("+data[i].rNo+");' class='rReReply' id='"+data[i].rNo+"' style='color:black;'>").text("답글");
 
 					$tableBody.append($r1);
 					$r1.append($r2);
@@ -322,10 +353,81 @@ function replyList(){
 					$r9.append($r16);
 					$r9.append($r17);
 					$r9.append($r18);
-					
+					$r9.append($r19);
 					$r8.append($r13);
-					$r13.append($r14);						
-				}
+					$r13.append($r14);			
+					
+					console.log("아작스전:"+data[i].rNo);
+					
+					//답글 가져오기 ajax
+					$.ajax({
+						
+						url : "blogReReply.do",
+						dataType : "json",
+						async: false,
+						data : {rNo:data[i].rNo},
+						success: function(data2){
+							console.log("아작스후:"+data2);
+							for(var k in data2){
+								var $rr1 = $("<div class='comment-list'>");
+								
+								
+								if('${user.mId}'==data2[k].mId){
+									var $rr2 = $("<div class='single-comment justify-content-between d-flex' style='margin-left: 5%; background-color: rgba(240, 248, 255);'> ");
+								}else{
+									var $rr2 = $("<div class='single-comment justify-content-between d-flex' style='margin-left: 5%;'>");
+								}
+								var $rr3 = $("<div class='user justify-content-between d-flex'>");
+								var $rr4 = $("<div class='thumb'>");
+								var $rr5 = $("<img width=50px height=70px>").attr("src",""+data2[k].filePath+"");
+								var $rr6 = $("<div class='desc'>");
+								var $rr7 = $("<p class='comment'>").text(data2[k].content); //댓글내용
+								var $rr8 = $("<div class='d-flex justify-content-between'>");
+								var $rr9 = $("<div class='d-flex align-items-center'>");
+								var $rr10 = $("<h5>");
+								var $rr11 = $("<a href='blogMain2.do?userId="+data2[k].mId+"'>").text(data2[k].rWriter);
+								var $rr12 = $("<p class='date'>").text(data2[k].wDate);
+								var $rr13 = $("<div class='reply-btn'>");
+								var $rr14 = $(" <a href='#' class='btn-reply text-uppercase'>reply");
+								var $rr15="";
+								var $rr16="";
+								var $rr17 ="";
+								var $rr18 ="";
+								// 삭제,수정
+								if('${nowUser.mNo}'==data2[k].mNo){
+									 $rr15 =  $("<a href = 'javascript:rUpdate("+data2[k].rNo+");' class='rUpdate' id='"+data2[k].rNo+"' style='color:black;'>").text("수정");
+									 $rr16 =  $("<a href = 'javascript:rDelete("+data2[k].rNo+");' class='rDelete' id='"+data2[k].rNo+"' style='color:red;'>").text("삭제");
+									 $rr17 = $("<span style='display:none;' class='replyNo'>").text(data2[k].rNo);
+									 $rr18 = $("<span style='display:none;' class='replyContent'>").text(data2[k].rContent);
+								}
+									
+								$tableBody.append($rr1);
+								$rr1.append($rr2);
+								$rr2.append($rr3);
+								$rr3.append($rr4);
+								$rr4.append($rr5);
+								$rr3.append($rr6);
+								$rr6.append($rr7);
+								$rr6.append($rr8);
+								$rr8.append($rr9);
+								$rr9.append($rr10);
+								$rr10.append($rr11);
+								$rr9.append($rr12);
+								$rr9.append($rr15);
+								$rr9.append($rr16);
+								$rr9.append($rr17);
+								$rr9.append($rr18);
+								$rr8.append($rr13);
+								$r13.append($r14);					
+							}
+						},
+						error : function(){
+							console.log('ajax 통신 실패');
+						}
+					});	
+					
+					
+				} // 반복문 끝
 			}else{
 				// 댓글이 등록되지 않았을 때
 				var $r0 = $("<h5>").text("등록된 댓글이 없습니다");
@@ -345,8 +447,47 @@ function replyList(){
 
 
 </script>
+
+
+
+
+
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript">
+    function shareKakaotalk() {
+        Kakao.init("9a5d7fcf1a98faf68aad6298992293d2");      // 사용할 앱의 JavaScript 키를 설정
+        Kakao.Link.sendDefault({
+        	
+              objectType:"feed"
+            , content : {
+                  title:"${post.bTitle }"   // 콘텐츠의 타이틀
+                , description:"${post.bTContent }"   // 콘텐츠 상세설명
+                , imageUrl:""   // 썸네일 이미지
+                ,         link: {
+                    mobileWebUrl: 'http://localhost:8800/veniatis/blogDetail.do?userId=${post.mId}&uniNo=${post.uniNo}',
+                    webUrl: 'http://localhost:8800/veniatis/blogDetail.do?userId=${post.mId}&uniNo=${post.uniNo}'
+                  }
+            }
+            , social : {
+                  likeCount:0       // LIKE 개수
+                , commentCount:0    // 댓글 개수
+                , sharedCount:0     // 공유 회수
+            }
+            , buttons : [
+                {
+                      title:"게시글 확인"    // 버튼 제목
+                    , link : {
+                        mobileWebUrl:'http://localhost:8800/veniatis/blogDetail.do?userId=${post.mId}&uniNo=${post.uniNo}'   // 모바일 카카오톡에서 사용하는 웹 링크 URL
+                      , webUrl:'http://localhost:8800/veniatis/blogDetail.do?userId=${post.mId}&uniNo=${post.uniNo}' // PC버전 카카오톡에서 사용하는 웹 링크 URL
+                    }
+                }
+            ]
+        });
+    }
+</script>
 </head>
 <body>
+
 <jsp:include page="../common/menubar.jsp"></jsp:include>
         <div class="container" style="background-color:${bd.cssBack};">
             <div class="row" >
@@ -354,7 +495,7 @@ function replyList(){
             		<a href="blogMain2.do?userId=${user.mId}"><h1 style="font-family: 'Jua', sans-serif;">				
             		${bd.blogTitle }</h1></a>
             </div>
-            
+
                 <div class="col-lg-8 posts-list">
                     <div class="single-post">
                         <div class="feature-img">
@@ -365,8 +506,7 @@ function replyList(){
                             </h2>
                             <ul class="blog-info-link mt-3 mb-4">
                                 <li><a href="#"><i class="fa fa-user"></i>${post.cateName}</a></li>
-                                <li><a href="#"><i class="fa fa-comments"></i> 댓글 (3)</a></li>
-                            </ul>
+							 </ul>
                             <div class="bContent">
                             <p class="excert">
 								${post.bContent }
@@ -394,15 +534,15 @@ function replyList(){
     <a href="https://twitter.com/intent/tweet?text=VENIATIS에서 공유합니다! '${post.bTitle}' &url=http%3a%2f%2flocalhost%3a8800%2fveniatis%2fblogDetail.do%3fuserId%3d${post.mId }%26uniNo%3d${post.uniNo}">
         <div class="twitter-hover social-slide"></div>
     </a>
-    <a href="javascript::;">
+    <a href="javascript:shareKakaotalk();">
         <div class="google-hover social-slide"></div>
-    </a>
-    <a href="javascript::;">
-        <div class="linkedin-hover social-slide"></div>
-    </a>                                                       
+    </a>                                                      
                                 </li>
                                 <li><a href="#">글 목록</i></a></li>
-                                <li><a href="#">삭제</i></a></li>
+                                <c:if test="${loginUser.mId eq user.mId }">
+                                <li><a href="blogUpdateForm.do?uniNo=${post.uniNo}">수정</i></a></li>
+                                <li><a href="blogDelete.do?uniNo=${post.uniNo }">삭제</i></a></li>
+                                </c:if>
 <!-- 모달 -->
 <div class="modal fade seminor-login-modal" id="zz">
     <div class="modal-dialog modal-dialog-centered">
@@ -447,7 +587,7 @@ function replyList(){
                             </c:forEach>
                         
                         </div><br>
-                        <div class="navigation-area">
+<!--                         <div class="navigation-area">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
                                     <div class="detials">
@@ -467,7 +607,7 @@ function replyList(){
 
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="comments-area">
 
@@ -626,7 +766,7 @@ function replyList(){
 							        <span id="centerAddr"></span>
 							    </div>
 							</div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2b97e562cf05e725aa47841da3aa179c&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a5d7fcf1a98faf68aad6298992293d2&libraries=services"></script>
 <script>
 var lat1=0;
 var lon1=0;
@@ -751,51 +891,90 @@ function displayCenterInfo(result, status) {
         </div>
     </div>
 <script>
-//댓글작성
-$("#rSubmit").click(function(){
-	var bNo = ${post.bNo};
-	var rContent = $("#comment").val();
-	var mId = "${post.mId}";
-	console.log("댓글작성"+rContent);
+	//댓글작성
+	$("#rSubmit").click(function(){
+		var bNo = ${post.bNo};
+		var rContent = $("#comment").val();
+		var mId = "${post.mId}";
+		console.log("댓글작성"+rContent);
+		
+		$.ajax({
+			url : "replyInsert.do",
+			type : "post",
+			dataType : "text",
+			data : {rContent:rContent,
+					bNo:bNo,
+					mId:mId},
+			success: function(data){
 	
-	$.ajax({
-		url : "replyInsert.do",
-		type : "post",
-		dataType : "text",
-		data : {rContent:rContent,
-				bNo:bNo,
-				mId:mId},
-		success: function(data){
+				$("#comment").val("");
+				replyList();
+			},
+			error : function(){
+	             alert("error code : " + e.status + "\n"
+	                     + "message : " + e.responseText);
+			}
+		});	
+	});
+	
+	function rDelete(a){
+		console.log("삭제!!"+a);
+		var rNo= a;
+		$.ajax({
+			url : "blogReplyDelete.do",
+			type : "post",
+			dataType : "text",
+			data : {rNo:rNo},
+			success: function(data){
+				alert("댓글이 삭제되었습니다");
+				replyList();
+			},
+			error : function(){
+				console.log('ajax 통신 실패');
+			}
+		});	
+		
+		
+	}
+	
+	function veniatis(a){
+		console.log("수정"+a);
+		
+		
+	}
+	
+	//답글작성
+	function rReReply(a){
+		console.log("답글"+a);
+		$("#rNo"+a).append("<textarea id='rrply'>답글 작성</textarea>");
+		$("#rNo"+a).append("<button id='rSubmit2'>작성</button>")
+		
+		$("#rSubmit2").click(function(){		
+			var rNo = a;
+			var content = $("#rrply").val();
 
-			$("#comment").val("");
-			replyList();
-		},
-		error : function(){
-             alert("error code : " + e.status + "\n"
-                     + "message : " + e.responseText);
-		}
-	});	
-});
+			$.ajax({
+				url : "rreplyInsert.do",
+				type : "post",
+				dataType : "text",
+				data : {content:content,
+						rNo:rNo,},
+				success: function(data){
+		
+					$("#rrply").remove();
+					$("#rSubmit2").remove();
+					replyList();
+				},
+				error : function(){
+		             alert("error code : " + e.status + "\n"
+		                     + "message : " + e.responseText);
+				}
+			});	
+			
+		});
 
-function rDelete(a){
-	console.log("삭제!!"+a);
-	var rNo= a;
-	$.ajax({
-		url : "blogReplyDelete.do",
-		type : "post",
-		dataType : "text",
-		data : {rNo:rNo},
-		success: function(data){
-			alert("댓글이 삭제되었습니다");
-			replyList();
-		},
-		error : function(){
-			console.log('ajax 통신 실패');
-		}
-	});	
-	
-	
-}
+	}
+
 </script>
     		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>

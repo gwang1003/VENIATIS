@@ -394,32 +394,6 @@
             return str.replace(/[^\d]+/g, '');
         }
         
-        function fn_test() {
-        	alert("클릭확인");
-        	
-        	$('.chk_reward').each(function (index) {
-            	//alert("반복문 " + index + "번째 ");
-            	if($(this).is(':checked')){
-            		var id = $(this).attr('id');
-            		var seq = id.substr(12);
-            		//alert(seq+"번째 리워드 번호 : " + $("input[name='fundings["+seq+"].rNo']").val());
-            		//alert(index + "번째 체크박스 체크");
-            		
-                	$(this).parent().parent().children().find('input[name=quantity]').attr("name", "fundings["+seq+"].quantity");
-                	$(this).parent().parent().children().find('input[name=option]').attr("name", "fundings["+seq+"].option");
-                	//alert("seq : "+seq);
-                	var cnt = Number($(this).parent().parent().children().find(".num_count").val());
-                	var quantity = $(this).parent().parent().children().find("input[name='fundings["+seq+"].quantity']");
-                	quantity.val(cnt);
-                	
-                	var str = $(this).parent().parent().children().find("#tfRewardInfo").val();
-                	$(this).parent().parent().children().find("input[name='fundings["+seq+"].option']").val(str); 
-                	
-                	alert(index+"번째 수량 : " + $(this).parent().parent().children().find("input[name='fundings["+seq+"].quantity']").val() 
-                			+ "개, 옵션 : " + $(this).parent().parent().children().children("input[name='fundings["+seq+"].option']").val());
-            	}
-            }); 
-        }
     </script>
 </head>
 
@@ -428,7 +402,6 @@
 
 	<div id="omcWrap">
 		<!-- header -->
-		<button type="button" id="testbtn" style="width:100px; height:30px;" onclick="fn_test();">테스트 버튼</button>
 		<!-- header -->
 
 		<main id="omcContainer" class="cont_support"> <!-- aside --> <!--  aside -->
@@ -486,8 +459,8 @@
 												<strong class="name_reward">${ reward.rItem }</strong> 
 												<span class="info_dely"> <span class="tit_cont">배송 예정일 : </span> 
 													<span class="txt_desc"> 
-														<fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일" />
-														부터 순차적으로 제공
+														<fmt:formatDate value="${ reward.rDelivery }" var="rDel" pattern="yyyy년 MM월 dd일" />
+														${rDel }부터 순차적으로 제공
 												</span>
 												</span> <span class="txt_satea"> <em class="num_state">
 														2명 </em> 참여하였습니다. <small class="txt_count"> (수량 ${ reward.rCount }개
@@ -511,7 +484,7 @@
 													<input type="hidden" name="pNo" value="${reward.pNo }"/>
 													<input type="hidden" name="rItem" value="${reward.rItem }"/>
 													<input type="hidden" name="rPrice" value="${reward.rPrice }"/>
-													<input type="hidden" name="rDelivery" value="${ reward.rDelivery }"/>
+													<input type="hidden" name="rDelivery" value="${ rDel }"/>
 													<input type="hidden" name="quantity" value="0"/>
 													<input type="hidden" name="option" value=""/>
 													
@@ -549,9 +522,9 @@
 												</span> <span class="txt_funding">원 펀딩</span>
 												</span> <strong class="name_reward">${ reward.rItem }</strong> <span
 													class="info_dely"> <span class="tit_cont">배송
-														예정일 : </span> <span class="txt_desc"> <fmt:formatDate
-															value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일" />
-														부터 순차적으로 제공
+														예정일 : </span> <span class="txt_desc"> 
+														<fmt:formatDate value="${ reward.rDelivery }" var="rDel" pattern="yyyy년 MM월 dd일" />
+														${rDel }부터 순차적으로 제공
 												</span>
 												</span> <span class="txt_satea"> <em class="num_state">0명</em>
 													참여하였습니다.
@@ -573,7 +546,7 @@
 													<input type="hidden" name="pNo" value="${reward.pNo }"/>
 													<input type="hidden" name="rItem" value="${reward.rItem }"/>
 													<input type="hidden" name="rPrice" value="${reward.rPrice }"/>
-													<input type="hidden" name="rDelivery" value="${ reward.rDelivery }"/>
+													<input type="hidden" name="rDelivery" value="${ rDel }"/>
 													<input type="hidden" name="quantity" value="0"/>
 													<input type="hidden" name="option" value=""/>
 													

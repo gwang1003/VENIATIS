@@ -93,7 +93,6 @@
 					<ul id="category_list" class="list_cate" role="tablist">
 						<li class="on" role="tab"><a class="link_cate" id="cate0">전체<span
 								class="num_count">(1805)</span></a></li>
-
 						<li role="tab"><a class="link_cate" id="cate1"> 공간/리빙<span
 								class="num_count">(157)</span>
 						</a></li>
@@ -129,9 +128,23 @@
 						<li role="tab"><a class="link_cate" id="cate9"> 여행<span
 								class="num_count">(55)</span>
 						</a></li>
-
 					</ul>
+					
+					<form method="post" action="projectList2.do" id="cateForm">
+						<input type="hidden" name="cate" value="">
+					</form>
 				</div>
+				
+				<script type="text/javascript">
+					/* $(function(){
+						$('.link_cate').on("click", function (){
+							var cateId = $(this).attr("id").substr(4);
+							//alert(cateId);
+							$('input[name=cate]').val(cateId);
+							$("#cateForm").submit();
+						});
+					}); */
+				</script>
 
 				<div class="wrap_project">
 					<!-- 정렬 기준  -->

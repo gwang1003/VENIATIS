@@ -1,5 +1,6 @@
 package com.kh.veniatis.project.user.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +44,7 @@ public class ProjectUserController {
 		if(list != null) {
 			for(ProjectView p : list) {
 				System.out.println(p);
-				// 참여율(프로젝트 진행율)
-				/*int supportRate = 0;
-				if(p.getSumAmount()!=0) {
-					supportRate = p.getSumAmount()*100/p.getTargetAmount();
-				}
-				System.out.println("참여율:"+supportRate);*/
+				
 			}
 			
 			mv.addObject("projectList", list);
@@ -60,6 +56,34 @@ public class ProjectUserController {
 		}
 		return mv;
 	}
+	
+	// 카테고리 있는 경우
+	/*@RequestMapping("projectList2.do")
+	public ModelAndView ProjectList(ModelAndView mv,
+			@RequestParam("cate") int cate,
+			@RequestParam(value="page", required = false) Integer page) {
+
+		int currentPage = page != null ? page : 1;
+		
+		ArrayList<ProjectView> list = pus.selectList(currentPage);
+		
+		//System.out.println(list);
+		
+		if(list != null) {
+			for(ProjectView p : list) {
+				System.out.println("카테고리 확인 : " + cate);
+				
+			}
+			mv.addObject("cate", cate);
+			mv.addObject("projectList", list);
+			mv.addObject("pi", ProjectPagination.getPageInfo());
+			mv.setViewName("project_user/projectList2");
+			
+		}else {
+			//throw new BoardException("게시글 전체 조회 실패!!");
+		}
+		return mv;
+	}*/
 
 
 	@RequestMapping("projectDetail.do")
@@ -153,9 +177,13 @@ public class ProjectUserController {
 	
 	@RequestMapping("rewardOrder.do")
 	public ModelAndView RewardOrderView(ModelAndView mv,
+			@RequestParam("pNo") int pNo,
+			@RequestParam("mNo") int mNo,
 			@RequestParam("totalAmt") int totalAmt,
-			@RequestParam("addAmt") int addAmt,
+			@RequestParam("addAmt") String addAmt,
 			@ModelAttribute("selectedReward") MultiRowFunding fundings) {
+		
+		ProjectView p = pus.selectProject(pNo);
 		
 		System.out.println("합계 : "+totalAmt);
 		ArrayList<Funding> sList = new ArrayList<Funding>();
@@ -165,11 +193,15 @@ public class ProjectUserController {
 		
 		System.out.println("list 사이즈 : "+listSize);
 		
+		// 리워드 번호로 리워드 정보 조회해서 리스트에 넣자
 		for(int i = 0; i<listSize; i++) {
 			System.out.println(fundingList.get(i));
-			sList.add(fundingList.get(i));
+			if(fundingList.get(i).getrItem() != null && fundingList.get(i).getQuantity() != 0) {
+				sList.add(fundingList.get(i));
+			}
 		}
 		
+		mv.addObject("project", p);
 		mv.addObject("sList", sList);
 		mv.addObject("totalAmt", totalAmt);
 		mv.addObject("addAmt", addAmt);

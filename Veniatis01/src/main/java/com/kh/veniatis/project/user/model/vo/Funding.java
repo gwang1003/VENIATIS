@@ -1,19 +1,17 @@
 package com.kh.veniatis.project.user.model.vo;
 
-import java.sql.Date;
-
 public class Funding {
 	private int rNo;		// 리워드 번호
 	private int pNo;		// 프로젝트 번호
 	private String rItem;	// 리워드 구성	
 	private int rPrice;		// 리워드 금액
-	private Date rDelivery;	// 배송예정일
+	private String rDelivery;	// 배송예정일
 	private int quantity;	// 주문 수량
 	private String option;	// 옵션 사항 작성
 	
 	public Funding() {}
 
-	public Funding(int rNo, int pNo, String rItem, int rPrice, Date rDelivery, int quantity, String option) {
+	public Funding(int rNo, int pNo, String rItem, int rPrice, String rDelivery, int quantity, String option) {
 		super();
 		this.rNo = rNo;
 		this.pNo = pNo;
@@ -56,11 +54,11 @@ public class Funding {
 		this.rPrice = rPrice;
 	}
 
-	public Date getrDelivery() {
+	public String getrDelivery() {
 		return rDelivery;
 	}
 
-	public void setrDelivery(Date rDelivery) {
+	public void setrDelivery(String rDelivery) {
 		this.rDelivery = rDelivery;
 	}
 

@@ -15,13 +15,13 @@
 
     <style>
         .slider_bg_1{
-            background-image: url('resources/main/test.jpg') !important;
+            background-image: url('resources/main/main.png') !important;
         }
         .slider_bg_2{
-            background-image: url('resources/main/test2.jpg') !important;
+            background-image: url('resources/main/crowdfunding.jpg') !important;
         }
         .slider_bg_3{
-            background-image: url('resources/main/test3.jpg') !important;
+            background-image: url('resources/main/mainblog.png') !important;
         }
         .slider_bg_4{	
             background-image: url('resources/main/test4.jpg') !important;

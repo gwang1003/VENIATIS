@@ -36,10 +36,7 @@ public class CreatorDao {
 		
 		return sqlSession.delete("creatorMapper.projectDelete",pNo);
 	}
-	public int creatorUpdate(int creNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("creatorMapper.creatorUpdate",creNo);
-	}
+
 	public int CreatorDelete(int creNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("creatorMapper.creatorDelete",creNo);
@@ -74,6 +71,14 @@ public class CreatorDao {
 	public int finishProject(Project project) {
 		
 		return sqlSession.update("creatorMapper.finishProject",project);
+	}
+	public Creator selectCreator(int creNo) {
+		
+		return sqlSession.selectOne("creatorMapper.selectCreator",creNo);
+	}
+	public int creatorUpdate(Creator c) {
+		
+		return sqlSession.update("creatorMapper.updateCreator",c);
 	}
 	
 

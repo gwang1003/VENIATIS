@@ -200,20 +200,7 @@ num = num -1;
 													<!-- 추가되는 이미지 name subImage1 subImage2.... -->
 											</div>
 										</li>
-										
-										<!-- <li class="box_info" id="file1">
-											<div id="file1div" class="add_file">
-												<p class="tit_name txt-right">이미지</p>
-												<div class="txt_input input_full">
-													<input class="upload_name" id="uploadName1" disabled="disabled">
-													<label for="fileName1" class="btn_search">찾아보기</label>
-													<button class="btn_delete">삭제</button>
-													<input type="file" id="fileName1" name="subImage1" class="upload_hidden">
-													
-												</div> 
-											</div>
-										
-										</li> -->
+									
 									</ul>
 								</li>
 
@@ -256,7 +243,7 @@ num = num -1;
 									<p class="tit_agreement">
 										프로젝트 소개<span class="txt_warning">*</span> 
 									<div id="contentArea">
-										<textarea id="content" cols="120" rows="20" placeholder="안내사진 or 텍스트 추가 요망"
+										<textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
 										name="pDesc" style="resize: none; overflow-x: hidden;"></textarea>
 										<!-- 에디트 삽입 영역		</div> 입니다. -->
 									</div>

@@ -26,12 +26,17 @@ import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.creator.model.vo.MultiRowReward;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
+import com.kh.veniatis.project.user.model.service.ProjectUserService;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Controller
 public class ProjectCreatorController {
 	@Autowired
 	private CreatorService cService;
-
+	
+	@Autowired
+	private ProjectUserService pus;
+ 
 	@RequestMapping("creatorInsert.do")
 	public ModelAndView projectInfoInsert(HttpServletRequest request, Creator c, Model model,
 			@RequestParam(value = "userPost") String post, @RequestParam(value = "userAddr1") String addr1,
@@ -65,7 +70,7 @@ public class ProjectCreatorController {
 
 		int result = cService.projectInsert(p);
 		Project project = cService.selectOneProject(p);
-		System.out.println("projectInsert project(호출해온것)"+project);
+	
 
 		ArrayList<Files> files = new ArrayList<Files>();
 
@@ -75,7 +80,7 @@ public class ProjectCreatorController {
 				Files file = new Files();
 				
 
-				file = saveFile(image1, request);
+				file = saveFile(image1, request,1);
 
 				files.add(file);
 			}
@@ -83,14 +88,14 @@ public class ProjectCreatorController {
 				Files file = new Files();
 				
 
-				file = saveFile(image2, request);
+				file = saveFile(image2, request,2);
 
 				files.add(file);
 			}
 			if (image3 != null) {
 				Files file = new Files();
 				
-				file = saveFile(image3, request);
+				file = saveFile(image3, request,3);
 
 				files.add(file);
 			}
@@ -98,7 +103,7 @@ public class ProjectCreatorController {
 				Files file = new Files();
 				
 
-				file = saveFile(image4, request);
+				file = saveFile(image4, request,4);
 
 				files.add(file);
 			}
@@ -106,14 +111,13 @@ public class ProjectCreatorController {
 				Files file = new Files();
 				
 
-				file = saveFile(image5, request);
+				file = saveFile(image5, request,5);
 
 				files.add(file);
 			}
 
 			for(int i=0;i<files.size();i++) {
 				files.get(i).setpNo(project.getpNo());
-				System.out.println(files);
 			}
 			int result2 = cService.pPhotoInsert(files);
 
@@ -132,7 +136,7 @@ public class ProjectCreatorController {
 
 	}
 
-	private Files saveFile(MultipartFile file, HttpServletRequest request) {
+	private Files saveFile(MultipartFile file, HttpServletRequest request,int num) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 
 		String savePath = root + "\\project_creator";
@@ -149,7 +153,7 @@ public class ProjectCreatorController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 		Calendar c = Calendar.getInstance();
-		String renameFilename = sdf.format(c.getTime()) + extend;
+		String renameFilename = sdf.format(c.getTime())+ num + extend ;
 
 		String filePath = folder + "\\" + renameFilename;
 		Files files = new Files(3, file.getOriginalFilename(), renameFilename,
@@ -312,6 +316,64 @@ public class ProjectCreatorController {
 	}
 	
 	
+	/*-------------- 프로젝트 수정하기 -----------------*/
+	
+	@RequestMapping("projectAlt.do")
+	public ModelAndView ProjectDetail(ModelAndView mv, int pNo) {
+		System.out.println(pNo);
+		ProjectView p = pus.selectProject(pNo);
+		System.out.println(p);
+		Creator c = cService.selectCreator(p.getCreNo());
+		System.out.println(c);
+
+		
+		if(p != null) {
+			
+			// 리워드 목록
+			ArrayList<Reward> rList = pus.selectRewardList(pNo);
+			//System.out.println(rList);
+			
+			// 프로젝트 사진 목록 가져오기(ArrayList<Files>)
+			ArrayList<Files> fList = pus.selectFileList(pNo);
+			//System.out.println(fList);
+			
+			
+			mv.addObject("project", p);
+			mv.addObject("rewardList", rList);
+			mv.addObject("filesList", fList);
+			mv.addObject("creator",c);
+			mv.setViewName("project_creator/projectAlt");
+		}		
+		
+		return mv;
+	}
+	
+	@RequestMapping("creatorUpdate.do")
+	public ModelAndView creatorUpdate(HttpServletRequest request, Creator c, Model model,
+			@RequestParam(value = "userPost") String post, @RequestParam(value = "userAddr1") String addr1,
+			@RequestParam(value = "userAddr2") String addr2, @RequestParam(value = "mNo") int mNo) {
+		c.setCreAddress(post + "#" + addr1 + "#" + addr2);
+	
+		c.setCreNo(mNo);
+
+		int result = cService.creatorUpdate(c);
+
+		Creator creator = cService.selectCreNo(c);
+		
+		if (result > 0) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("creator", creator);
+			mv.setViewName("project_creator/projectStartPage2");
+			return mv;
+		} else {
+			throw new ProjectException("크리에이터 등록 실패!");
+		}
+
+	}
+	
+	
+	
+	
 	@RequestMapping("projectUpdate.do")
 	public ModelAndView projectUpdate(@RequestParam(value = "pNo") int pNo) {
 		int result = cService.projectUpdate(pNo);
@@ -326,12 +388,7 @@ public class ProjectCreatorController {
 
 	}
 
-	@RequestMapping("creatorUpdate.do")
-	public ModelAndView CreatorUpdate(@RequestParam(value = "creNo") int creNo) {
-		int result = cService.creatorUpdate(creNo);
-		return null;
-
-	}
+	
 
 	@RequestMapping("creatorDelete.do")
 	public ModelAndView creatorDelete(@RequestParam(value = "creNo") int creNo) {

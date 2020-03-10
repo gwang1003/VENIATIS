@@ -47,11 +47,6 @@ public class CreatorServiceImpl implements CreatorService {
 		return cDao.projectDelete(pNo);
 	}
 
-	@Override
-	public int creatorUpdate(int creNo) {
-		// TODO Auto-generated method stub
-		return cDao.creatorUpdate(creNo);
-	}
 
 	@Override
 	public int creatorDelete(int creNo) {
@@ -87,6 +82,18 @@ public class CreatorServiceImpl implements CreatorService {
 	public int finishProject(Project project) {
 		// TODO Auto-generated method stub
 		return cDao.finishProject(project);
+	}
+
+	@Override
+	public Creator selectCreator(int creNo) {
+		// TODO Auto-generated method stub
+		return cDao.selectCreator(creNo);
+	}
+
+	@Override
+	public int creatorUpdate(Creator c) {
+		// TODO Auto-generated method stub
+		return cDao.creatorUpdate(c);
 	}
 
 

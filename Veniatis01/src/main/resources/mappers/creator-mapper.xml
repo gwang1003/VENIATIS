@@ -113,5 +113,18 @@
 		
 	</update>
 	
+	<select id="selectCreator" parameterType="Creator" resultMap="creatorResultSet">
+	SELECT * FROM CREATOR
+	WHERE CRE_NO=#{creNo}
+	</select>
+	
+	<update id="updateCreator" parameterType="Creator">
+	UPDATE CREATOR
+	SET CRE_EMAIL=#{creEmail},
+		CRE_PHONE=#{crePhone},
+		CRE_ADDRESS=#{creAddress},
+		CRE_URL=#{creUrl}
+	WHERE CRE_NO=#{creNo}
+	</update>
 	
 </mapper>

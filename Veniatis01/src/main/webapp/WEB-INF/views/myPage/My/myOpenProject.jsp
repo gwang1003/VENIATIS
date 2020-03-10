@@ -96,8 +96,13 @@
 											<c:param name="pNo" value="${ p.pNo }"/>
 										</c:url>
                                         <div class="box_btn_area">
-                                                    <a class="btn_preview" href="${pDetail }" title="미리보기" target="_blank">미리보기</a>											
-                                                        <a class="btn_edit" href="/apply/7939/maker" title="수정하기" target="_blank">수정하기</a>
+                                                    <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>	
+                                        <c:url var="pAlt" value="projectAlt.do">
+                                        	<c:param name="pNo" value="${ p.pNo }"/>
+                                        	
+                                        </c:url>										
+                                                        <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
+                                                        
                                             <a class="btn_delete" href="javascript:void(0);" onclick="javascript:fnDeleteProject('','7939'); return false;" title="삭제하기">삭제하기</a>
                                         </div>
                                     </li>

@@ -19,7 +19,6 @@ public interface CreatorService {
 
 	int projectDelete(int pNo);
 
-	int creatorUpdate(int creNo);
 
 	int creatorDelete(int creNo);
 
@@ -32,6 +31,10 @@ public interface CreatorService {
 	Project selectProject(Integer pNo);
 
 	int finishProject(Project project);
+
+	Creator selectCreator(int creNo);
+
+	int creatorUpdate(Creator c);
 
 	
 

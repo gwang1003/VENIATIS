@@ -52,10 +52,18 @@
                             <div class="box_comm">
                                 <div class="inner_head">
                                     <div class="box_txt">
-                                        <button>모두 보기 <p> ${index[0] }</p></button>
-                                        <button>진행중 <p> ${index[1] }</p></button>
-                                        <button>마감 <p> ${index[2] }</p></button>
-                                        <button>승인대기 <p> ${index[3] }</p></button>
+			                            <c:url var="All" value="attendProject.do">
+											<c:param name="align" value="All"/>
+										</c:url>
+										<c:url var="Ing" value="attendProject.do">
+											<c:param name="align" value="Ing"/>
+										</c:url>
+										<c:url var="End" value="attendProject.do">
+											<c:param name="align" value="End"/>
+										</c:url>
+                                        <a href="${ All }"><button>모두 보기 ${index[0] }</button></a>
+                                        <a href="${ Ing }"><button>진행중 ${index[1] }</button></a>
+                                        <a href="${ End }"><button>마감 ${index[2] }</button></a>
                                     </div>
                                     
                                 </div>
@@ -63,7 +71,8 @@
                                 
                                 <!-- 프로젝트 신청목록 -->
                                 <ul class="list_pjtapply">  
-                                	<c:forEach var="p" items="${pList }">                              
+                                
+                                	<c:forEach var="p" items="${alignList }">                              
                                     <li>
                                         <div class="img_thumb">
                                             <div style="width:290px;height:174px;">
@@ -112,8 +121,11 @@
 										<
 										</c:if>
 										<c:if test="${ pi.currentPage > 1 }">
-											<c:url var="before" value="blist.do">
+											<c:url var="before" value="myOpenProject.do">
 												<c:param name="page" value="${ pi.currentPage -1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ before }"><</a>
 										</c:if>
@@ -121,14 +133,17 @@
 										&nbsp;
 									
 										<!-- 페이지 숫자 -->
-									<td>
 										<c:forEach var="p" begin="${pi.startPage }" end="${ pi.endPage }">
+									<td>
 											<c:if test="${ pi.currentPage eq p }">
 												${ p }
 											</c:if>
 											<c:if test="${ pi.currentPage ne p }">
-												<c:url var="pagination" value="myInterestProject.do">
+												<c:url var="pagination" value="myOpenProject.do">
 													<c:param name="page" value="${p }"/>
+													<c:if test="${!empty align }">
+														<c:param name="align" value="${ align }"/>
+													</c:if>
 												</c:url>
 												<a href="${ pagination }"><button type="button">${ p }</button></a>
 											</c:if>
@@ -142,8 +157,11 @@
 										>
 										</c:if>
 										<c:if test="${ pi.currentPage < pi.maxPage }">
-											<c:url var="after" value="blist.do">
+											<c:url var="after" value="myOpenProject.do">
 												<c:param name="page" value="${ pi.currentPage +1 }"/>
+												<c:if test="${!empty align }">
+													<c:param name="align" value="${ align }"/>
+												</c:if>
 											</c:url>
 											<a href="${ after }">></a>
 										</c:if>

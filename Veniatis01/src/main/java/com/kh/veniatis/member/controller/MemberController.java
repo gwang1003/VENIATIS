@@ -5,13 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,6 @@ import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @SessionAttributes({ "loginUser", "msg" })
@@ -52,13 +54,39 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
-	public String memberLogin(Member m, Model model) {
+	public String memberLogin(Member m, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
 		// HttpSession 커맨드 객체 생략
+		Calendar cal = new GregorianCalendar();
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		
 		Member loginUser = mService.loginMember(m);
 		if (loginUser != null) {
-
+			int mNo = loginUser.getmNo();
 			// 조회 성공 시 Model에 loginUser 정보를 담는다.
 			model.addAttribute("loginUser", loginUser);
+			mService.updateDate(mNo);
+			boolean flag = false;
+			Cookie[] cookies = request.getCookies();
+			if(cookies != null) {
+				for(Cookie c : cookies) {
+					if(c.getName().equals("mNo"+mNo)) {
+						// 해당 게시글에 대한 쿠키 존재(이미 읽은 게시글)
+						flag = true;
+					}
+				}
+				if(!flag) {
+					// 처음 읽는 게시글일때
+					Cookie c = new Cookie("mNo"+loginUser.getmNo(), String.valueOf(mNo));
+					c.setMaxAge((1 * 24 * 60 * 60) - (hour * 3600 + minute * 60 + second)); // 자정까지
+					response.addCookie(c);
+					mService.updateDateCount();
+				}
+			}
+			
 			// -> 이렇게만 작성하면 requestScope에만 담김
 			// 가장 위로 올라가서 @SessionAttributes라는 어노테이션을 추가한다.
 
@@ -87,14 +115,44 @@ public class MemberController {
 	}
 
 	@RequestMapping("managerMain.do")
-	public String managerMain() {
-
-		return "myPage/Manager/managerMain";
+	public ModelAndView managerMain() {
+		int visitor = mService.toDayVisitor();
+		int openProject = mService.toDayProject();
+		int QnA = mService.toDayQnA();
+		ArrayList mVisitor = mService.selectMVisitor();
+		ArrayList mVisitor2 = mService.selectMVisitor2();
+		int requestProject = mService.requestProject();
+		int project = mService.selectProject();
+		int endProject = mService.selectEndProject();
+		/*int money = mService.selectMoney();*/ // 나중에 구현
+		
+		Map map = new HashMap();
+		map.put("visitor", visitor);
+		map.put("openProject", openProject);
+		map.put("QnA", QnA);
+		map.put("mVisitor", mVisitor);
+		map.put("mVisitor2", mVisitor2);
+		map.put("requestProject", requestProject);
+		map.put("project", project);
+		map.put("endProject", endProject);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addAllObjects(map);
+		mv.setViewName("myPage/Manager/managerMain");
+		
+		return mv;
 	}
 
 	@RequestMapping("selectMemberList.do")
 	public ModelAndView selectMemberList() {
 		ArrayList<Member> mList = mService.selectMemberList();
+		for(int i = 0; i < mList.size(); i++) {
+			if(mList.get(i).getcStatus() != null) {
+				mList.get(i).setcStatus("크리에이터");
+			}else {
+				mList.get(i).setcStatus("일반 회원");
+			}
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("mList", mList);
 		mv.setViewName("myPage/Manager/memberList");
@@ -294,11 +352,19 @@ public class MemberController {
 
 	@RequestMapping("myOpenProject.do")
 	public ModelAndView myOpenProject(HttpSession session,
-			@RequestParam(value = "page", required = false) Integer page) {
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "align", required = false) String align) {
 
 		int currentPage = page != null ? page : 1;
-
+		String sort = align != null ? align : "All";
 		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		Map map = new HashMap();
+		map.put("getmNo", loginUser.getmNo());
+		map.put("sort", sort);
+
+		ArrayList<ProjectView> allList = mService.selectOpenList(loginUser.getmNo());
+		ArrayList<ProjectView> alignList = mService.myOpenProject(currentPage, map);
 		ModelAndView mv = new ModelAndView();
 		int[] index = new int[4];
 		int allIndex = 0;
@@ -306,42 +372,45 @@ public class MemberController {
 		int endIndex = 0;
 		int waitIndex = 0;
 		Date date = new Date();
-		ArrayList<ProjectView> pList = mService.myOpenProject(loginUser.getmNo(), currentPage);
-		allIndex = pList.size();
-		for (int i = 0; i < pList.size(); i++) {
-			if (pList.get(i).getpStatus().equals("N")) {
-				pList.get(i).setProgress("승인대기");
+		if(allList != null) {
+		allIndex = allList.size();
+		for (int i = 0; i < allList.size(); i++) {
+			if (allList.get(i).getpStatus().equals("N")) {
+				allList.get(i).setProgress("승인대기");
 				waitIndex++;
 			} else {
-				if (pList.get(i).getEndDate().getTime() > date.getTime()
-						&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
-					pList.get(i).setProgress("진행중(성공)");
+				if (allList.get(i).getEndDate().getTime() > date.getTime()
+						&& allList.get(i).getSumAmount() >= allList.get(i).getTargetAmount()) {
+					allList.get(i).setProgress("진행중(성공)");
 					ingIndex++;
-				} else if (pList.get(i).getEndDate().getTime() > date.getTime()
-						&& pList.get(i).getSumAmount() < pList.get(i).getTargetAmount()) {
-					pList.get(i).setProgress("진행중");
+				} else if (allList.get(i).getEndDate().getTime() > date.getTime()
+						&& allList.get(i).getSumAmount() < allList.get(i).getTargetAmount()) {
+					allList.get(i).setProgress("진행중");
 					ingIndex++;
-				} else if (pList.get(i).getEndDate().getTime() < date.getTime()
-						&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
-					pList.get(i).setProgress("종료(성공)");
+				} else if (allList.get(i).getEndDate().getTime() < date.getTime()
+						&& allList.get(i).getSumAmount() >= allList.get(i).getTargetAmount()) {
+					allList.get(i).setProgress("종료(성공)");
 					endIndex++;
 				} else {
-					pList.get(i).setProgress("종료(실패)");
+					allList.get(i).setProgress("종료(실패)");
 					endIndex++;
 				}
 			}
 		}
 		index = new int[] { allIndex, ingIndex, endIndex, waitIndex };
-		if (pList != null) {
-			mv.addObject("pList", pList);
+			mv.addObject("alignList", alignList);
 			mv.addObject("pi", Pagination.getPageInfo());
+			if (align != null)
+				mv.addObject("align", align);
 			mv.addObject("index", index);
 			mv.setViewName("myPage/My/myOpenProject");
 
 			return mv;
-		} else {
+		}else {
 			throw new MemberException("프로젝트 조회 실패!!");
 		}
+			
+
 	}
 
 	@RequestMapping("questionForm.do")

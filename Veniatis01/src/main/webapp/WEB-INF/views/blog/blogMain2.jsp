@@ -7,12 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
 	<link href="resources/blog/assets/css/style.css" rel="stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
 	<style>
 		#btn2{
 			background-color: #40c8b5;
@@ -63,7 +61,6 @@
 	    }
 	</style>
 
-    
     <script>
     	// 위치 불러오기
 	    $(document).ready(function () {
@@ -148,7 +145,6 @@
 	                                    <li><a href="#"><i class="fa fa-user"></i>${p.cateName}</a></li>
 	                                </ul>
 	                            </div>
-	                            
 	                        </article>
 	                      </c:forEach>
 	                 <c:if test="${empty post }">
@@ -159,62 +155,60 @@
 	                        <nav class="blog-pagination justify-content-center d-flex">
 	                            <ul class="pagination">
 	                                <li class="page-item">
-	                                <c:if test="${pi.currentPage <= 1 }">
-	                                    <a href="#" class="page-link" aria-label="Previous">
-	                                        <i class="ti-angle-left"></i>
-	                                    </a>
-	                                </c:if>
-	                                <c:if test="${pi.currentPage >1 }">
-										<c:url var="before" value="&userId=${user.mId}&page=${pi.currentPage -1}">
-											<c:param name="page" value="${pi.currentPage -1 }"/>
-										</c:url>
-	                                    <a href="#" class="page-link" aria-label="Previous">
-	                                        <i class="ti-angle-left"></i>
-	                                    </a>									
-	                                </c:if>    
+		                                <c:if test="${pi.currentPage <= 1 }">
+		                                    <a href="#" class="page-link" aria-label="Previous">
+		                                        <i class="ti-angle-left"></i>
+		                                    </a>
+		                                </c:if>
+		                                <c:if test="${pi.currentPage >1 }">
+											<c:url var="before" value="&userId=${user.mId}&page=${pi.currentPage -1}">
+												<c:param name="page" value="${pi.currentPage -1 }"/>
+											</c:url>
+		                                    <a href="#" class="page-link" aria-label="Previous">
+		                                        <i class="ti-angle-left"></i>
+		                                    </a>									
+		                                </c:if>    
 	                                </li>
-	                                
-	                                
-	                                <!-- 페이지 숫자 : pagination-->	
-					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-						<c:if test="${ p eq pi.currentPage }">
-							<li class="page-item active">
-								<a href="#" class="page-link">${p}</a>
-							</li>
-						</c:if>
-						
-						<c:if test="${ p ne pi.currentPage }">
-	<%-- 						<c:url var="pagination" value="/blogMain2.do&userId=${user.mId}&page=${p}">
-								<c:param name="page" value="${ p }"/>
-							</c:url> --%>
-							
-							
-							<li class="page-item">
-								<a href="blogMain2.do?userId=${user.mId}&page=${p}" class="page-link">${p}</a>
-							</li>
-						</c:if>
-						</c:forEach>
-						
-						<!-- [다음] : after -->
-						<c:if test="${pi.currentPage>= pi.maxPage }">
-						<li class="page-item">
-	                                    <a href="#" class="page-link" aria-label="Next">
-	                                        <i class="ti-angle-right"></i>
-	                                    </a>
-	                    </li>
-	                    </c:if>
-	                    <c:if test="${pi.currentPage < pi.maxPage}">
-							<c:url var="after" value="veniatis/blogMain2.do&userId=${user.mId}&page=${pi.currentPage +1}">
-								<c:param name="page" value="${pi.currentPage +1 }"/>
-							</c:url>
-	                                
-						<li class="page-item">
-	                                    <a href="#" class="page-link" aria-label="Next">
-	                                        <i class="ti-angle-right"></i>
-	                                    </a>
-	                    </li>  
-	                    </c:if>                              
-	                                
+			                                <!-- 페이지 숫자 : pagination-->	
+							<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+								<c:if test="${ p eq pi.currentPage }">
+									<li class="page-item active">
+										<a href="#" class="page-link">${p}</a>
+									</li>
+								</c:if>
+								
+								<c:if test="${ p ne pi.currentPage }">
+			<%-- 						<c:url var="pagination" value="/blogMain2.do&userId=${user.mId}&page=${p}">
+										<c:param name="page" value="${ p }"/>
+									</c:url> --%>
+									
+									
+									<li class="page-item">
+										<a href="blogMain2.do?userId=${user.mId}&page=${p}" class="page-link">${p}</a>
+									</li>
+								</c:if>
+								</c:forEach>
+								
+								<!-- [다음] : after -->
+								<c:if test="${pi.currentPage>= pi.maxPage }">
+								<li class="page-item">
+			                                    <a href="#" class="page-link" aria-label="Next">
+			                                        <i class="ti-angle-right"></i>
+			                                    </a>
+			                    </li>
+			                    </c:if>
+			                    <c:if test="${pi.currentPage < pi.maxPage}">
+									<c:url var="after" value="veniatis/blogMain2.do&userId=${user.mId}&page=${pi.currentPage +1}">
+										<c:param name="page" value="${pi.currentPage +1 }"/>
+									</c:url>
+			                                
+								<li class="page-item">
+			                                    <a href="#" class="page-link" aria-label="Next">
+			                                        <i class="ti-angle-right"></i>
+			                                    </a>
+			                    </li>  
+			                    </c:if>                              
+			                                
 						
 	                                
 	                            </ul>

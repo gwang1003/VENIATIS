@@ -35,68 +35,60 @@
 	</style>
 	    <link href="resources/blog/assets/css/style.css" rel="stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-       <script>
-    $(document).ready(function () {
-    	getLocation(); 
-    	
-    	
-    });
-    var city="Seoul";
-    var lat=0;
-    var lon=0;
-    
-    
-    function getLocation() {
-        //alert("getLocation");
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(showPosition);
-        }
-        else{
-            alert("위치를 얻을 수 없습니다.");
-        }
-    }
-    
-    function showPosition(position) {
-        lat=position.coords.latitude; 
-        lon=position.coords.longitude;
-        console.log(lat);
-        console.log(lon);
-        nowWeather();
-    }
-    
-    
-
-    function nowWeather(){
-    	var apiURI ="http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=7180b26319e06fe6b99cd4e4102c299d"
-    		    console.log("apiURI:"+apiURI);   	
-  		
-    	$.ajax({
-          url : apiURI,
-          method : 'GET',
-          success :  function(data) {
-            var temp = String((data.main.temp - 272)).substring(0,4); // 온도
-            var location = data.name; // 지역이름 
-			console.log("온도:"+temp);
-           //  $('#chatLog').append('지역 ：' + location + ' 온도　：' + tempr　+ "도입니다. "+'\n');
-// 아이콘 취득 
-            var imgURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
-            // 아이콘 표시
-             $('#weather').attr("src", imgURL);
-         		$("#we").append(location);	
-         		$("#we").append("&nbsp;");
-         		$("#we").append(temp);	
-         		
-          }
-        });     
-    }
-    
-
-    
-    
-    
-    
-    
-    
+    <script>
+	    $(document).ready(function () {
+	    	getLocation(); 
+	    	
+	    	
+	    });
+	    var city="Seoul";
+	    var lat=0;
+	    var lon=0;
+	    
+	    
+	    function getLocation() {
+	        //alert("getLocation");
+	        if(navigator.geolocation){
+	            navigator.geolocation.getCurrentPosition(showPosition);
+	        }
+	        else{
+	            alert("위치를 얻을 수 없습니다.");
+	        }
+	    }
+	    
+	    function showPosition(position) {
+	        lat=position.coords.latitude; 
+	        lon=position.coords.longitude;
+	        console.log(lat);
+	        console.log(lon);
+	        nowWeather();
+	    }
+	    
+	    
+	
+	    function nowWeather(){
+	    	var apiURI ="http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=7180b26319e06fe6b99cd4e4102c299d"
+	    		    console.log("apiURI:"+apiURI);   	
+	  		
+	    	$.ajax({
+	          url : apiURI,
+	          method : 'GET',
+	          success :  function(data) {
+	            var temp = String((data.main.temp - 272)).substring(0,4); // 온도
+	            var location = data.name; // 지역이름 
+				console.log("온도:"+temp);
+	           //  $('#chatLog').append('지역 ：' + location + ' 온도　：' + tempr　+ "도입니다. "+'\n');
+	// 아이콘 취득 
+	            var imgURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+	            // 아이콘 표시
+	             $('#weather').attr("src", imgURL);
+	         		$("#we").append(location);	
+	         		$("#we").append("&nbsp;");
+	         		$("#we").append(temp);	
+	         		
+	          }
+	        });     
+	    }
     </script>
 </head>
 <body>

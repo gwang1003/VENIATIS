@@ -38,6 +38,7 @@ import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.BlogSub;
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
@@ -1372,6 +1373,32 @@ public class BlogController {
 		
 		mv.setViewName("blog/guideDetail");
 		
+		return mv;
+	}
+	
+	
+	
+	// 전체검색
+	@RequestMapping("blogAllSearch.do")
+	public ModelAndView allSearch(ModelAndView mv, HttpServletRequest request, @RequestParam("searchValue") String searchValue) {
+		
+		
+		ArrayList<BlogPost> bp = bService.blogAllSearch(searchValue);
+		System.out.println(bp);
+		mv.addObject("bp",bp);
+		mv.addObject("sv",searchValue);
+		mv.setViewName("blog/blogAllSearch");
+		return mv;
+	}
+	
+	// 공모전 정보 불러오기
+	@RequestMapping("competView.do")
+	public ModelAndView competView(ModelAndView mv, HttpServletRequest request) {
+		
+		ArrayList<Compet> clist = bService.competView();
+		System.out.println(clist);
+		mv.addObject("clist",clist);
+		mv.setViewName("blog/competition");
 		return mv;
 	}
 }

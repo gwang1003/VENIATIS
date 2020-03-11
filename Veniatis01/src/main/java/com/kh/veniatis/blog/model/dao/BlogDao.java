@@ -12,6 +12,7 @@ import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.BlogSub;
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
@@ -376,6 +377,19 @@ public class BlogDao {
 	public int inseretRReply(ReReply r) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("blogMapper.insertRReply",r);
+	}
+
+	
+	// 전체검색
+	public ArrayList<BlogPost> blogAllSearch(String searchValue) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.blogAllSearch",searchValue);
+	}
+
+	// 공모전리스트
+	public ArrayList<Compet> competView() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.competView");
 	}
 
 

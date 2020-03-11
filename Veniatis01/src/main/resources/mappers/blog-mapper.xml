@@ -150,6 +150,19 @@
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="mId" column="M_ID"/>
 	</resultMap>
+	
+	<resultMap type="Compet" id="CompetResultSet">
+		<id property="conNo" column="CON_NO"/>
+		<result property="conName" column="CON_NAME"/>
+		<result property="conHost" column="CON_HOST"/>
+		<result property="startDate" column="CON_STARTDATE"/>
+		<result property="lastDate" column="CON_LASTDATE"/>
+		<result property="conHp" column="CON_HP"/>
+		<result property="conTarget" column="CON_TARGET"/>
+		<result property="conBenefit" column="CON_BENEFIT"/>
+		<result property="conState" column="CON_STATE"/>
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
 <!-- ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ -->
 
 	<!-- 신규회원 기본 카테고리 만들기 -->
@@ -465,4 +478,29 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		VALUES(SEQ_RREPLY_NO.NEXTVAL,#{rNo},#{mNo},#{content},SYSDATE)
 		
 	</insert>
+	
+	
+	<!-- 전체검색 -->
+	<select id="blogAllSearch" parameterType="String" resultMap="BlogPostResultSet2">
+		SELECT *
+		FROM BLOG_THUMB
+		WHERE B_TITLE LIKE '%' || #{searchValue} || '%' OR
+        	  B_CONTENT LIKE '%' || #{searchValue} || '%' 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 공모전 -->
+	<select id="competView" resultMap="CompetResultSet">
+		SELECT *
+		FROM COMPETVIEW
+	</select>
+	
 </mapper>

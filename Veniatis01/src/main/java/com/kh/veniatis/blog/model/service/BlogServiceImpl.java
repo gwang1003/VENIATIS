@@ -12,6 +12,7 @@ import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPagination;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.BlogSub;
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
@@ -366,6 +367,21 @@ public class BlogServiceImpl implements BlogService{
 	public int insertRReply(ReReply r) {
 		// TODO Auto-generated method stub
 		return bDao.inseretRReply(r);
+	}
+	
+	// 49. 전체검색
+	@Override
+	public ArrayList<BlogPost> blogAllSearch(String searchValue) {
+		// TODO Auto-generated method stub
+		return bDao.blogAllSearch(searchValue);
+	}
+	
+	
+	//공모전리스트
+	@Override
+	public ArrayList<Compet> competView() {
+		// TODO Auto-generated method stub
+		return bDao.competView();
 	}
 	
 

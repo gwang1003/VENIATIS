@@ -12,9 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
@@ -49,7 +53,6 @@ public class ProjectUserController {
 		if(list != null) {
 			for(ProjectView p : list) {
 				System.out.println(p);
-				
 			}
 			
 			mv.addObject("projectList", list);
@@ -132,20 +135,20 @@ public class ProjectUserController {
         return "프로젝트 번호는 " + pNo;
     }*/
 	
-	/*
+	
 	// 댓글 리스트 불러오기
-	@RequestMapping(value="projectRList.do", produces="application/json; charset=utf-8")
+	@RequestMapping(value="cheerList.do", produces="application/json; charset=utf-8")
 	@ResponseBody
-	public String getReplyList(int pNo) {
-		ArrayList<Reply> rList = pus.selectReplyList(pNo);
+	public String getCheerList(int pNo) {
+		ArrayList<Reply> cList = pus.selectCheerList(pNo);
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		// 시분초 다루고 싶다면 java.util.Date 사용
-		return gson.toJson(rList);
+		return gson.toJson(cList);
 	}
 	
 	// 댓글 등록하기
-	@RequestMapping("addReply.do")
+	/*@RequestMapping("addReply.do")
 	@ResponseBody
 	public String addReply(Reply r, HttpSession session) {
 		// 프로젝트 작성자는 답글로 작성되어야한다..
@@ -165,8 +168,8 @@ public class ProjectUserController {
 			//throw new BoardException("댓글 등록 실패!!");
 			return "fail";
 		}
-	}
-	*/
+	}*/
+	
 	
 	@RequestMapping("rewardSelect.do")
 	public ModelAndView RewardSelectView(ModelAndView mv, int pNo) {
@@ -216,6 +219,7 @@ public class ProjectUserController {
 	
 	@RequestMapping("insertFunding.do")
 	public ModelAndView insertFunding(ModelAndView mv, HttpSession session,
+			@RequestParam("pNo") int pNo,
 			@RequestParam("totalPrice") String totalAmt,
 			@RequestParam("addPrice") String addAmt,
 			@RequestParam("tfName") String tfName,
@@ -224,6 +228,7 @@ public class ProjectUserController {
 			@RequestParam("tfMemo") String tfMemo,
 			@ModelAttribute MultiRowFunding fundings) {
 		
+		ProjectView p = pus.selectProject(pNo);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); //년월일시분초
@@ -252,6 +257,7 @@ public class ProjectUserController {
 			
 			//returnStr = "redirect:rewardSuccess.do";
 			mv.addObject("oNo", orderNo);
+			mv.addObject("project", p);
 			mv.setViewName("rewardSuccess.do");
 		}else {
 			// 주문 실패!!

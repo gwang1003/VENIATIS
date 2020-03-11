@@ -25,6 +25,13 @@
 #Intro:hover, #News:hover, #Qna:hover, #Cheer:hover{
 	cursor:pointer;
 }
+
+#cheerTable{
+	width:90%;
+	border-top:1px solid black; 
+	border-bottom:1px solid black; 
+	margin:10px 10px 10px 20px;
+}
 </style>
 <script>
 //3자리 콤마 찍
@@ -337,21 +344,6 @@ function comma(str) {
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(1)").addClass("on");
                                             
-                                            /* var pNo = ${project.pNo};
-                                            
-                                            $.ajax({
-                                                url: "test1.do",
-                                                type: "POST",
-                                                data: {pNo:pNo},
-                                                success: function(data){
-                                                    alert(data);
-                                                },
-                                                error: function(){
-                                                    alert("simpleWithObject err");
-                                                }
-                                            }); */
-                                            
-                                            
                                         });
                                         
                                         $("#Qna").on("click", function () {
@@ -381,6 +373,8 @@ function comma(str) {
 
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(3)").addClass("on");
+                                            
+                                           	getCheerList();
                                         });
                                     });
                                 </script>
@@ -514,15 +508,6 @@ function comma(str) {
                                                         </ul>
                                                     </li>
                                                 </ul> -->
-                                                <table id="replyTable">
-													<thead>
-														<tr>
-															<td colspan="4"><b id="rCount"></b></td>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
 
                                                 <div id="paging" class="paging_comm" style="margin-top:20px;">
                                                     <a class="link_page on">1</a>&nbsp;
@@ -532,89 +517,7 @@ function comma(str) {
                                             </div>
                                         </div>
 
-                                        <!-- <script>
-	
-											$(function(){
-												// 초기 페이지 로딩 시 댓글 불러오기
-												getReplyList();
-												
-												// 타 회원이 작성한 댓글도 지속적으로 불러오고 싶다면
-												/* setInterval(function(){
-													getReplyList();
-												}, 10000); */
-												
-												// 댓글 등록 ajax
-												$("#rSubmit").on("click", function(){
-													// 필요한 값을 가지고 db에 insert한 뒤
-													// 등록 성공 시 댓글리스트 다시 불러오기
-													// 요청 url : addReply.do
-													var rContent = $("#rContent").val();
-													var pNo = ${ project.pNo }; 
-													
-													$.ajax({
-														url:"addReply.do",
-														data:{rContent:rContent, pNo:pNo},
-														type:"post",
-														success:function(data){
-															if(data == "success"){
-																getReplyList(); // 등록 성공시 다시 댓글리스트 불러오기
-																$("#rContent").val("");
-															}else if(data == "fail"){
-																alert("댓글 등록 실패");
-															}
-														}
-													});
-												});
-											});
-											
-											
-											// 댓글 리스트 불러오는 ajax 함수
-											function getReplyList(){
-												var pNo = ${project.pNo};
-												
-												$.ajax({
-													url:"projectRList.do",
-													data:{pNo:pNo},
-													dataType:"json",
-													success:function(data){
-														console.log(data);
-														
-														$tableBody = $("#replyTable tbody");
-														$tableBody.html("");
-														
-														$("#rCount").text("댓글("+data.length+")");
-														
-														if(data.length > 0){
-															for(var i in data){
-																var $tr = $("<tr>");
-																var $rWriter = $("<td width='100'>").text(data[i].rWriter);
-																var $rContent = $("<td width='500'>").text(data[i].rContent);
-																var $rCreateDate = $("<td width='200'>").text(data[i].rCreateDate);
-																
-																$tr.append($rWriter);
-																$tr.append($rContent);
-																$tr.append($rCreateDate);
-																
-																$tableBody.append($tr);
-															}
-														}else{
-															// 댓글이 등록되지 않았을 때
-															var $tr = $("<tr>");
-															var $rContent = $("<td colspan='3'>").text("등록 된 댓글이 없습니다.");
-															$tr.append($rContent);
-															$tableBody.append($tr);
-														}
-														
-													},
-													error:function(e){
-														console.log(e);
-													}
-												});
-												
-											}
-											</script> -->
                                     </div>
-
 
                                     <div id="reward_tab_content">
                                         <div class="article_support screen_out">
@@ -652,7 +555,8 @@ function comma(str) {
                                                                 <span class="num_amount">8,000원 참여</span>
                                                                 <!-- 댓글 보이기 -->
                                                                 <div class="cmt_content">
-                                                                    <p class="cont_cmt">취지가 너무 좋아서 참여했어요!! 꼭 성공하시길 바랍니다. </p>
+                                                                    <p class="cont_cmt">취지가 너무 좋아서 참여했어요!! 꼭 성공하시길
+                                                                        바랍니다. </p>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -673,7 +577,88 @@ function comma(str) {
                                             </section>
                                         </div>
                                     </div>
+                                    
+									
 
+                                    <script>
+                                	// 참여자 응원 리스트 불러오는 ajax 함수
+                                	//-- 다시 해야함
+                                	function getCheerList(){
+                                		var pNo = ${project.pNo};
+                                		
+                                		$.ajax({
+                                			url:"cheerList.do",
+                                			data:{pNo:pNo},
+                                			dataType:"json",
+                                			success:function(data){
+                                				console.log(data);
+                                				
+                                				/* $tableBody = $("#cheerTable tbody");
+                                				$tableBody.html("");
+                                				
+                                				$("#cheerCount").text("참여자 응원("+data.length+")"); */
+                                				$ulBody = $("#cheerBox");
+                                				$ulBody.html("");
+                                				
+                                				
+                                				if(data.length > 0){
+                                					for(var i in data){
+                                						var $li = $("<li>");
+                                						var $output = $("<div class='cmt_output'>");
+                                						var $writer = $("<span class='txt_name'>").text(data[i].mNo);
+                                						var $wDate = $("<span class='txt_name'>").text(data[i].wDate);
+                                						var $cmtContent = $("<div class='cmt_content'");
+                                						var $content = $("<p class='cont_cmt'>").text(data[i].rContent);
+                                						
+                                						$li.append($output);
+                                						$output.append($writer);
+                                						$output.append($wDate);
+                                						$output.append($cmtContent);
+                                						$cmtContent.append($content);
+                                						
+                                						$ulBody.append($li);
+                                						/* 
+                                						<div class="cmt_output">
+                                                            <span class="user_profile">
+                                                                <span class="img_profile">
+                                                                </span>
+                                                                <span class="txt_name">홍길동</span>
+                                                            </span>
+
+                                                            <span class="txt_time">2020-01-15 17:29</span>
+                                                            <span class="num_amount">32,000원 참여</span>
+                                                            <!-- 댓글 보이기 -->
+                                                            <div class="cmt_content">
+                                                                <p class="cont_cmt">의미 있는 활동을 응원합니다.</p>
+                                                            </div>
+                                                        </div>
+                                                            
+                                						var $rWriter = $("<td width='20%'>").text(data[i].mNo);
+                                						var $rContent = $("<td width='60%'>").text(data[i].rContent);
+                                						var $rCreateDate = $("<td width='20%'>").text(data[i].wDate);
+                                						
+                                						$tr.append($rWriter);
+                                						$tr.append($rContent);
+                                						$tr.append($rCreateDate);
+                                						
+                                						$tableBody.append($tr); */
+                                					}
+                                				}else{
+                                					// 댓글이 등록되지 않았을 때
+                                					var $li = $("<li>");
+                                					var $rContent = $("<div class='cmt_output'>").text("등록 된 댓글이 없습니다.");
+                                					$li.append($rContent);
+                                					$ulBody.append($li);
+                                				}
+                                				
+                                			},
+                                			error:function(e){
+                                				console.log(e);
+                                			}
+                                		});
+                                		
+                                	}
+                                    </script>
 
                                     <div class="box_reward_select">
                                         <form name="rewardForm" id="rewardForm" action="">

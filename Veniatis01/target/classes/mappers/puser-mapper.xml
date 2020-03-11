@@ -105,6 +105,15 @@
 		<result property="option" column="F_OPTION"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rNo" column="REPLY_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="wDate" column="WDATE"/>
+		<result property="rContent" column="CONTENT"/>
+	</resultMap>
+	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_PROJECT
@@ -143,6 +152,11 @@
 		INSERT INTO FUNDING
 		VALUES(SEQ_FUNDING.NEXTVAL, #{oNo}, #{pNo}, #{rNo}, #{quantity}, #{option})
 	</insert>
+	
+	<select id="selectCheerList" parameterType="_int" resultMap="replyResultSet">
+		select * from reply
+		where p_no = #{pNo}
+	</select>
 	
 	<!-- <select id="selectReplyList">
 		

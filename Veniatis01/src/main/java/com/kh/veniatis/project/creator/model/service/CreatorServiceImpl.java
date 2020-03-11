@@ -24,9 +24,9 @@ public class CreatorServiceImpl implements CreatorService {
 	}
 
 	@Override
-	public Creator selectCreNo(Creator c) {
+	public Creator selectCreNo(int creNo) {
 		
-		return cDao.selectCreNo(c);
+		return cDao.selectCreNo(creNo);
 	}
 
 	@Override
@@ -94,6 +94,18 @@ public class CreatorServiceImpl implements CreatorService {
 	public int creatorUpdate(Creator c) {
 		// TODO Auto-generated method stub
 		return cDao.creatorUpdate(c);
+	}
+
+	@Override
+	public int selectProjectNo(int creNo) {
+		// TODO Auto-generated method stub
+		return cDao.selectProjectNo(creNo);
+	}
+
+	@Override
+	public int selectCurCreNo() {
+		// TODO Auto-generated method stub
+		return cDao.selectCurCreNo();
 	}
 
 

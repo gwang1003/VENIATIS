@@ -45,8 +45,12 @@ public class ProjectCreatorController {
 		c.setmNo(mNo);
 
 		int result = cService.creatorInsert(c);
-
-		Creator creator = cService.selectCreNo(c);
+		
+		System.out.println(result);
+		
+		
+		Creator creator = cService.selectCreNo(result);
+		
 		if (result > 0) {
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("creator", creator);
@@ -61,15 +65,18 @@ public class ProjectCreatorController {
 	@RequestMapping("projectInsert.do")
 	public ModelAndView projectInsert(Project p, Model model, HttpServletRequest request,
 			@RequestParam(value = "creUrl") String creUrl,
+			@RequestParam(value="creNum") String creNum,
 			@RequestParam(value = "mainImage", required = true) MultipartFile image1,
 			@RequestParam(value = "subImage1", required = false) MultipartFile image2,
 			@RequestParam(value = "subImage2", required = false) MultipartFile image3,
 			@RequestParam(value = "subImage3", required = false) MultipartFile image4,
 			@RequestParam(value = "subImage4", required = false) MultipartFile image5) {
 		p.setpUrl(creUrl);
-
+		p.setCreNo(Integer.parseInt(creNum));
+		System.out.println(p);
 		int result = cService.projectInsert(p);
-		Project project = cService.selectOneProject(p);
+				
+		Project project = cService.selectProject(result);
 	
 
 		ArrayList<Files> files = new ArrayList<Files>();
@@ -351,19 +358,30 @@ public class ProjectCreatorController {
 	@RequestMapping("creatorUpdate.do")
 	public ModelAndView creatorUpdate(HttpServletRequest request, Creator c, Model model,
 			@RequestParam(value = "userPost") String post, @RequestParam(value = "userAddr1") String addr1,
-			@RequestParam(value = "userAddr2") String addr2, @RequestParam(value = "mNo") int mNo) {
+			@RequestParam(value = "userAddr2") String addr2, @RequestParam(value = "mNo") int mNo,
+			@RequestParam(value="pNo")int pNo) {
 		c.setCreAddress(post + "#" + addr1 + "#" + addr2);
 	
 		c.setCreNo(mNo);
 
 		int result = cService.creatorUpdate(c);
+		
+		
+		ProjectView p = pus.selectProject(pNo);
 
-		Creator creator = cService.selectCreNo(c);
+		ArrayList<Files> fList = pus.selectFileList(pNo);
+		
+	
+		
+		Creator creator = cService.selectCreNo(mNo);
 		
 		if (result > 0) {
 			ModelAndView mv = new ModelAndView();
+			
 			mv.addObject("creator", creator);
-			mv.setViewName("project_creator/projectStartPage2");
+			mv.addObject("project",p);
+			mv.addObject("fList",fList);
+			mv.setViewName("project_creator/projectAlt2");
 			return mv;
 		} else {
 			throw new ProjectException("크리에이터 등록 실패!");

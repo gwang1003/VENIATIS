@@ -142,7 +142,7 @@ num = num -1;
 			<div class="sheet_info">
 				<div class="form_area">
 					<form action="projectInsert.do" name="addForm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
-						<input type="hidden" value="${creator.creNo }" name="creNum">
+						<input type="hidden" value="${creator.creNo }" name="creNo">
 						<input type="hidden" value="${creator.creUrl }" name="creUrl">
 						<fieldset class="fld_comm">
 							
@@ -170,7 +170,7 @@ num = num -1;
 									<p class="txt_input input_mid">
 										<label for="tfTitle" class="tf_comm"> 
 										<input	type="text" id="projectName" name="pTitle"
-											class="tf_cont" value="" maxlength="35" placeholder="최대 35글자까지 가능합니다.">
+											class="tf_cont" value="${project.pTitle }" maxlength="35" placeholder="최대 35글자까지 가능합니다.">
 										</label>
 									</p>
 									
@@ -200,6 +200,7 @@ num = num -1;
 													<!-- 추가되는 이미지 name subImage1 subImage2.... -->
 											</div>
 										</li>
+										
 									
 									</ul>
 								</li>
@@ -209,15 +210,34 @@ num = num -1;
 										프로젝트 동영상<span class="txt_warning">*</span>
 									</p>
 									<p class="inner_radio">
+										<c:choose>
+										<c:when test="${empty project.pUrl}">
 										<input type="radio" id="videoFlag3" name="videoFlag" value="N" checked>
 										<label for="videoFlag3" class="radio_label">미사용</label>
-										<input type="radio" id="videoFlag4" name="videoFlag" value="Y"><label
-											for="videoFlag4" class="radio_label">사용</label></p>
-											
+										<input type="radio" id="videoFlag4" name="videoFlag" value="Y">
+										<label for="videoFlag4" class="radio_label">사용</label>
+										</c:when>
+										
+										<c:when test="${not empty project.pUrl}">
+										<input type="radio" id="videoFlag3" name="videoFlag" value="N">
+										<label for="videoFlag3" class="radio_label">미사용</label>
+										<input type="radio" id="videoFlag4" name="videoFlag" value="Y" checked>
+										<label for="videoFlag4" class="radio_label">사용</label>
+										</c:when>
+										</c:choose>	
+										</p>
+										
 									<div class="txt_input input_full">
 										<label for="tfSimpleIntroduce" class="tf_comm"> 
-										<input	type="text" id="videoUrl" name="pVideo"
-											class="tf_cont input_hold" value="">
+										<c:choose>
+										<c:when test="${empty project.pUrl}">
+										<input	type="text" id="videoUrl" name="pVideo"	class="tf_cont input_hold" value="">
+										</c:when>
+										
+										<c:when test="${not empty project.pUrl}">
+										<input	type="text" id="videoUrl" name="pVideo"	class="tf_cont input_hold" value="${project.pUrl}">
+										</c:when>
+										</c:choose>
 										</label>
 										<p class="txt_notice">
 											※ '사용' 체크 후 Youtube 공유 주소를 입력해주세요.<br> ※ 프로젝트 동영상 사용 시
@@ -230,21 +250,19 @@ num = num -1;
 										프로젝트 간략소개<span class="txt_warning">*</span>
 									</p>
 									<p class="txt_input input_mid">
-										<label for="tfSimpleIntroduce" class="tf_comm"> <input
-											type="text" id="simpleText" name="pText" class="tf_cont"
-											value="" maxlength="50">
+										<label for="tfSimpleIntroduce" class="tf_comm">
+										 <input	type="text" id="simpleText" name="pText" class="tf_cont"
+											value="${project.pText }" maxlength="50">
 										</label>
 									</p>
-									<p class="txt_limit">
-										<span id="simpleTextCount">0</span>/20
-									</p>
+									
 								</li>
 								<li class="box_info">
 									<p class="tit_agreement">
 										프로젝트 소개<span class="txt_warning">*</span> 
 									<div id="contentArea">
 										<textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
-										name="pDesc" style="resize: none; overflow-x: hidden;"></textarea>
+										name="pDesc" style="resize: none; overflow-x: hidden;">${project.pDesc}</textarea>
 										<!-- 에디트 삽입 영역		</div> 입니다. -->
 									</div>
 									<div class="wrap_notice">

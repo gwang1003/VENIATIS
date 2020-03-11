@@ -17,16 +17,18 @@ public class CreatorDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	public int CreatorInsert(Creator c) {
-		
-		return sqlSession.insert("creatorMapper.creatorInsert",c);
+	
+		sqlSession.insert("creatorMapper.creatorInsert",c);
+		return c.getCreNo();
 	}
-	public Creator selectCreNo(Creator c) {
+	public Creator selectCreNo(int creNo) {
 		
-		return sqlSession.selectOne("creatorMapper.selectCreNo", c);
+		
+		return sqlSession.selectOne("creatorMapper.selectCreNo", creNo);
 	}
 	public int projectInsert(Project p) {
-		// TODO Auto-generated method stub
-		return sqlSession.insert("creatorMapper.projectInsert",p);
+		sqlSession.insert("creatorMapper.projectInsert",p);
+		return p.getpNo();
 	}
 	public int projectUpdate(int pNo) {
 		
@@ -38,7 +40,7 @@ public class CreatorDao {
 	}
 
 	public int CreatorDelete(int creNo) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.delete("creatorMapper.creatorDelete",creNo);
 	}
 	public Project selectOneProject(Project p) {
@@ -79,6 +81,14 @@ public class CreatorDao {
 	public int creatorUpdate(Creator c) {
 		
 		return sqlSession.update("creatorMapper.updateCreator",c);
+	}
+	public int selectProjectNo(int creNo) {
+		
+		return sqlSession.selectOne("creatorMapper.selectProjectNo",creNo);
+	}
+	public int selectCurCreNo() {
+		
+		return sqlSession.selectOne("creatorMapper.selectCurCreNo");
 	}
 	
 

@@ -11,7 +11,7 @@ public interface CreatorService {
 
 	int creatorInsert(Creator c);
 
-	Creator selectCreNo(Creator c);
+	Creator selectCreNo(int creNo);
 
 	int projectInsert(Project p);
 
@@ -35,6 +35,10 @@ public interface CreatorService {
 	Creator selectCreator(int creNo);
 
 	int creatorUpdate(Creator c);
+
+	int selectProjectNo(int creNo);
+
+	int selectCurCreNo();
 
 	
 

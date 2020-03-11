@@ -1,8 +1,11 @@
 package com.kh.veniatis.project.user.controller;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
 import com.kh.veniatis.project.user.model.vo.Funding;
 import com.kh.veniatis.project.user.model.vo.MultiRowFunding;
+import com.kh.veniatis.project.user.model.vo.Order;
 import com.kh.veniatis.project.user.model.vo.ProjectPagination;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -209,11 +214,57 @@ public class ProjectUserController {
 		return mv;
 	}
 	
+	@RequestMapping("insertFunding.do")
+	public ModelAndView insertFunding(ModelAndView mv, HttpSession session,
+			@RequestParam("totalPrice") String totalAmt,
+			@RequestParam("addPrice") String addAmt,
+			@RequestParam("tfName") String tfName,
+			@RequestParam("tfPhone") String tfPhone,
+			@RequestParam("roadFullAddr") String address,
+			@RequestParam("tfMemo") String tfMemo,
+			@ModelAttribute MultiRowFunding fundings) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); //년월일시분초
+		String orderstr = sdf.format(new Date()) + loginUser.getmNo();
+		Double orderNo = Double.parseDouble(orderstr);
+		/*System.out.println("주문번호 : " + orderNo + ", 로그인 유저 번호 : " + loginUser.getmNo() 
+				+ ", 참여금 : " + addAmt + ", \n수령인 : " + tfName + ", 연락처 : " + tfPhone 
+				+ ", 주소 : " + address + ", \n배송메모 : " + tfMemo);*/
+		
+		// 주문 정보 저장하기
+		int addAmount = Integer.parseInt(addAmt);
+		int totalAmount = Integer.parseInt(totalAmt);
+		
+		Order insertOrder = new Order(orderNo, loginUser.getmNo(), 
+								addAmount, tfName, tfPhone, address, tfMemo, totalAmount);
+		int result = pus.insertOrder(insertOrder);
+		
+		if(result > 0) {
+			// 펀딩 하나씩 데이터베이스에 저장하기
+			List<Funding> paramList = fundings.getFundings();
+			for(int i=0; i<paramList.size(); i++) {
+				Funding f = paramList.get(i);
+				f.setoNo(orderNo);
+				pus.insertFunding(f);
+			}
+			
+			//returnStr = "redirect:rewardSuccess.do";
+			mv.addObject("oNo", orderNo);
+			mv.setViewName("rewardSuccess.do");
+		}else {
+			// 주문 실패!!
+			System.out.println("주문 실패!!");
+		}
+		
+		return mv;
+	}
+	
 	@RequestMapping("rewardSuccess.do")
 	public ModelAndView RewardSuccessView(ModelAndView mv) {
 		mv.setViewName("project_user/rewardSuccess");
 		return mv;
 	}
-	
 	
 }

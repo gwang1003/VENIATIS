@@ -151,6 +151,7 @@
 						
 						<div class="sheet_info">
 							<input type="hidden" id="mNo" name="mNo" value="${project.creNo}">
+							<input type="hidden" id="pNo" name="pNo" value="${project.pNo }">
 	
 
 							<div class="txt_area">

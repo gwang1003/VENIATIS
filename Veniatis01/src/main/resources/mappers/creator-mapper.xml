@@ -52,23 +52,29 @@
 	<insert id="creatorInsert" parameterType="Creator">
 		INSERT INTO CREATOR
 		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,1,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
+		<selectKey keyProperty="creNo" resultType="Integer" order="AFTER"> 
+		SELECT SEQ_CRE_NO.CURRVAL FROM DUAL 
+		</selectKey>
+
 	</insert>
 
 	<select id="selectCreNo" parameterType="Creator" resultMap="creatorResultSet">
 		SELECT * FROM
 		CREATOR
-		WHERE M_NO=#{mNo}
-		AND CRE_EMAIL=#{creEmail}
-		AND CRE_PHONE=#{crePhone}
-		AND CRE_ADDRESS=#{creAddress}
-		AND CRE_URL=#{creUrl}
-		AND CRE_NAME=#{creName}
+		WHERE CRE_NO = #{creNo}
 	</select>
+	
+	
 	
 	<insert id="projectInsert" parameterType="Project">
 		INSERT INTO PROJECT
 		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W')
+		<selectKey keyProperty="pNo" resultType="Integer" order="AFTER"> 
+		SELECT SEQ_PID.CURRVAL FROM DUAL 
+		</selectKey>
 	</insert>
+	
+
 	
 	<select id="selectOneProject" parameterType="Project" resultMap="projectResultSet">
 		SELECT * FROM
@@ -126,5 +132,7 @@
 		CRE_URL=#{creUrl}
 	WHERE CRE_NO=#{creNo}
 	</update>
+	
+	
 	
 </mapper>

@@ -7,6 +7,7 @@ import com.kh.veniatis.blog.model.vo.BlogCate;
 import com.kh.veniatis.blog.model.vo.BlogDetail;
 import com.kh.veniatis.blog.model.vo.BlogPost;
 import com.kh.veniatis.blog.model.vo.BlogSub;
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.blog.model.vo.ReReply;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
@@ -162,6 +163,12 @@ public interface BlogService {
 	
 	// 48. 답글작성
 	int insertRReply(ReReply r);
+	
+	// 49. 전체 검색
+	ArrayList<BlogPost> blogAllSearch(String searchValue);
+	
+	// 50. 공모전리스트 갖고오깅
+	ArrayList<Compet> competView();
 
 
 }

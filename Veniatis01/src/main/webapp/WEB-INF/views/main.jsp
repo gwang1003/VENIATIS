@@ -50,7 +50,7 @@
                         <div class="col-xl-12 col-md-12">
                             <div class="slider_text text-center">
                                 <h3>Veniatis:</h3>
-                                <p>기부/후원의 라틴어로 </p>
+                                <p>기부/후원을 뜻하는 라틴어로 한 사람 한 사람의 후원을 통해 아름다운 세상을 만들자는 의미를 담고있습니다.</p>
                             </div>
                         </div>
                     </div>

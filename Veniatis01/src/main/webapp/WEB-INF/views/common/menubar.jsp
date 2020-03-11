@@ -87,7 +87,7 @@ s0.parentNode.insertBefore(s1,s0);
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
                                     <a href="index.html">
-                                        <img src="resources/common/logo.png" width="60%" height="60%" alt="">
+                                        <img src="resources/common/logo2.png" width="60%" height="60%" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ s0.parentNode.insertBefore(s1,s0);
                                                 </ul>
                                             </li>
                                             <li><a href="projectSelect.do">프로젝트 시작하기</a></li>
-                                            <li><a href="contact.html">공모전</a></li>
+                                            <li><a href="competView.do">공모전</a></li>
                                             <li><a href="blogHome.do">Blog</a></li>
                                             <li><a href="guideMain.do">가이드</a></li>
                                         </ul>

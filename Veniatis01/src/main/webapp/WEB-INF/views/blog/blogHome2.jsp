@@ -7,92 +7,81 @@
 <meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<style>
-	#btn2{
-	 background-color: #40c8b5;
-	}
-	*{
-	font-family: 'Noto Sans KR', sans-serif;
-	font-size:11pt;
-	}
-	
-	.header_common{
-		background-color:#84ddd1 !important;
-		border-bottom:1px solid #84ddd1 !important;
+		#btn2{
+		 background-color: #40c8b5;
+		}
+		*{
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size:11pt;
+		}
 		
-	}
-	
-	.search{
-		border: 0px solid #440c8b5 !important;
-	
-	}
-	
-	.tag {
-    width: 10%;
-    height: 45px;
-    cursor: pointer;
-    margin: 0 auto;
-    border: .5px solid rgb(232, 238, 241);
-    border-radius: 28px;
-    font: normal 14px/28px "Advent Pro", Helvetica, sans-serif;
-    color: rgb(119, 126, 128);
-    text-align: center;
-    -o-text-overflow: clip;
-    text-overflow: clip;
-    letter-spacing: 1px;
-    background: rgba(0,0,0,0);
-	}
-	
-	.wrap_my_information .area_my_content .my_content_news, .wrap_my_information .area_my_content .my_content_written, .wrap_my_information .area_my_content .my_content_buddy {
-		height:310px !important;
-	
-	}
-	
+		.header_common{
+			background-color:#84ddd1 !important;
+			border-bottom:1px solid #84ddd1 !important;
+			
+		}
+		
+		.search{
+			border: 0px solid #440c8b5 !important;
+		
+		}
+		
+		.tag {
+	    width: 10%;
+	    height: 45px;
+	    cursor: pointer;
+	    margin: 0 auto;
+	    border: .5px solid rgb(232, 238, 241);
+	    border-radius: 28px;
+	    font: normal 14px/28px "Advent Pro", Helvetica, sans-serif;
+	    color: rgb(119, 126, 128);
+	    text-align: center;
+	    -o-text-overflow: clip;
+	    text-overflow: clip;
+	    letter-spacing: 1px;
+	    background: rgba(0,0,0,0);
+		}
+		
+		.wrap_my_information .area_my_content .my_content_news, .wrap_my_information .area_my_content .my_content_written, .wrap_my_information .area_my_content .my_content_buddy {
+			height:310px !important;
+		
+		}
 	</style>
-	 <link rel="stylesheet" href="resources/css/네이버2.css">
-
+	
+	<link rel="stylesheet" href="resources/css/네이버2.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-	<script>
-
-	</script>
 
 <title>Insert title here</title>
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"></jsp:include>
-
-    <!-- ngIf: $root.isReadOnly -->
     <header id="header" class="header">
         <div class="header_common">
             <div class="inner">
                 <div class="area_logo">
-                    
                     <h1>
-
-                        <a class="link_blog"><img src="<%= request.getContextPath() %>/resources/buploadFiles/blogBanner.png" width="80px" height="40px" style="margin-bottom:7px"></a>
+                        <a class="link_blog">
+                        	<img src="<%= request.getContextPath() %>/resources/buploadFiles/blogBanner.png" width="80px" height="40px" style="margin-bottom:7px">
+                        </a>
                     </h1>
                 </div>
                 <div class="area_search" role="search">
-                    <form action="" method="" class="ng-pristine ng-valid ng-valid-maxlength">
+                    <form action="blogAllSearch.do" method="" class="ng-pristine ng-valid ng-valid-maxlength">
                         <fieldset>
                             <legend class="blind">검색창 </legend>
                             <div class="search" style="border:0px;">
-
                                 <input type="text" class="textbox ng-pristine ng-untouched ng-valid ng-empty ng-valid-maxlength"
-                                    maxlength="255" autocomplete="off" value="" placeholder="검색어를 입력하세요!">
+                                    maxlength="255" autocomplete="off" value="" placeholder="검색어를 입력하세요!" name="searchValue">
                             </div>
-                            <a href="#" class="button button_blog"
-                                aria-label="블로그 검색" role="button"><img src="<%= request.getContextPath() %>/resources/buploadFiles/search.png" width="20px" height="20px" style="margin-bottom:7px" ></a>
-
+                            <button class="button button_blog"
+                                aria-label="블로그 검색" role="button"><img src="<%= request.getContextPath() %>/resources/buploadFiles/search.png" width="20px" height="20px" style="margin-bottom:7px" ></button>
                         </fieldset>
                     </form>
                 </div>
 
             </div>
         </div>
-
     </header>
-    </div>
 
     <main id="container" class="">
         <h2 class="blind">블로그 홈</h2>

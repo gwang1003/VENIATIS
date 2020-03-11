@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" href="resources/css/guidecss.css">
   <style>
     .mid {
@@ -100,12 +103,24 @@
     google.load('visualization', '1', { packages: ['corechart'] });     
   </script>
   <script type="text/javascript">
+	  mVisitor = new Array;
+	  mVisitor2 = new Array;
+	  <c:forEach var="m" items="${mVisitor }">
+	  	mVisitor.push(${m});
+	  </c:forEach>
+	  <c:forEach var="n" items="${mVisitor2 }">
+		mVisitor2.push(${n});
+	  </c:forEach> 
     function drawVisualization() {
+    	console.log(${mVisitor});
       // Some raw data (not necessarily accurate)
       var data = google.visualization.arrayToDataTable([
         ['Week', '지난주 ', '이번주 '],
-        ['1', 20, 30],
-        ['2', 25, 30],
+        <c:forEach var="i" begin="0" end="30">
+        ['${i+1}', mVisitor[${i}], mVisitor2[${i}]],
+        </c:forEach>
+        /* ['1', mVisitor[0], 30],
+        ['2', mVisitor[1], 30],
         ['3', 45, 40],
         ['4', 42, 60],
         ['5', 45, 70],
@@ -134,7 +149,7 @@
         ['28', 55, 60],
         ['29', 20, 30],
         ['30', 25, 30],
-        ['31', 45, 40],
+        ['31', 45, 40], */
       ]);
       var options = {
         title: '월간 방문자 통계',
@@ -156,15 +171,15 @@
         <div class="Vtoday">
           <div class="Tvisitor">
             <img src="resources/common/undraw_posting_photo.svg">
-            <h3>방문자 수 : 21</h3>
+            <h3>방문자 수 : ${visitor }</h3>
           </div>
           <div class="Tproject">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
-            <h3>개설 프로젝트 수 : 5</h3>
+            <h3>개설 프로젝트 수 : ${openProject }</h3>
           </div>
           <div class="TQnA">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
-            <h3>문의 내역 : 5</h3>
+            <h3>문의 내역 : ${QnA }</h3>
           </div>
         </div>
         <h2 class="mTitle">◎월별 방문자 통계</h2>
@@ -175,15 +190,15 @@
         <div class="project">
           <div class="Tvisitor">
             <img src="resources/common/undraw_posting_photo.svg">
-            <h3>개설 요청 프로젝트 : 15</h3>
+            <h3>개설 요청 프로젝트 : ${requestProject }</h3>
           </div>
           <div class="Tproject">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
-            <h3>진행중인 프로젝트 : 42</h3>
+            <h3>진행중인 프로젝트 : ${project }</h3>
           </div>
           <div class="TQnA">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
-            <h3>마감된 프로젝트 : 17</h3>
+            <h3>마감된 프로젝트 : ${endProject }</h3>
           </div>
         </div>
         <h2 class="mTitle">◎연간 수익 통계</h2>

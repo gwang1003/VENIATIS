@@ -15,11 +15,12 @@ public class Member {
 	private Date mDate;
 	private String gender;
 	private String filePath;
+	private String cStatus;
 	
 	public Member() {}
 
 	public Member(int mNo, String mId, String mPwd, String mName, String mPhone, String mEmail, String mAddress,
-			String mBirth, String mInterest, Date mDate, String gender,String filePath) {
+			String mBirth, String mInterest, Date mDate, String gender,String filePath, String cStatus) {
 		super();
 		this.mNo = mNo;
 		this.mId = mId;
@@ -33,6 +34,7 @@ public class Member {
 		this.mDate = mDate;
 		this.gender = gender;
 		this.filePath = filePath;
+		this.cStatus = cStatus;
 	}
 
 	public String getFilePath() {
@@ -131,13 +133,20 @@ public class Member {
 		this.gender = gender;
 	}
 
+	public String getcStatus() {
+		return cStatus;
+	}
+
+	public void setcStatus(String cStatus) {
+		this.cStatus = cStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", mId=" + mId + ", mPwd=" + mPwd + ", mName=" + mName + ", mPhone=" + mPhone
 				+ ", mEmail=" + mEmail + ", mAddress=" + mAddress + ", mBirth=" + mBirth + ", mInterest=" + mInterest
-				+ ", mDate=" + mDate + ", gender=" + gender + ", filePath=" + filePath + "]";
+				+ ", mDate=" + mDate + ", gender=" + gender + ", filePath=" + filePath + ", cStatus=" + cStatus + "]";
 	}
-
 	
 		
 }

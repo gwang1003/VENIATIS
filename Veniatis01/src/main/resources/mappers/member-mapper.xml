@@ -15,6 +15,7 @@
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
 		<result property="filePath" column="FILE_PATH"/>
+		<result property="cStatus" column="CRE_NO"/>
 	</resultMap>
 	
 	<resultMap id="filesResultSet" type="Files">
@@ -77,6 +78,28 @@
 		AND M_PWD=#{mPwd}
 	</select>
 	
+	<update id="updateDate">
+		UPDATE MEMBER
+		SET M_CONN = SYSDATE
+		WHERE M_NO = #{getmNo}
+	</update>
+	
+	<select id="selectLog" resultType="_int">
+		SELECT COUNT(*)
+		FROM LOG
+		WHERE TO_CHAR(DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<insert id="insertDate">
+		INSERT INTO LOG
+		VALUES(SYSDATE, 0)
+	</insert>
+	
+	<update id="updateDateCount">
+		UPDATE LOG
+		SET NO = NO+1
+	</update>
+	
 	
 	<select id="selectOneUserId" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
@@ -128,6 +151,7 @@
 	<select id="selectMemberList" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER
+		LEFT JOIN CREATOR USING(M_NO)
 	</select>
 	
 	<select id="selectCreator" resultMap="creatorResultSet">
@@ -141,6 +165,12 @@
 		FROM V_PROJECT
 		JOIN MEMBER USING(M_ID)
 		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
 	</select>
 	
 	<select id="selectLikes" resultMap="prjView">
@@ -209,5 +239,68 @@
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
 	</select>
+	
+	<select id="selectOpenList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	
+	
+	
+	
+	<select id="toDayVisitor" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE TO_CHAR(M_CONN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE TO_CHAR(P_START_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayQnA" resultType="_int">
+		SELECT COUNT(*)
+		FROM QNA
+		WHERE TO_CHAR(QNA_ENROLLDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectMVisitor" resultType="_int">
+		SELECT NO
+		FROM LOG
+        WHERE TO_CHAR(DAY, 'MM') = TO_CHAR(SYSDATE, 'MM')-1
+		ORDER BY DAY
+	</select>
+	
+	<select id="selectMVisitor2" resultType="_int">
+		SELECT NO
+		FROM LOG
+        WHERE TO_CHAR(DAY, 'MM') = TO_CHAR(SYSDATE, 'MM')
+		ORDER BY DAY
+	</select>
+	
+	<select id="requestProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE P_STATUS = 'N'
+	</select>
+	
+	<select id="selectProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_END_DATE > SYSDATE
+	</select>
+	
+	<select id="selectEndProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE SYSDATE > P_END_DATE
+	</select>
+	
 	
 </mapper>

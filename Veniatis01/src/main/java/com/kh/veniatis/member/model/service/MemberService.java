@@ -28,7 +28,7 @@ public interface MemberService {
 
 	int mPhotoDelete(Member m);
 
-	ArrayList<ProjectView> myOpenProject(int getmNo, int currentPage);
+	ArrayList<ProjectView> myOpenProject(int currentPage, Map map);
 
 	int selectpNo(int getmNo);
 
@@ -45,4 +45,26 @@ public interface MemberService {
 	ArrayList<ProjectView> selectLikesList(int getmNo);
 
 	ArrayList<ProjectView> selectInterestList(int getmNo);
+
+	ArrayList<ProjectView> selectOpenList(int getmNo);
+
+	void updateDate(int getmNo);
+
+	int toDayVisitor();
+
+	int toDayProject();
+
+	void updateDateCount();
+
+	int toDayQnA();
+
+	ArrayList selectMVisitor();
+
+	ArrayList selectMVisitor2();
+
+	int requestProject();
+
+	int selectProject();
+
+	int selectEndProject();
 }

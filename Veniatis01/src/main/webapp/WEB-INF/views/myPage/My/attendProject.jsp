@@ -121,7 +121,7 @@
                                 </c:forEach>
                             </ul>
                         </div>
-    <table align="center" class="pagingTable">
+   							<table align="center" class="pagingTable">
 								<tr align="center" height="20">
 									<td colspan="6">
 										<!-- [이전] -->

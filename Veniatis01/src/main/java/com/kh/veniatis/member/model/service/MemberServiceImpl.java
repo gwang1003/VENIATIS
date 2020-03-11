@@ -23,170 +23,201 @@ import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
-
-
 @Service("mService")
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDao mDao;
 	private Log log = LogFactory.getLog(MemberServiceImpl.class);
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+
 	public void setJavaMailSender(JavaMailSender javaMailSender) {
-	this.javaMailSender = javaMailSender;
+		this.javaMailSender = javaMailSender;
 	}
-	
-	
+
 	@Override
 	public Member loginMember(Member m) {
 		Member loginUser = mDao.selectMember(m);
 		return loginUser;
 	}
+
 	@Override
 	public Member selectOneMember(String userId) {
 		Member selectMember = mDao.selectOneMember(userId);
 		return selectMember;
 	}
-	
+
 	@Override
 	public boolean send(String subject, String text, String from, String to, String filePath) {
 		MimeMessage message = javaMailSender.createMimeMessage();
 		try {
-		// org.springframework.mail.javamail.MimeMessageHelper
-		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setSubject(subject);
-		helper.setText(text, true);
-		helper.setFrom(from);
-		helper.setTo(to);
-		// 첨부 파일 처리
-		if (filePath != null) {
-		File file = new File(filePath);
-		if (file.exists()) {
-		helper.addAttachment(file.getName(), new File(filePath));
-		}
-		}
-		// 첨부 파일 처리 다른방법(이건 확인함)
-		// FileSystemResource file = new FileSystemResource(new File("D:/load.gif"));
-		// helper.addAttachment("load.gif", file);
-		// 메일에 이미지 심어서 보낸는 방법(한글파일은 안됨)
-		// String contents = text + "<br><br><img src=\"cid:emailPic.png \">";
-		// helper.setText(contents, true);
-		// FileSystemResource file = new FileSystemResource(new File("D:/emailPic.png"));
-		// helper.addInline("emailPic.png", file);
-		javaMailSender.send(message);
-		return true;
+			// org.springframework.mail.javamail.MimeMessageHelper
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setSubject(subject);
+			helper.setText(text, true);
+			helper.setFrom(from);
+			helper.setTo(to);
+			// 첨부 파일 처리
+			if (filePath != null) {
+				File file = new File(filePath);
+				if (file.exists()) {
+					helper.addAttachment(file.getName(), new File(filePath));
+				}
+			}
+			// 첨부 파일 처리 다른방법(이건 확인함)
+			// FileSystemResource file = new FileSystemResource(new File("D:/load.gif"));
+			// helper.addAttachment("load.gif", file);
+			// 메일에 이미지 심어서 보낸는 방법(한글파일은 안됨)
+			// String contents = text + "<br><br><img src=\"cid:emailPic.png \">";
+			// helper.setText(contents, true);
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:/emailPic.png"));
+			// helper.addInline("emailPic.png", file);
+			javaMailSender.send(message);
+			return true;
 		} catch (MessagingException e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 		return false;
 	}
-
 
 	@Override
 	public int memberInsert(Member m) {
 		return mDao.memberInsert(m);
 	}
 
-
 	@Override
 	public int mPhotoInsert(Files files) {
 		return mDao.mPhotoInsert(files);
 	}
-
 
 	@Override
 	public Files selectPhoto(int getmNo) {
 		return mDao.selectPhoto(getmNo);
 	}
 
-
 	@Override
 	public int memberUpdate(Member m) {
 		return mDao.memberUpdate(m);
 	}
-
 
 	@Override
 	public int mPhotoDelete(Member m) {
 		return mDao.mPhotoDelete(m);
 	}
 
-
-	@Override
-	public ArrayList<ProjectView> myOpenProject(int getmNo, int currentPage) {
-		int listCount = mDao.openListCount(getmNo);
-		
-		// 페이지 정보 저장
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 3, 5);
-		
-		return mDao.myOpenProject(getmNo, pi);
-	}
-
-
 	@Override
 	public int selectpNo(int getmNo) {
 		return mDao.selectpNo(getmNo);
 	}
-
 
 	@Override
 	public int question(QnA qa) {
 		return mDao.question(qa);
 	}
 
-
 	@Override
 	public ArrayList<Member> selectMemberList() {
 		return mDao.selectMemberList();
 	}
-
 
 	@Override
 	public Creator selectCreator(int getmNo) {
 		return mDao.selectCreator(getmNo);
 	}
 
-
 	@Override
 	public ArrayList<ProjectView> selectLikes(int currentPage, Map map) {
 		int listCount = mDao.likesListCount(map);
-		
+
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4, 5);
-		
+
 		return mDao.selectLikes(pi, map);
 	}
-
 
 	@Override
 	public ArrayList<ProjectView> myInterestProject(int currentPage, Map map) {
 		int listCount = mDao.interestListCount(map);
-		
+
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 2, 5);
-		
+
 		return mDao.myInterestProject(pi, map);
 	}
 
+	@Override
+	public ArrayList<ProjectView> myOpenProject(int currentPage, Map map) {
+		int listCount = mDao.openListCount(map);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4, 5);
+		return mDao.myOpenProject(map, pi);
+	}
 
 	@Override
 	public ArrayList<ProjectView> selectLikesList(int getmNo) {
 		return mDao.selectLikesList(getmNo);
 	}
 
-
 	@Override
 	public ArrayList<ProjectView> selectInterestList(int getmNo) {
 		return mDao.selectInterestList(getmNo);
 	}
 
+	@Override
+	public ArrayList<ProjectView> selectOpenList(int getmNo) {
+		return mDao.selectOpenList(getmNo);
+	}
 
+	@Override
+	public void updateDate(int getmNo) {
+		mDao.updateDate(getmNo);
+	}
 
+	@Override
+	public int toDayVisitor() {
+		return mDao.toDayVisitor();
+	}
 
+	@Override
+	public int toDayProject() {
+		return mDao.toDayProject();
+	}
 
-	
-	
+	@Override
+	public void updateDateCount() {
+		mDao.updateDateCount();
+	}
+
+	@Override
+	public int toDayQnA() {
+		return mDao.toDayQnA();
+	}
+
+	@Override
+	public ArrayList selectMVisitor() {
+		return mDao.selectMVisitor();
+	}
+
+	@Override
+	public ArrayList selectMVisitor2() {
+		return mDao.selectMVisitor2();
+	}
+
+	@Override
+	public int requestProject() {
+		return mDao.requestProject();
+	}
+
+	@Override
+	public int selectProject() {
+		return mDao.selectProject();
+	}
+
+	@Override
+	public int selectEndProject() {
+		return mDao.selectEndProject();
+	}
 
 }

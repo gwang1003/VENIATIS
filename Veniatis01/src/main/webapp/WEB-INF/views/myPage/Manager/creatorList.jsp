@@ -118,7 +118,7 @@
 <jsp:include page="../../common/sidebar.jsp"/>
 <div class="mid" align="center">
 <div class="topText">
-          <h2>회원 정보</h2>
+          <h2>크리에이터 정보</h2>
         </div>
         <form action="" class="search">
           <div class="s1">

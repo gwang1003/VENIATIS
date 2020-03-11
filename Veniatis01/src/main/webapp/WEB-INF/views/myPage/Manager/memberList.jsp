@@ -162,7 +162,7 @@
               		<td>${m.mPhone }</td>
               		<td>${m.mEmail }</td>
               		<td>${m.mDate }</td>
-              		<td>크리에이터 받아오기</td>
+              		<td>${m.cStatus }</td>
               	</tr>
               </c:forEach>
               </tbody>

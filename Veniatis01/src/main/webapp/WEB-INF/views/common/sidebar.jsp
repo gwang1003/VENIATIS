@@ -39,7 +39,6 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                   <a class="collapse-item" href="selectMemberList.do" id="marketad">회원정보</a>
                   <a class="collapse-item" href="selectCreatorList.do" id="marketad">크리에이터</a>
-                  <a class="collapse-item" href="joinCreator.do" id="marketad">크리에이터 신청</a>
                 </div>
  
               </div>

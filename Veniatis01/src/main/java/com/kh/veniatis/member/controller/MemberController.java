@@ -35,6 +35,7 @@ import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
+import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
@@ -161,8 +162,21 @@ public class MemberController {
 	}
 
 	@RequestMapping("selectCreatorList.do")
-	public String selectCreatorList() {
-		return "myPage/Manager/creatorList";
+	public ModelAndView selectCreatorList() {
+		ModelAndView mv = new ModelAndView();
+		
+		ArrayList<CreView> cList = mService.selectCreatorList();
+		for(CreView c:cList) {
+			if(c.getCreType().equals("1")) {
+				c.setCreType("펀딩");
+			}else {
+				c.setCreType("창업");
+			}
+		}
+		mv.addObject("cList", cList);
+		mv.setViewName("myPage/Manager/creatorList");
+
+		return mv;
 	}
 
 	@RequestMapping("joinProject.do")
@@ -373,30 +387,30 @@ public class MemberController {
 		int waitIndex = 0;
 		Date date = new Date();
 		if(allList != null) {
-		allIndex = allList.size();
-		for (int i = 0; i < allList.size(); i++) {
-			if (allList.get(i).getpStatus().equals("N")) {
-				allList.get(i).setProgress("승인대기");
-				waitIndex++;
-			} else {
-				if (allList.get(i).getEndDate().getTime() > date.getTime()
-						&& allList.get(i).getSumAmount() >= allList.get(i).getTargetAmount()) {
-					allList.get(i).setProgress("진행중(성공)");
+			allIndex = allList.size();
+			for (int i = 0; i < allList.size(); i++) {
+				if (allList.get(i).getpStatus().equals("N")) {
+					waitIndex++;
+				} else if(allList.get(i).getEndDate().getTime() > date.getTime()){
 					ingIndex++;
-				} else if (allList.get(i).getEndDate().getTime() > date.getTime()
-						&& allList.get(i).getSumAmount() < allList.get(i).getTargetAmount()) {
-					allList.get(i).setProgress("진행중");
-					ingIndex++;
-				} else if (allList.get(i).getEndDate().getTime() < date.getTime()
-						&& allList.get(i).getSumAmount() >= allList.get(i).getTargetAmount()) {
-					allList.get(i).setProgress("종료(성공)");
-					endIndex++;
-				} else {
-					allList.get(i).setProgress("종료(실패)");
+				}else {
 					endIndex++;
 				}
 			}
-		}
+			for (int i = 0; i < alignList.size(); i++) {
+				if (alignList.get(i).getEndDate().getTime() > date.getTime()
+						&& alignList.get(i).getSumAmount() >= alignList.get(i).getTargetAmount()) {
+					alignList.get(i).setProgress("진행중(성공)");
+				} else if (alignList.get(i).getEndDate().getTime() > date.getTime()
+						&& alignList.get(i).getSumAmount() < alignList.get(i).getTargetAmount()) {
+					alignList.get(i).setProgress("진행중");
+				} else if (alignList.get(i).getEndDate().getTime() < date.getTime()
+						&& alignList.get(i).getSumAmount() >= alignList.get(i).getTargetAmount()) {
+					alignList.get(i).setProgress("종료(성공)");
+				} else {
+					alignList.get(i).setProgress("종료(실패)");
+				}
+			}
 		index = new int[] { allIndex, ingIndex, endIndex, waitIndex };
 			mv.addObject("alignList", alignList);
 			mv.addObject("pi", Pagination.getPageInfo());
@@ -575,6 +589,12 @@ public class MemberController {
 			deleteFile.delete();
 		}
 
+	}
+	
+	@RequestMapping(value = "checkId.do")
+	public String checkId(String userId) {
+		System.out.println(userId);
+		return "";
 	}
 
 }

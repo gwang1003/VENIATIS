@@ -18,9 +18,9 @@ import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.dao.MemberDao;
+import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Service("mService")
@@ -108,11 +108,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectpNo(int getmNo) {
-		return mDao.selectpNo(getmNo);
-	}
-
-	@Override
 	public int question(QnA qa) {
 		return mDao.question(qa);
 	}
@@ -120,11 +115,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Member> selectMemberList() {
 		return mDao.selectMemberList();
-	}
-
-	@Override
-	public Creator selectCreator(int getmNo) {
-		return mDao.selectCreator(getmNo);
 	}
 
 	@Override
@@ -218,6 +208,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectEndProject() {
 		return mDao.selectEndProject();
+	}
+
+	@Override
+	public ArrayList<CreView> selectCreatorList() {
+		return mDao.selectCreatorList();
 	}
 
 }

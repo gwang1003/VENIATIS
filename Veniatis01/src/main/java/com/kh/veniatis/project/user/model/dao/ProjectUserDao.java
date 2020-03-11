@@ -69,19 +69,24 @@ public class ProjectUserDao {
 		return sqlSession.insert("puMapper.insertOrder", order);
 	}
 
+	public ArrayList<Reply> selectCheerList(int pNo) {
+		// 참여자 응원 목록 가져오기
+		return (ArrayList)sqlSession.selectList("puMapper.selectCheerList", pNo);
+	}
+
 	/*
 	// 최근 소식 가져오기
 	public ArrayList<PNotice> selectPNoticeList(int pNo) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
-	public ArrayList<Reply> selectReplyList(int pNo) {
+	/*public ArrayList<Reply> selectReplyList(int pNo) {
 		// 프로젝트 qna 댓글 목록 가져오기
 		return (ArrayList)sqlSession.selectList("puMapper.selectReplyList", pNo);
-	}
+	}*/
 
-	public int insertReply(Reply r) {
+	/*public int insertReply(Reply r) {
 		// 프로젝트 qna 댓글 등록
 		return sqlSession.insert("puMapper.insertReply", r);
 	}*/

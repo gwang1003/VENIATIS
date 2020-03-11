@@ -259,15 +259,64 @@
 				<div class="paging">
 					<nav aria-label="Page navigation example" class="page-nav">
 						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
+							<!-- [이전] -->
+							<c:if test="${ pi.currentPage <= 1 }">
+								<li class="page-item"><a class="page-link"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								</a></li>
+							</c:if>
+							<c:if test="${ pi.currentPage > 1 }">
+								<c:url var="before" value="blist.do">
+									<c:param name="page" value="${ pi.currentPage - 1 }"/>
+								</c:url>
+								<li class="page-item"><a class="page-link" href="${ before }"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								</a></li>
+							</c:if>
+							
+							<!-- 페이지 -->
+							<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+								<c:if test="${ p eq pi.currentPage }">
+									<li class="page-item" aria-current="page">
+										<a class="page-link" style="background-color:#40c8b5; color:#ffffff;">${ p }</a>
+									</li>
+								</c:if>
+								<c:if test="${ p ne pi.currentPage }">
+									<c:url var="pagination" value="blist.do">
+										<c:param name="page" value="${ p }"/>
+									</c:url>
+									<li class="page-item">
+										<a class="page-link" href="${ pagination }">${ p }
+											<span class="sr-only">(current)</span>
+										</a>
+									</li>
+								</c:if>
+							</c:forEach>
+							
+							<!-- [다음] -->
+							<c:if test="${ pi.currentPage >= pi.maxPage }">
+								<li class="page-item"><a class="page-link"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								</a></li>
+							</c:if>
+							<c:if test="${ pi.currentPage < pi.maxPage }">
+								<c:url var="after" value="blist.do">
+									<c:param name="page" value="${ pi.currentPage + 1 }"/>
+								</c:url> 
+								<li class="page-item"><a class="page-link" href="${ after }"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								</a></li>
+							</c:if>
+								<!-- <li class="page-item"><a class="page-link" href="#"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								</a></li> -->
+							
 						</ul>
 					</nav>
 				</div>

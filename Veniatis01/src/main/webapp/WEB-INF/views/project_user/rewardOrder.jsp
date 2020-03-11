@@ -127,6 +127,7 @@
 					<div class="box_comm">
 						<form id="insertFunding" name="insertFunding" method="post" action="insertFunding.do">
 							<input type="hidden" name="mNo" value="${ loginUser.mNo }">
+							<input type="hidden" name="pNo" value="${ project.pNo }">
 											
 							<%-- <c:forEach var="s" items="${ sList }" varStatus="vs">
 								<div class="reward_item">

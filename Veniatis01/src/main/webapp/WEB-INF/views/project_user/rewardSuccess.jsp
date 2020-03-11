@@ -65,23 +65,17 @@
             <div class="cMain">
                 <article id="mContent" class="project_reward">
                     <header class="head_comm">
-                        <h1 id="projectName" class="tit_comm">
-                                (#) 프로젝트 제목
-                        </h1>
-                        <div class="author_reward">
-                            <span class="txt_author">by</span>
+					<h1 id="projectName" class="tit_comm">${ project.pTitle }</h1>
+					<div class="author_reward">
+						<span class="txt_author">by</span> <span class="user_profile">
+							<span class="img_profile clear_empty_picture"> 
+								<img src="${ project.creProfile }"> 
+							</span> 
+							<span class="txt_name">${ project.creName }</span>
+						</span>
 
-                            <span class="user_profile">
-                                <span class="img_profile clear_empty_picture">
-
-                                    <img src="test.png">
-
-                                </span>
-                                <span class="txt_name">(#)크리에이터 명</span>
-                            </span>
-
-                        </div>
-                    </header>
+					</div>
+				</header>
                     <div class="cont_comm reward-join-box">
 
 
@@ -103,12 +97,21 @@
                                 <h4 style="padding:40px 0 40px;">참여한 프로젝트는 마이페이지에서 확인 가능합니다.</h4>
                                 <div class="btn_box">
                                     <button type="button" class="btn_page">마이페이지</button>
-                                    <button type="button" class="btn_page" style="background-color: #999;">홈으로</button>
+                                    <button type="button" class="btn_page" id="homeBtn"
+                                    	style="background-color: #999;">홈으로</button>
                                 </div>
                             </div>
 
                         </div>
                     </div>
+                    <script>
+                    	$(function(){
+                    		$("#homeBtn").on("click", function(){
+                    			location.href = "home.do";
+                    		});
+                    	});
+                    </script>
+                    
                 </article>
             </div>
         </main>

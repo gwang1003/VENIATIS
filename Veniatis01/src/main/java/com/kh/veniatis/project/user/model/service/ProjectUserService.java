@@ -44,5 +44,8 @@ public interface ProjectUserService {
 
 	// 주문 내역 insert
 	int insertOrder(Order insertOrder);
+
+	// 참여자 응원 목록 가져오기
+	ArrayList<Reply> selectCheerList(int pNo);
 		
 }

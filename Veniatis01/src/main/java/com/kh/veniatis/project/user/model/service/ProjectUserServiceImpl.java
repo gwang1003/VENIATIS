@@ -29,7 +29,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		
 		// 페이지 정보 저장
 		PageInfo pi = ProjectPagination.getPageInfo(currentPage, listCount);
-		
+		// 2. 게시글 리스트 조회
 		return pud.selectList(pi);
 	}
 
@@ -90,6 +90,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		return pud.insertOrder(order);
 	}
 
-	// 최근 소식 가져오기
-	
+	@Override
+	public ArrayList<Reply> selectCheerList(int pNo) {
+		// 참여자 목록 가져오기
+		return pud.selectCheerList(pNo);
+	}
+
 }

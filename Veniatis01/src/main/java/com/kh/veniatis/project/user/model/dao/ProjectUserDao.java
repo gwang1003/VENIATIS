@@ -13,6 +13,8 @@ import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
+import com.kh.veniatis.project.user.model.vo.Funding;
+import com.kh.veniatis.project.user.model.vo.Order;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Repository("pud")
@@ -55,6 +57,16 @@ public class ProjectUserDao {
 	public ArrayList<Files> selectFileList(int pNo) {
 		// 프로젝트 사진 파일 가져오기
 		return (ArrayList)sqlSession.selectList("puMapper.selectFileList", pNo);
+	}
+
+	public int insertFunding(Funding f) {
+		// 후원 insert
+		return sqlSession.insert("puMapper.insertFunding", f);
+	}
+
+	public int insertOrder(Order order) {
+		// 주문 insert
+		return sqlSession.insert("puMapper.insertOrder", order);
 	}
 
 	/*

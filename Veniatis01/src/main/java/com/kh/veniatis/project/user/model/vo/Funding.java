@@ -1,6 +1,7 @@
 package com.kh.veniatis.project.user.model.vo;
 
 public class Funding {
+	private int fNo;		// 펀딩(후원) 번호
 	private int rNo;		// 리워드 번호
 	private int pNo;		// 프로젝트 번호
 	private String rItem;	// 리워드 구성	
@@ -8,6 +9,7 @@ public class Funding {
 	private String rDelivery;	// 배송예정일
 	private int quantity;	// 주문 수량
 	private String option;	// 옵션 사항 작성
+	private double oNo;		// 주문번호(insert할 때 필요)
 	
 	public Funding() {}
 
@@ -20,6 +22,41 @@ public class Funding {
 		this.rDelivery = rDelivery;
 		this.quantity = quantity;
 		this.option = option;
+	}
+	
+	public Funding(int rNo, int pNo, String rItem, int rPrice, 
+					String rDelivery, int quantity, String option, double oNo) {
+		super();
+		this.rNo = rNo;
+		this.pNo = pNo;
+		this.rItem = rItem;
+		this.rPrice = rPrice;
+		this.rDelivery = rDelivery;
+		this.quantity = quantity;
+		this.option = option;
+		this.oNo = oNo;
+	}
+
+	public Funding(int fNo, int rNo, int pNo, String rItem, int rPrice, String rDelivery, int quantity, String option,
+			int oNo) {
+		super();
+		this.fNo = fNo;
+		this.rNo = rNo;
+		this.pNo = pNo;
+		this.rItem = rItem;
+		this.rPrice = rPrice;
+		this.rDelivery = rDelivery;
+		this.quantity = quantity;
+		this.option = option;
+		this.oNo = oNo;
+	}
+
+	public int getfNo() {
+		return fNo;
+	}
+
+	public void setfNo(int fNo) {
+		this.fNo = fNo;
 	}
 
 	public int getrNo() {
@@ -76,6 +113,14 @@ public class Funding {
 
 	public void setOption(String option) {
 		this.option = option;
+	}
+	
+	public double getoNo() {
+		return oNo;
+	}
+
+	public void setoNo(double oNo) {
+		this.oNo = oNo;
 	}
 
 	@Override

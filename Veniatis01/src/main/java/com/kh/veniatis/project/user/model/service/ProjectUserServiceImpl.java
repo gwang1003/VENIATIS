@@ -12,6 +12,8 @@ import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.dao.ProjectUserDao;
+import com.kh.veniatis.project.user.model.vo.Funding;
+import com.kh.veniatis.project.user.model.vo.Order;
 import com.kh.veniatis.project.user.model.vo.ProjectPagination;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -75,6 +77,18 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		// 프로젝트 qna 댓글 등록
 		return pud.insertReply(r);
 	}*/
+
+	// 후원 insert
+	@Override
+	public int insertFunding(Funding f) {
+		return pud.insertFunding(f);
+	}
+
+	@Override
+	public int insertOrder(Order order) {
+		// 주문 insert
+		return pud.insertOrder(order);
+	}
 
 	// 최근 소식 가져오기
 	

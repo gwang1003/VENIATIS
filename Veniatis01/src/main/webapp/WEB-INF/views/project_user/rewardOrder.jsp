@@ -67,7 +67,7 @@
 		setTimeout(function() {
 			$('.step-progress-bar').css('width', '66.666666667%');
 		}, 200);
-
+		
 	});
 
 	//3자리 콤마 찍
@@ -80,6 +80,12 @@
 		str = String(str);
 		return str.replace(/[^\d]+/g, '');
 	}
+	//모든 콤마 제거
+	function removeCommas(x) {
+	    if(!x || x.length == 0) return "";
+	    else return x.split(",").join("");
+	}
+	
 </script>
 </head>
 
@@ -119,9 +125,9 @@
 						</div>
 					</div>
 					<div class="box_comm">
-						<form id="selectForm" name="selectForm" method="post">
-							<input type="hidden" id="totalAmt" value="0" />
-							
+						<form id="insertFunding" name="insertFunding" method="post" action="insertFunding.do">
+							<input type="hidden" name="mNo" value="${ loginUser.mNo }">
+											
 							<%-- <c:forEach var="s" items="${ sList }" varStatus="vs">
 								<div class="reward_item">
 									<span class="item_amount"> ${s}<br> 
@@ -157,6 +163,13 @@
 								</thead>
 								<tbody>
 									<c:forEach var="s" items="${ sList }" varStatus="vs">
+										<input type="hidden" name="fundings[${vs.index}].rNo" value="${s.rNo }"/>
+										<input type="hidden" name="fundings[${vs.index}].pNo" value="${s.pNo }"/>
+										<input type="hidden" name="fundings[${vs.index}].rItem" value="${s.rItem }"/>
+										<input type="hidden" name="fundings[${vs.index}].rPrice" value="${s.rPrice }"/>
+										<input type="hidden" name="fundings[${vs.index}].rDelivery" value="${ s.rDelivery }"/>
+										<input type="hidden" name="fundings[${vs.index}].quantity" value="${ s.quantity }"/>
+										<input type="hidden" name="fundings[${vs.index}].option" value="${ s.option }"/>
 										<tr style="text-align:center;">
 											<td><strong class="name_reward">${ s.rItem }</strong></td>
 											<td>
@@ -182,6 +195,8 @@
 									<tr>
 										<td colspan="5" style="text-align:right;">
 											<span class="add_price"> 
+												<input type="hidden" id="addPrice" name="addPrice" value="${addAmt}">
+												<input type="hidden" id="totalPrice" name="totalPrice" value="${totalAmt}">
 												<span style="font-weight:700; font-size:1.2rem;">추가 참여금</span> 
 												&nbsp;&nbsp;&nbsp;&nbsp;
 												<span style="font-size:1.1rem;">${ addAmt } 원</span> 
@@ -198,7 +213,7 @@
 								</span>
 							</div> -->
 
-							<fieldset class="box_field">
+							<!-- <fieldset class="box_field">
 								<h3 class="tit_info">
 									결제자 휴대폰 정보<span class="notice_vital"><span
 										class="mark_vital">*</span> 필수입력</span>
@@ -218,7 +233,7 @@
 									</dl>
 								</div>
 								<p class="txt_cmt_noti">※ 결제(출금)알림 문자를 받으실 휴대폰 번호를 입력해주세요.</p>
-							</fieldset>
+							</fieldset> -->
 
 							<fieldset class="box_field">
 								<input type="hidden" name="rewardInvestor.memberSeq"
@@ -233,8 +248,8 @@
 												style="color: red">&nbsp;*</em></label>
 										</dt>
 										<dd>
-											<span class="tf_comm"> <input type="text" id="tfName"
-												class="tf_cont" name="rewardInvestor.receiveName" value="">
+											<span class="tf_comm"> 
+												<input type="text" id="tfName" class="tf_cont" name="tfName" value="">
 											</span>
 										</dd>
 									</dl>
@@ -244,10 +259,8 @@
 												style="color: red">&nbsp;*</em></label>
 										</dt>
 										<dd>
-											<span class="tf_comm"> <span
-												id="delivery_mobile_placeholder"></span> <input type="text"
-												id="tfPhone" name="rewardInvestor.hp" class="tf_cont"
-												value="">
+											<span class="tf_comm">
+												<input type="text" id="tfPhone" name="tfPhone" class="tf_cont" value="">
 											</span>
 										</dd>
 									</dl>
@@ -261,7 +274,7 @@
 											<button type="button" id="postcodify_search_button">검색</button>
 											<input type="text" name="address1" class="postcodify_address addr" value="" readonly>
 											<input type="text" name="address2" class="postcodify_extra_info addr" value="" placeholder="우편번호 검색 후 상세주소 입력"><br>
-											<input type="hidden" id="roadFullAddr" value="">
+											<input type="hidden" name="roadFullAddr" id="roadFullAddr" value="">
 										</dd>
 									</dl>
 									<dl>
@@ -270,7 +283,7 @@
 										</dt>
 										<dd class="dely_memo">
 											<textarea id="tfMemo" class="tf_memo"
-												name="rewardInvestor.memo" cols="30" rows="5"></textarea>
+												name="tfMemo" cols="30" rows="5"></textarea>
 										</dd>
 									</dl>
 									<label for="chkRegister" class="chk_comm save_member_info">
@@ -445,18 +458,34 @@
 								<button type="button" class="btn_sumbit" id="pay_btn">결제하기</button>
 								<button type="button" class="btn_cancel"
 									onclick="onClickCancel();">취소</button>
+								<!-- <button type="button" class="btn_cancel" id="testbtn">테스트 버튼</button> -->
 							</footer>
-
+							
 						</form>
 					</div>
 				</div>
 			</article>
 			<script>
 				$(function(){
+					/* $("#testbtn").on("click", function(){
+						var param = $("#addPrice").val();
+						var result = removeCommas(param);
+						alert("콤마 없애기 : " + result);
+					}); */
+					
 					IMP.init('imp22290051');
 					// 복사해온거 수정하기
 					$("#pay_btn").on("click", function(){
+						// 추가 참여금, 총 결제 금액 콤마 없애기
+						var param = $("#addPrice").val();
+						var addPrice = parseInt(removeCommas(param));
+						$("#addPrice").val(addPrice);
 						
+						var param2 = $("#totalPrice").val();
+						var totalPrice = parseInt(removeCommas(param2));
+						$("#totalPrice").val(totalPrice);
+						
+						// 주소 한 문자열로 합치기
 						var addr1 = $("input[name=address1]").val();
 						var addr2 = $("input[name=address2]").val();
 						var fullAddr = addr1 + addr2;
@@ -478,12 +507,14 @@
 						}else if(!$("#chkAccept1").is(':checked') || !$("#chkAccept2").is(':checked') || !$("#chkAccept3").is(':checked')){
 							alert("유의사항 및 약관동의에 체크해주세요");
 						}else{
+							
+							var totalAmt = ${totalAmt};
 							IMP.request_pay({
 							    pg : 'html5_inicis',
 							    pay_method : 'card',
 							    merchant_uid : 'merchant_' + new Date().getTime(),
 							    name : '주문명:결제테스트',
-							    amount : ${totalAmt},
+							    amount : totalAmt,
 							    buyer_email : 'iamport@siot.do',
 							    buyer_name : '구매자이름',
 							    buyer_tel : '010-1234-5678',
@@ -497,12 +528,16 @@
 							        msg += '결제 금액 : ' + rsp.paid_amount;
 							        msg += '카드 승인번호 : ' + rsp.apply_num; */
 							        
+							        alert(msg);
+	
+									$("#insertFunding").submit();
+							        
 							    } else {
 							        var msg = '결제에 실패하였습니다.';
 							        msg += '에러내용 : ' + rsp.error_msg;
+							        alert(msg);
 							    }
-
-							    alert(msg);
+							    
 							});
 						}
 					});

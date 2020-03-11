@@ -7,6 +7,8 @@ import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
+import com.kh.veniatis.project.user.model.vo.Funding;
+import com.kh.veniatis.project.user.model.vo.Order;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface ProjectUserService {
@@ -38,6 +40,9 @@ public interface ProjectUserService {
 	//ArrayList<PNotice> selectPNoticeList(int pNo);
 	
 	// 후원하기(insert)
-	//int insertSupport(Support s);
+	int insertFunding(Funding f);
+
+	// 주문 내역 insert
+	int insertOrder(Order insertOrder);
 		
 }

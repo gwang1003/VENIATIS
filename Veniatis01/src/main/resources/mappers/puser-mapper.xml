@@ -34,7 +34,6 @@
 		<result property="mDate" column="M_CONN"/>
 	</resultMap> -->
 	
-	
 
 	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
 		<id property="pNo" column="P_NO"/>
@@ -86,6 +85,26 @@
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
+	<resultMap id="orderResultSet" type="com.kh.veniatis.project.user.model.vo.Order">
+		<id property="oNo" column="O_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="addAmount" column="ADD_AMOUNT"/>
+		<result property="rName" column="R_NAME"/>
+		<result property="rPhone" column="R_PHONE"/>
+		<result property="rAddress" column="R_ADDRESS"/>
+		<result property="deliveryOption" column="DELIVERY_OPTION"/>
+		<result property="totalAmount" column="TOTAL_AMOUNT"/>
+	</resultMap>
+	
+	<resultMap id="fundingResultSet" type="com.kh.veniatis.project.user.model.vo.Funding">
+		<id property="fNo" column="F_NO"/>
+		<result property="oNo" column="O_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="rNo" column="R_NO"/>
+		<result property="quantity" column="QUANTITY"/>
+		<result property="option" column="F_OPTION"/>
+	</resultMap>
+	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_PROJECT
@@ -114,6 +133,16 @@
 		WHERE P_NO = #{pNo}
 		ORDER BY FILE_LEVEL
 	</select>
+	
+	<insert id="insertOrder" parameterType="com.kh.veniatis.project.user.model.vo.Order">
+		INSERT INTO R_ORDER
+		VALUES(#{oNo}, #{mNo}, #{addAmount}, #{rName}, #{rPhone}, #{rAddress}, #{deliveryOption}, #{totalAmount}, SYSDATE)
+	</insert>
+	
+	<insert id="insertFunding" parameterType="com.kh.veniatis.project.user.model.vo.Funding">
+		INSERT INTO FUNDING
+		VALUES(SEQ_FUNDING.NEXTVAL, #{oNo}, #{pNo}, #{rNo}, #{quantity}, #{option})
+	</insert>
 	
 	<!-- <select id="selectReplyList">
 		

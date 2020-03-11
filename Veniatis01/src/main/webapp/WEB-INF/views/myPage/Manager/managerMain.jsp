@@ -115,7 +115,7 @@
     	console.log(${mVisitor});
       // Some raw data (not necessarily accurate)
       var data = google.visualization.arrayToDataTable([
-        ['Week', '지난주 ', '이번주 '],
+        ['Week', '지난달 ', '이번달 '],
         <c:forEach var="i" begin="0" end="30">
         ['${i+1}', mVisitor[${i}], mVisitor2[${i}]],
         </c:forEach>

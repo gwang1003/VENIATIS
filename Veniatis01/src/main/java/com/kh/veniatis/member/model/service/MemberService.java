@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface MemberService {
@@ -30,13 +30,9 @@ public interface MemberService {
 
 	ArrayList<ProjectView> myOpenProject(int currentPage, Map map);
 
-	int selectpNo(int getmNo);
-
 	int question(QnA qa);
 
 	ArrayList<Member> selectMemberList();
-
-	Creator selectCreator(int getmNo);
 
 	ArrayList<ProjectView> selectLikes(int currentPage, Map map);
 
@@ -67,4 +63,6 @@ public interface MemberService {
 	int selectProject();
 
 	int selectEndProject();
+
+	ArrayList<CreView> selectCreatorList();
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Creator;
@@ -66,12 +67,6 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myOpenProject", map, rowBounds);
 	}
 
-
-	public int selectpNo(int getmNo) {
-		return sqlSession.selectOne("memberMapper.selectpNo", getmNo);
-	}
-
-
 	public int question(QnA qa) {
 		return sqlSession.insert("memberMapper.question", qa);
 	}
@@ -80,13 +75,7 @@ public class MemberDao {
 	public ArrayList<Member> selectMemberList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
 	}
-
-
-	public Creator selectCreator(int getmNo) {
-		return sqlSession.selectOne("memberMapper.selectCreator", getmNo);
-	}
-
-
+	
 	public ArrayList<ProjectView> selectLikes(PageInfo pi, Map map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
@@ -186,5 +175,10 @@ public class MemberDao {
 
 	public int selectEndProject() {
 		return sqlSession.selectOne("memberMapper.selectEndProject");
+	}
+
+
+	public ArrayList<CreView> selectCreatorList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCreatorList");
 	}
 }

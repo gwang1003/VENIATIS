@@ -57,9 +57,9 @@
                                         <tr class="">
                                             <th scope="row">성별</th>
                                             <td><input id="man" name="gender"
-                                                value="M" type="radio" /><label for="is_sex0">남자</label> <input
+                                                value="남자" type="radio" /><label for="is_sex0">남자</label> <input
                                                 type="radio"id="woman" name="gender"
-                                                value="F"><label for="is_sex1">여자</label></td>
+                                                value="여자"><label for="is_sex1">여자</label></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">주소</th>
@@ -72,7 +72,7 @@
                                         <tr>
                                             <th scope="row">휴대전화</th>
                                             <td>
-                                                <input id="mPhone" name="mPhone" maxlength="11" type="text" required />
+                                                <input id="mPhone" name="mPhone" maxlength="11" type="text" placeholder="-를 빼고 입력해주세요" required />
                                             </td>
                                         </tr>
                                         <tr>
@@ -136,8 +136,6 @@
         <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 		<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
         <script>
-        var key;
-        var okEmail = false;
                             function loadImg(value, num){
                             // value => input type="file"
                             // num => 조건문을 통해 미리보기 div 지정
@@ -161,6 +159,8 @@
                         }
                         
         
+        var key;
+        var okEmail = false;
         
         function emailCheck(){
         	alert("이메일이 전송되었습니다");
@@ -209,7 +209,13 @@
             }
     
             // 2. 유효성 검사
+            var isUsable = false;
+            
             function joinValidate(){
+            	if(!isUsable){
+            		return false;
+            	}
+            	
                 if(!(/^[a-z][a-z\d]{3,11}$/.test($("#joinForm input[name=userId]").val()))){
                     alert('아이디는 영소문자로 시작해서 4~12자 입력(숫자 포함 가능)');
                     $("#joinForm input[name=mId]").select();
@@ -244,7 +250,6 @@
             
         $(function(){
             
-            var isUsable = false;
             // 아이디 중복 시 false, 아이디 사용 가능 시 true -> 나중에 유효성 검사
             
             $("#idCheck").click(function(){
@@ -256,7 +261,7 @@
                 }else{
                     // ajax로 중복 여부 확인
                     $.ajax({
-                        url : "<%=request.getContextPath()%>/IdCheckServlet",
+                        url : "checkId.do",
                         type : "post",
                         data : {userId:userId.val()},
                         success : function(data){

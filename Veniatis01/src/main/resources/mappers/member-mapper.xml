@@ -15,7 +15,7 @@
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
 		<result property="filePath" column="FILE_PATH"/>
-		<result property="cStatus" column="CRE_NO"/>
+		<result property="cStatus" column="CRE_STATUS"/>
 	</resultMap>
 	
 	<resultMap id="filesResultSet" type="Files">
@@ -35,17 +35,14 @@
 	</resultMap>
 	
 	
-	<resultMap id="creatorResultSet" type="Creator">
+	<resultMap id="creViewResultSet" type="CreView">
 		<id property="creNo" column="CRE_NO"/>
-		<result property="mNo" column="M_NO"/>
 		<result property="creName" column="CRE_NAME"/>
-		<result property="creContent" column="CRE_CONTENT"/>
 		<result property="creType" column="CRE_TYPE"/>
 		<result property="creEmail" column="CRE_EMAIL"/>
-		<result property="creAddress" column="CRE_ADDRESS"/>
 		<result property="crePhone" column="CRE_PHONE"/>
-		<result property="creUrl" column="CRE_URL"/>
-		<result property="creStatus" column="CRE_STATUS"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mId" column="M_ID"/>
 	</resultMap>
 	
 	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
@@ -137,27 +134,15 @@
 		AND FILE_LEVEL = 3
 	</delete>
 	
-	<select id="selectpNo" parameterType="_int" resultType="_int">
-		SELECT P_NO
-		FROM SUPPORT
-		WHERE M_NO = #{getmNo}
-	</select>
-	
 	<insert id="question">
 		INSERT INTO QNA
 		VALUES(SEQ_QID.NEXTVAL, NULL, #{mNo}, 2, #{qCategory}, #{qContent}, NULL, SYSDATE)
 	</insert>
 	
 	<select id="selectMemberList" resultMap="memberResultSet">
-		SELECT *
+		SELECT DISTINCT M_NAME, M_ID, M_NO, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
 		FROM MEMBER
 		LEFT JOIN CREATOR USING(M_NO)
-	</select>
-	
-	<select id="selectCreator" resultMap="creatorResultSet">
-		SELECT *
-		FROM CREATOR
-		WHERE M_NO = #{getmNo}
 	</select>
 	
 	<select id="myOpenProject" resultMap="prjView">
@@ -300,6 +285,13 @@
 		SELECT COUNT(*)
 		FROM PROJECT
 		WHERE SYSDATE > P_END_DATE
+	</select>
+	
+	<select id="selectCreatorList" resultMap="creViewResultSet">
+		SELECT CRE_NO, CRE_NAME, M_ID, CRE_TYPE, CRE_PHONE, CRE_EMAIL, P_NO
+		FROM CREATOR
+		JOIN MEMBER USING(M_NO)
+		JOIN PROJECT USING(CRE_NO)
 	</select>
 	
 	

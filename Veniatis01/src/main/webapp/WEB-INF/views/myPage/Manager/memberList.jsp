@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -147,7 +147,7 @@
                   <th>생년월일</th>
                   <th>연락처</li>
                   <th>이메일</th>
-                  <th>가입일</th>
+                  <th>최근 접속일</th>
                   <th>권한</th>
                 </tr>
               </thead>

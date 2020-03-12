@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.reply.model.vo.Reply;
+import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
@@ -32,7 +33,8 @@ import com.kh.veniatis.project.user.model.vo.ProjectView;
 public class ProjectUserController {
 	@Autowired
 	private ProjectUserService pus;
-	
+	@Autowired
+	private MemberService mService;
 	
 	/*@RequestMapping("projectList.do")
 	public String ProjectList() {
@@ -141,6 +143,9 @@ public class ProjectUserController {
 	@ResponseBody
 	public String getCheerList(int pNo) {
 		ArrayList<Reply> cList = pus.selectCheerList(pNo);
+		for(int i=0; i<cList.size(); i++) {
+			System.out.println(cList.get(i));
+		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		// 시분초 다루고 싶다면 java.util.Date 사용
@@ -226,6 +231,7 @@ public class ProjectUserController {
 			@RequestParam("tfPhone") String tfPhone,
 			@RequestParam("roadFullAddr") String address,
 			@RequestParam("tfMemo") String tfMemo,
+			@RequestParam("supportComment") String supportComment,
 			@ModelAttribute MultiRowFunding fundings) {
 		
 		ProjectView p = pus.selectProject(pNo);
@@ -254,6 +260,17 @@ public class ProjectUserController {
 				f.setoNo(orderNo);
 				pus.insertFunding(f);
 			}
+			
+			//참여자 응원 저장하기(댓글 형식)
+			Reply cheer = new Reply();
+			cheer.setmNo(loginUser.getmNo());
+			cheer.setpNo(pNo);
+			cheer.setrContent(supportComment);
+			/*int cheerResult = pus.insertCheer(cheer);
+			if(cheerResult <= 0){
+				System.out.println("참여자 응원 저장 실패");
+			}*/
+			
 			
 			//returnStr = "redirect:rewardSuccess.do";
 			mv.addObject("oNo", orderNo);

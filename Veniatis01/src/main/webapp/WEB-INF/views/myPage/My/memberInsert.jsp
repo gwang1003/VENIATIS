@@ -27,7 +27,7 @@
                                         <tr>
                                             <th scope="row">* 아이디</th>
                                             <td><input id="userId" name="mId"
-                                                class="inputTypeText" placeholder="" type="text"
+                                                class="inputTypeText idCheck" placeholder="" type="text"
                                                 maxlength="13" required /> <span id="pwd">(영문소문자/숫자,
                                                     4~13자)</span>
                                                 <button id="idCheck" type="button">중복확인</button></td>
@@ -213,6 +213,7 @@
             
             function joinValidate(){
             	if(!isUsable){
+            		alert("중복확인을 해주세요")
             		return false;
             	}
             	
@@ -253,7 +254,7 @@
             // 아이디 중복 시 false, 아이디 사용 가능 시 true -> 나중에 유효성 검사
             
             $("#idCheck").click(function(){
-                var userId = $("#joinForm input[name='userId']");
+                var userId = $(".idCheck");
                 
                 if(!userId || userId.val().length < 4){
                     alert("아이디는 최소 4자리 이상이어야 합니다.");

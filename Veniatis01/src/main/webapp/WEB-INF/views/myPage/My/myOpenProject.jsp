@@ -52,18 +52,22 @@
                             <div class="box_comm">
                                 <div class="inner_head">
                                     <div class="box_txt">
-			                            <c:url var="All" value="attendProject.do">
+			                            <c:url var="All" value="myOpenProject.do">
 											<c:param name="align" value="All"/>
 										</c:url>
-										<c:url var="Ing" value="attendProject.do">
+										<c:url var="Ing" value="myOpenProject.do">
 											<c:param name="align" value="Ing"/>
 										</c:url>
-										<c:url var="End" value="attendProject.do">
+										<c:url var="End" value="myOpenProject.do">
 											<c:param name="align" value="End"/>
+										</c:url>
+										<c:url var="Wait" value="myOpenProject.do">
+											<c:param name="align" value="Wait"/>
 										</c:url>
                                         <a href="${ All }"><button>모두 보기 ${index[0] }</button></a>
                                         <a href="${ Ing }"><button>진행중 ${index[1] }</button></a>
                                         <a href="${ End }"><button>마감 ${index[2] }</button></a>
+                                        <a href="${ Wait }"><button>승인대기 ${index[3] }</button></a>
                                     </div>
                                     
                                 </div>
@@ -102,17 +106,21 @@
                                             </dl>
                                         </div>
                                         <c:url var="pDetail" value="projectDetail.do">
-											<c:param name="pNo" value="${ p.pNo }"/>
-										</c:url>
+                                 <c:param name="pNo" value="${ p.pNo }"/>
+                              </c:url>
                                         <div class="box_btn_area">
-                                                    <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>	
+                                                    <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>   
                                         <c:url var="pAlt" value="projectAlt.do">
-                                        	<c:param name="pNo" value="${ p.pNo }"/>
-                                        	
-                                        </c:url>										
+                                           <c:param name="pNo" value="${ p.pNo }"/>
+                                           
+                                        </c:url>                              
                                                         <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
-                                                        
-                                            <a class="btn_delete" href="javascript:void(0);" onclick="javascript:fnDeleteProject('','7939'); return false;" title="삭제하기">삭제하기</a>
+                                           
+                                         <c:url var="pDelete" value="projectDelete.do">
+                                            <c:param name="pNo" value="${p.pNo }"/>
+                                         </c:url>               
+                                            <a class="btn_delete" href="${pDelete}"  title="삭제하기">삭제하기</a>
+
                                         </div>
                                     </li>
                                     </c:forEach>
@@ -178,6 +186,16 @@
                         </article></div>
                     
                 </main></div>
+                
+                <script>
+                	$(".btn_delete").click(function(){
+                		if(confirm("정말로 삭제하시겠습니까?;")){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                	})
+                </script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

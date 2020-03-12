@@ -65,4 +65,8 @@ public interface MemberService {
 	int selectEndProject();
 
 	ArrayList<CreView> selectCreatorList();
+
+	ArrayList<ProjectView> selectOkProject();
+
+	ArrayList<ProjectView> selectProjectList();
 }

@@ -31,6 +31,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.veniatis.blog.model.service.BlogService;
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
@@ -48,6 +50,9 @@ public class MemberController {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private BlogService bService;
 
 	@RequestMapping("loginView.do")
 	public String loginView() {
@@ -180,24 +185,67 @@ public class MemberController {
 	}
 
 	@RequestMapping("joinProject.do")
-	public String joinProject() {
-		return "myPage/Manager/okProject";
+	public ModelAndView joinProject() {
+		ArrayList<ProjectView> pList = mService.selectOkProject();
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("pList", pList);
+		mv.setViewName("myPage/Manager/okProject");
+		return mv;
 	}
 
 	@RequestMapping("selectProjectList.do")
-	public String selectProjectList() {
-		return "myPage/Manager/projectList";
+	public ModelAndView selectProjectList() {
+		ArrayList<ProjectView> pList = mService.selectProjectList();
+		ModelAndView mv = new ModelAndView();
+		
+		Date date = new Date();
+		for (int i = 0; i < pList.size(); i++) {
+			if (pList.get(i).getpStatus().equals("N")) {
+				pList.get(i).setProgress("등업대기");
+			}else if (pList.get(i).getEndDate().getTime() > date.getTime()
+					&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+				pList.get(i).setProgress("진행중(성공)");
+			} else if (pList.get(i).getEndDate().getTime() > date.getTime()
+					&& pList.get(i).getSumAmount() < pList.get(i).getTargetAmount()) {
+				pList.get(i).setProgress("진행중");
+			} else if (pList.get(i).getEndDate().getTime() < date.getTime()
+					&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+				pList.get(i).setProgress("종료(성공)");
+			} else {
+				pList.get(i).setProgress("종료(실패)");
+			}
+		}
+		
+		mv.addObject("pList", pList);
+		mv.setViewName("myPage/Manager/projectList");
+		return mv;
 	}
 
 	@RequestMapping("selectCompetitionList.do")
-	public String selectCompetitionList() {
-		return "myPage/Manager/competitionList";
+	public ModelAndView selectCompetitionList() {
+		ArrayList<Compet> cList = bService.competView();
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("cList", cList);
+		mv.setViewName("myPage/Manager/okProject");
+		return mv;
+	}
+	
+	@RequestMapping("joinCompetitionForm.do")
+	public String joinCompetitionForm() {
+		return "myPage/Manager/competitionInsert";
 	}
 
 	@RequestMapping("joinCompetition.do")
-	public String joinCompetition() {
-		return "myPage/Manager/competitionInsert";
+	public String joinCompetition(Compet c, HttpServletRequest request,
+			@RequestParam(value = "cFile", required = false) MultipartFile file) {
+		System.out.println(c);
+		System.out.println(file);
+		return "myPage/Manager/competitionList";
 	}
+	
+	
 
 	@RequestMapping("Answer.do")
 	public String Answer() {
@@ -379,6 +427,7 @@ public class MemberController {
 
 		ArrayList<ProjectView> allList = mService.selectOpenList(loginUser.getmNo());
 		ArrayList<ProjectView> alignList = mService.myOpenProject(currentPage, map);
+		System.out.println(alignList);
 		ModelAndView mv = new ModelAndView();
 		int[] index = new int[4];
 		int allIndex = 0;
@@ -389,7 +438,7 @@ public class MemberController {
 		if(allList != null) {
 			allIndex = allList.size();
 			for (int i = 0; i < allList.size(); i++) {
-				if (allList.get(i).getpStatus().equals("N")) {
+				if (allList.get(i).getpStatus().equals("N") && allList.get(i).getEndDate().getTime() > date.getTime()) {
 					waitIndex++;
 				} else if(allList.get(i).getEndDate().getTime() > date.getTime()){
 					ingIndex++;
@@ -398,7 +447,9 @@ public class MemberController {
 				}
 			}
 			for (int i = 0; i < alignList.size(); i++) {
-				if (alignList.get(i).getEndDate().getTime() > date.getTime()
+				if (alignList.get(i).equals("N") && alignList.get(i).getEndDate().getTime() > date.getTime()) {
+					alignList.get(i).setProgress("승인대기");
+				}else if (alignList.get(i).getEndDate().getTime() > date.getTime()
 						&& alignList.get(i).getSumAmount() >= alignList.get(i).getTargetAmount()) {
 					alignList.get(i).setProgress("진행중(성공)");
 				} else if (alignList.get(i).getEndDate().getTime() > date.getTime()
@@ -592,9 +643,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "checkId.do")
+	@ResponseBody
 	public String checkId(String userId) {
-		System.out.println(userId);
-		return "";
+		Member m = mService.selectOneMember(userId);
+		
+		if(m != null) {
+			return "fail";
+		}else {
+			return "success";
+		}
 	}
 
 }

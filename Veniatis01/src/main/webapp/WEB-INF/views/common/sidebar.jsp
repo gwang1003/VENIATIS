@@ -64,7 +64,7 @@
               <div id="collapsePages3" class="collapse " aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                   <a class="collapse-item" href="selectCompetitionList.do" id="marketad">공모전 내역 관리</a>
-                  <a class="collapse-item" href="joinCompetition.do" id="marketad">공모전 등록</a>
+                  <a class="collapse-item" href="joinCompetitionForm.do" id="marketad">공모전 등록</a>
                 </div>
  
               </div>

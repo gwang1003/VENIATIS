@@ -6,8 +6,8 @@ public class Compet {
 	private int conNo;
 	private String conName;
 	private String conHost;
-	private Date startDate;
-	private Date lastDate;
+	private String startDate;
+	private String lastDate;
 	private String conHp;
 	private String conTarget;
 	private String conBenefit;
@@ -23,7 +23,7 @@ public class Compet {
 		this.filePath = filePath;
 	}
 
-	public Compet(int conNo, String conName, String conHost, Date startDate, Date lastDate, String conHp,
+	public Compet(int conNo, String conName, String conHost, String startDate, String lastDate, String conHp,
 			String conTarget, String conBenefit, String conState, String filePath) {
 		super();
 		this.conNo = conNo;
@@ -40,7 +40,7 @@ public class Compet {
 
 	public Compet() {};
 	
-	public Compet(int conNo, String conName, String conHost, Date startDate, Date lastDate, String conHp,
+	public Compet(int conNo, String conName, String conHost, String startDate, String lastDate, String conHp,
 			String conTarget, String conBenefit, String conState) {
 		super();
 		this.conNo = conNo;
@@ -71,16 +71,16 @@ public class Compet {
 	public void setConHost(String conHost) {
 		this.conHost = conHost;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getLastDate() {
+	public String getLastDate() {
 		return lastDate;
 	}
-	public void setLastDate(Date lastDate) {
+	public void setLastDate(String lastDate) {
 		this.lastDate = lastDate;
 	}
 	public String getConHp() {

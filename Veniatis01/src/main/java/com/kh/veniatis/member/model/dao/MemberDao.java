@@ -181,4 +181,14 @@ public class MemberDao {
 	public ArrayList<CreView> selectCreatorList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectCreatorList");
 	}
+
+
+	public ArrayList<ProjectView> selectOkProject() {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectOkProject");
+	}
+
+
+	public ArrayList<ProjectView> selectProjectList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectProjectList");
+	}
 }

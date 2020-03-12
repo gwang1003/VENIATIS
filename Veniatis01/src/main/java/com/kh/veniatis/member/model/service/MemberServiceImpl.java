@@ -215,4 +215,14 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectCreatorList();
 	}
 
+	@Override
+	public ArrayList<ProjectView> selectOkProject() {
+		return mDao.selectOkProject();
+	}
+
+	@Override
+	public ArrayList<ProjectView> selectProjectList() {
+		return mDao.selectProjectList();
+	}
+
 }

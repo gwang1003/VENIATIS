@@ -67,6 +67,10 @@
         background:ghostwhite;
       }
       
+      #startDate, #lastDate {
+      	width:34%;
+      }
+      
   </style>
 </head>
 <body>
@@ -76,27 +80,35 @@
           <h2>공모전 등록</h2>
         </div>
         <div class="Table">
-          <form action="" class="tForm">
+          <form action="joinCompetition.do" class="tForm" enctype="multipart/form-data">
             <table class="creatorTable" border="1">
               <tr>
                 <th>제목</th>
-                <th><input type="text" name="cNmae" id="cName""></th>
+                <th><input type="text" name="conName" id="conName"></th>
               </tr>
               <tr>
                 <th>주최</th>
-                <th><input type="text" name="cHost" id="cHost"></th>
+                <th><input type="text" name="conHost" id="conHost"></th>
               </tr>
               <tr>
                 <th>후원 / 협찬</th>
-                <th><input type="text" name="cSupport" id="cSupport"></th>
+                <th><input type="text" name="conHost" id="conHost"></th>
               </tr>
               <tr>
                 <th>접수기간</th>
-                <th><input type="text" name="cDate" id="cDate"></th>
+                <th><input type="text" name="startDate" id="lastDate">~<input type="text" name="lastDate" id="lastDate"></th>
               </tr>
               <tr>
                 <th>홈페이지</th>
-                <th><input type="text" name="cUrl" id="cUrl"></th>
+                <th><input type="text" name="conHp" id="conHp"></th>
+              </tr>
+              <tr>
+                <th>대상</th>
+                <th><input type="text" name="conTarget" id="conTarget"></th>
+              </tr>
+              <tr>
+                <th>혜택</th>
+                <th><input type="text" name="conBenefit" id="conBenefit"></th>
               </tr>
               <tr>
                 <th>첨부파일</th>

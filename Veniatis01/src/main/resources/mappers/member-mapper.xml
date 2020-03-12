@@ -152,9 +152,14 @@
 		WHERE M_NO = #{getmNo}
 		<if test="sort == 'Ing'">
 		AND P_END_DATE >= SYSDATE
+		AND P_STATUS ='Y'
 		</if>
 		<if test="sort == 'End'">
 		AND SYSDATE > P_END_DATE
+		AND P_STATUS ='Y'
+		</if>
+		<if test="sort == 'Wait'">
+		AND P_STATUS ='N'
 		</if>
 	</select>
 	
@@ -292,6 +297,17 @@
 		FROM CREATOR
 		JOIN MEMBER USING(M_NO)
 		JOIN PROJECT USING(CRE_NO)
+	</select>
+	
+	<select id="selectOkProject" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'N'
+	</select>
+	
+	<select id="selectProjectList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
 	</select>
 	
 	

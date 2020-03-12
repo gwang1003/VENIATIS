@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,7 +73,16 @@
                 </tr>
               </thead>
               <tbody>
-
+				<c:forEach var="c" items="cList">
+					<tr>
+						<td></td>
+						<td>${c.conName }</td>
+						<td>${c.conHost }</td>
+						<td>${c.startDate }~${lastDate }</td>
+						<td>${c.conTarget }</td>
+						<td>${c.conBenefit }</td>
+					</tr>
+				</c:forEach>
               </tbody>
             </table>
           </div>

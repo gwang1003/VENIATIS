@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,19 +65,31 @@
             <table class="table table-boardered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th width="13%">크리에이터 번호</th>
+                  <th width="7%">번호</th>
                   <th width="8%">이름</th>
                   <th width="10%">아이디</th>
                   <th width="19%">프로젝트명</th>
-                  <th width="6%">타입</th>
+                  <th width="12%">소개</th>
                   <th width="11%">목표금액(원)</th>
-                  <th width="13%">기업명</th>
+                  <th width="13%">카테고리</th>
                   <th width="13%">기간</th>
                   <th width="7%"></th>
                 </tr>
               </thead>
               <tbody>
-
+				<c:forEach var="p" items="${pList }">
+					<tr align="center">
+						<td>${p.pNo }</td>
+						<td>${p.creName }</td>
+						<td>${p.creId }</td>
+						<td>${p.pTitle }</td>
+						<td>${p.pText }</td>
+						<td>${p.targetAmount }</td>
+						<td>${p.cate }</td>
+						<td>${p.startDate }~${p.endDate }</td>
+						<td><button>등업</button></td>
+					</tr>
+				</c:forEach>
               </tbody>
             </table>
           </div>

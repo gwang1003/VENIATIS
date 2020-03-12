@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,11 +136,11 @@
             <table class="table table-boardered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th width="14%">크리에이터 번호</th>
+                  <th width="11%">프로젝트 번호</th>
                   <th width="7%">이름</th>
-                  <th width="8%">아이디</th>
-                  <th width="18%">프로젝트 명</th>
-                  <th width="7%">타입</th>
+                  <th width="9%">아이디</th>
+                  <th width="19%">프로젝트 명</th>
+                  <th width="8%">타입</th>
                   <th width="15%">모금현황</th>
                   <th width="12%">기업명</th>
                   <th width="11%">기간</th>
@@ -147,7 +148,19 @@
                 </tr>
               </thead>
               <tbody>
-
+				<c:forEach var="p" items="${pList }">
+					<tr align="center">
+						<td>${p.pNo }</td>
+						<td>${p.creName }</td>
+						<td>${p.creId }</td>
+						<td>${p.pTitle }</td>
+						<td>${p.cate }</td>
+						<td>${p.sumAmount}(원)~${p.targetAmount }(원)</td>
+						<td>${p.hashtag }</td>
+						<td>${p.startDate }~<br>${p.endDate }</td>
+						<td>${p.progress }</td>
+					</tr>
+				</c:forEach>
               </tbody>
             </table>
           </div>

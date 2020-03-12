@@ -161,6 +161,13 @@ function comma(str) {
                                 </div>
                                 <script>
                                     $(function () {
+                                    	// 초기 페이지 로딩 시 응원 불러오기
+                                		getCheerList();
+                                    	// 지속적으로 얻어오기위함
+                                		setInterval(function(){
+                                			getCheerList();
+                                		}, 10000);
+                                		
                                         $(".main_image_nav img").on("click", function () {
                                             var index = $(this).index();
                                             //alert(index);
@@ -222,18 +229,28 @@ function comma(str) {
 
                                     <div class="item_state">
                                         <p><span class="txt_statetitle">남은기간</span></p>
-                                        <span class="num_value">
-                                            D-<span class="screen_out">Day</span>
-									        <!-- 날짜 계산 -->
-									        <c:set var="now" value="<%=new java.util.Date()%>" />
-									        
-									        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
-									        <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
-									        
+                                        <!-- 날짜 계산 -->
+								        <c:set var="now" value="<%=new java.util.Date()%>" />
+								        
+								        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
+								        <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
+								        
+								        <c:if test="${eDate-nDate >= 0 }">
+                                        	<span class="num_value">
+	                                            D-<span class="screen_out">Day</span>
 									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
-									        	<%-- <span style="color:red;">마감일:${eDate}</span>
-        										<span style="color:blue;">오늘:${nDate}</span> --%>
-                                        </span><span class="txt_value"> 일 남음</span>
+                                        	</span>
+                                        	<span class="txt_value"> 일 남음</span>
+                                        </c:if>
+                                        
+                                        <c:if test="${eDate-nDate < 0 }">
+                                        	<span class="num_value">
+	                                            <span class="screen_out">Day</span>
+									        	<span style="color:#777777;">마감된 프로젝트 입니다</span>
+                                        	</span>
+                                        </c:if>
+                                        
+                                        
 										<!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
 										<c:url var="rSelect" value="rewardSelect.do">
 											<c:param name="pNo" value="${ project.pNo }"/>
@@ -524,8 +541,8 @@ function comma(str) {
                                             <section class="section_cont">
                                                 <h2 class="screen_out">참여자응원</h2>
                                                 <div class="comment_cheer">
-                                                    <ul class="list_cmt">
-                                                        <li>
+                                                    <ul class="list_cmt" id="cheerBox">
+                                                        <!-- <li>
                                                             <div class="cmt_output">
 
                                                                 <span class="user_profile">
@@ -536,37 +553,19 @@ function comma(str) {
 
                                                                 <span class="txt_time">2020-01-15 17:29</span>
                                                                 <span class="num_amount">32,000원 참여</span>
-                                                                <!-- 댓글 보이기 -->
+                                                                댓글 보이기
                                                                 <div class="cmt_content">
                                                                     <p class="cont_cmt">의미 있는 활동을 응원합니다.</p>
                                                                 </div>
                                                             </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="cmt_output">
-                                                                <span class="user_profile">
-                                                                    <span class="img_profile">
-
-                                                                    </span>
-                                                                    <span class="txt_name">김영희</span>
-                                                                </span>
-
-                                                                <span class="txt_time">2020-01-13 20:02</span>
-                                                                <span class="num_amount">8,000원 참여</span>
-                                                                <!-- 댓글 보이기 -->
-                                                                <div class="cmt_content">
-                                                                    <p class="cont_cmt">취지가 너무 좋아서 참여했어요!! 꼭 성공하시길
-                                                                        바랍니다. </p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
+                                                        </li> -->
                                                     </ul>
-                                                    <script>
+                                                    <!-- <script>
                                                         // 임의로 프로필이미지 설정
                                                         $(function () {
                                                             $(".img_profile").attr("style", "background-image:url(profile.png); background-size:contain;");
                                                         });
-                                                    </script>
+                                                    </script> -->
 
                                                     <div id="paging" class="paging_comm">
                                                         <a class="link_page on">1</a>&nbsp;
@@ -578,8 +577,6 @@ function comma(str) {
                                         </div>
                                     </div>
                                     
-									
-
                                     <script>
                                 	// 참여자 응원 리스트 불러오는 ajax 함수
                                 	//-- 다시 해야함
@@ -591,32 +588,37 @@ function comma(str) {
                                 			data:{pNo:pNo},
                                 			dataType:"json",
                                 			success:function(data){
-                                				console.log(data);
+                                				//console.log(data);
+                                				// 참여자 응원 갯수 표시
+                                				var cheerCount = $("#Cheer .num_count").text(data.length);
                                 				
-                                				/* $tableBody = $("#cheerTable tbody");
-                                				$tableBody.html("");
-                                				
-                                				$("#cheerCount").text("참여자 응원("+data.length+")"); */
                                 				$ulBody = $("#cheerBox");
                                 				$ulBody.html("");
-                                				
                                 				
                                 				if(data.length > 0){
                                 					for(var i in data){
                                 						var $li = $("<li>");
-                                						var $output = $("<div class='cmt_output'>");
-                                						var $writer = $("<span class='txt_name'>").text(data[i].mNo);
-                                						var $wDate = $("<span class='txt_name'>").text(data[i].wDate);
-                                						var $cmtContent = $("<div class='cmt_content'");
-                                						var $content = $("<p class='cont_cmt'>").text(data[i].rContent);
+                                						var $div1 = $("<div class='cmt_output'>");
+                                						var $span1 = $("<span class='user_profile'>");
+                                						var $span1_2 = $("<span class='img_profile'>");
+                                						var imgPath = "background-image:url("+data[i].filePath+"); background-size:contain;";
+                                						$span1_2.attr("style", imgPath);
+                                						var $span1_1 = $("<span class='text_name'>").text(data[i].rWriter + " 님");
+                                						var $span2 = $("<span class='txt_time'>").text(data[i].wDate);
+                                						var $div1_1 = $("<div class='cmt_content'>");
+                                						var $p1 = $("<p class='cont_cmt'>").text(data[i].rContent);
                                 						
-                                						$li.append($output);
-                                						$output.append($writer);
-                                						$output.append($wDate);
-                                						$output.append($cmtContent);
-                                						$cmtContent.append($content);
+                                						/* $ulBody.append($li);
+                                						$li.append($div1); */
+                                						 
+                                						$div1.append($span1);
+                                						$span1.append($span1_2);
+                                						$span1.append($span1_1);
+                                						$div1.append($span2);
+                                						$div1_1.append($p1);
+                                						$div1.append($div1_1);
+                                						$li.append($div1); 
                                 						
-                                						$ulBody.append($li);
                                 						/* 
                                 						<div class="cmt_output">
                                                             <span class="user_profile">
@@ -631,23 +633,19 @@ function comma(str) {
                                                             <div class="cmt_content">
                                                                 <p class="cont_cmt">의미 있는 활동을 응원합니다.</p>
                                                             </div>
-                                                        </div>
-                                                            
-                                						var $rWriter = $("<td width='20%'>").text(data[i].mNo);
-                                						var $rContent = $("<td width='60%'>").text(data[i].rContent);
-                                						var $rCreateDate = $("<td width='20%'>").text(data[i].wDate);
-                                						
-                                						$tr.append($rWriter);
-                                						$tr.append($rContent);
-                                						$tr.append($rCreateDate);
-                                						
-                                						$tableBody.append($tr); */
+                                                        </div>*/
+                                                        
                                 					}
+                                					$ulBody.append($li);
                                 				}else{
                                 					// 댓글이 등록되지 않았을 때
                                 					var $li = $("<li>");
-                                					var $rContent = $("<div class='cmt_output'>").text("등록 된 댓글이 없습니다.");
-                                					$li.append($rContent);
+                                					var $output = $("<div class='cmt_output'>");
+                                					var $content = $("<div class='cmt_content'>");
+                                					var $rContent = $("<p style='text-align:center; margin-bottom:20px;'>").text("등록 된 응원이 없습니다.");
+                                					$output.append($content);
+                                					$content.append($rContent);
+                                					$li.append($output);
                                 					$ulBody.append($li);
                                 				}
                                 				

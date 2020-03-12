@@ -323,6 +323,7 @@
 
         function fnMoveNext(pNo) {
             var validCheck = true;
+            var submitCheck = true;
             $(".num_count").each(function (index) {
                 var count = $(this).val();
                 var rewardQty = $(this).parent().children("#rewardQty").val();
@@ -333,6 +334,7 @@
                         alert("남은 수량보다 많은 수량을 선택하셨습니다.");
                         $(this).focus();
                         validCheck = false;
+                        submitCheck = false;
                         return false;
                     }
                 }
@@ -344,6 +346,7 @@
                         alert("리워드 옵션을 입력하여 주세요.");
                         $(this).focus();
                         validCheck = false;
+                        submitCheck = false;
                         return false;
                     }
                 }
@@ -352,6 +355,7 @@
             if ($("#inpChkReward100").is(':checked')) {
                 if (uncomma($('.tf_amount').val()) < 1000) {
                     alert("추가 참여금액은 1000원이상부터 가능합니다.");
+                    submitCheck = false;
                     return false;
                 }
             }
@@ -359,6 +363,7 @@
             if ($('#totalAmt').val() == 0) {
                 alert("결제 금액이 0원입니다. 리워드 또는 금액을 추가하세요");
                 validCheck = false;
+                submitCheck = false;
                 return false;
             }
             
@@ -380,6 +385,10 @@
                 	$(this).parent().parent().children().find("input[name='fundings["+seq+"].option']").val(str); 
             	}
             }); 
+            
+            if(submitCheck){
+            	$("#selectRewardForm").submit();
+            }
             
         }
 
@@ -435,7 +444,7 @@
 						</div>
 					</div>
 					<div class="box_comm">
-						<form method="post" action="rewardOrder.do">
+						<form method="post" action="rewardOrder.do" id="selectRewardForm">
 							<input type="hidden" id="totalAmt" name="totalAmt" value="0" />
                             <input type="hidden" id="projectSeq" name="pNo" value="${ project.pNo }" />
                             <input type="hidden" id="supporter" name="mNo" value="${ loginUser.mNo }"/>
@@ -613,7 +622,7 @@
 									선택한 리워드 총 <span class="num">0</span>개이며 참여금액 <span class="num">0</span>원
 									입니다.
 								</p>
-								<button type="submit" class="btn_next"
+								<button type="button" class="btn_next"
 									onclick="fnMoveNext(${project.pNo})">다음단계</button>
 							</footer>
 						</form>

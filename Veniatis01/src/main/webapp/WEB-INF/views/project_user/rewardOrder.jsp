@@ -308,15 +308,16 @@
 								</h3>
 								<div class="cmt_comm">
 
-									<span class="user_profile"> <span
-										class="img_profile clear_empty_picture"> <img
-											src="test.png" style="background: rgb(255, 255, 255);">
-									</span> <span class="txt_name"></span>
+									<span class="user_profile"> 
+										<span class="img_profile clear_empty_picture"> 
+											<img src="${ loginUser.filePath }" style="background: rgb(255, 255, 255);">
+										</span> 
+										<span class="txt_name"></span>
 									</span>
 
 									<div class="box_cmt">
 										<textarea cols="30" rows="5" class="tf_cmt" id="tf_emph"
-											name="rewardInvestor.supportComment" title="댓글 작성"></textarea>
+											name="supportComment" title="댓글 작성"></textarea>
 										<div class="cmt_info">
 											<span class="txt_cmt">응원의 한마디를 남겨주세요.</span> <span
 												class="num_byte" id="emph_count"><em>0</em> / 최대 300자</span>
@@ -329,30 +330,16 @@
 
 							<script>
 								$(function() {
-									$('#tf_emph')
-											.keyup(
-													function(e) {
-														var content = $(this)
-																.val();
-														$('#emph_count')
-																.html(
-																		"<em>"
-																				+ content.length
-																				+ "</em> / 최대 300자"); //글자수 실시간 카운팅
+									$('#tf_emph').keyup(function(e) {
+										var content = $(this).val();
+										$('#emph_count').html("<em>"+ content.length+ "</em> / 최대 300자"); //글자수 실시간 카운팅
 
-														if (content.length > 300) {
-															alert("최대 300자까지 입력 가능합니다.");
-															$(this)
-																	.val(
-																			content
-																					.substring(
-																							0,
-																							300));
-															$('#counter')
-																	.html(
-																			"<em>300</em> / 최대 300자");
-														}
-													});
+										if (content.length > 300) {
+											alert("최대 300자까지 입력 가능합니다.");
+											$(this).val(content.substring(0,300));
+											$('#counter').html("<em>300</em> / 최대 300자");
+										}
+									});
 
 								});
 							</script>

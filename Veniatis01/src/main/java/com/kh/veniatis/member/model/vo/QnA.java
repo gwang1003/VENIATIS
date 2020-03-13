@@ -6,6 +6,7 @@ public class QnA {
 	private int qNo;
 	private int pNo;
 	private int mNo;
+	private String name;
 	private int qType;
 	private String qCategory;
 	private String qContent;
@@ -14,12 +15,13 @@ public class QnA {
 	
 	public QnA() {}
 
-	public QnA(int qNo, int pNo, int mNo, int qType, String qCategory, String qContent, String qAnswer,
+	public QnA(int qNo, int pNo, int mNo, String name, int qType, String qCategory, String qContent, String qAnswer,
 			Date enrollDate) {
 		super();
 		this.qNo = qNo;
 		this.pNo = pNo;
 		this.mNo = mNo;
+		this.name = name;
 		this.qType = qType;
 		this.qCategory = qCategory;
 		this.qContent = qContent;
@@ -45,6 +47,15 @@ public class QnA {
 
 	public int getmNo() {
 		return mNo;
+	}
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setmNo(int mNo) {
@@ -93,10 +104,12 @@ public class QnA {
 
 	@Override
 	public String toString() {
-		return "QnA [qNo=" + qNo + ", pNo=" + pNo + ", mNo=" + mNo + ", qType=" + qType + ", qCategory=" + qCategory
-				+ ", qContent=" + qContent + ", qAnswer=" + qAnswer + ", enrollDate=" + enrollDate + "]";
+		return "QnA [qNo=" + qNo + ", pNo=" + pNo + ", mNo=" + mNo + ", name=" + name + ", qType=" + qType
+				+ ", qCategory=" + qCategory + ", qContent=" + qContent + ", qAnswer=" + qAnswer + ", enrollDate="
+				+ enrollDate + "]";
 	}
 
+	
 	
 	
 	

@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.Pagination;
 import com.kh.veniatis.common.files.model.vo.Files;
@@ -93,11 +94,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Files selectPhoto(int getmNo) {
-		return mDao.selectPhoto(getmNo);
-	}
-
-	@Override
 	public int memberUpdate(Member m) {
 		return mDao.memberUpdate(m);
 	}
@@ -118,13 +114,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<ProjectView> selectLikes(int currentPage, Map map) {
-		int listCount = mDao.likesListCount(map);
+	public ArrayList<ProjectView> selectAttend(int currentPage, Map map) {
+		int listCount = mDao.attendListCount(map);
 
 		// 페이지 정보 저장
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4, 5);
 
-		return mDao.selectLikes(pi, map);
+		return mDao.selectAttend(pi, map);
 	}
 
 	@Override
@@ -146,8 +142,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<ProjectView> selectLikesList(int getmNo) {
-		return mDao.selectLikesList(getmNo);
+	public ArrayList<ProjectView> selectAttendList(int getmNo) {
+		return mDao.selectAttendList(getmNo);
 	}
 
 	@Override
@@ -223,6 +219,26 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<ProjectView> selectProjectList() {
 		return mDao.selectProjectList();
+	}
+
+	@Override
+	public int competitionInsert(Compet c) {
+		return mDao.competitionInsert(c);
+	}
+
+	@Override
+	public Compet selectOneCompet(String conName) {
+		return mDao.selectOneCompet(conName);
+	}
+
+	@Override
+	public int conPhotoInsert(Files files) {
+		return mDao.conPhotoInsert(files);
+	}
+
+	@Override
+	public ArrayList<QnA> selectQAList() {
+		return mDao.selectQAList();
 	}
 
 }

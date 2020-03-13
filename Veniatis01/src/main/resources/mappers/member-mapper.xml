@@ -66,6 +66,32 @@
 		<result property="creProfile" column="PROFILE"/>
 		<result property="pStatus" column="P_STATUS"/>
 	</resultMap>
+	
+	<resultMap type="Compet" id="CompetResultSet">
+		<id property="conNo" column="CON_NO"/>
+		<result property="conName" column="CON_NAME"/>
+		<result property="conHost" column="CON_HOST"/>
+		<result property="startDate" column="CON_STARTDATE"/>
+		<result property="lastDate" column="CON_LASTDATE"/>
+		<result property="conHp" column="CON_HP"/>
+		<result property="conTarget" column="CON_TARGET"/>
+		<result property="conBenefit" column="CON_BENEFIT"/>
+		<result property="conState" column="CON_STATE"/>
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
+	
+	<resultMap type="QnA" id="QAResultSet">
+		<id property="qNo" column="QNA_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="name" column="M_NAME"/>
+		<result property="qType" column="QNA_TYPE"/>
+		<result property="qCategory" column="QNA_CATE"/>
+		<result property="qContent" column="QNA_CONTENT"/>
+		<result property="qAnswer" column="QNA_ANSWER"/>
+		<result property="enrollDate" column="QNA_ENROLLDATE"/>
+	</resultMap>
 
 	<!-- 로그인 -->
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
@@ -163,7 +189,7 @@
 		</if>
 	</select>
 	
-	<select id="selectLikes" resultMap="prjView">
+	<select id="myInterestProject" resultMap="prjView">
 		SELECT *
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
@@ -173,9 +199,10 @@
 		<if test="sort == 'End'">
 		AND SYSDATE > P_END_DATE
 		</if>
+		AND P_STATUS = 'Y'
 	</select>
 	
-	<select id="myInterestProject" resultMap="prjView">
+	<select id="selectAttend" resultMap="prjView">
 		SELECT *
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
@@ -187,7 +214,7 @@
 		</if>
 	</select>
 	
-	<select id="likesListCount" resultType="_int">
+	<select id="interestListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
@@ -197,9 +224,10 @@
 		<if test="sort == 'End'">
 		AND SYSDATE > P_END_DATE
 		</if>
+		AND P_STATUS = 'Y'
 	</select>
 	
-	<select id="interestListCount" resultType="_int">
+	<select id="attendListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
@@ -218,13 +246,14 @@
 		WHERE M_NO = #{getmNo}
 	</select>
 	
-	<select id="selectLikesList" resultMap="prjView">
+	<select id="selectInterestList" resultMap="prjView">
 		SELECT *
 		FROM P_LIKES_VIEW
 		WHERE M_NO = #{getmNo}
+		AND P_STATUS = 'Y'
 	</select>
 	
-	<select id="selectInterestList" resultMap="prjView">
+	<select id="selectAttendList" resultMap="prjView">
 		SELECT *
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}
@@ -308,6 +337,28 @@
 	<select id="selectProjectList" resultMap="prjView">
 		SELECT *
 		FROM V_PROJECT
+	</select>
+	
+	<insert id="competitionInsert">
+		INSERT INTO COMPETITION
+		VALUES(SEQ_COMPET.NEXTVAL, #{conName}, #{conHost}, #{startDate}, #{lastDate}, #{conHp}, #{conTarget}, #{conBenefit}, 'Y')
+	</insert>
+	
+	<select id="selectOneCompet" resultMap="CompetResultSet">
+		SELECT *
+		FROM COMPETITION
+		WHERE CON_NAME = #{conName}
+	</select>
+	
+	<insert id="conPhotoInsert">
+		INSERT INTO FILES
+		VALUES(SEQ_FID.NEXTVAL, NULL, NULL, NULL, #{conNo}, NULL, 4, #{originName}, #{changeName}, #{filePath}, SYSDATE, 'Y', 2)
+	</insert>
+	
+	<select id="selectQAList" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		JOIN MEMBER USING(M_NO)
 	</select>
 	
 	

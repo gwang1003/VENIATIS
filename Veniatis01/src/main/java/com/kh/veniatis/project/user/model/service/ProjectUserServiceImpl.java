@@ -96,4 +96,22 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		return pud.selectCheerList(pNo);
 	}
 
+	@Override
+	public int insertCheer(Reply cheer) {
+		// 참여자 응원 삽입
+		return pud.insertCheer(cheer);
+	}
+
+	@Override
+	public int selectSupportCount(int pNo) {
+		// 참여자 수 조회
+		return pud.selectSupportCount(pNo);
+	}
+
+	@Override
+	public int updatePayStatus(Double orderNo) {
+		// 결제 완료로 바꾸기
+		return pud.updatePayStatus(orderNo);
+	}
+
 }

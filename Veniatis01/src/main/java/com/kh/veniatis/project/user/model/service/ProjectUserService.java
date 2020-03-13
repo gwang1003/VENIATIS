@@ -47,5 +47,14 @@ public interface ProjectUserService {
 
 	// 참여자 응원 목록 가져오기
 	ArrayList<Reply> selectCheerList(int pNo);
+
+	// 참여자 응원 삽입
+	int insertCheer(Reply cheer);
+
+	// 참여자 수 조회
+	int selectSupportCount(int pNo);
+
+	// 결제 완료로 바꾸기
+	int updatePayStatus(Double orderNo1);
 		
 }

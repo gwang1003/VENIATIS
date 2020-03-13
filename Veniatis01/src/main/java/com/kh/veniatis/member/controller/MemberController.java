@@ -54,11 +54,13 @@ public class MemberController {
 	@Autowired
 	private BlogService bService;
 
-	@RequestMapping("loginView.do")
-	public String loginView() {
-		return "myPage/My/memberLogin";
-	}
-
+	// 마이페이지 로그인 폼
+		@RequestMapping("memberLogin.do")
+		public String Login() {
+			return "myPage/My/memberLogin";
+		}
+	
+	// 로그인 메소드, 방문자수 및 최근 접속일 업데이트
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public String memberLogin(Member m, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -109,6 +111,7 @@ public class MemberController {
 
 	}
 
+	// 로그아웃 메소드
 	@RequestMapping("logout.do")
 	public String logout(SessionStatus status) {
 		// 로그아웃 처리를 위해 커맨드 객체로 세션의 상태를 관리할 수 있는 SessionStatus 객체가 필요
@@ -120,6 +123,7 @@ public class MemberController {
 		return "redirect:home.do"; // redirect 방식
 	}
 
+	// 관리자페이지 메인 이동 메소드
 	@RequestMapping("managerMain.do")
 	public ModelAndView managerMain() {
 		int visitor = mService.toDayVisitor();
@@ -149,56 +153,79 @@ public class MemberController {
 		return mv;
 	}
 
+	// 관리자페이지 유저 정보 메소드
 	@RequestMapping("selectMemberList.do")
 	public ModelAndView selectMemberList() {
 		ArrayList<Member> mList = mService.selectMemberList();
-		for(int i = 0; i < mList.size(); i++) {
-			if(mList.get(i).getcStatus() != null) {
-				mList.get(i).setcStatus("크리에이터");
-			}else {
-				mList.get(i).setcStatus("일반 회원");
+		
+		
+		if(mList != null) {
+			for(int i = 0; i < mList.size(); i++) {
+				if(mList.get(i).getcStatus() != null) {
+					mList.get(i).setcStatus("크리에이터");
+				}else {
+					mList.get(i).setcStatus("일반 회원");
+				}
 			}
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("mList", mList);
+			mv.setViewName("myPage/Manager/memberList");
+			return mv;
+		}else {
+			throw new MemberException("유저 정보 조회 실패!!");
 		}
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("mList", mList);
-		mv.setViewName("myPage/Manager/memberList");
 
-		return mv;
+		
 	}
 
+	// 관리자페이지 크리에이터 정보 메소드
 	@RequestMapping("selectCreatorList.do")
 	public ModelAndView selectCreatorList() {
 		ModelAndView mv = new ModelAndView();
 		
 		ArrayList<CreView> cList = mService.selectCreatorList();
-		for(CreView c:cList) {
-			if(c.getCreType().equals("1")) {
-				c.setCreType("펀딩");
-			}else {
-				c.setCreType("창업");
+		if(cList != null) {
+			for(CreView c:cList) {
+				if(c.getCreType().equals("1")) {
+					c.setCreType("펀딩");
+				}else {
+					c.setCreType("창업");
+				}
 			}
-		}
-		mv.addObject("cList", cList);
-		mv.setViewName("myPage/Manager/creatorList");
+			mv.addObject("cList", cList);
+			mv.setViewName("myPage/Manager/creatorList");
 
-		return mv;
+			return mv;
+		}else {
+			throw new MemberException("크리에이터 정보 조회 실패!!");
+		}
+		
+		
+		
 	}
 
+	// 관리자페이지 승인 대기 프로젝트 리스트
 	@RequestMapping("joinProject.do")
 	public ModelAndView joinProject() {
 		ArrayList<ProjectView> pList = mService.selectOkProject();
 		ModelAndView mv = new ModelAndView();
 		
+		if(pList != null) {
 		mv.addObject("pList", pList);
 		mv.setViewName("myPage/Manager/okProject");
 		return mv;
+		}else {
+			throw new MemberException("프로젝트 조회 실패!");
+		}
 	}
 
+	// 관리자페이지 전체 프로젝트 리스트
 	@RequestMapping("selectProjectList.do")
 	public ModelAndView selectProjectList() {
 		ArrayList<ProjectView> pList = mService.selectProjectList();
 		ModelAndView mv = new ModelAndView();
 		
+		if(pList != null) {
 		Date date = new Date();
 		for (int i = 0; i < pList.size(); i++) {
 			if (pList.get(i).getpStatus().equals("N")) {
@@ -220,43 +247,112 @@ public class MemberController {
 		mv.addObject("pList", pList);
 		mv.setViewName("myPage/Manager/projectList");
 		return mv;
+		}else {
+			throw new MemberException("프로젝트 조회 실패!");
+		}
 	}
 
+	// 관리자페이지 전체 공모전 리스트
 	@RequestMapping("selectCompetitionList.do")
 	public ModelAndView selectCompetitionList() {
 		ArrayList<Compet> cList = bService.competView();
+		if(cList != null) {
 		ModelAndView mv = new ModelAndView();
-		
 		mv.addObject("cList", cList);
-		mv.setViewName("myPage/Manager/okProject");
+		mv.setViewName("myPage/Manager/competitionList");
 		return mv;
+		}else {
+			throw new MemberException("공모전 리스트 조회 실패!");
+		}
 	}
 	
+	// 관리자페이지 공모전 등록 폼
 	@RequestMapping("joinCompetitionForm.do")
 	public String joinCompetitionForm() {
 		return "myPage/Manager/competitionInsert";
 	}
 
+	// 관리자페이지 공모전 등록
 	@RequestMapping("joinCompetition.do")
-	public String joinCompetition(Compet c, HttpServletRequest request,
+	public ModelAndView joinCompetition(Compet c, HttpServletRequest request,
 			@RequestParam(value = "cFile", required = false) MultipartFile file) {
-		System.out.println(c);
-		System.out.println(file);
-		return "myPage/Manager/competitionList";
+		int result = mService.competitionInsert(c);
+		Compet compet = mService.selectOneCompet(c.getConName());
+		ModelAndView mv = new ModelAndView();
+		if (result > 0) {
+			Files files = saveFile2(file, request);
+			
+			files.setConNo(compet.getConNo());
+			int result2 = mService.conPhotoInsert(files);
+			
+			mv.addObject("msg", "공모전 등록 성공!!");
+			mv.setViewName("redirect:selectCompetitionList.do");
+			return mv;
+		} else {
+			throw new MemberException("공모전 등록 실패!!");
+
+		}
 	}
 	
-	
+	// 공모전 사진 저장 메소드
+	private Files saveFile2(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
 
-	@RequestMapping("Answer.do")
-	public String Answer() {
-		return "myPage/Manager/Answer";
+		String savePath = root + "\\compet";
+
+		File folder = new File(savePath);
+
+		// 해당 폴더 위치가 존재하지 않는다면
+		if (!folder.exists()) {
+			folder.mkdirs(); // 해당 디렉토리들을 만든다
+		}
+		int index = file.getOriginalFilename().indexOf(".");
+
+		String extend = file.getOriginalFilename().substring(index);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		Calendar c = Calendar.getInstance();
+		String renameFilename = sdf.format(c.getTime()) + extend;
+
+		String filePath = folder + "\\" + renameFilename;
+		Files files = new Files(4, file.getOriginalFilename(), renameFilename,
+				"resources/compet/" + renameFilename);
+		try {
+			// 이 순간 서버에 파일이 저장 된다
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		return files;
 	}
 
+	// 관리자페이지 문의 리스트
+	@RequestMapping("QnAList.do")
+	public ModelAndView QnAList() {
+		ArrayList<QnA> qaList = mService.selectQAList();
+		if(qaList != null) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("qaList", qaList);
+		mv.setViewName("myPage/Manager/QnAList");		
+		return mv;
+		}else {
+			throw new MemberException("문의 리스트 조회 실패!");
+		}
+	}
+	
+	// 통계
+	@RequestMapping("revenue.do")
+	public String revenue() {
+		return "myPage/Manager/revenue";
+	}
+
+	// 마이페이지 내 정보 수정 폼
 	@RequestMapping("memberUpdateForm.do")
 	public String memberUpdateForm() {
 		return "myPage/My/memberUpdate";
 	}
 
+	// 마이페이지 내 정보 수정 
 	@RequestMapping("memberUpdate.do")
 	public ModelAndView memberUpdate(Member m, @RequestParam(value = "post") String post, Model model,
 			@RequestParam(value = "address1") String address1, @RequestParam(value = "address2") String address2) {
@@ -274,24 +370,115 @@ public class MemberController {
 		} else {
 			throw new MemberException("회원정보 업데이트 실패!!");
 		}
+	}
+	
+	// 마이페이지 프로필 사진 수정 ajax
+	@RequestMapping(value = "mPhotoUpdate.do")
+	@ResponseBody
+	public String mPhotoUpdatedo(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "file", required = false) MultipartFile file, Model model) {
+		Member m = (Member) session.getAttribute("loginUser");
+		if (file != null && !file.isEmpty()) {
+			// 원래 파일 삭제
+			deleteFile(m.getFilePath(), request);
+			int result3 = mService.mPhotoDelete(m);
+
+			// 새로운 사진 파일로 저장
+			Files files = new Files();
+			if (!file.getOriginalFilename().equals("")) {
+				files = saveFile(file, request);
+			}
+			files.setmNo(m.getmNo());
+
+			// DB에 저장
+			int result2 = mService.mPhotoInsert(files);
+			if (result2 > 0) {
+				// DB에 저장이 되면 DB에 있는 원래 데이터를 삭제 loginUser에 새로 담아줌
+
+				m.setFilePath(files.getFilePath());
+				model.addAttribute("loginUser", m);
+			}
+
+		}
+		return m.getFilePath();
 
 	}
 
-	@RequestMapping("memberLogin.do")
-	public String Login() {
-		return "myPage/My/memberLogin";
-	}
+	
 
+	// 회원가입 폼
 	@RequestMapping("memberInsertForm.do")
 	public String memberInsertForm() {
 		return "myPage/My/memberInsert";
 	}
 
+	// 회원가입 인포 폼
 	@RequestMapping("memberInsertInfo.do")
 	public String memberInsertInfo() {
 		return "myPage/My/memberInsertInfo";
 	}
+	
+	// 회원가입
+	@RequestMapping("memberInsert.do")
+	public ModelAndView memberInsert(Member m, HttpServletRequest request,
+			@RequestParam(value = "UserImg", required = false) MultipartFile file,
+			@RequestParam(value = "post") String post, @RequestParam(value = "address1") String address1,
+			@RequestParam(value = "address2") String address2) {
+		m.setmAddress(post + "#" + address1 + "#" + address2);
+		int result = mService.memberInsert(m);
+		Member member = mService.selectOneMember(m.getmId());
+		Files files = new Files(3, "basicImg.jpg", "basicImg.jpg", "resources/memberPhoto/basicImg.jpg");
+		ModelAndView mv = new ModelAndView();
+		if (result > 0) {
+			if (!file.getOriginalFilename().equals("")) {
+				files = saveFile(file, request);
+			}
+			files.setmNo(member.getmNo());
+			int result2 = mService.mPhotoInsert(files);
 
+			mv.addObject("msg", "회원가입에 성공했습니다!");
+			mv.setViewName("redirect:home.do");
+			return mv;
+		} else {
+			throw new MemberException("회원가입 실패!!");
+
+		}
+
+	}
+
+	// 유저 프로필 사진 저장
+	private Files saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+
+		String savePath = root + "\\memberPhoto";
+
+		File folder = new File(savePath);
+
+		// 해당 폴더 위치가 존재하지 않는다면
+		if (!folder.exists()) {
+			folder.mkdirs(); // 해당 디렉토리들을 만든다
+		}
+		int index = file.getOriginalFilename().indexOf(".");
+
+		String extend = file.getOriginalFilename().substring(index);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		Calendar c = Calendar.getInstance();
+		String renameFilename = sdf.format(c.getTime()) + extend;
+
+		String filePath = folder + "\\" + renameFilename;
+		Files files = new Files(3, file.getOriginalFilename(), renameFilename,
+				"resources/memberPhoto/" + renameFilename);
+		try {
+			// 이 순간 서버에 파일이 저장 된다
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		return files;
+	}
+
+	// 참여 프로젝트 리스트
 	@RequestMapping("attendProject.do")
 	public ModelAndView attendProject(HttpSession session, @RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "align", required = false) String align) {
@@ -304,9 +491,9 @@ public class MemberController {
 		Map map = new HashMap();
 		map.put("getmNo", loginUser.getmNo());
 		map.put("sort", sort);
-		ArrayList<ProjectView> allList = mService.selectLikesList(loginUser.getmNo());
+		ArrayList<ProjectView> allList = mService.selectAttendList(loginUser.getmNo());
 		System.out.println("allList : " + allList);
-		ArrayList<ProjectView> likeProject = mService.selectLikes(currentPage, map);
+		ArrayList<ProjectView> attendProject = mService.selectAttend(currentPage, map);
 		int[] index = new int[3];
 		int allIndex = 0;
 		int ingIndex = 0;
@@ -322,23 +509,22 @@ public class MemberController {
 					endIndex++;
 				}
 			}
-			for (int i = 0; i < likeProject.size(); i++) {
-				if (likeProject.get(i).getEndDate().getTime() >= date.getTime()
-						&& likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
-					likeProject.get(i).setProgress("진행중(성공)");
-				} else if (likeProject.get(i).getEndDate().getTime() >= date.getTime()
-						&& likeProject.get(i).getSumAmount() < likeProject.get(i).getTargetAmount()) {
-					likeProject.get(i).setProgress("진행중");
-				} else if (likeProject.get(i).getEndDate().getTime() < date.getTime()
-						&& likeProject.get(i).getSumAmount() >= likeProject.get(i).getTargetAmount()) {
-					likeProject.get(i).setProgress("종료(성공)");
+			for (int i = 0; i < attendProject.size(); i++) {
+				if (attendProject.get(i).getEndDate().getTime() >= date.getTime()
+						&& attendProject.get(i).getSumAmount() >= attendProject.get(i).getTargetAmount()) {
+					attendProject.get(i).setProgress("진행중(성공)");
+				} else if (attendProject.get(i).getEndDate().getTime() >= date.getTime()
+						&& attendProject.get(i).getSumAmount() < attendProject.get(i).getTargetAmount()) {
+					attendProject.get(i).setProgress("진행중");
+				} else if (attendProject.get(i).getEndDate().getTime() < date.getTime()
+						&& attendProject.get(i).getSumAmount() >= attendProject.get(i).getTargetAmount()) {
+					attendProject.get(i).setProgress("종료(성공)");
 				} else {
-					likeProject.get(i).setProgress("종료(실패)");
+					attendProject.get(i).setProgress("종료(실패)");
 				}
 			}
-			System.out.println(likeProject);
 			index = new int[] { allIndex, ingIndex, endIndex };
-			mv.addObject("likeProject", likeProject);
+			mv.addObject("attendProject", attendProject);
 			mv.addObject("pi", Pagination.getPageInfo());
 			if (align != null)
 				mv.addObject("align", align);
@@ -353,6 +539,7 @@ public class MemberController {
 
 	}
 
+	// 관심 프로젝트 리스트
 	@RequestMapping("myInterestProject.do")
 	public ModelAndView myInterestProject(HttpSession session,
 			@RequestParam(value = "page", required = false) Integer page,
@@ -412,6 +599,7 @@ public class MemberController {
 		}
 	}
 
+	// 나의 개설 프로젝트 리스트
 	@RequestMapping("myOpenProject.do")
 	public ModelAndView myOpenProject(HttpSession session,
 			@RequestParam(value = "page", required = false) Integer page,
@@ -478,84 +666,28 @@ public class MemberController {
 
 	}
 
+	// 문의하기 폼
 	@RequestMapping("questionForm.do")
 	public String questionForm() {
 		return "myPage/My/question";
 	}
 
+	// 문의하기
 	@RequestMapping("question.do")
 	public ModelAndView question(QnA qa, HttpSession session) {
 		qa.setmNo(((Member) session.getAttribute("loginUser")).getmNo());
 		int result = mService.question(qa);
+		if( result > 0) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("msg", "문의 완료");
 		mv.setViewName("redirect:questionForm.do");
 		return mv;
-	}
-
-	@RequestMapping("revenue.do")
-	public String revenue() {
-		return "myPage/Manager/revenue";
-	}
-
-	@RequestMapping("memberInsert.do")
-	public ModelAndView memberInsert(Member m, HttpServletRequest request,
-			@RequestParam(value = "UserImg", required = false) MultipartFile file,
-			@RequestParam(value = "post") String post, @RequestParam(value = "address1") String address1,
-			@RequestParam(value = "address2") String address2) {
-		m.setmAddress(post + "#" + address1 + "#" + address2);
-		int result = mService.memberInsert(m);
-		Member member = mService.selectOneMember(m.getmId());
-		Files files = new Files(3, "basicImg.jpg", "basicImg.jpg", "resources/memberPhoto/basicImg.jpg");
-		ModelAndView mv = new ModelAndView();
-		if (result > 0) {
-			if (!file.getOriginalFilename().equals("")) {
-				files = saveFile(file, request);
-			}
-			files.setmNo(member.getmNo());
-			int result2 = mService.mPhotoInsert(files);
-
-			mv.addObject("msg", "회원가입에 성공했습니다!");
-			mv.setViewName("redirect:home.do");
-			return mv;
-		} else {
-			throw new MemberException("회원가입 실패!!");
-
+		}else {
+			throw new MemberException("문의 실패!");
 		}
-
 	}
 
-	private Files saveFile(MultipartFile file, HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-
-		String savePath = root + "\\memberPhoto";
-
-		File folder = new File(savePath);
-
-		// 해당 폴더 위치가 존재하지 않는다면
-		if (!folder.exists()) {
-			folder.mkdirs(); // 해당 디렉토리들을 만든다
-		}
-		int index = file.getOriginalFilename().indexOf(".");
-
-		String extend = file.getOriginalFilename().substring(index);
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-		Calendar c = Calendar.getInstance();
-		String renameFilename = sdf.format(c.getTime()) + extend;
-
-		String filePath = folder + "\\" + renameFilename;
-		Files files = new Files(3, file.getOriginalFilename(), renameFilename,
-				"resources/memberPhoto/" + renameFilename);
-		try {
-			// 이 순간 서버에 파일이 저장 된다
-			file.transferTo(new File(filePath));
-		} catch (Exception e) {
-			System.out.println("파일 전송 에러 : " + e.getMessage());
-		}
-		return files;
-	}
-
+	// 회원가입 이메일 인증
 	@RequestMapping(value = "email.do")
 	@ResponseBody
 	public String mailSending(HttpServletRequest request, String email) {
@@ -600,37 +732,8 @@ public class MemberController {
 		return content;
 	}
 
-	@RequestMapping(value = "mPhotoUpdate.do")
-	@ResponseBody
-	public String mPhotoUpdatedo(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "file", required = false) MultipartFile file, Model model) {
-		Member m = (Member) session.getAttribute("loginUser");
-		if (file != null && !file.isEmpty()) {
-			// 원래 파일 삭제
-			deleteFile(m.getFilePath(), request);
-			int result3 = mService.mPhotoDelete(m);
-
-			// 새로운 사진 파일로 저장
-			Files files = new Files();
-			if (!file.getOriginalFilename().equals("")) {
-				files = saveFile(file, request);
-			}
-			files.setmNo(m.getmNo());
-
-			// DB에 저장
-			int result2 = mService.mPhotoInsert(files);
-			if (result2 > 0) {
-				// DB에 저장이 되면 DB에 있는 원래 데이터를 삭제 loginUser에 새로 담아줌
-
-				m.setFilePath(files.getFilePath());
-				model.addAttribute("loginUser", m);
-			}
-
-		}
-		return m.getFilePath();
-
-	}
-
+	
+	// 파일 삭제 메소드
 	private void deleteFile(String filePath, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath(filePath);
 
@@ -642,6 +745,7 @@ public class MemberController {
 
 	}
 	
+	// 아이디 중복체크 메소드
 	@RequestMapping(value = "checkId.do")
 	@ResponseBody
 	public String checkId(String userId) {

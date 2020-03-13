@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
 <link rel="stylesheet" href="resources/css/guidecss.css">
+<style>
+
+</style>
 </head>
 <body onload="email1();">
 <jsp:include page="../../common/menubar.jsp"/>
@@ -57,7 +60,7 @@
                                         <tr class="">
                                             <th scope="row">성별</th>
                                             <td><input id="man" name="gender"
-                                                value="남자" type="radio" /><label for="is_sex0">남자</label> <input
+                                                value="남자" type="radio"/><label for="is_sex0">남자</label> <input
                                                 type="radio"id="woman" name="gender"
                                                 value="여자"><label for="is_sex1">여자</label></td>
                                         </tr>
@@ -292,7 +295,6 @@
                 }
             });
         });
-    
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>

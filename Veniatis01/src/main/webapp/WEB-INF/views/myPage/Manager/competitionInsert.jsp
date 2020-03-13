@@ -80,7 +80,7 @@
           <h2>공모전 등록</h2>
         </div>
         <div class="Table">
-          <form action="joinCompetition.do" class="tForm" enctype="multipart/form-data">
+          <form action="joinCompetition.do" class="tForm" method="post" enctype="multipart/form-data">
             <table class="creatorTable" border="1">
               <tr>
                 <th>제목</th>
@@ -88,10 +88,6 @@
               </tr>
               <tr>
                 <th>주최</th>
-                <th><input type="text" name="conHost" id="conHost"></th>
-              </tr>
-              <tr>
-                <th>후원 / 협찬</th>
                 <th><input type="text" name="conHost" id="conHost"></th>
               </tr>
               <tr>

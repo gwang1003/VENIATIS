@@ -76,7 +76,7 @@
               </a>
               <div id="collapsePages4" class="collapse " aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="Answer.do" id="marketad">회원 문의내역</a>
+                  <a class="collapse-item" href="QnAList.do" id="marketad">회원 문의내역</a>
                 </div>
  
               </div>

@@ -50,8 +50,17 @@
       .col-md-6 {
         display:none;
       }
+      
+      td {
+      	text-align:center;
+      }
   </style>
-  
+  <c:if test="${ !empty msg }">
+		<script>
+			alert('${msg}');
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
 </head>
 <body>
 <jsp:include page="../../common/sidebar.jsp"/>
@@ -73,12 +82,12 @@
                 </tr>
               </thead>
               <tbody>
-				<c:forEach var="c" items="cList">
+				<c:forEach var="c" items="${ cList}">
 					<tr>
-						<td></td>
+						<td><input type="checkbox" style="background:white; border:1px solid gray; width:20px; height:20px;"></td>
 						<td>${c.conName }</td>
 						<td>${c.conHost }</td>
-						<td>${c.startDate }~${lastDate }</td>
+						<td>${c.startDate }~${c.lastDate }</td>
 						<td>${c.conTarget }</td>
 						<td>${c.conBenefit }</td>
 					</tr>

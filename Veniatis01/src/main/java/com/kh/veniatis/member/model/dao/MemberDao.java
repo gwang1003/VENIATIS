@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.CreView;
@@ -76,12 +77,12 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
 	}
 	
-	public ArrayList<ProjectView> selectLikes(PageInfo pi, Map map) {
+	public ArrayList<ProjectView> selectAttend(PageInfo pi, Map map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectLikes", map, rowBounds);
+		System.out.println("참여프로젝트 맞는데");
+		return (ArrayList)sqlSession.selectList("memberMapper.selectAttend", map, rowBounds);
 	}
 
 
@@ -94,8 +95,8 @@ public class MemberDao {
 	}
 
 
-	public int likesListCount(Map map) {
-		return sqlSession.selectOne("memberMapper.likesListCount", map);
+	public int attendListCount(Map map) {
+		return sqlSession.selectOne("memberMapper.attendListCount", map);
 	}
 
 
@@ -109,8 +110,8 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<ProjectView> selectLikesList(int getmNo) {
-		return (ArrayList)sqlSession.selectList("memberMapper.selectLikesList", getmNo);
+	public ArrayList<ProjectView> selectAttendList(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectAttendList", getmNo);
 	}
 
 
@@ -190,5 +191,25 @@ public class MemberDao {
 
 	public ArrayList<ProjectView> selectProjectList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectProjectList");
+	}
+
+
+	public int competitionInsert(Compet c) {
+		return sqlSession.insert("memberMapper.competitionInsert", c);
+	}
+
+
+	public Compet selectOneCompet(String conName) {
+		return sqlSession.selectOne("memberMapper.selectOneCompet", conName);
+	}
+
+
+	public int conPhotoInsert(Files files) {
+		return sqlSession.insert("memberMapper.conPhotoInsert", files);
+	}
+
+
+	public ArrayList<QnA> selectQAList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectQAList");
 	}
 }

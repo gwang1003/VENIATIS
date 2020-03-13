@@ -22,6 +22,10 @@
 		margin:0;
 	}
 	
+	.list_prj {
+		padding :0;
+	}
+	
 	.pagingTable {
 		margin-top:40px;
 		height:30px;
@@ -44,84 +48,113 @@
 </head>
 <body class="login">
 <jsp:include page="../../common/menubar.jsp"/>
- <div id="omcIndex">
-            <a href="#omcGnb" class="shortcut">주메뉴 바로가기</a>
-            <a href="#omcSearch" class="shortcut">검색 바로가기</a>
-            <a href="#omcBody" class="shortcut">본문 바로가기</a>
-        </div>
-            <main id="omcContainer" class="cont_mypage">
-            
-                <div id="cMain">
-                    <article id="mContent" class="my_interest_prj">
-                        <header class="head_comm">
-                            <h1 class="tit_comm">관심프로젝트</h1>
-                            <div class="area_delete_selected">
-                                <button type="button" class="btn_del" id="btn_del">선택삭제</button>
-                            </div>
-                        </header>
-                        
-                        
-                        
-                        <div class="wrap_project">
-                            <div class="box_txt">
-                            <c:url var="All" value="attendProject.do">
-								<c:param name="align" value="All"/>
-							</c:url>
-							<c:url var="Ing" value="attendProject.do">
-								<c:param name="align" value="Ing"/>
-							</c:url>
-							<c:url var="End" value="attendProject.do">
-								<c:param name="align" value="End"/>
-							</c:url>
-                                        <a href="${ All }"><button>모두 보기 ${index[0] }</button></a>
-                                        <a href="${ Ing }"><button>진행중 ${index[1] }</button></a>
-                                        <a href="${ End }"><button>마감 ${index[2] }</button></a>
-                                    </div>
-                            <ul class="list_prj">
-                                
-                                <c:forEach var="p" items="${likeProject }">
-                                <li class="prj_type_support"> <!-- 후원형 프로젝트일 경우 class="prj_type_support" -->                 
-                                    <label for="chkPrj_0" class="chk_comm">
-                                        <input type="hidden" name="projectSeq" value="7779">
-                                        <input type="hidden" name="projectType" value="R">
-                                        <input type="hidden" name="createId" value="236857">
-                                        <input type="checkbox" id="chkPrj_0" name="deleteCheck" class="inp_chk">
-                                        <span class="chk_square"><span class="fa fa-check"></span></span>
-                                        <span class="txt_cont">프로젝트 체크</span>
-                                    </label>
-                                    <div class="box_project">
-                                        <div class="related_words">
-                                            <a href="/reward/7779" class="link_card">
-                                                <span class="thumb_g" style="background-image:url('${p.thumbnail}')"></span>
-                                            </a>
-                                        </div>
-                                        <div class="info_project">
-                                            <span class="screen_out">프로젝트 제목</span>
-                                            <h3 class="tit_project">
-                                            <a href="/reward/7779">
-                                            ${p.pTitle }</a></h3>
-                                            
-                                            
-                                                <p class="txt_desc"><span class="screen_out">프로젝트 설명</span>${p.pText }</p>
-    <span class="user_profile">
-        <span class="img_profile clear_empty_picture">
-                    <img src="${p.creProfile }" style="background: rgb(255, 255, 255);">  
-        </span>
-        <span class="txt_name">${p.creName }</span>
-    </span>
-                                            <span class="txt_cate"><span class="screen_out">카테고리</span>${p.cate }</span>
-                                        </div>
-                                        <div class="state_project">                          
-                                                <p class="txt_state"><span class="num">83</span>명이 프로젝트를 참여했습니다.<br>
-                                                총 <span class="num">${p.sumAmount }</span> 모집 [<span class="txt_success">${p.progress }</span>]</p>
-                                        
-                                        </div>
-                                    </div>
-                                </li>
-                                </c:forEach>
-                            </ul>
-                        </div>
-   							<table align="center" class="pagingTable">
+<main id="omcContainer" class="cont_mypage">
+			
+	    	<!-- aside -->
+	    	
+		    <h2 id="omcBody" class="screen_out">마이페이지</h2>
+		    <div id="cMain">
+		        <article id="mContent" class="mypage_participatory_project">
+		            <header class="head_comm">
+						<h1 class="tit_comm">참여프로젝트</h1>
+		            </header>
+
+		            <div class="cont_comm support">
+						<div class="box_comm">
+							<div class="participation_status">
+								<h2>참여현황</h2>
+								<div class="status_area">
+									<div class="status_item">
+										<dl>
+											<dt>현재 참여중인 금액</dt>
+											<dd class="unit_ico"><span class="img_ico ico_type1"></span></dd>
+											<dd class="unit_price"><em>0</em>원</dd>
+										</dl>
+									</div>
+		
+									<div class="status_item">
+										<dl>
+											<dt>총 참여 금액</dt>
+											<dd class="unit_ico"><span class="img_ico ico_type2"></span></dd>
+											<dd class="unit_price"><em>3,000</em>원</dd>
+										</dl>
+									</div>
+		
+									<div class="status_item m_full_w">
+										<dl>
+											<dt>펀드잔고</dt>
+											<dd class="unit_ico"><span class="img_ico ico_type3"></span></dd>
+											<dd class="unit_price"><em>0</em>원</dd>
+											
+										</dl>
+									</div>
+								</div>
+							</div>
+		
+							<div class="guide_txt_area">
+								<h3 class="guide_tit">안내드립니다.</h3>
+								<ol>
+									<li>참여하기 취소는 펀딩종료일 1일 전까지 가능하며 이후는 취소가 불가능합니다. 또한 펀딩이 마감일 전에 100% 이상 달성하는 경우와 펀딩기간 중 리워드가 배송된 경우에도 취소가 불가능하오니 이 점 양해바랍니다.</li>
+									<li>배송정보 수정은 펀딩종료일까지 수정이 가능합니다. 수정은 프로젝트 [자세히보기] &gt; [배송지 수정]를 통해 가능합니다. 다만, 펀딩기간 중 리워드가 배송되는 프로젝트라면 참여한 프로젝트 진행자에게 문의해주세요.</li>
+									<li>가상계좌는 유효기간내에 입금을 진행해주세요.</li>
+									<li>금액대별 리워드 변경을 원할 시 기존 참여를 취소해주시고, 재 참여 해주세요. 리워드 옵션 변경 시에는 관리자 문의를 이용해주세요.</li>
+								</ol>
+							</div>
+							<div class="list_prj" style="padding-top:15px;">
+								<div class="box_txt">
+								<div class="box_txt">
+		                            <c:url var="All" value="attendProject.do">
+										<c:param name="align" value="All"/>
+									</c:url>
+									<c:url var="Ing" value="attendProject.do">
+										<c:param name="align" value="Ing"/>
+									</c:url>
+									<c:url var="End" value="attendProject.do">
+										<c:param name="align" value="End"/>
+									</c:url>
+                                    <a href="${ All }"><button>모두 보기 ${index[0] }</button></a>
+                                    <a href="${ Ing }"><button>진행중 ${index[1] }</button></a>
+                                    <a href="${ End }"><button>마감 ${index[2] }</button></a>
+                                </div>
+								<hr>
+								<c:forEach var="i" items="${attendProject }">
+								<div class="article_cont">
+									<div class="link_thumb">
+										<a href="/reward/7870"><img src="${i.thumbnail }" style="width:996px;height:305px"></a>
+									</div>
+									<div class="info_thumb">
+										<strong class="tit_thumb">${i.pTitle }</strong>
+												<p class="item_relate">리워드 없이 참여</p>
+										<p class="item_period">(펀딩기간 : ${i.startDate } ~ ${i.endDate })</p>
+										<div class="item_price">
+											<em>${i.sumAmount }</em>원 / 목표액${i.targetAmount }원
+										</div>
+										<div class="my_participation_contents">
+											<dl>
+												<dt>참여금액</dt>
+												<dd><strong>새로 vo 만들어서 가져오기</strong>원</dd>
+											</dl>
+											<dl>
+												<dt>결제방식</dt>
+												<dd>예약결제</dd>			
+											</dl>
+											<dl>
+												<dt>참여일</dt>
+												<dd>2020-01-17 14:39</dd>
+											</dl>
+											<dl>
+												<dt>프로젝트 상태  </dt>
+															     <dd>
+																     ${i.progress }
+																</dd>
+											</dl>
+											<a href="/mypage/participant/reward/232719" class="btn_detail">자세히보기</a>
+										</div>
+									</div>
+								</div>
+								</c:forEach>
+								</div>
+							<table align="center" class="pagingTable">
 								<tr align="center" height="20">
 									<td colspan="6">
 										<!-- [이전] -->
@@ -175,12 +208,16 @@
 										</c:if>
 									</td>
 								</tr>
-							</table>				
-                        
-                    </article>
-                </div>
-            </main>
-            </form>
+							</table>					
+						</div>
+		            </div>
+		        </article>
+		    </div>
+		</main>
+		
+		<!-- footer -->
+
+<div id="dJ85dY6-1580730508086" class="" style="display: block !important;"><iframe id="AIg7QrH-1580730508087" src="about:blank" frameborder="0" scrolling="no" title="chat widget" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; position: static !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 280px !important; z-index: 999999 !important; cursor: auto !important; float: none !important; border-radius: unset !important; pointer-events: auto !important; display: none !important; height: 120px !important;"></iframe><iframe id="GHOl6iO-1580730508088" src="about:blank" frameborder="0" scrolling="no" title="chat widget" class="" style="outline: none !important; visibility: visible !important; resize: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; position: fixed !important; border: 0px !important; padding: 0px !important; transition-property: none !important; z-index: 1000001 !important; cursor: auto !important; float: none !important; pointer-events: auto !important; box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 10px 0px !important; height: 60px !important; min-height: 60px !important; max-height: 60px !important; width: 60px !important; min-width: 60px !important; max-width: 60px !important; border-radius: 50% !important; transform: rotate(0deg) translateZ(0px) !important; transform-origin: 0px center !important; margin: 0px !important; top: auto !important; bottom: 20px !important; right: 20px !important; left: auto !important; display: block !important;"></iframe><iframe id="wPr4S4S-1580730508088" src="about:blank" frameborder="0" scrolling="no" title="chat widget" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; position: fixed !important; border: 0px !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; display: none !important; z-index: 1000003 !important; cursor: auto !important; float: none !important; border-radius: unset !important; pointer-events: auto !important; top: auto !important; bottom: 60px !important; right: 15px !important; left: auto !important; width: 21px !important; max-width: 21px !important; min-width: 21px !important; height: 21px !important; max-height: 21px !important; min-height: 21px !important;"></iframe><div class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; top: 0px !important; right: auto !important; bottom: auto !important; left: 0px !important; position: absolute !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 100% !important; height: 100% !important; display: none !important; z-index: 1000001 !important; cursor: move !important; float: left !important; border-radius: unset !important; pointer-events: auto !important;"></div><div id="lMdlN0Z-1580730508086" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; top: 0px !important; right: auto !important; bottom: auto !important; left: 0px !important; position: absolute !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 6px !important; height: 100% !important; display: block !important; z-index: 999998 !important; cursor: w-resize !important; float: none !important; border-radius: unset !important; pointer-events: auto !important;"></div><div id="eeTMG1M-1580730508087" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; top: 0px !important; right: 0px !important; bottom: auto !important; left: auto !important; position: absolute !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 100% !important; height: 6px !important; display: block !important; z-index: 999998 !important; cursor: n-resize !important; float: none !important; border-radius: unset !important; pointer-events: auto !important;"></div><div id="ROeb5yp-1580730508087" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; top: 0px !important; right: auto !important; bottom: auto !important; left: 0px !important; position: absolute !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 12px !important; height: 12px !important; display: block !important; z-index: 999998 !important; cursor: nw-resize !important; float: none !important; border-radius: unset !important; pointer-events: auto !important;"></div><iframe id="rWVyus0-1580730508139" src="about:blank" frameborder="0" scrolling="no" title="chat widget" class="" style="outline: none !important; visibility: visible !important; resize: none !important; box-shadow: none !important; overflow: visible !important; background: none transparent !important; opacity: 1 !important; position: fixed !important; border: 0px !important; min-height: auto !important; min-width: auto !important; max-height: none !important; max-width: none !important; padding: 0px !important; margin: 0px !important; transition-property: none !important; transform: none !important; width: 378px !important; height: 832px !important; display: none !important; z-index: 999999 !important; cursor: auto !important; float: none !important; border-radius: unset !important; pointer-events: auto !important; bottom: 100px !important; top: auto !important; right: 20px !important; left: auto !important;"></iframe></div>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

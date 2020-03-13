@@ -86,7 +86,7 @@ s0.parentNode.insertBefore(s1,s0);
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="home.do">
                                         <img src="resources/common/logo2.png" width="60%" height="60%" alt="">
                                     </a>
                                 </div>
@@ -118,7 +118,7 @@ s0.parentNode.insertBefore(s1,s0);
                                         <ul>
                                              <c:if test="${empty sessionScope.loginUser}">
                                         
-                                            <li><a href="loginView.do"> 로그인 </a></li>
+                                            <li><a href="memberLogin.do"> 로그인 </a></li>
                                             <li><a href="memberInsertInfo.do"> 회원가입 </a></li>
                                         </c:if>
                                         <c:if test="${ !empty sessionScope.loginUser}">                                        
@@ -203,8 +203,8 @@ s0.parentNode.insertBefore(s1,s0);
           <div class="myPageGo">
              <div class="go1 myInfo">내 정보</div>
              <div class="myOpenProject">개설 프로젝트</div>
-             <div class="go1 attendProject">관심 프로젝트</div>
-             <div class="myInterestProject">참여 프로젝트</div>
+             <div class="go1 attendProject">참여 프로젝트</div>
+             <div class="myInterestProject">관심 프로젝트</div>
              <div class="go1">내 블로그</div>
              <div class="question">문의하기</div>
              <div class="go1 logoutBtn">로그아웃</div>

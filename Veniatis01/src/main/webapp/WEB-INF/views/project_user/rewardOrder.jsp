@@ -125,7 +125,7 @@
 						</div>
 					</div>
 					<div class="box_comm">
-						<form id="insertFunding" name="insertFunding" method="post" action="insertFunding.do">
+						<form id="insertFunding" name="insertFunding" method="post">
 							<input type="hidden" name="mNo" value="${ loginUser.mNo }">
 							<input type="hidden" name="pNo" value="${ project.pNo }">
 											
@@ -450,6 +450,11 @@
 							</footer>
 							
 						</form>
+						
+						<form id="orderInfo" name="orderInfo" action="rewardSuccess.do">
+							<input type="hidden" name="orderNo" value="">
+							<!-- <input type="hidden"> -->
+						</form>
 					</div>
 				</div>
 			</article>
@@ -495,13 +500,35 @@
 						}else if(!$("#chkAccept1").is(':checked') || !$("#chkAccept2").is(':checked') || !$("#chkAccept3").is(':checked')){
 							alert("유의사항 및 약관동의에 체크해주세요");
 						}else{
-							
 							var totalAmt = ${totalAmt};
+							// 주문, 펀딩 데이터 저장
+							var orderNo = "";
+							var formData = $("#insertFunding").serialize();
+							$.ajax({
+					            cache : false,
+					            url : "insertOrder.do", 
+					            type : 'POST', 
+					            data : formData, 
+					            success : function(data) {
+					            	orderNo = data;
+					                console.log("주문번호 : " + orderNo);
+					                $("input[name=orderNo]").val(orderNo);
+									alert("insertChk : " + insertChk);
+					            }, 
+					            error : function(xhr, status) {
+					                //alert(xhr + " : " + status);
+					                // 실패한 경우 결제 안되도록 처리해야함
+					                alert("주문정보를 저장하지 못하였습니다.");
+					                location.href="home.do";
+					            }
+					        });
+								
+							var projectName = $("#projectName").text();
 							IMP.request_pay({
 							    pg : 'html5_inicis',
 							    pay_method : 'card',
 							    merchant_uid : 'merchant_' + new Date().getTime(),
-							    name : '주문명:결제테스트',
+							    name : projectName,
 							    amount : totalAmt,
 							    buyer_email : 'iamport@siot.do',
 							    buyer_name : '구매자이름',
@@ -510,24 +537,20 @@
 							    buyer_postcode : '123-456'
 							}, function(rsp) {
 							    if ( rsp.success ) {
-							        var msg = '결제가 완료되었습니다.';
-							        /* msg += '고유ID : ' + rsp.imp_uid;
-							        msg += '상점 거래ID : ' + rsp.merchant_uid;
-							        msg += '결제 금액 : ' + rsp.paid_amount;
-							        msg += '카드 승인번호 : ' + rsp.apply_num; */
-							        
+							        var msg = '결제가 완료되었습니다.';							        
 							        alert(msg);
-	
-									$("#insertFunding").submit();
+									$("#orderInfo").submit();
 							        
 							    } else {
 							        var msg = '결제에 실패하였습니다.';
 							        msg += '에러내용 : ' + rsp.error_msg;
 							        alert(msg);
+							        location.href="home.do";
 							    }
 							    
-							});
-						}
+							});//결제 끝
+							
+						}//빈칸 조건문
 					});
 					
 				});

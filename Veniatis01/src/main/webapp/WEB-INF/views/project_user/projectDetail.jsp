@@ -223,7 +223,7 @@ function comma(str) {
 
                                     <div class="item_state">
                                         <p><span class="txt_statetitle">참여인원</span></p>
-                                        <span class="screen_out">참여자 수</span><span class="num_value">2</span> 
+                                        <span class="screen_out">참여자 수</span><span class="num_value">${ supportCount }</span> 
                                         <span class="txt_value">명 참여</span>
                                     </div>
 

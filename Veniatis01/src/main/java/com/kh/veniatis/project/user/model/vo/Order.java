@@ -19,6 +19,7 @@ ORDER_DATE */
 	private String rAddress;
 	private String deliveryOption;
 	private int totalAmount;
+	private String payStatus;
 	
 	public Order(double oNo, int mNo, int addAmount, String rName, String rPhone, String rAddress, String deliveryOption,
 			int totalAmount) {
@@ -32,6 +33,21 @@ ORDER_DATE */
 		this.deliveryOption = deliveryOption;
 		this.totalAmount = totalAmount;
 	}
+	
+	public Order(double oNo, int mNo, int addAmount, String rName, String rPhone, String rAddress,
+			String deliveryOption, int totalAmount, String payStatus) {
+		super();
+		this.oNo = oNo;
+		this.mNo = mNo;
+		this.addAmount = addAmount;
+		this.rName = rName;
+		this.rPhone = rPhone;
+		this.rAddress = rAddress;
+		this.deliveryOption = deliveryOption;
+		this.totalAmount = totalAmount;
+		this.payStatus = payStatus;
+	}
+
 	public double getoNo() {
 		return oNo;
 	}
@@ -80,11 +96,20 @@ ORDER_DATE */
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+	
+	public String getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(String payStatus) {
+		this.payStatus = payStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [oNo=" + oNo + ", mNo=" + mNo + ", addAmount=" + addAmount + ", rName=" + rName + ", rPhone="
 				+ rPhone + ", rAddress=" + rAddress + ", deliveryOption=" + deliveryOption + ", totalAmount="
-				+ totalAmount + "]";
+				+ totalAmount + ", payStatus=" + payStatus + "]";
 	}
-	
+
 }

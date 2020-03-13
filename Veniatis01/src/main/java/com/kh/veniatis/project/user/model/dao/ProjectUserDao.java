@@ -74,6 +74,21 @@ public class ProjectUserDao {
 		return (ArrayList)sqlSession.selectList("puMapper.selectCheerList", pNo);
 	}
 
+	public int insertCheer(Reply cheer) {
+		// 참여자 응원 삽입
+		return sqlSession.insert("puMapper.insertCheer", cheer);
+	}
+
+	public int selectSupportCount(int pNo) {
+		// 참여자 수 조회
+		return sqlSession.selectOne("puMapper.selectSupportCount", pNo);
+	}
+
+	public int updatePayStatus(Double orderNo) {
+		// 결제 완료로 바꾸기
+		return sqlSession.update("puMapper.updatePayStatus", orderNo);
+	}
+
 	/*
 	// 최근 소식 가져오기
 	public ArrayList<PNotice> selectPNoticeList(int pNo) {

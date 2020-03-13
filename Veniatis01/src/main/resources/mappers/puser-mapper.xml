@@ -159,7 +159,7 @@
 	
 	<insert id="insertOrder" parameterType="com.kh.veniatis.project.user.model.vo.Order">
 		INSERT INTO R_ORDER
-		VALUES(#{oNo}, #{mNo}, #{addAmount}, #{rName}, #{rPhone}, #{rAddress}, #{deliveryOption}, #{totalAmount}, SYSDATE)
+		VALUES(#{oNo}, #{mNo}, #{addAmount}, #{rName}, #{rPhone}, #{rAddress}, #{deliveryOption}, #{totalAmount}, SYSDATE, 'N')
 	</insert>
 	
 	<insert id="insertFunding" parameterType="com.kh.veniatis.project.user.model.vo.Funding">
@@ -173,13 +173,24 @@
 		where p_no = #{pNo}
 	</select>
 	
-	<!-- <select id="selectReplyList">
-		
+	<insert id="insertCheer" parameterType="com.kh.veniatis.common.reply.model.vo.Reply">
+		INSERT INTO REPLY(REPLY_NO, M_NO, P_NO, WDATE, CONTENT)
+		VALUES(SEQ_REPLY_NO.NEXTVAL, #{mNo}, #{pNo}, SYSDATE, #{rContent})
+	</insert>
+	
+	<select id="selectSupportCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(DISTINCT R_ORDER.O_NO)
+		FROM R_ORDER
+		JOIN FUNDING ON(R_ORDER.O_NO=FUNDING.O_NO)
+		WHERE P_NO = #{pNo}
+		AND R_ORDER.PAY_STATUS='Y'
 	</select>
 	
-	<select id="insertReply">
-		
-	</select> -->
+	<update id="updatePayStatus" parameterType="_double">
+		UPDATE R_ORDER 
+		SET PAY_STATUS = 'Y'
+		WHERE O_NO = #{oNo}
+	</update>
 	
 	
 </mapper>

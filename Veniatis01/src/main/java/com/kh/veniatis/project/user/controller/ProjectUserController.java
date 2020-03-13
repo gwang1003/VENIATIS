@@ -117,11 +117,14 @@ public class ProjectUserController {
 			if(p.getSumAmount()!=0) {
 				supportRate = p.getSumAmount()*100/p.getTargetAmount();
 			}
+			
+			int supportCount = pus.selectSupportCount(pNo);
 						
 			mv.addObject("project", p);
 			mv.addObject("rewardList", rList);
 			mv.addObject("filesList", fList);
 			mv.addObject("supportRate", supportRate);
+			mv.addObject("supportCount", supportCount);
 			mv.setViewName("project_user/projectDetail");
 		}		
 		
@@ -143,11 +146,8 @@ public class ProjectUserController {
 	@ResponseBody
 	public String getCheerList(int pNo) {
 		ArrayList<Reply> cList = pus.selectCheerList(pNo);
-		for(int i=0; i<cList.size(); i++) {
-			System.out.println(cList.get(i));
-		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		// 시분초 다루고 싶다면 java.util.Date 사용
 		return gson.toJson(cList);
 	}
@@ -222,8 +222,10 @@ public class ProjectUserController {
 		return mv;
 	}
 	
-	@RequestMapping("insertFunding.do")
-	public ModelAndView insertFunding(ModelAndView mv, HttpSession session,
+	
+	@RequestMapping(value="insertOrder.do", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String insertOrder(HttpSession session,
 			@RequestParam("pNo") int pNo,
 			@RequestParam("totalPrice") String totalAmt,
 			@RequestParam("addPrice") String addAmt,
@@ -252,13 +254,17 @@ public class ProjectUserController {
 								addAmount, tfName, tfPhone, address, tfMemo, totalAmount);
 		int result = pus.insertOrder(insertOrder);
 		
+		// ********** 펀딩 모인 금액 수정해야함!!! ********** 
+		
 		if(result > 0) {
 			// 펀딩 하나씩 데이터베이스에 저장하기
 			List<Funding> paramList = fundings.getFundings();
 			for(int i=0; i<paramList.size(); i++) {
 				Funding f = paramList.get(i);
 				f.setoNo(orderNo);
-				pus.insertFunding(f);
+				if(f.getrNo() != 0) {
+					pus.insertFunding(f);
+				}
 			}
 			
 			//참여자 응원 저장하기(댓글 형식)
@@ -266,27 +272,33 @@ public class ProjectUserController {
 			cheer.setmNo(loginUser.getmNo());
 			cheer.setpNo(pNo);
 			cheer.setrContent(supportComment);
-			/*int cheerResult = pus.insertCheer(cheer);
-			if(cheerResult <= 0){
-				System.out.println("참여자 응원 저장 실패");
-			}*/
+			System.out.println("참여자 응원 : " + cheer.getrContent());
+			int chk = pus.insertCheer(cheer);
 			
+			if(chk<=0) {
+				System.out.println("참여자 응원 삽입 실패");
+			}
 			
-			//returnStr = "redirect:rewardSuccess.do";
-			mv.addObject("oNo", orderNo);
-			mv.addObject("project", p);
-			mv.setViewName("rewardSuccess.do");
 		}else {
 			// 주문 실패!!
 			System.out.println("주문 실패!!");
 		}
 		
-		return mv;
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		//return gson.toJson();
+		return orderNo+"";
 	}
 	
+	
 	@RequestMapping("rewardSuccess.do")
-	public ModelAndView RewardSuccessView(ModelAndView mv) {
-		mv.setViewName("project_user/rewardSuccess");
+	public ModelAndView RewardSuccessView(ModelAndView mv, String orderNo) {
+		System.out.println("주문번호 확인 : " + orderNo);
+		Double orderNo1 = Double.parseDouble(orderNo);
+		int result = pus.updatePayStatus(orderNo1);
+		if(result>0) {
+			mv.setViewName("project_user/rewardSuccess");
+		}
+		
 		return mv;
 	}
 	

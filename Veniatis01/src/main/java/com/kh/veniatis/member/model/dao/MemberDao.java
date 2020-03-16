@@ -212,4 +212,9 @@ public class MemberDao {
 	public ArrayList<QnA> selectQAList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectQAList");
 	}
+
+
+	public int okProject(int pNo) {
+		return sqlSession.update("memberMapper.okProject", pNo);
+	}
 }

@@ -59,8 +59,7 @@
                                                 <hr>
                                                 <div class="text-center">
                                                     <a class="small" href="forgot-password.html">비밀번호 찾기</a>
-                                                    &nbsp; &nbsp;&nbsp;&nbsp;  <a class="small"
-                                                        href="<%= request.getContextPath() %>/views/member/memberJoin.jsp">회원가입</a>
+                                                    &nbsp; &nbsp;&nbsp;&nbsp;  <a href="memberInsertInfo.do"> 회원가입 </a>
                                                 </div>
             
                                             </div>

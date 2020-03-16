@@ -241,4 +241,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectQAList();
 	}
 
+	@Override
+	public int okProject(int pNo) {
+		return mDao.okProject(pNo);
+	}
+
 }

@@ -107,4 +107,7 @@ public interface MemberService {
 
 	// 전체 문의내역
 	ArrayList<QnA> selectQAList();
+
+	// 프로젝트 승인
+	int okProject(int pNo);
 }

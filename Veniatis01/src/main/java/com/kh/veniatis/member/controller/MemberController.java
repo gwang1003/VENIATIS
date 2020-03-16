@@ -218,6 +218,19 @@ public class MemberController {
 			throw new MemberException("프로젝트 조회 실패!");
 		}
 	}
+	
+	// 프로젝트 승인
+	@RequestMapping("okProject.do")
+	public String okProject(@RequestParam(value="pNo") int pNo) {
+		int result = mService.okProject(pNo);
+		if(result > 0) {
+			return "redirect:joinProject.do";
+		}else {
+			throw new MemberException("프로젝트 승인 실패!");
+		}
+		
+		
+	}
 
 	// 관리자페이지 전체 프로젝트 리스트
 	@RequestMapping("selectProjectList.do")
@@ -256,6 +269,7 @@ public class MemberController {
 	@RequestMapping("selectCompetitionList.do")
 	public ModelAndView selectCompetitionList() {
 		ArrayList<Compet> cList = bService.competView();
+		System.out.println(cList);
 		if(cList != null) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("cList", cList);
@@ -264,6 +278,16 @@ public class MemberController {
 		}else {
 			throw new MemberException("공모전 리스트 조회 실패!");
 		}
+	}
+	
+	// 관리자페이지 공모전 삭제
+	@RequestMapping("deleteCon.do")
+	public String deleteCon(@RequestParam(value="conNo") String conNo) {
+		String[] conNos = conNo.split(" ");
+		for(int i = 0; i < conNos.length; i++) {
+			System.out.println(conNos[i]);
+		}
+		return "";
 	}
 	
 	// 관리자페이지 공모전 등록 폼
@@ -635,7 +659,7 @@ public class MemberController {
 				}
 			}
 			for (int i = 0; i < alignList.size(); i++) {
-				if (alignList.get(i).equals("N") && alignList.get(i).getEndDate().getTime() > date.getTime()) {
+				if (alignList.get(i).getpStatus().equals("N") && alignList.get(i).getEndDate().getTime() > date.getTime()) {
 					alignList.get(i).setProgress("승인대기");
 				}else if (alignList.get(i).getEndDate().getTime() > date.getTime()
 						&& alignList.get(i).getSumAmount() >= alignList.get(i).getTargetAmount()) {

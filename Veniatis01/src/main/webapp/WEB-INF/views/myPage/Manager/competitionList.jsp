@@ -83,23 +83,39 @@
               </thead>
               <tbody>
 				<c:forEach var="c" items="${ cList}">
+					
 					<tr>
-						<td><input type="checkbox" style="background:white; border:1px solid gray; width:20px; height:20px;"></td>
-						<td>${c.conName }</td>
+						<td><input type="checkbox" name="chk" value="${c.conNo }" style="background:white; border:1px solid gray; width:20px; height:20px;"></td>
+						<td><a href="${c.conHp}">${c.conName }</a></td>
 						<td>${c.conHost }</td>
 						<td>${c.startDate }~${c.lastDate }</td>
 						<td>${c.conTarget }</td>
 						<td>${c.conBenefit }</td>
 					</tr>
 				</c:forEach>
+				<tr align="right">
+					<td><button class="bbs">삭제하기</button></td>
+				</tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
 <script>
+	
 	$(function(){
 		$("#content").append($(".mid"))
+		
+		$(".bbs").click(function(){
+			var chk = $("input[name='chk']")
+			var conNo = "";
+			for(var i = 0; i < chk.length; i++) {
+				if(chk[i].checked) {
+					conNo += chk[i].value +" ";
+				}
+			}			
+			location.href="deleteCon.do?conNo="+conNo;
+		})
 	})
 </script>
   <script src="resources/js/demo/chart-area-demo.js"></script>

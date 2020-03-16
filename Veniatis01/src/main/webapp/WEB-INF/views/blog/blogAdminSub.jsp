@@ -84,9 +84,6 @@ font-family: 'Noto Sans KR', sans-serif;
                 <a href="badminCss.do" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
                 </a>
-                <a href="badminActive.do" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> 내 활동 관리
-                </a>
                 <a href="badminSub.do" class="list-group-item" style="background-color:#d4f3ef;
                 											border-color:#d4f3ef;" >
                     <i class="fa fa-folder-open-o"></i> 구독 관리
@@ -99,7 +96,7 @@ font-family: 'Noto Sans KR', sans-serif;
       <div class="card shadow mb-4">
         <div class="card-header py-3">
           <h5 class="m-0 font-weight-bold text-primary">내가 구독한 블로그</h6>
-          <h6 style="text-align:right"><a href="#">나를 구독한 블로그</a></h6>
+<!--           <h6 style="text-align:right"><a href="#">나를 구독한 블로그</a></h6> -->
         </div>
         
         <form method="post">
@@ -116,14 +113,17 @@ font-family: 'Noto Sans KR', sans-serif;
               </thead>
            
               <tbody>
-              <c:forEach var="b" items="${bd}"> 
-                <tr>
 
+              <c:forEach var="b" items="${bd}">                 
+                <tr>
                   <td><a href="blogMain2.do?userId=${b.mId }">${b.blogTitle }</a></td>
                   <td>${b.mName }(${b.mId })</td>
-                  <td><button>구독해제</button></td>
+                  <td><button type="button" onclick="subDelete('${b.mId}');">구독해제</button>
+                  </td>
+                 
                 </tr>
-			  </c:forEach>
+            			  </c:forEach>
+
               </tbody>
            
               <tfoot>
@@ -177,6 +177,17 @@ crossorigin="anonymous"></script>
   <script src="resources/js/demo/datatables-demo.js"></script>
   <script src="resources/js/demo/chart-area-demo.js"></script>
 
+<script>
+
+function subDelete(mId){
+	console.log("??");
+	 var result = confirm("정말 구독을 취소하시겠습니까?");
+		if(result){
+			location.href="adminSubDelete.do?mId="+mId;
+		}
+}
+
+</script>
 
 
 

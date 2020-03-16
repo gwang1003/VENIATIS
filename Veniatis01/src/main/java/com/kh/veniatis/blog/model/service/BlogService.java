@@ -169,6 +169,12 @@ public interface BlogService {
 	
 	// 50. 공모전리스트 갖고오깅
 	ArrayList<Compet> competView();
+	
+	// 51. 댓글수정
+	int updateReply(Reply r);
+	
+	//52.관리-구취
+	int adminSubDelete(BlogSub bs);
 
 
 }

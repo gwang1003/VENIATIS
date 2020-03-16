@@ -301,7 +301,6 @@ public class BlogDao {
 			for(int k=0; k<blist.size();k++) {
 				list.add(blist.get(k));
 			}
-			
 		}
 		
 		
@@ -390,6 +389,18 @@ public class BlogDao {
 	public ArrayList<Compet> competView() {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("blogMapper.competView");
+	}
+
+	//댓수정
+	public int updateReply(Reply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.updateReply",r);
+	}
+
+	//구취
+	public int adminSubDelete(BlogSub bs) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("blogMapper.adminSubDelete",bs);
 	}
 
 

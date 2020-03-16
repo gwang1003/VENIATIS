@@ -470,6 +470,7 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		SELECT *
 		FROM RRLISTVIEW
 		WHERE REPLY_NO=#{rNo}
+		ORDER BY WDATE ASC
 	</select>
 	
 	<!-- 답글작성 -->
@@ -490,12 +491,20 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 	
 	
 	
+	<!-- 댓글수정 -->
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		SET CONTENT=#{rContent}
+		WHERE REPLY_NO=#{rNo}
+	</update>
 	
 	
+	<!-- 관리-구독취소 -->
+	<delete id="adminSubDelete" parameterType="BlogSub">
+		DELETE FROM BLOG_SUB
+		WHERE M_ID=#{mId} AND SUB_ID=#{subId}
 	
-	
-	
-	
+	</delete>
 	
 	<!-- 공모전 -->
 	<select id="competView" resultMap="CompetResultSet">

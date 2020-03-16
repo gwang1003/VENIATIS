@@ -112,9 +112,6 @@ color:black !important;
                 											border-color:#d4f3ef;" >
                     <i class="fa fa-folder-open-o"></i> 블로그 꾸미기
                 </a>
-                <a href="badminActive.do" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> 내 활동 관리
-                </a>
                 <a href="badminSub.do" class="list-group-item">
                     <i class="fa fa-folder-open-o"></i> 구독 관리
                 </a>

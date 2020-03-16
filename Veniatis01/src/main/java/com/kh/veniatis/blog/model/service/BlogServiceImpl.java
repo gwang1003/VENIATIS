@@ -384,6 +384,20 @@ public class BlogServiceImpl implements BlogService{
 		return bDao.competView();
 	}
 	
+	//댓수정
+	@Override
+	public int updateReply(Reply r) {
+		// TODO Auto-generated method stub
+		return bDao.updateReply(r);
+	}
+	
+	//구취
+	@Override
+	public int adminSubDelete(BlogSub bs) {
+		// TODO Auto-generated method stub
+		return bDao.adminSubDelete(bs);
+	}
+	
 
 	
 

@@ -314,7 +314,7 @@ function replyList(){
 					var $r4 = $("<div class='thumb'>");
 					var $r5 = $("<img width=50px height=70px>").attr("src",""+data[i].filePath+"");
 					var $r6 = $("<div class='desc'>");
-					var $r7 = $("<p class='comment'>").text(data[i].rContent); //댓글내용
+					var $r7 = $("<p class='comment' id='con"+data[i].rNo+"'>").text(data[i].rContent); //댓글내용
 					var $r8 = $("<div class='d-flex justify-content-between'>");
 					var $r9 = $("<div class='d-flex align-items-center'>");
 					var $r10 = $("<h5>");
@@ -328,6 +328,7 @@ function replyList(){
 					var $r18 ="";
 					// 삭제,수정
 					if('${nowUser.mNo}'==data[i].mNo){
+						console.log("dd"+data[i].rContent);
 						 $r15 =  $("<a href = 'javascript:rUpdate("+data[i].rNo+");' class='rUpdate' id='"+data[i].rNo+"' style='color:black;'>").text("수정");
 						 $r16 =  $("<a href = 'javascript:rDelete("+data[i].rNo+");' class='rDelete' id='"+data[i].rNo+"' style='color:red;'>").text("삭제");
 						 
@@ -937,10 +938,35 @@ function displayCenterInfo(result, status) {
 		
 	}
 	
-	function veniatis(a){
-		console.log("수정"+a);
+	function rUpdate(no){
+		console.log(no);
+		var con= $("#con"+no).text();
+		console.log(con);
+		$("#con"+no).empty(); 
+		$("#con"+no).append("<textarea id='rUpdateCon'>");
+		$("#rUpdateCon").append(con);
+		$("#con"+no).append("<a href='javascript:rUpdateSubmit("+no+")'>수정완료");
+		$("#con"+no).append("<button>수정취소");		
 		
-		
+	}
+	
+	
+	function rUpdateSubmit(rNo){
+		var rContent=$("#rUpdateCon").val();
+		$.ajax({
+			url : "replyUpdate.do",
+			type : "post",
+			dataType : "text",
+			data : {rContent:rContent,
+					rNo:rNo,},
+			success: function(data){
+				replyList();
+			},
+			error : function(){
+	             alert("error code : " + e.status + "\n"
+	                     + "message : " + e.responseText);
+			}
+		});	
 	}
 	
 	//답글작성

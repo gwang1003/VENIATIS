@@ -48,44 +48,43 @@ import com.kh.veniatis.member.model.vo.Member;
 
 @Controller
 public class BlogController {
-	// 사진 저장을 위한 전역변수.....
+	// 사진 저장을 위한 전역변수
 	ArrayList<String> originName = new ArrayList();
 	ArrayList<String> changeName = new ArrayList();
 
 	@Autowired
 	private BlogService bService;
-	// 블로그 홈
 	@Autowired
 	private MemberService mService;
 
-	// 테스트화면이동..
+	// 테스트 화면 이동
 	@RequestMapping("testDisplay.do")
 	public String testDisplay() {
 		return "blog/test";
 	}
 
-	// 블로그메인
+	// 블로그 메인
 	@RequestMapping("blogMain2.do")
 	public ModelAndView blogList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,
 			HttpServletRequest request, @RequestParam("userId") String userId) {
-
+		
 		Member m = mService.selectOneMember(userId);
-
 		HttpSession session = request.getSession();
 		Member nowUser = (Member) session.getAttribute("loginUser");
-
-		// 처음블로그들어가는경우!!->생성하자
+		
+		// 유저에 할당하는 블로그 정보를 갖고온다.
 		BlogDetail bd = bService.selectBlogDetail(m.getmNo());
-
+		
 		if (bd == null) {
-			// 블로그생성하긔
+			// 만약에 그 블로그 정보가 비어있다면? 블로그 서비스에 처음 접속하는 것 이므로 블로그를 생성한다.
 			Member newM = mService.selectOneMember(userId);
 			newM.setmName(newM.getmName() + " 님의 블로그입니다.");
 			bService.insertBlogDetail(newM);
 
-			// 기본 카테고리 만들긔
+			// 기본 카테고리도 만들어준다.
 			bService.insertNewCate(newM.getmId());
-
+			
+			// 다 갖추어졌으니 블로그 정보를 갖고온다.
 			bd = bService.selectBlogDetail(m.getmNo());
 		}
 
@@ -97,22 +96,29 @@ public class BlogController {
 		ArrayList<BlogPost> post = bService.selectPostList(userId, currentPage);
 
 		// 태그 전체 갖고오기
+		// 1. 전체 게시글을 갖고온다 (한개의 게시글당 여러태그가 존재하므로
 		ArrayList<BlogPost> allPost = bService.selectPostList(userId);
+		// 태그 목록을 한 곳에 담을 String 변수를 선언한다.
 		String allTag = "";
-
+		
+		// 2. allPost에 태그가 있다면 allTag 변수에 추가한다.
 		for (int i = 0; i < allPost.size(); i++) {
 			if (allPost.get(i).getbTag() != null) {
 				allTag = allTag + allPost.get(i).getbTag();
 			}
 		}
+		
+		// 3. split 메소드를 통해 tag 배열에 담는다.
 		String tags[] = allTag.split("#");
-
+		
+		// 4. ArrayList에 담는다
 		ArrayList<String> realtags = new ArrayList();
 
 		for (int i = 0; i < tags.length; i++) {
 			realtags.add(tags[i]);
 		}
-
+		
+		// 5. 중복제거
 		for (int i = 0; i < realtags.size(); i++) {
 			for (int j = 0; j < realtags.size(); j++) {
 				if (i == j) {
@@ -123,11 +129,11 @@ public class BlogController {
 			}
 		}
 
-		// 구독상탠지 아닌지 알아보깅
-		// 1.먼저 내 구독리스트를갖고온다
-		// 1. 구독 블로거들 ID를갖고온당!! subId에 담겨져있음!
+		// 지금 접속하려는 블로그가 나의 구독상탠지 아닌지 알아보기
+		// 1.먼저 내 구독리스트를 갖고 온다
+		//   구독 블로거들 ID를 갖고 온다. subId에 담겨져 있음
 		ArrayList<BlogSub> subList = bService.selectSubList(nowUser.getmId());
-		// 비교
+		// 2. 비교한다. true면 구독 되어있는 상태, false면 미구독 상태
 		boolean sub = false;
 		for (int i = 0; i < subList.size(); i++) {
 			if (subList.get(i).getSubId().equals(userId)) {
@@ -148,7 +154,7 @@ public class BlogController {
 		return mv;
 	}
 
-	// 카테고리별
+	// 카테고리별 화면 출력하기
 	@RequestMapping("blogMainCate.do")
 	public ModelAndView blogCateList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,
 			HttpServletRequest request, @RequestParam("mId") String mId, @RequestParam("cateNo") Integer cateNo) {
@@ -804,6 +810,16 @@ public class BlogController {
 		return "success";
 	}
 	
+	// 댓글 수정
+	@RequestMapping("replyUpdate.do")
+	@ResponseBody
+	public String updateReply(Reply r, HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int rWriter = loginUser.getmNo();
+		r.setmNo(rWriter);
+		int result=bService.updateReply(r);
+		return "success";
+	}
 	
 	//답글불러오기
 	@RequestMapping(value = "blogReReply.do",produces = "application/json; charset=utf-8")
@@ -1365,12 +1381,31 @@ public class BlogController {
 	}
 	
 	// 블로그 관리 - 구독 취소
+	@RequestMapping("adminSubDelete.do")
+	public  ModelAndView adminSubDelete(ModelAndView mv,HttpServletRequest request,
+			@RequestParam("mId") String subId) {
+		HttpSession session = request.getSession();
+		Member nowUser = (Member) session.getAttribute("loginUser");		
+		
+		BlogSub bs = new BlogSub();
+		bs.setmId(nowUser.getmId());
+		bs.setSubId(subId);
+		
+		int num = bService.adminSubDelete(bs);
+		// 1. 구독 블로거들 ID를갖고온당!! subId에 담겨져있음!
+		ArrayList<BlogSub> subList = bService.selectSubList(nowUser.getmId());
+		// 2. BlogDeetail 갖고오깅
+		ArrayList<BlogDetail> bd = bService.selectSubDetail(subList);
+
+		mv.addObject("bd", bd);
+		mv.setViewName("blog/blogAdminSub");
+		return mv;
+	}
 	
 	// etc
 	@RequestMapping("guideMain.do")
 	public ModelAndView guideGo(ModelAndView mv, HttpServletRequest request) {
-		
-		
+
 		mv.setViewName("blog/guideDetail");
 		
 		return mv;
@@ -1384,7 +1419,6 @@ public class BlogController {
 		
 		
 		ArrayList<BlogPost> bp = bService.blogAllSearch(searchValue);
-		System.out.println(bp);
 		mv.addObject("bp",bp);
 		mv.addObject("sv",searchValue);
 		mv.setViewName("blog/blogAllSearch");
@@ -1396,7 +1430,6 @@ public class BlogController {
 	public ModelAndView competView(ModelAndView mv, HttpServletRequest request) {
 		
 		ArrayList<Compet> clist = bService.competView();
-		System.out.println(clist);
 		mv.addObject("clist",clist);
 		mv.setViewName("blog/competition");
 		return mv;

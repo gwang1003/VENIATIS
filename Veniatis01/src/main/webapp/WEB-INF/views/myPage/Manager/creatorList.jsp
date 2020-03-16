@@ -158,6 +158,9 @@
               </thead>
               <tbody>
 				<c:forEach var="c" items="${cList }">
+              		<c:url var="pDetail" value="projectDetail.do">
+	          			<c:param name="pNo" value="${ c.pNo }"/>
+	          		</c:url>
 					<tr align="center">
               		<td>${c.creNo }</td>
               		<td>${c.creName }</td>
@@ -165,7 +168,7 @@
               		<td>${c.creType }</td>
               		<td>${c.crePhone }</td>
               		<td>${c.creEmail }</td>
-              		<td>${c.pNo }</td>
+              		<td><a href="${pDetail}">${c.pNo }</a></td>
               	</tr>
 				</c:forEach>
               </tbody>

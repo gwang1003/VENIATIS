@@ -149,11 +149,14 @@
               </thead>
               <tbody>
 				<c:forEach var="p" items="${pList }">
+				<c:url var="pDetail" value="projectDetail.do">
+	              	<c:param name="pNo" value="${ p.pNo }"/>
+	            </c:url>
 					<tr align="center">
 						<td>${p.pNo }</td>
 						<td>${p.creName }</td>
 						<td>${p.creId }</td>
-						<td>${p.pTitle }</td>
+						<td><a href="${pDetail }">${p.pTitle }</a></td>
 						<td>${p.cate }</td>
 						<td>${p.sumAmount}(원)~${p.targetAmount }(원)</td>
 						<td>${p.hashtag }</td>

@@ -78,16 +78,22 @@
               </thead>
               <tbody>
 				<c:forEach var="p" items="${pList }">
+					<c:url var="pDetail" value="projectDetail.do">
+	                	<c:param name="pNo" value="${ p.pNo }"/>
+	                </c:url>
+	                <c:url var="pOk" value="okProject.do">
+	                	<c:param name="pNo" value="${ p.pNo }"/>
+	                </c:url>
 					<tr align="center">
 						<td>${p.pNo }</td>
 						<td>${p.creName }</td>
 						<td>${p.creId }</td>
-						<td>${p.pTitle }</td>
+						<td><a href="${pDetail }">${p.pTitle }</a></td>						
 						<td>${p.pText }</td>
 						<td>${p.targetAmount }</td>
 						<td>${p.cate }</td>
 						<td>${p.startDate }~${p.endDate }</td>
-						<td><button>등업</button></td>
+						<td><button onclick="location.href='${pOk}'">등업</button></td>
 					</tr>
 				</c:forEach>
               </tbody>

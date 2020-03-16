@@ -101,7 +101,7 @@
                                                 <dt>등록일</dt>
                                                 <dd>
                                                     
-                                                    ${p.startDate }
+                                                    ${p.pEnrollDate }
                                                 </dd>
                                             </dl>
                                         </div>

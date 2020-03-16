@@ -182,7 +182,7 @@ input[disabled] {
   opacity: 1; }
 
 button, input, textarea, select {
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   -webkit-border-radius: 0;
   
   

@@ -65,6 +65,7 @@
 		<result property="creEmail" column="CRE_EMAIL"/>
 		<result property="creProfile" column="PROFILE"/>
 		<result property="pStatus" column="P_STATUS"/>
+		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
 	</resultMap>
 	
 	<resultMap type="Compet" id="CompetResultSet">
@@ -360,6 +361,12 @@
 		FROM QNA
 		JOIN MEMBER USING(M_NO)
 	</select>
+	
+	<update id="okProject" >
+		UPDATE PROJECT
+		SET P_STATUS = 'Y'
+		WHERE P_NO = #{pNo}
+	</update>
 	
 	
 </mapper>

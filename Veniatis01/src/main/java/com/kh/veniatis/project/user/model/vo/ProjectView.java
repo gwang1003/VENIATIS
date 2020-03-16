@@ -24,12 +24,14 @@ public class ProjectView {
 	private String creProfile;	// 프로필이미지 경로
 	private String pStatus;	// 프로젝트 상태
 	private String progress;	// 진행 상태
+	private Date pEnrollDate;
 	
 	public ProjectView() {}
 
 	public ProjectView(int pNo, String cate, String pTitle, String pText, String pDesc, String pUrl, String pVideo,
 			String hashtag, Date startDate, Date endDate, int targetAmount, int sumAmount, String thumbnail, int creNo,
-			String creId, String creName, String creEmail, String creProfile, String pStatus, String progress) {
+			String creId, String creName, String creEmail, String creProfile, String pStatus, String progress,
+			Date pEnrollDate) {
 		super();
 		this.pNo = pNo;
 		this.cate = cate;
@@ -51,7 +53,10 @@ public class ProjectView {
 		this.creProfile = creProfile;
 		this.pStatus = pStatus;
 		this.progress = progress;
+		this.pEnrollDate = pEnrollDate;
 	}
+
+
 
 
 
@@ -214,6 +219,15 @@ public class ProjectView {
 	public void setProgress(String progress) {
 		this.progress = progress;
 	}
+	
+
+	public Date getpEnrollDate() {
+		return pEnrollDate;
+	}
+
+	public void setpEnrollDate(Date pEnrollDate) {
+		this.pEnrollDate = pEnrollDate;
+	}
 
 	@Override
 	public String toString() {
@@ -222,8 +236,7 @@ public class ProjectView {
 				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount
 				+ ", thumbnail=" + thumbnail + ", creNo=" + creNo + ", creId=" + creId + ", creName=" + creName
 				+ ", creEmail=" + creEmail + ", creProfile=" + creProfile + ", pStatus=" + pStatus + ", progress="
-				+ progress + "]";
+				+ progress + ", pEnrollDate=" + pEnrollDate + "]";
 	}
-
 	
 }

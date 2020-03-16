@@ -453,7 +453,6 @@
 						
 						<form id="orderInfo" name="orderInfo" action="rewardSuccess.do">
 							<input type="hidden" name="orderNo" value="">
-							<!-- <input type="hidden"> -->
 						</form>
 					</div>
 				</div>

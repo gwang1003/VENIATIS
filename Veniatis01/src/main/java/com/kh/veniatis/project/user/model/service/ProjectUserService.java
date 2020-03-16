@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.Funding;
@@ -30,15 +31,6 @@ public interface ProjectUserService {
 	// 프로젝트 사진 파일 가져오기
 	ArrayList<Files> selectFileList(int pNo);
 
-	// 프로젝트 qna 댓글 목록 가져오기
-	//ArrayList<Reply> selectReplyList(int pNo);
-
-	// 프로젝트 qna 댓글 등록
-	//int insertReply(Reply r);
-
-	// 최근 소식 가져오기
-	//ArrayList<PNotice> selectPNoticeList(int pNo);
-	
 	// 후원하기(insert)
 	int insertFunding(Funding f);
 
@@ -56,5 +48,20 @@ public interface ProjectUserService {
 
 	// 결제 완료로 바꾸기
 	int updatePayStatus(Double orderNo1);
+
+	// 프로젝트 수정
+	int updateSumAmount(ProjectView p);
+
+	// 남은 수량 수정
+	int updaterCount(Reward r);
+
+	// 펀딩 리스트 조회
+	ArrayList<Funding> selectFundingList(Double oNo);
+
+	// 리워드 하나 조회
+	Reward selectRewardOne(int rNo);
+
+	// 프로젝트 QnA 질문하기
+	int insertProjectQna(QnA qa);
 		
 }

@@ -11,6 +11,7 @@ import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.Funding;
@@ -87,6 +88,31 @@ public class ProjectUserDao {
 	public int updatePayStatus(Double orderNo) {
 		// 결제 완료로 바꾸기
 		return sqlSession.update("puMapper.updatePayStatus", orderNo);
+	}
+
+	public int updateSumAmount(ProjectView p) {
+		// 프로젝트 수정
+		return sqlSession.update("puMapper.updateSumAmount", p);
+	}
+
+	public int updaterCount(Reward r) {
+		// 남은 수량 수정
+		return sqlSession.update("puMapper.updaterCount", r);
+	}
+
+	public ArrayList<Funding> selectFundingList(Double oNo) {
+		// 펀딩 리스트 조회
+		return (ArrayList)sqlSession.selectList("puMapper.selectFundingList", oNo);
+	}
+
+	public Reward selectRewardOne(int rNo) {
+		// 리워드 하나 조회
+		return sqlSession.selectOne("puMapper.selectRewardOne", rNo);
+	}
+
+	public int insertProjectQna(QnA qa) {
+		// 프로젝트 질문
+		return sqlSession.insert("puMapper.insertProjectQna", qa);
 	}
 
 	/*

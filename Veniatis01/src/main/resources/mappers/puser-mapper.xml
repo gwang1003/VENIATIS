@@ -128,6 +128,19 @@
 		<result property="mId" column="M_ID"/>
 	</resultMap>
 	
+	<resultMap type="QnA" id="QAResultSet">
+		<id property="qNo" column="QNA_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="name" column="M_NAME"/>
+		<result property="qType" column="QNA_TYPE"/>
+		<result property="qCategory" column="QNA_CATE"/>
+		<result property="qContent" column="QNA_CONTENT"/>
+		<result property="qAnswer" column="QNA_ANSWER"/>
+		<result property="enrollDate" column="QNA_ENROLLDATE"/>
+	</resultMap>
+	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_PROJECT
@@ -192,5 +205,31 @@
 		WHERE O_NO = #{oNo}
 	</update>
 	
+	<update id="updateSumAmount" parameterType="com.kh.veniatis.project.user.model.vo.ProjectView">
+		UPDATE PROJECT
+		SET P_SUM_AMOUNT = #{sumAmount}
+		WHERE P_NO = #{pNo}
+	</update>
+	
+	<update id="updaterCount" parameterType="com.kh.veniatis.project.creator.model.vo.Reward">
+		UPDATE REWARD
+		SET R_COUNT = #{rCount}
+		WHERE R_NO = #{rNo}
+	</update>
+	
+	<select id="selectFundingList" parameterType="_double" resultMap="fundingResultSet">
+		SELECT * FROM FUNDING
+		WHERE O_NO = #{oNo}
+	</select>
+	
+	<select id="selectRewardOne" parameterType="_int" resultMap="rewardResultSet">
+		SELECT * FROM REWARD
+		WHERE R_NO = #{rNo}
+	</select>
+	
+	<insert id="insertProjectQna">
+		INSERT INTO QNA
+		VALUES(SEQ_QID.NEXTVAL, #{pNo}, #{mNo}, 1, NULL, #{qContent}, NULL, SYSDATE);
+	</insert>	
 	
 </mapper>

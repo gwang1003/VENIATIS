@@ -9,6 +9,7 @@ import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.dao.ProjectUserDao;
@@ -113,5 +114,36 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		// 결제 완료로 바꾸기
 		return pud.updatePayStatus(orderNo);
 	}
+
+	@Override
+	public int updateSumAmount(ProjectView p) {
+		// 프로젝트 수정
+		return pud.updateSumAmount(p);
+	}
+
+	@Override
+	public int updaterCount(Reward r) {
+		// 남은 수량 수정
+		return pud.updaterCount(r);
+	}
+
+	@Override
+	public ArrayList<Funding> selectFundingList(Double oNo) {
+		// 펀딩 리스트 조회
+		return pud.selectFundingList(oNo);
+	}
+
+	@Override
+	public Reward selectRewardOne(int rNo) {
+		// 리워드 하나 조회
+		return pud.selectRewardOne(rNo);
+	}
+
+	@Override
+	public int insertProjectQna(QnA qa) {
+		// 프로젝트 QnA 질문하기
+		return pud.insertProjectQna(qa);
+	}
+	
 
 }

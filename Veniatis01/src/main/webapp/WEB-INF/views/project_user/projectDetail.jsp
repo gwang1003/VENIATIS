@@ -126,15 +126,6 @@ function comma(str) {
                                     		</c:otherwise>
                                     	</c:choose>
                                     </c:forEach>
-                                        <!-- <li class="uk-active uk-transition-active" style="z-index: -1;">
-                                            <img src="resources/main/test.jpg" class="img_g">
-                                        </li>
-                                        <li>
-                                            <img src="resources/main/test2.jpg" class="img_g">
-                                        </li>
-                                        <li>
-                                            <img src="resources/main/test3.jpg" class="img_g">
-                                        </li> -->
                                     </ul>
 
                                     <div class="main_image_nav_wrapper">
@@ -284,7 +275,7 @@ function comma(str) {
                                 </div>
 
                                 <div class="item_btns">
-                                    <a href="#none" class="link_share" id="link_share">공유
+                                    <a class="link_share" id="link_share">공유
                                         <span class="num_count" id="share_num_count">
                                             <!-- 16 -->
                                         </span></a>
@@ -453,40 +444,48 @@ function comma(str) {
                                                 </div>
                                             </section>
                                             <div class="comment_cont">
-                                                <form action="#">
+                                                <form id="qnaForm">
                                                     <fieldset>
                                                         <legend class="screen_out">댓글달기</legend>
-                                                        <div class="comment_form_group">
-                                                            <div class="comment_input_box">
-                                                                <textarea cols="30" rows="5" class="tf_cmt login_required"
-                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." id="rContent"></textarea>
-
-                                                                <input type="hidden" name="createId" value="">
-                                                                <input type="hidden" name="newsSeq" value="">
-
-                                                            </div>
-                                                            <div>
-                                                                <button class="btn_submit point_color" id="rSubmit">등록</button>
-                                                            </div>
-                                                        </div>
+                                                        <c:if test="${ !empty loginUser }">
+	                                                        <div class="comment_form_group">
+	                                                            <div class="comment_input_box">
+	                                                                <textarea cols="30" rows="5" class="tf_cmt login_required"
+	                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." id="qContent"></textarea>
+	                                                                <input type="hidden" name="pNo" value="${pNo}">
+	                                                            </div>
+	                                                            <div>
+	                                                                <button class="btn_submit point_color" id="qnaSubmit">등록</button>
+	                                                            </div>
+	                                                        </div>
+                                                        </c:if>
+                                                        <c:if test="${ empty loginUser }">
+                                                        	<div class="comment_form_group">
+	                                                            <div class="comment_input_box" style="text-align:center; padding:30px;">
+	                                                            	<span> 로그인 후 이용 가능합니다.</span>		
+	                                                            </div>
+	                                                        </div>
+                                                        </c:if>
                                                     </fieldset>
                                                 </form>
-                                                <!-- <h2 class="screen_out">댓글</h2>
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기서 부터 다시 하기 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                                                <h2 class="screen_out">댓글</h2>
                                                 <ul class="list_cmt">
                                                     <li>
                                                         <div class="cmt_output">
                                                             <span class="user_profile">
                                                                 <span class="img_profile">
-
                                                                 </span>
                                                                 <span class="txt_name">후원자1</span>
                                                             </span>
 
-                                                            <span class="txt_time">2020-02-12 17:25</span>댓글 보이기
+                                                            <span class="txt_time">2020-02-12 17:25</span>
+                                                            <!-- 댓글 보이기 -->
                                                             <div class="cmt_content">
                                                                 <p class="cont_cmt">질문1</p>
 
-                                                            </div>댓글 수정 
+                                                            </div>
+                                                            <!-- 댓글 수정  -->
                                                             <div class="edit_cmt" style="display:none">
                                                                 <fieldset>
                                                                     <legend class="screen_out">댓글달기</legend>
@@ -511,7 +510,6 @@ function comma(str) {
                                                             <li>
                                                                 <div class="cmt_reply">
                                                                     <span class="ico_comm">댓글의 답글</span>
-
                                                                     <span class="user_profile">
                                                                         <span class="img_profile clear_empty_picture">
                                                                             <img src="test.png" style="background: rgb(255, 255, 255);">
@@ -522,15 +520,50 @@ function comma(str) {
                                                                     <p class="cont_cmt">답변 드림</p>
                                                                 </div>
                                                             </li>
+
                                                         </ul>
-                                                    </li>
-                                                </ul> -->
 
-                                                <div id="paging" class="paging_comm" style="margin-top:20px;">
-                                                    <a class="link_page on">1</a>&nbsp;
+                                                   </li>
+                                                </ul>
+                                                  
+                                                <script>
+                                                	$(function(){
+                                                		getQnaList();
+                                                		
+                                                		function getQnaList(){
+                                                			// Qna 목록 가져오기
+                                                		}
+                                                		
+                                                		$("#qnaSubmit").on("click", function(){
+                                                			// db에 넣고 목록 조회
+                                                			var formData = $("#qnaForm").serialize();
+                                                			$.ajax({
+                                                				url : "insertProjectQna.do", 
+                                					            type : 'POST', 
+                                					            data : formData, 
+                                					            success : function(data) {
+                                					            	if(data == "success"){
+                                					            		alert("질문이 등록되었습니다.");
+                                					            		//getQnaList();
+                                					            	}else{
+                                					            		
+                                					            	}
+                                					            }, 
+                                					            error : function(xhr, status) {
+                                					                alert(xhr + " : " + status);
+                                					            }
+                                                			});
+                                                		});
+                                                	});
+                                                </script>
 
-                                                    <input id="pageIndex" name="pageIndex" type="hidden" value="1">
-                                                </div>
+                                                <c:if test="${ !empty loginUser }">
+	                                               	<div id="paging" class="paging_comm" style="margin-top:55px;">
+	                                                    <a class="link_page on">1</a>&nbsp;
+	
+	                                                    <input id="pageIndex" name="pageIndex" type="hidden" value="1">
+	                                                </div>
+                                                </c:if>
                                             </div>
                                         </div>
 
@@ -560,12 +593,6 @@ function comma(str) {
                                                             </div>
                                                         </li> -->
                                                     </ul>
-                                                    <!-- <script>
-                                                        // 임의로 프로필이미지 설정
-                                                        $(function () {
-                                                            $(".img_profile").attr("style", "background-image:url(profile.png); background-size:contain;");
-                                                        });
-                                                    </script> -->
 
                                                     <div id="paging" class="paging_comm">
                                                         <a class="link_page on">1</a>&nbsp;
@@ -608,9 +635,6 @@ function comma(str) {
                                 						var $div1_1 = $("<div class='cmt_content'>");
                                 						var $p1 = $("<p class='cont_cmt'>").text(data[i].rContent);
                                 						
-                                						/* $ulBody.append($li);
-                                						$li.append($div1); */
-                                						 
                                 						$div1.append($span1);
                                 						$span1.append($span1_2);
                                 						$span1.append($span1_1);
@@ -619,6 +643,7 @@ function comma(str) {
                                 						$div1.append($div1_1);
                                 						$li.append($div1); 
                                 						
+                                						$ulBody.append($li);
                                 						/* 
                                 						<div class="cmt_output">
                                                             <span class="user_profile">
@@ -636,7 +661,7 @@ function comma(str) {
                                                         </div>*/
                                                         
                                 					}
-                                					$ulBody.append($li);
+                                					
                                 				}else{
                                 					// 댓글이 등록되지 않았을 때
                                 					var $li = $("<li>");
@@ -653,7 +678,7 @@ function comma(str) {
                                 			error:function(e){
                                 				console.log(e);
                                 			}
-                                		});
+                                		}); // 참여자 응원 ajax 끝
                                 		
                                 	}
                                     </script>
@@ -676,7 +701,7 @@ function comma(str) {
 															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
 															 </span> 
 															 <span class="txt_satea">
-															 	<em class="num_state">0명</em> 참여하였습니다.
+															 	<!-- <em class="num_state">0명</em> 참여하였습니다. -->
 															 </span>
 														</a>
 													</li>
@@ -695,7 +720,7 @@ function comma(str) {
 															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
 															 </span> 
 															 <span class="txt_satea">
-															 	<em class="num_state">0명</em> 참여하였습니다.
+															 	<!-- <em class="num_state">0명</em> 참여하였습니다. -->
 															 	<small class="txt_count">(수량 ${reward.rCount}개 남음)</small>
 															 </span>
 														</a>

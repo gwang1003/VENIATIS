@@ -19,8 +19,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.reply.model.vo.Reply;
+import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
 import com.kh.veniatis.project.user.model.vo.Funding;
@@ -33,8 +35,6 @@ import com.kh.veniatis.project.user.model.vo.ProjectView;
 public class ProjectUserController {
 	@Autowired
 	private ProjectUserService pus;
-	@Autowired
-	private MemberService mService;
 	
 	/*@RequestMapping("projectList.do")
 	public String ProjectList() {
@@ -49,13 +49,12 @@ public class ProjectUserController {
 		int currentPage = page != null ? page : 1;
 		
 		ArrayList<ProjectView> list = pus.selectList(currentPage);
-		
 		//System.out.println(list);
 		
 		if(list != null) {
-			for(ProjectView p : list) {
+			/*for(ProjectView p : list) {
 				System.out.println(p);
-			}
+			}*/
 			
 			mv.addObject("projectList", list);
 			mv.addObject("pi", ProjectPagination.getPageInfo());
@@ -130,16 +129,6 @@ public class ProjectUserController {
 		
 		return mv;
 	}
-	
-	// 프로젝트 상세보기에서 최근소식, QnA, 참여자 응원 관련 메소드 만들어야 함
-	
-	/*@RequestMapping(value="/test1.do", method=RequestMethod.POST)
-    @ResponseBody
-    public String selectNewsList(int pNo) {
-        //인코딩이 안된듯..?
-        return "프로젝트 번호는 " + pNo;
-    }*/
-	
 	
 	// 댓글 리스트 불러오기
 	@RequestMapping(value="cheerList.do", produces="application/json; charset=utf-8")
@@ -242,9 +231,6 @@ public class ProjectUserController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); //년월일시분초
 		String orderstr = sdf.format(new Date()) + loginUser.getmNo();
 		Double orderNo = Double.parseDouble(orderstr);
-		/*System.out.println("주문번호 : " + orderNo + ", 로그인 유저 번호 : " + loginUser.getmNo() 
-				+ ", 참여금 : " + addAmt + ", \n수령인 : " + tfName + ", 연락처 : " + tfPhone 
-				+ ", 주소 : " + address + ", \n배송메모 : " + tfMemo);*/
 		
 		// 주문 정보 저장하기
 		int addAmount = Integer.parseInt(addAmt);
@@ -254,14 +240,18 @@ public class ProjectUserController {
 								addAmount, tfName, tfPhone, address, tfMemo, totalAmount);
 		int result = pus.insertOrder(insertOrder);
 		
-		// ********** 펀딩 모인 금액 수정해야함!!! ********** 
 		
 		if(result > 0) {
+			// 프로젝트 모인 금액 추가하기
+			p.setSumAmount(p.getSumAmount() + addAmount);
+			int r2 = pus.updateSumAmount(p);
+			
 			// 펀딩 하나씩 데이터베이스에 저장하기
 			List<Funding> paramList = fundings.getFundings();
 			for(int i=0; i<paramList.size(); i++) {
 				Funding f = paramList.get(i);
 				f.setoNo(orderNo);
+				
 				if(f.getrNo() != 0) {
 					pus.insertFunding(f);
 				}
@@ -292,14 +282,57 @@ public class ProjectUserController {
 	
 	@RequestMapping("rewardSuccess.do")
 	public ModelAndView RewardSuccessView(ModelAndView mv, String orderNo) {
+		
 		System.out.println("주문번호 확인 : " + orderNo);
 		Double orderNo1 = Double.parseDouble(orderNo);
 		int result = pus.updatePayStatus(orderNo1);
+				
 		if(result>0) {
+			
+			ArrayList<Funding> fList = pus.selectFundingList(orderNo1);
+			for(Funding f : fList) {
+				Reward r = pus.selectRewardOne(f.getrNo());
+				if(r.getrLimit().equals("Y")) {
+					int rCount = r.getrCount() - f.getQuantity();
+					if(rCount >= 0) {
+						r.setrCount(rCount);
+						int result2 = pus.updaterCount(r);
+						if(result2>0) {
+							System.out.println("rCount 수정 완료");
+						}
+					}
+				}else {
+					System.out.println("제한 없는 리워드 주문");
+				}
+			}
+			
+			mv.addObject("orderNo", orderNo);
 			mv.setViewName("project_user/rewardSuccess");
 		}
 		
 		return mv;
+	}
+	
+	// 문의하기
+	@RequestMapping("insertProjectQna.do")
+	public String insertProjectQna(HttpSession session,
+			@RequestParam("pNo") int pNo,
+			@RequestParam("qContent") String qContent) {
+		String str = "";
+		
+		QnA qa = new QnA();
+		qa.setpNo(pNo);
+		qa.setmNo(((Member) session.getAttribute("loginUser")).getmNo());
+		qa.setqType(1);
+		qa.setqContent(qContent);
+		
+		int result = pus.insertProjectQna(qa);
+		if(result > 0) {
+			str = "success";
+		}else {
+			str = "fail";
+		}
+		return str;
 	}
 	
 }

@@ -18,12 +18,13 @@ public class Project {
 	private int pSumAmount;		// 모인금액
 	private String pAccount;
 	private String pStatus;
+	private String pEnrollDate;
 	
 	public Project() {}
 
 	public Project(int pNo, int creNo, int pcNo, String pUrl, String pTitle, String pText, String pDesc, String pVideo,
 			String pHashTag, Date pStartDate, Date pEndDate, int pTargetAmount, int pSumAmount, String pAccount,
-			String pStatus) {
+			String pStatus,String pEnrollDate) {
 		super();
 		this.pNo = pNo;
 		this.creNo = creNo;
@@ -40,6 +41,15 @@ public class Project {
 		this.pSumAmount = pSumAmount;
 		this.pAccount = pAccount;
 		this.pStatus = pStatus;
+		this.pEnrollDate=pEnrollDate;
+	}
+
+	public String getpEnrollDate() {
+		return pEnrollDate;
+	}
+
+	public void setpEnrollDate(String pEnrollDate) {
+		this.pEnrollDate = pEnrollDate;
 	}
 
 	public int getpNo() {
@@ -167,8 +177,10 @@ public class Project {
 		return "Project [pNo=" + pNo + ", creNo=" + creNo + ", pcNo=" + pcNo + ", pUrl=" + pUrl + ", pTitle=" + pTitle
 				+ ", pText=" + pText + ", pDesc=" + pDesc + ", pVideo=" + pVideo + ", pHashTag=" + pHashTag
 				+ ", pStartDate=" + pStartDate + ", pEndDate=" + pEndDate + ", pTargetAmount=" + pTargetAmount
-				+ ", pSumAmount=" + pSumAmount + ", pAccount=" + pAccount + ", pStatus=" + pStatus + "]";
+				+ ", pSumAmount=" + pSumAmount + ", pAccount=" + pAccount + ", pStatus=" + pStatus + ", pEnrollDate="
+				+ pEnrollDate + "]";
 	}
+
 	
 	
 	

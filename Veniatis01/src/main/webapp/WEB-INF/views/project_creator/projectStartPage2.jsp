@@ -65,6 +65,10 @@
 <script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 <script src="resources/js/commonUtil.js"></script>
+<script type="text/javascript" src="resources/smartEditor/js/jquery.js"></script>
+<script type="text/javascript" src="resources/smartEditor/js/jquery-ui.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/smartEditor/SE2/js/HuskyEZCreator.js"></script>
+
 <script>
 var num = 1;
 $(document).ready(function() {;
@@ -95,6 +99,54 @@ num = num -1;
     return false;
 });
 });
+
+
+var oEditors = []; // 개발되어 있는 소스에 맞추느라, 전역변수로 사용하였지만, 지역변수로 사용해도 전혀 무관 함.
+
+$(document).ready(function() {
+	// Editor Setting
+	
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef : oEditors, // 전역변수 명과 동일해야 함.
+		elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
+		sSkinURI : "resources/smartEditor/SE2/SmartEditor2Skin.html", // Editor HTML
+		fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
+		htParams : {
+			// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseToolbar : true,
+			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,
+			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true, 
+		}
+	});
+
+	// 전송버튼 클릭이벤트
+	$("#savebutton").click(function(){
+		//if(confirm("저장하시겠습니까?")) {
+			// id가 smarteditor인 textarea에 에디터에서 대입
+			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+
+			// 이부분에 에디터 validation 검증
+			if(validation()) {
+				return true;
+			}
+		//}
+	})
+});
+
+// 필수값 Check
+function validation(){
+	var contents = $.trim(oEditors[0].getContents());
+	if(contents === '<p>&nbsp;</p>' || contents === ''){ // 기본적으로 아무것도 입력하지 않아도 <p>&nbsp;</p> 값이 입력되어 있음. 
+		alert("내용을 입력하세요.");
+		oEditors.getById['smarteditor'].exec('FOCUS');
+		return false;
+	}
+	return true;
+}
+
+
 </script>
 </head>
 <body>
@@ -141,7 +193,7 @@ num = num -1;
 					
 			<div class="sheet_info">
 				<div class="form_area">
-					<form action="projectInsert.do" name="addForm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
+					<form action="projectInsert.do" name="addForm" method="post" enctype="multipart/form-data" id="frm" onsubmit="return fn_validateCheck()">
 						<input type="hidden" value="${creator.creNo }" name="creNum">
 						<input type="hidden" value="${creator.creUrl }" name="creUrl">
 						<fieldset class="fld_comm">
@@ -243,8 +295,9 @@ num = num -1;
 									<p class="tit_agreement">
 										프로젝트 소개<span class="txt_warning">*</span> 
 									<div id="contentArea">
-										<textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
-										name="pDesc" style="resize: none; overflow-x: hidden;"></textarea>
+										<!-- <textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
+										name="pDesc" style="resize: none; overflow-x: hidden;"></textarea> -->
+										<textarea name="pDesc" id="smarteditor" rows="10" cols="100" style="width:700px; height:412px; "></textarea> 
 										<!-- 에디트 삽입 영역		</div> 입니다. -->
 									</div>
 									<div class="wrap_notice">
@@ -278,7 +331,7 @@ num = num -1;
 			</div>
 			<div class="btn_area">
 				<!-- <input type="button" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">  -->
-				<input	type="submit" class="btn_next" title="다음단계" value="다음단계">
+				<input	type="submit" class="btn_next" title="다음단계" value="다음단계" id="savebutton">
 			</div>
 			</form>
 		</div>
@@ -331,7 +384,7 @@ function fn_imgAdd() {
           html += "<div class='txt_input input_full'>"
           html += "<input class='upload_name' id='uploadName"+ make_img_div +"' disabled='disabled'>";
           html += "<label for=fileName"+ make_img_div +" class='btn_search'>찾아보기</label>";
-          html += "<button class='btn_delete'>삭제</button>";
+          html += "<button type='button' class='btn_delete'>삭제</button>";
           html += "<input type='file' id='fileName"+ make_img_div +"' name='subImage"+ make_img_div +"' class='upload_hidden'>";
           html += "</div></div></li>"
 
@@ -430,11 +483,7 @@ function fn_validateCheck(){
         return false;
     }
 
-    if(isEmpty(jQuery('#content').val())){
-        alert("프로젝트 소개를 입력하세요.");
-        $('#content').focus();
-        return false;
-    }
+
 
     $("input[id^='title']").each( function(){
         if($.trim($(this).val())==""){
@@ -445,20 +494,9 @@ function fn_validateCheck(){
         }
     });
 
-    $("textarea[id^='addContent']").each( function(){
-        if($.trim($(this).val())==""){
-            if(focus == ""){
-                focus = $(this);
-			}
-            check_project_info = false;
-        }
-    });
 
-	if(!check_project_info){
-        focus.focus();
-        alert("프로젝트 소개부분을 입력해주세요.");
-        return false;
-    }
+
+
 
 	// 태그 넣기
 	var ab="";
@@ -470,9 +508,10 @@ function fn_validateCheck(){
         ab= ab+b+",";
         }
     }
+    alert(ab);
     
     $("#tagArea").append("<input type='hidden' name='pHashTag' value='"+ab+"'>");
-    alert(ab);
+  
     return true;
 }	
 $('input[type=radio][name=videoFlag]').change(function() {

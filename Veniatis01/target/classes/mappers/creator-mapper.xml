@@ -35,6 +35,7 @@
 		<result property="pSumAmount" column="P_SUM_AMOUNT"/>
 		<result property="pAccount" column="P_ACCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
+		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
 	</resultMap>
 	
 	<resultMap id="rewardResultSet" type="Reward">
@@ -47,6 +48,22 @@
 		<result property="rCount" column="R_COUNT"/>
 		<result property="rOption" column="R_OPTION"/>
 		<result property="rDelivery" column="R_DELIVERY"/>
+	</resultMap>
+	
+	<resultMap type="Files" id="FilesResultSet2">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property ="mNo" column="M_NO"/>
+		<result property="conNo" column="CON_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
 	<insert id="creatorInsert" parameterType="Creator">
@@ -68,7 +85,7 @@
 	
 	<insert id="projectInsert" parameterType="Project">
 		INSERT INTO PROJECT
-		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W')
+		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W',SYSDATE)
 		<selectKey keyProperty="pNo" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_PID.CURRVAL FROM DUAL 
 		</selectKey>
@@ -133,6 +150,31 @@
 	WHERE CRE_NO=#{creNo}
 	</update>
 	
+	<select id="creNoforDel" resultType="Integer">
+		SELECT CRE_NO 
+		FROM PROJECT
+		WHERE P_NO=#{pNo}
+	</select>
 	
+	<delete id="CreatorDelete">
+		DELETE FROM CREATOR
+		WHERE CRE_NO = #{creNo}
+	</delete>
+	
+	<delete id="projectDelete">
+		DELETE FROM PROJECT
+		WHERE P_NO=#{pNo}
+	</delete>
+		
+	<select id="selectFiles" resultMap="FilesResultSet2">
+		SELECT * FROM FILES
+		WHERE P_NO=#{pNo}
+	</select>
+	
+	<delete id="deleteFiles">
+		DELETE FROM FILES
+		WHERE P_NO=#{pNo}
+		
+	</delete>
 	
 </mapper>

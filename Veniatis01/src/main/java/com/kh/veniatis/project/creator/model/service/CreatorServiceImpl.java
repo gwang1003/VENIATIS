@@ -1,6 +1,7 @@
 package com.kh.veniatis.project.creator.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,38 +32,37 @@ public class CreatorServiceImpl implements CreatorService {
 
 	@Override
 	public int projectInsert(Project p) {
-		// TODO Auto-generated method stub
 		return cDao.projectInsert(p);
 	}
 
 	@Override
 	public int projectUpdate(int pNo) {
-		// TODO Auto-generated method stub
+
 		return cDao.projectUpdate(pNo);
 	}
 
 	@Override
 	public int projectDelete(int pNo) {
-		// TODO Auto-generated method stub
+	
 		return cDao.projectDelete(pNo);
 	}
 
 
 	@Override
 	public int creatorDelete(int creNo) {
-		// TODO Auto-generated method stub
+	
 		return cDao.CreatorDelete(creNo);
 	}
 
 	@Override
 	public Project selectOneProject(Project p) {
-		// TODO Auto-generated method stub
+		
 		return cDao.selectOneProject(p);
 	}
 
 	@Override
 	public int pPhotoInsert(ArrayList<Files> files) {
-		// TODO Auto-generated method stub
+	
 		return cDao.pPhotoInsert(files);
 	}
 
@@ -74,38 +74,43 @@ public class CreatorServiceImpl implements CreatorService {
 
 	@Override
 	public Project selectProject(Integer pNo) {
-		// TODO Auto-generated method stub
+		
 		return cDao.selectOneProject(pNo);
 	}
 
 	@Override
 	public int finishProject(Project project) {
-		// TODO Auto-generated method stub
+		
 		return cDao.finishProject(project);
 	}
 
 	@Override
 	public Creator selectCreator(int creNo) {
-		// TODO Auto-generated method stub
+	
 		return cDao.selectCreator(creNo);
 	}
 
 	@Override
 	public int creatorUpdate(Creator c) {
-		// TODO Auto-generated method stub
+		
 		return cDao.creatorUpdate(c);
 	}
 
 	@Override
 	public int selectProjectNo(int creNo) {
-		// TODO Auto-generated method stub
 		return cDao.selectProjectNo(creNo);
 	}
 
 	@Override
 	public int selectCurCreNo() {
-		// TODO Auto-generated method stub
+
 		return cDao.selectCurCreNo();
+	}
+
+	@Override
+	public List<Files> selectFiles(int pNo) {
+		
+		return cDao.selectFiles(pNo);
 	}
 
 

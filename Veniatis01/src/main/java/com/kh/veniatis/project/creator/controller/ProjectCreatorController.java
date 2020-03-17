@@ -343,11 +343,12 @@ public class ProjectCreatorController {
 			// 프로젝트 사진 목록 가져오기(ArrayList<Files>)
 			ArrayList<Files> fList = pus.selectFileList(pNo);
 			//System.out.println(fList);
-			
+			System.out.println(fList);
 			
 			mv.addObject("project", p);
 			mv.addObject("rewardList", rList);
-			mv.addObject("filesList", fList);
+			mv.addObject("fList", fList);
+			
 			mv.addObject("creator",c);
 			mv.setViewName("project_creator/projectAlt");
 		}		
@@ -371,7 +372,14 @@ public class ProjectCreatorController {
 
 		ArrayList<Files> fList = pus.selectFileList(pNo);
 		
-	
+		List<String> hashList = new ArrayList<String>();
+		
+		String[] hashStr = p.getHashtag().split(",");
+		for(int i=0; i<hashStr.length;i++) {
+			hashList.add(hashStr[i]);
+		}
+		
+		System.out.println(hashList);
 		
 		Creator creator = cService.selectCreNo(mNo);
 		
@@ -381,6 +389,9 @@ public class ProjectCreatorController {
 			mv.addObject("creator", creator);
 			mv.addObject("project",p);
 			mv.addObject("fList",fList);
+			mv.addObject("hashList",hashList);
+			mv.addObject("creNum",c.getCreNo());
+			
 			mv.setViewName("project_creator/projectAlt2");
 			return mv;
 		} else {
@@ -389,31 +400,136 @@ public class ProjectCreatorController {
 
 	}
 	
-	
-	
-	
 	@RequestMapping("projectUpdate.do")
-	public ModelAndView projectUpdate(@RequestParam(value = "pNo") int pNo) {
-		int result = cService.projectUpdate(pNo);
+	public ModelAndView projectUpdate(Project p, Model model, HttpServletRequest request,
+			@RequestParam(value = "creUrl") String creUrl,
+			
+			@RequestParam(value="creNo") String creNum,
+			@RequestParam(value = "mainImage", required = true) MultipartFile image1,
+			@RequestParam(value = "subImage1", required = false) MultipartFile image2,
+			@RequestParam(value = "subImage2", required = false) MultipartFile image3,
+			@RequestParam(value = "subImage3", required = false) MultipartFile image4,
+			@RequestParam(value = "subImage4", required = false) MultipartFile image5) {
+		
+		p.setpUrl(creUrl);
+		p.setCreNo(Integer.parseInt(creNum));
+		System.out.println(p);
+		
+		/*int result = cService.projectInsert(p);
+				
+		Project project = cService.selectProject(result);
+	
+
+		ArrayList<Files> files = new ArrayList<Files>();
+
+		if (result > 0) {
+
+			if (image1 != null) {
+				Files file = new Files();
+				
+
+				file = saveFile(image1, request,1);
+
+				files.add(file);
+			}
+			if (image2 != null) {
+				Files file = new Files();
+				
+
+				file = saveFile(image2, request,2);
+
+				files.add(file);
+			}
+			if (image3 != null) {
+				Files file = new Files();
+				
+				file = saveFile(image3, request,3);
+
+				files.add(file);
+			}
+			if (image4 != null) {
+				Files file = new Files();
+				
+
+				file = saveFile(image4, request,4);
+
+				files.add(file);
+			}
+			if (image5 != null) {
+				Files file = new Files();
+				
+
+				file = saveFile(image5, request,5);
+
+				files.add(file);
+			}
+
+			for(int i=0;i<files.size();i++) {
+				files.get(i).setpNo(project.getpNo());
+			}
+			int result2 = cService.pPhotoInsert(files);
+
+			if (result2 > 0) {
+				ModelAndView mv = new ModelAndView();
+				mv.addObject("project", project);
+				mv.setViewName("project_creator/projectStartPage_reward");
+				return mv;
+			} else {
+				throw new ProjectException("프로젝트 등록 실패!");
+			}
+
+		} else {
+			throw new ProjectException("프로젝트 등록 실패!");
+		}*/
 		return null;
-
 	}
+	
+	
+	/* ================= 프로젝트 삭제 =============================*/
+	@RequestMapping("projectDelete.do")
+	public ModelAndView projectDelete(@RequestParam(value = "pNo") int pNo,
+			HttpServletRequest request) {
+		List<Files> f = cService.selectFiles(pNo);
 
-	@RequestMapping("projectDelede.do")
-	public ModelAndView projectDelede(@RequestParam(value = "pNo") int pNo) {
+
+		for(int i=0;i<f.size();i++) {
+		if(!f.get(i).getOriginName().isEmpty()) {
+			deleteFile(f.get(i).getChangeName(),request);
+		}
+		
+		}
+		
+	
+		
+		
 		int result = cService.projectDelete(pNo);
-		return null;
+		
+		if(result>0) {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("myPage/My/myOpenProject");
+			return mv;
+		}else {
+			throw new ProjectException("프로젝트 삭제 실패!");
+		}
+		
 
 	}
+	
+	public void deleteFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		System.out.println(root);
+		String savePath = root + "\\project_creator"; // 경로 수정
+		
+		File f = new File(savePath + "\\" + fileName);
+		System.out.println(f);
+		
+		if(f.exists()) 
+			f.delete();
+	}
+	
 
 	
 
-	@RequestMapping("creatorDelete.do")
-	public ModelAndView creatorDelete(@RequestParam(value = "creNo") int creNo) {
-		int result = cService.creatorDelete(creNo);
-		return null;
-
-	}
 
 	@RequestMapping("projectStart.do")
 	public String ProjectStart() {

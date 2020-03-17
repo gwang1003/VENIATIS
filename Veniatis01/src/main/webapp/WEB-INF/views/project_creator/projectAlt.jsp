@@ -157,10 +157,7 @@
 							<div class="txt_area">
 								<span class="txt_desc"><span class="txt_warning">*</span>은
 									필수입력 항목입니다.</span>
-								<p class="link_area">
-									<a class="link_guide" href="#" title="업로드 가이드" target="_blank">업로드
-										가이드</a>
-								</p>
+								
 							</div>
 							<!-- 개설자 정보 -->
 

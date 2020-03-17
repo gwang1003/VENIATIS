@@ -115,6 +115,15 @@ public class ProjectUserDao {
 		return sqlSession.insert("puMapper.insertProjectQna", qa);
 	}
 
+	public ArrayList<QnA> selectQnAList(int pNo) {
+		// 프로젝트 QnA 목록 가져오기
+		return (ArrayList)sqlSession.selectList("puMapper.selectQnAList", pNo);
+	}
+
+	public Member selectMember(int mNo) {
+		return sqlSession.selectOne("puMapper.selectMember", mNo);
+	}
+
 	/*
 	// 최근 소식 가져오기
 	public ArrayList<PNotice> selectPNoticeList(int pNo) {

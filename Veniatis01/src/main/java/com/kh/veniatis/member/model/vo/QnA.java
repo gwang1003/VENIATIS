@@ -12,11 +12,12 @@ public class QnA {
 	private String qContent;
 	private String qAnswer;
 	private Date enrollDate;
+	private Date answerDate;
 	
 	public QnA() {}
 
 	public QnA(int qNo, int pNo, int mNo, String name, int qType, String qCategory, String qContent, String qAnswer,
-			Date enrollDate) {
+			Date enrollDate, Date answerDate) {
 		super();
 		this.qNo = qNo;
 		this.pNo = pNo;
@@ -27,6 +28,7 @@ public class QnA {
 		this.qContent = qContent;
 		this.qAnswer = qAnswer;
 		this.enrollDate = enrollDate;
+		this.answerDate = answerDate;
 	}
 
 	public int getqNo() {
@@ -102,15 +104,19 @@ public class QnA {
 		this.enrollDate = enrollDate;
 	}
 
+	public Date getAnswerDate() {
+		return answerDate;
+	}
+
+	public void setAnswerDate(Date answerDate) {
+		this.answerDate = answerDate;
+	}
+
 	@Override
 	public String toString() {
 		return "QnA [qNo=" + qNo + ", pNo=" + pNo + ", mNo=" + mNo + ", name=" + name + ", qType=" + qType
 				+ ", qCategory=" + qCategory + ", qContent=" + qContent + ", qAnswer=" + qAnswer + ", enrollDate="
-				+ enrollDate + "]";
+				+ enrollDate + ", answerDate=" + answerDate + "]";
 	}
 
-	
-	
-	
-	
 }

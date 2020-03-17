@@ -63,5 +63,11 @@ public interface ProjectUserService {
 
 	// 프로젝트 QnA 질문하기
 	int insertProjectQna(QnA qa);
+
+	// QnA 목록 가져오기
+	ArrayList<QnA> selectQnAList(int pNo);
+
+	// member 조회
+	Member selectMemeber(int getmNo);
 		
 }

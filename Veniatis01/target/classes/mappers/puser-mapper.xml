@@ -19,7 +19,7 @@
 		<result property="pSumAmount" column="P_SUM_AMOUNT"/>
 		<result property="pAccount" column="P_ACCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
-	</resultMap>
+	</resultMap>-->
 	
 	<resultMap id="memberResultSet" type="Member">
 		<id property="mNo" column="M_NO"/>
@@ -32,7 +32,9 @@
 		<result property="mBirth" column="M_BIRTHDAY"/>
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
-	</resultMap> -->
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="cStatus" column="CRE_STATUS"/>
+	</resultMap>
 	
 
 	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
@@ -139,6 +141,7 @@
 		<result property="qContent" column="QNA_CONTENT"/>
 		<result property="qAnswer" column="QNA_ANSWER"/>
 		<result property="enrollDate" column="QNA_ENROLLDATE"/>
+		<result property="answerDate" column="QNA_ANSWER_DATE"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="_int">
@@ -228,8 +231,19 @@
 	</select>
 	
 	<insert id="insertProjectQna">
-		INSERT INTO QNA
-		VALUES(SEQ_QID.NEXTVAL, #{pNo}, #{mNo}, 1, NULL, #{qContent}, NULL, SYSDATE);
+		INSERT INTO QNA(QNA_NO, P_NO, M_NO, QNA_TYPE, QNA_CONTENT, QNA_ENROLLDATE)
+		VALUES(SEQ_QID.NEXTVAL, #{pNo}, #{mNo}, 1, #{qContent}, SYSDATE)
 	</insert>	
+	
+	<select id="selectQnAList" parameterType="_int" resultMap="QAResultSet">
+		SELECT * FROM QNA
+		WHERE P_NO = #{pNo}
+		ORDER BY QNA_ENROLLDATE DESC
+	</select>
+	
+	<select id="selectMember" parameterType="_int" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE M_NO = #{mNo}
+	</select>
 	
 </mapper>

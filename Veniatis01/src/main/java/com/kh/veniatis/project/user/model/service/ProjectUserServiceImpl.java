@@ -144,6 +144,17 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		// 프로젝트 QnA 질문하기
 		return pud.insertProjectQna(qa);
 	}
+
+	@Override
+	public ArrayList<QnA> selectQnAList(int pNo) {
+		// Qna 목록 가져오기
+		return pud.selectQnAList(pNo);
+	}
+
+	@Override
+	public Member selectMemeber(int mNo) {
+		return pud.selectMember(mNo);
+	}
 	
 
 }

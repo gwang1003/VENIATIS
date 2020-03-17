@@ -102,7 +102,6 @@ public class ProjectUserController {
 		ProjectView p = pus.selectProject(pNo);
 		
 		if(p != null) {
-			
 			// 리워드 목록
 			ArrayList<Reward> rList = pus.selectRewardList(pNo);
 			//System.out.println(rList);
@@ -130,6 +129,20 @@ public class ProjectUserController {
 		return mv;
 	}
 	
+	// QnA 리스트 불러오기
+	@RequestMapping(value="getQnaList.do", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String getQnaList(int pNo) {
+		ArrayList<QnA> qaList = pus.selectQnAList(pNo);
+		for(int i = 0; i<qaList.size(); i++) {
+			Member mem = pus.selectMemeber(qaList.get(i).getmNo());
+			qaList.get(i).setName(mem.getmName());
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		// 시분초 다루고 싶다면 java.util.Date 사용
+		return gson.toJson(qaList);
+	}
+	
 	// 댓글 리스트 불러오기
 	@RequestMapping(value="cheerList.do", produces="application/json; charset=utf-8")
 	@ResponseBody
@@ -140,30 +153,6 @@ public class ProjectUserController {
 		// 시분초 다루고 싶다면 java.util.Date 사용
 		return gson.toJson(cList);
 	}
-	
-	// 댓글 등록하기
-	/*@RequestMapping("addReply.do")
-	@ResponseBody
-	public String addReply(Reply r, HttpSession session) {
-		// 프로젝트 작성자는 답글로 작성되어야한다..
-		
-		//Member loginUser = (Member)session.getAttribute("loginUser");
-		Member m = new Member();
-		m.setmId("댓글작성자 아이디");
-		
-		//String rWriter = loginUser.getmId();
-		//r.setrWriter(rWriter);
-		
-		int result = pus.insertReply(r);
-		
-		if(result > 0) {
-			return "success";
-		}else {
-			//throw new BoardException("댓글 등록 실패!!");
-			return "fail";
-		}
-	}*/
-	
 	
 	@RequestMapping("rewardSelect.do")
 	public ModelAndView RewardSelectView(ModelAndView mv, int pNo) {
@@ -314,12 +303,11 @@ public class ProjectUserController {
 	}
 	
 	// 문의하기
-	@RequestMapping("insertProjectQna.do")
+	@RequestMapping(value="insertProjectQna.do", produces="application/json; charset=utf-8")
+	@ResponseBody
 	public String insertProjectQna(HttpSession session,
 			@RequestParam("pNo") int pNo,
 			@RequestParam("qContent") String qContent) {
-		String str = "";
-		
 		QnA qa = new QnA();
 		qa.setpNo(pNo);
 		qa.setmNo(((Member) session.getAttribute("loginUser")).getmNo());
@@ -327,12 +315,8 @@ public class ProjectUserController {
 		qa.setqContent(qContent);
 		
 		int result = pus.insertProjectQna(qa);
-		if(result > 0) {
-			str = "success";
-		}else {
-			str = "fail";
-		}
-		return str;
+
+		return "프로젝트 QnA insert";
 	}
 	
 }

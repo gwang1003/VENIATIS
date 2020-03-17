@@ -59,35 +59,6 @@ function comma(str) {
                             <span class="txt_category">
                                 <span class="screen_out">카테고리</span>
                                 <a>
-                                <%-- <c:choose>
-                                	<c:when test="${ project.pcNo == 1 }">
-                                	공간/리빙
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 2 }">
-                                	사회이슈
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 3 }">
-                                	교육/출판
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 4 }">
-                                	문화예술
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 5 }">
-                                	지역재생
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 6 }">
-                                	푸드
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 7 }">
-                                	테크
-                                	</c:when>
-                                	<c:when test="${ project.pcNo == 8 }">
-                                	뷰티/패션
-                                	</c:when>
-                                	<c:otherwise>
-                                	여행
-                                	</c:otherwise>
-                                </c:choose> --%>
                                 ${ project.cate }
 								</a>
 
@@ -100,11 +71,6 @@ function comma(str) {
                                     <c:forTokens var="tag" items="${project.hashtag}" delims=",">
 									    <a class="link_tag">#${tag}</a>
 									</c:forTokens>
-                                    <!-- <a class="link_tag">#태그1</a>
-                                    <a class="link_tag">#태그2</a>
-                                    <a class="link_tag">#태그3</a>
-                                    <a class="link_tag">#태그4</a>
-                                    <a class="link_tag">#태그5</a> -->
                                 </div>
                             </div>
                         </header>
@@ -140,11 +106,6 @@ function comma(str) {
 		                                    		</c:otherwise>
 		                                    	</c:choose>
 											</c:forEach>
-                                            <!-- <img src="resources/main/test.jpg" data-index="0" class="selected">
-                                            <img src="resources/main/test2.jpg" data-index="1">
-                                            <img src="resources/main/test3.jpg" data-index="2"> -->
-                                            <!--
-                                            <img src="/uploads/reward/REWARD_20200212041134125.JPG" data-index="3"> -->
 
                                         </div>
                                     </div>
@@ -154,9 +115,11 @@ function comma(str) {
                                     $(function () {
                                     	// 초기 페이지 로딩 시 응원 불러오기
                                 		getCheerList();
+                                		getQnaList();
                                     	// 지속적으로 얻어오기위함
                                 		setInterval(function(){
                                 			getCheerList();
+                                			getQnaList();
                                 		}, 10000);
                                 		
                                         $(".main_image_nav img").on("click", function () {
@@ -367,6 +330,7 @@ function comma(str) {
                                             $(".list_tab li").removeClass("on");
                                             $(".list_tab li:eq(2)").addClass("on");
                                             
+                                            getQnaList();
                                         });
                                         
                                         $("#Cheer").on("click", function () {
@@ -448,150 +412,141 @@ function comma(str) {
                                                     <fieldset>
                                                         <legend class="screen_out">댓글달기</legend>
                                                         <c:if test="${ !empty loginUser }">
-	                                                        <div class="comment_form_group">
+	                                                        <div class="comment_form_group" style="margin:0;">
 	                                                            <div class="comment_input_box">
 	                                                                <textarea cols="30" rows="5" class="tf_cmt login_required"
-	                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." id="qContent"></textarea>
-	                                                                <input type="hidden" name="pNo" value="${pNo}">
+	                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." name="qContent" id="qContent"></textarea>
+	                                                                <input type="hidden" name="pNo" value="${project.pNo}">
 	                                                            </div>
-	                                                            <div>
+	                                                            <div style="margin-bottom:50px;">
 	                                                                <button class="btn_submit point_color" id="qnaSubmit">등록</button>
 	                                                            </div>
 	                                                        </div>
                                                         </c:if>
                                                         <c:if test="${ empty loginUser }">
-                                                        	<div class="comment_form_group">
+                                                        	<!-- <div class="comment_form_group">
 	                                                            <div class="comment_input_box" style="text-align:center; padding:30px;">
 	                                                            	<span> 로그인 후 이용 가능합니다.</span>		
 	                                                            </div>
-	                                                        </div>
+	                                                        </div> -->
                                                         </c:if>
                                                     </fieldset>
                                                 </form>
-<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기서 부터 다시 하기 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ QnA	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                                                 <h2 class="screen_out">댓글</h2>
-                                                <ul class="list_cmt">
-                                                    <li>
-                                                        <div class="cmt_output">
-                                                            <span class="user_profile">
-                                                                <span class="img_profile">
-                                                                </span>
-                                                                <span class="txt_name">후원자1</span>
-                                                            </span>
-
-                                                            <span class="txt_time">2020-02-12 17:25</span>
-                                                            <!-- 댓글 보이기 -->
-                                                            <div class="cmt_content">
-                                                                <p class="cont_cmt">질문1</p>
-
-                                                            </div>
-                                                            <!-- 댓글 수정  -->
-                                                            <div class="edit_cmt" style="display:none">
-                                                                <fieldset>
-                                                                    <legend class="screen_out">댓글달기</legend>
-                                                                    <div class="cmt_comm">
-                                                                        <div class="box_cmt">
-                                                                            <input type="hidden" name="commentSeq"
-                                                                                value="31545">
-                                                                            <input type="hidden" name="updateId" value="237250">
-                                                                            <textarea cols="30" rows="5" class="tf_cmt"
-                                                                                title="댓글 작성">질문2</textarea>
-                                                                            <div class="cmt_info"><span class="num_byte"><em>20</em>
-                                                                                    / 500byte</span></div>
-                                                                            <input type="submit" class="btn_submit"
-                                                                                value="수정" title="수정">
-                                                                        </div>
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                        </div>
-
-                                                        <ul class="list_reply">
-                                                            <li>
-                                                                <div class="cmt_reply">
-                                                                    <span class="ico_comm">댓글의 답글</span>
-                                                                    <span class="user_profile">
-                                                                        <span class="img_profile clear_empty_picture">
-                                                                            <img src="test.png" style="background: rgb(255, 255, 255);">
-                                                                        </span>
-                                                                        <span class="txt_name">크리에이터</span>
-                                                                    </span>
-                                                                    <span class="txt_time">2020-02-12 17:28</span>
-                                                                    <p class="cont_cmt">답변 드림</p>
-                                                                </div>
-                                                            </li>
-
-                                                        </ul>
-
-                                                   </li>
+                                                <ul class="list_cmt" id="qnaBox" style="margin-top:10px; margin-bottom:30px;">
+                                                    
                                                 </ul>
                                                   
-                                                <script>
-                                                	$(function(){
-                                                		getQnaList();
-                                                		
-                                                		function getQnaList(){
-                                                			// Qna 목록 가져오기
-                                                		}
-                                                		
-                                                		$("#qnaSubmit").on("click", function(){
-                                                			// db에 넣고 목록 조회
-                                                			var formData = $("#qnaForm").serialize();
-                                                			$.ajax({
-                                                				url : "insertProjectQna.do", 
-                                					            type : 'POST', 
-                                					            data : formData, 
-                                					            success : function(data) {
-                                					            	if(data == "success"){
-                                					            		alert("질문이 등록되었습니다.");
-                                					            		//getQnaList();
-                                					            	}else{
-                                					            		
-                                					            	}
-                                					            }, 
-                                					            error : function(xhr, status) {
-                                					                alert(xhr + " : " + status);
-                                					            }
-                                                			});
-                                                		});
-                                                	});
-                                                </script>
+	<script>
+	// Qna 목록 가져오기
+	function getQnaList(){	
+		var pNo = ${project.pNo};
+		$.ajax({
+			url:"getQnaList.do",
+			data:{pNo:pNo},
+			dataType:"json",
+			async: false,
+			success:function(data){
+				$("#Qna .num_count").text(data.length);
+				$ulBody = $("#qnaBox");
+				$ulBody.html("");
+				
+				if(data.length > 0){
+					for(var i in data){
+                        var $li = $("<li>");
+						var $q1 = $("<div class='cmt_output'>");
+						var $q2 = $("<span class='user_profile'>");
+						var $q3 = $("<span class='img_profile' style='background-image:url(resources/project_user/question.png); background-size:contain;'>");
+						var $q4 = $("<span class='txt_name'>").text(data[i].name + " 님");
+						var $q5 = $("<span class='txt_time'>").text(data[i].enrollDate);
+						var $q6 = $("<div class='cmt_content'>");
+						var $q7 = $("<p class='cont_cmt'>").text(data[i].qContent);
+						
+						$li.append($q1);
+						$q1.append($q2);
+						$q2.append($q3);
+						$q2.append($q4);
+						$q1.append($q5);
+						$q1.append($q6);
+						$q6.append($q7);
+						
+						if(data[i].qAnswer == null){
+							$ulBody.append($li);
+						}else{
+							// 답변이 있는 경우
+							var creator = $(".qna_info .txt_name").text();
+							
+							var $a1 = $("<ul class='list_reply'>");
+							var $a2 = $("<li>");
+							var $a3 = $("<div class='cmt_reply'>");
+							var $a4 = $("<span class='user_profile'>");
+							var $a5 = $("<span class='img_profile' style='background-image:url(resources/project_user/answer.png); background-size:contain;'>");
+							var $a6 = $("<span class='txt_name'>").text(creator + " 님");
+							var $a8 = $("<span class='txt_time'>").text(data[i].answerDate);
+							var $a7 = $("<p class='cont_cmt'>").text(data[i].qAnswer);
+							
+							$li.append($a1);
+							$a1.append($a2);
+							$a2.append($a3);
+							$a3.append($a4);
+							$a4.append($a5);
+							$a4.append($a6);
+							$a3.append($a8);
+							$a3.append($a7);
+							
+							
+							$ulBody.append($li);
+						}
+						
+					}
+				}
+			},error : function(xhr, status){
+				alert("ajax 통신 에러");
+			}
+		});
+	}	// getQnaList();
+	
+		$(function(){
+			$("#qnaSubmit").on("click", function(){
+				// db에 넣고 목록 조회
+				var pNo = ${project.pNo};
+				var formData = $("#qnaForm").serialize();
+				$.ajax({
+					url : "insertProjectQna.do", 
+					 type : 'get', 
+					 data : formData,
+					 dataType:"json",
+					 success : function(data) {
+					 	//console.log("data 확인 : " + data);
+					 	alert("ajax확인 : " + data);
+					 	location.href="projectDetail.do?pNo="+pNo;
+					 }, 
+					 error : function(xhr, status) {
+						 alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				       
+					 }
+				});
+			});
+		});
+	</script>
 
-                                                <c:if test="${ !empty loginUser }">
+	                                               	<!-- 페이징 번호
 	                                               	<div id="paging" class="paging_comm" style="margin-top:55px;">
 	                                                    <a class="link_page on">1</a>&nbsp;
-	
 	                                                    <input id="pageIndex" name="pageIndex" type="hidden" value="1">
-	                                                </div>
-                                                </c:if>
+	                                                </div> -->
                                             </div>
                                         </div>
-
                                     </div>
-
+                                    
                                     <div id="reward_tab_content">
                                         <div class="article_support screen_out">
                                             <section class="section_cont">
                                                 <h2 class="screen_out">참여자응원</h2>
                                                 <div class="comment_cheer">
                                                     <ul class="list_cmt" id="cheerBox">
-                                                        <!-- <li>
-                                                            <div class="cmt_output">
-
-                                                                <span class="user_profile">
-                                                                    <span class="img_profile">
-                                                                    </span>
-                                                                    <span class="txt_name">홍길동</span>
-                                                                </span>
-
-                                                                <span class="txt_time">2020-01-15 17:29</span>
-                                                                <span class="num_amount">32,000원 참여</span>
-                                                                댓글 보이기
-                                                                <div class="cmt_content">
-                                                                    <p class="cont_cmt">의미 있는 활동을 응원합니다.</p>
-                                                                </div>
-                                                            </div>
-                                                        </li> -->
+                                                    
                                                     </ul>
 
                                                     <div id="paging" class="paging_comm">
@@ -603,10 +558,9 @@ function comma(str) {
                                             </section>
                                         </div>
                                     </div>
-                                    
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 참여자 응원  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->                                    
                                     <script>
                                 	// 참여자 응원 리스트 불러오는 ajax 함수
-                                	//-- 다시 해야함
                                 	function getCheerList(){
                                 		var pNo = ${project.pNo};
                                 		

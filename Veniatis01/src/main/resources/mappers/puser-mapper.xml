@@ -156,6 +156,13 @@
 		ORDER BY P_NO DESC
 	</select>
 	
+	<select id="selectList2" resultMap="prjView">
+		SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND PC_NAME=#{cateName}
+		ORDER BY P_NO DESC
+	</select>
+	
 	<select id="selectProject" parameterType="_int" resultMap="prjView">
 		SELECT * FROM V_PROJECT
 		WHERE P_NO = #{pNo}
@@ -174,12 +181,12 @@
 	</select>
 	
 	<insert id="insertOrder" parameterType="com.kh.veniatis.project.user.model.vo.Order">
-		INSERT INTO R_ORDER
+		INSERT INTO R_ORDER(O_NO, M_NO, ADD_AMOUNT, R_NAME, R_PHONE, R_ADDRESS, DELIVERY_OPTION, TOTAL_AMOUNT, ORDER_DATE, PAY_STATUS)
 		VALUES(#{oNo}, #{mNo}, #{addAmount}, #{rName}, #{rPhone}, #{rAddress}, #{deliveryOption}, #{totalAmount}, SYSDATE, 'N')
 	</insert>
 	
 	<insert id="insertFunding" parameterType="com.kh.veniatis.project.user.model.vo.Funding">
-		INSERT INTO FUNDING
+		INSERT INTO FUNDING(F_NO, O_NO, P_NO, R_NO, QUANTITY, F_OPTION)
 		VALUES(SEQ_FUNDING.NEXTVAL, #{oNo}, #{pNo}, #{rNo}, #{quantity}, #{option})
 	</insert>
 	

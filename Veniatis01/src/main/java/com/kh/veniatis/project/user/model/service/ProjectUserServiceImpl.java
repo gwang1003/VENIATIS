@@ -33,6 +33,17 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 		// 2. 게시글 리스트 조회
 		return pud.selectList(pi);
 	}
+	
+	@Override
+	public ArrayList<ProjectView> selectList2(int currentPage, int currentCate) {
+		// 1. 게시글 개수 조회
+		int listCount = pud.getListCount2(currentCate);
+		
+		// 페이지 정보 저장
+		PageInfo pi = ProjectPagination.getPageInfo(currentPage, listCount);
+		// 2. 게시글 리스트 조회
+		return pud.selectList2(pi, currentCate);
+	}
 
 	@Override
 	public ProjectView selectProject(int pNo) {

@@ -1,6 +1,7 @@
 package com.kh.veniatis.project.creator.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class CreatorDao {
 		return sqlSession.update("creatorMapper.projectUpdate",pNo);
 	}
 	public int projectDelete(int pNo) {
+		int creNo = sqlSession.selectOne("creatorMapper.creNoforDel",pNo);
+		sqlSession.delete("creatorMapper.CreatorDelete",creNo);
+		sqlSession.delete("creatorMapper.deleteFiles",pNo);
 		
 		return sqlSession.delete("creatorMapper.projectDelete",pNo);
 	}
@@ -89,6 +93,10 @@ public class CreatorDao {
 	public int selectCurCreNo() {
 		
 		return sqlSession.selectOne("creatorMapper.selectCurCreNo");
+	}
+	public List<Files> selectFiles(int pNo) {
+		
+		return sqlSession.selectList("creatorMapper.selectFiles",pNo);
 	}
 	
 

@@ -1,6 +1,7 @@
 package com.kh.veniatis.project.creator.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.vo.Creator;
@@ -39,6 +40,8 @@ public interface CreatorService {
 	int selectProjectNo(int creNo);
 
 	int selectCurCreNo();
+
+	List<Files> selectFiles(int pNo);
 
 	
 

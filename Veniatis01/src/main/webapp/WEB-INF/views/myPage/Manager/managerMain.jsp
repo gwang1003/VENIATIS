@@ -58,21 +58,21 @@
         color:black;
       }
 
-      .Tvisitor {
+      .Tvisitor, .okProject {
         width:33%;
         height:100%;
         float: left;
         box-sizing: border-box;
       }
 
-      .Tproject {
+      .Tproject, .ingProject {
         width:34%;
         height:100%;
         float: left;
         box-sizing: border-box;
       }
 
-      .TQnA {
+      .TQnA, .endProject {
         width:33%;
         height:100%;
         float: left;
@@ -188,15 +188,15 @@
         </div>
         <h2 class="mTitle">◎프로젝트 통계</h2>
         <div class="project">
-          <div class="Tvisitor">
+          <div class="okProject">
             <img src="resources/common/undraw_posting_photo.svg">
             <h3>개설 요청 프로젝트 : ${requestProject }</h3>
           </div>
-          <div class="Tproject">
+          <div class="ingProject">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
             <h3>진행중인 프로젝트 : ${project }</h3>
           </div>
-          <div class="TQnA">
+          <div class="endProject">
             <img src="resources/common/undraw_posting_photo.svg" alt="">
             <h3>마감된 프로젝트 : ${endProject }</h3>
           </div>
@@ -216,6 +216,37 @@
 <script>
 	$(function(){
 		$("#content").append($(".mid"))
+		
+		$(".Tvisitor").click(function(){
+			location.href="todayMember.do"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
+		$(".Tproject").click(function(){
+			location.href="todayProject.do"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
+		$(".TQnA").click(function(){
+			location.href="todayQnA.do"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
+		$(".okProject").click(function(){
+			location.href="searchProject.do?pStatus=Wait&pType=All"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
+		$(".ingProject").click(function(){
+			location.href="searchProject.do?pStatus=Ing&pType=All"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
+		$(".endProject").click(function(){
+			location.href="searchProject.do?pStatus=End&pType=All"
+		}).mouseenter(function(){
+			$(this).css({"cursor":"pointer"});
+		})
 	})
 </script>
   <script src="resources/js/demo/chart-area-demo.js"></script>

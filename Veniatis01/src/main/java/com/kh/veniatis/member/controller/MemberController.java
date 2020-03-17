@@ -152,6 +152,51 @@ public class MemberController {
 		
 		return mv;
 	}
+	
+	@RequestMapping("todayMember.do")
+	public ModelAndView todayMemberList() {
+		ArrayList<Member> mList = mService.toDayMemberList();
+		if(mList != null) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("mList", mList);
+			mv.setViewName("myPage/Manager/memberList");
+			
+			return mv;
+		}else {
+			throw new MemberException("유저 정보 조회 실패!!");
+		}
+	}
+	
+	@RequestMapping("todayProject.do")
+	public ModelAndView todayProjectList() {
+		ArrayList<Member> pList = mService.toDayProjectList();
+		if(pList != null) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("pList", pList);
+			mv.setViewName("myPage/Manager/projectList");
+			
+			return mv;
+		}else {
+			throw new MemberException("프로젝트 정보 조회 실패!!");
+		}
+	}
+	
+	@RequestMapping("todayQnA.do")
+	public ModelAndView todayQnAList() {
+		ArrayList<Member> qaList = mService.toDayQnAList();
+		if(qaList != null) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("qaList", qaList);
+			mv.setViewName("myPage/Manager/QnAList");
+			
+			return mv;
+		}else {
+			throw new MemberException("유저 정보 조회 실패!!");
+		}
+	}
 
 	// 관리자페이지 유저 정보 메소드
 	@RequestMapping("selectMemberList.do")
@@ -177,6 +222,38 @@ public class MemberController {
 
 		
 	}
+	
+	@RequestMapping("searchMember.do")
+	   public ModelAndView searchMember(@RequestParam(value="power", required=false) String power,
+	         @RequestParam(value="gender", required=false) String gender,
+	         @RequestParam(value="id", required=false) String id,
+	         @RequestParam(value="name", required=false) String name) {
+	      
+	      Map map = new HashMap();
+	      
+	      map.put("power", power);
+	      map.put("gender", gender);
+	      map.put("id", id);
+	      map.put("name", name);
+
+	      ArrayList<Member> mList = mService.selectSearchMember(map);
+	      System.out.println("mList : " + mList);
+	      if(mList != null) {
+	         for(int i = 0; i < mList.size(); i++) {
+	            if(mList.get(i).getcStatus() != null) {
+	               mList.get(i).setcStatus("크리에이터");
+	            }else {
+	               mList.get(i).setcStatus("일반 회원");
+	            }
+	         }
+	         ModelAndView mv = new ModelAndView();
+	         mv.addObject("mList", mList);
+	         mv.setViewName("myPage/Manager/memberList");
+	         return mv;
+	      }else {
+	         throw new MemberException("유저 정보 조회 실패!!");
+	      }
+	   }
 
 	// 관리자페이지 크리에이터 정보 메소드
 	@RequestMapping("selectCreatorList.do")
@@ -199,10 +276,39 @@ public class MemberController {
 		}else {
 			throw new MemberException("크리에이터 정보 조회 실패!!");
 		}
-		
-		
-		
 	}
+	
+	// 관리자페이지 크리에이터 검색
+	@RequestMapping("searchCreator.do")
+	   public ModelAndView searchCreator(@RequestParam(value="type", required=false) String type,
+	         @RequestParam(value="id", required=false) String id,
+	         @RequestParam(value="name", required=false) String name) {
+	      
+	      Map map = new HashMap();
+	      
+	      map.put("type", type);
+	      map.put("id", id);
+	      map.put("name", name);
+
+	      ArrayList<CreView> cList = mService.selectSearchCreator(map);
+	      System.out.println("cList : " + cList);
+	      if(cList != null) {
+	    	  for(CreView c:cList) {
+					if(c.getCreType().equals("1")) {
+						c.setCreType("펀딩");
+					}else {
+						c.setCreType("창업");
+					}
+				}
+	         ModelAndView mv = new ModelAndView();
+	         mv.addObject("cList", cList);
+	         mv.setViewName("myPage/Manager/creatorList");
+	         return mv;
+	      }else {
+	         throw new MemberException("크리에이터 정보 조회 실패!!");
+	      }
+	   }
+
 
 	// 관리자페이지 승인 대기 프로젝트 리스트
 	@RequestMapping("joinProject.do")
@@ -264,11 +370,56 @@ public class MemberController {
 			throw new MemberException("프로젝트 조회 실패!");
 		}
 	}
+	
+	//관리자페이지 프로젝트 검색
+	@RequestMapping("searchProject.do")
+	   public ModelAndView searchProject(@RequestParam(value="pType", required=false) String pType,
+	         @RequestParam(value="pStatus", required=false) String pStatus,
+	         @RequestParam(value="id", required=false) String id,
+	         @RequestParam(value="name", required=false) String name,
+	         @RequestParam(value="pName", required=false) String pName) {
+	      System.out.println(pType);
+	      Map map = new HashMap();
+	      
+	      map.put("pType", pType);
+	      map.put("pStatus", pStatus);
+	      map.put("id", id);
+	      map.put("name", name);
+	      map.put("pName", pName);
+
+	      ArrayList<ProjectView> pList = mService.selectSearchProject(map);
+	      System.out.println("pList : " + pList);
+	      if(pList != null) {
+	    	  Date date = new Date();
+	  		for (int i = 0; i < pList.size(); i++) {
+	  			if (pList.get(i).getpStatus().equals("N")) {
+	  				pList.get(i).setProgress("등업대기");
+	  			}else if (pList.get(i).getEndDate().getTime() > date.getTime()
+	  					&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+	  				pList.get(i).setProgress("진행중(성공)");
+	  			} else if (pList.get(i).getEndDate().getTime() > date.getTime()
+	  					&& pList.get(i).getSumAmount() < pList.get(i).getTargetAmount()) {
+	  				pList.get(i).setProgress("진행중");
+	  			} else if (pList.get(i).getEndDate().getTime() < date.getTime()
+	  					&& pList.get(i).getSumAmount() >= pList.get(i).getTargetAmount()) {
+	  				pList.get(i).setProgress("종료(성공)");
+	  			} else {
+	  				pList.get(i).setProgress("종료(실패)");
+	  			}
+	  		}
+	         ModelAndView mv = new ModelAndView();
+	         mv.addObject("pList", pList);
+	         mv.setViewName("myPage/Manager/projectList");
+	         return mv;
+	      }else {
+	         throw new MemberException("프로젝트 정보 조회 실패!!");
+	      }
+	   }
 
 	// 관리자페이지 전체 공모전 리스트
 	@RequestMapping("selectCompetitionList.do")
 	public ModelAndView selectCompetitionList() {
-		ArrayList<Compet> cList = bService.competView();
+		ArrayList<Compet> cList = mService.competList();
 		System.out.println(cList);
 		if(cList != null) {
 		ModelAndView mv = new ModelAndView();
@@ -282,12 +433,22 @@ public class MemberController {
 	
 	// 관리자페이지 공모전 삭제
 	@RequestMapping("deleteCon.do")
-	public String deleteCon(@RequestParam(value="conNo") String conNo) {
+	public ModelAndView deleteCon(@RequestParam(value="conNo") String conNo) {
 		String[] conNos = conNo.split(" ");
+		int[] conNumber = new int[conNos.length];
 		for(int i = 0; i < conNos.length; i++) {
-			System.out.println(conNos[i]);
+			System.out.println(Integer.parseInt(conNos[i]));
+			conNumber[i] = Integer.parseInt(conNos[i]);
 		}
-		return "";
+		int result = mService.deleteCon(conNumber);
+		if(result > 0) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("msg", "공모전 삭제 완료!");
+			mv.setViewName("myPage/Manager/competitionList");
+			return mv;
+		}else {
+			throw new MemberException("공모전 삭제 실패!!");
+		}
 	}
 	
 	// 관리자페이지 공모전 등록 폼

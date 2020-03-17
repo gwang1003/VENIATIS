@@ -109,7 +109,7 @@
       <div class="topText">
           <h2>회원 정보</h2>
         </div>
-        <form action="" class="search">
+        <form action="searchMember.do" class="search">
           <div class="s1">
             회원 검색 :
           </div>
@@ -119,19 +119,13 @@
               <option value="creator">크리에이터</option>
               <option value="Normal">일반회원</option>
             </select>&nbsp;&nbsp;
-            <label>성별 : </label>&nbsp;&nbsp;<select name="power" id="power">
+            <label>성별 : </label>&nbsp;&nbsp;<select name="gender" id="gender">
               <option value="All" selected>전체</option>
-              <option value="M">남자</option>
-              <option value="F">여자</option>
+              <option value="Male">남자</option>
+              <option value="FeMale">여자</option>
             </select>&nbsp;&nbsp;
-            <label>나이 : </label>&nbsp;&nbsp;<select name="power" id="power">
-              <option value="All" selected>전체</option>
-              <option value="10">10세</option>
-              <option value="20">20세</option>
-              <!-- 나이 옵션은 for문으로 -->
-            </select>&nbsp;&nbsp;
-            <label>이름 : </label>&nbsp;&nbsp;<input type="text" name="id" class="id">&nbsp;&nbsp;
-            <label>아이디 : </label>&nbsp;&nbsp;<input type="text" name="name" class="name">
+            <label>이름 : </label>&nbsp;&nbsp;<input type="text" name="name" class="name">&nbsp;&nbsp;
+            <label>아이디 : </label>&nbsp;&nbsp;<input type="text" name="id" class="id">
           </div>
           <div class="s3"><button type="submit">검색</button></div>
         </form>

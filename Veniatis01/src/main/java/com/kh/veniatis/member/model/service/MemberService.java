@@ -110,4 +110,20 @@ public interface MemberService {
 
 	// 프로젝트 승인
 	int okProject(int pNo);
+
+	ArrayList<Member> selectSearchMember(Map map);
+
+	ArrayList<CreView> selectSearchCreator(Map map);
+
+	ArrayList<ProjectView> selectSearchProject(Map map);
+
+	int deleteCon(int[] conNumber);
+
+	ArrayList<Compet> competList();
+
+	ArrayList<Member> toDayMemberList();
+
+	ArrayList<Member> toDayProjectList();
+
+	ArrayList<Member> toDayQnAList();
 }

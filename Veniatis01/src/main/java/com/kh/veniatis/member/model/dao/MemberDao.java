@@ -217,4 +217,49 @@ public class MemberDao {
 	public int okProject(int pNo) {
 		return sqlSession.update("memberMapper.okProject", pNo);
 	}
+
+
+	public ArrayList<Member> selectSearchMember(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchMember", map);
+	}
+
+
+	public ArrayList<CreView> selectSearchCreator(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchCreator", map);
+	}
+
+
+	public ArrayList<ProjectView> selectSearchProject(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchProject", map);
+	}
+
+
+	public int deleteCon(int[] conNumber) {
+		int result = 0;
+		for(int i = 0; i < conNumber.length; i++) {
+			int no = conNumber[i];
+			result = sqlSession.update("memberMapper.deleteCon", no);
+		}
+		return result;
+	}
+
+
+	public ArrayList<Compet> competList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.competList");
+	}
+
+
+	public ArrayList<Member> toDayMemberList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.toDayMemberList");
+	}
+
+
+	public ArrayList<Member> toDayProjectList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.toDayProjectList");
+	}
+
+
+	public ArrayList<Member> toDayQnAList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.toDayQnAList");
+	}
 }

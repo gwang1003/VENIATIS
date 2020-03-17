@@ -62,6 +62,12 @@
 		<c:remove var="msg"/>
 	</c:if>
 </head>
+<c:if test="${ !empty msg }">
+		<script>
+			alert('${msg}');
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
 <body>
 <jsp:include page="../../common/sidebar.jsp"/>
 <div class="mid" align="center">
@@ -83,7 +89,6 @@
               </thead>
               <tbody>
 				<c:forEach var="c" items="${ cList}">
-					
 					<tr>
 						<td><input type="checkbox" name="chk" value="${c.conNo }" style="background:white; border:1px solid gray; width:20px; height:20px;"></td>
 						<td><a href="${c.conHp}">${c.conName }</a></td>
@@ -93,10 +98,17 @@
 						<td>${c.conBenefit }</td>
 					</tr>
 				</c:forEach>
-				<tr align="right">
-					<td><button class="bbs">삭제하기</button></td>
-				</tr>
               </tbody>
+              <tfoot>
+              	<tr>
+              		<td></td>
+              		<td></td>
+              		<td></td>
+              		<td></td>
+              		<td></td>              		
+              		<td><button class="bbs" style="border:1px solid black; background:darkgray; color:white; width:70%; height:40px">삭제하기</button></td>
+              	</tr>
+              </tfoot>
             </table>
           </div>
         </div>

@@ -108,22 +108,31 @@
         <div class="topText">
           <h2>개설 프로젝트</h2>
         </div>
-        <form action="" class="search">
+        <form action="searchProject.do" class="search">
           <div class="s1">
             프로젝트 검색 :
           </div>
           <div class="s2" align="left">
             <label>타입 :</label>&nbsp;&nbsp;<select name="pType" id="pType">
               <option value="All" selected>전체</option>
-              <option value="funding">펀딩</option>
-              <option value="create">창업</option>
+              <option value=1>공간/리빙</option>
+              <option value=2>사회이슈</option>
+              <option value=3>교육/출판</option>
+              <option value=4>문화예술</option>
+              <option value=5>지역재성</option>
+              <option value=6>푸드</option>
+              <option value=7>테크</option>
+              <option value=8>뷰티/패션</option>
+              <option value=9>여행</option>
             </select>&nbsp;&nbsp;
             <label>상태 : </label>&nbsp;&nbsp;<select name="pStatus" id="pStatus">
               <option value="All" selected>전체</option>
-              <option value="wait">등업 대기</option>
-              <option value="ing">진행중</option>
-              <option value="ingS">진행중(성공)</option>
-              <option value="end">마감</option>
+              <option value="Wait">등업 대기</option>
+              <option value="Ing">진행중</option>
+              <option value="IngS">진행중(성공)</option>
+              <option value="End">종료</option>
+              <option value="EndS">종료(성공)</option>
+              <option value="EndF">종료(실패)</option>
             </select>&nbsp;&nbsp;
             <label>이름 : </label>&nbsp;&nbsp;<input type="text" name="name" class="name">
             <label>아이디 : </label>&nbsp;&nbsp;<input type="text" name="id" class="id">

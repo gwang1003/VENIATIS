@@ -280,7 +280,7 @@
 	<select id="toDayProject" resultType="_int">
 		SELECT COUNT(*)
 		FROM PROJECT
-		WHERE TO_CHAR(P_START_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		WHERE TO_CHAR(P_ENROLL_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
 	<select id="toDayQnA" resultType="_int">
@@ -368,5 +368,124 @@
 		WHERE P_NO = #{pNo}
 	</update>
 	
+	<select id="selectSearchMember" resultMap="memberResultSet">
+      SELECT DISTINCT M_NO, M_NAME, M_ID, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
+      FROM MEMBER
+      LEFT JOIN CREATOR USING(M_NO)
+      <where>
+         <if test="power == 'creator'">
+            CRE_STATUS IS NOT NULL
+         </if>
+         <if test="power == 'Normal'">
+            CRE_STATUS IS NULL
+         </if>
+         <if test="gender == 'Male'">
+            AND GENDER = 'M'
+         </if>
+         <if test="gender == 'FeMale'">
+            AND GENDER = 'F'
+         </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND M_NAME LIKE '%'||'${name}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <select id="selectSearchCreator" resultMap="creViewResultSet">
+      SELECT CRE_NO, CRE_NAME, M_ID, CRE_TYPE, CRE_PHONE, CRE_EMAIL, P_NO
+		FROM CREATOR
+		JOIN MEMBER USING(M_NO)
+		JOIN PROJECT USING(CRE_NO)
+      <where>
+         <if test="type == 'funding'">
+            CRE_TYPE = 1
+         </if>
+         <if test="type == 'create'">
+            CRE_TYPE = 2
+         </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND CRE_NAME LIKE '%'||'${name}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <select id="selectSearchProject" resultMap="prjView">
+	SELECT *
+	FROM V_PROJECT
+	JOIN PRJ_CATE USING(PC_NAME)
+      <where>
+         <if test="pType != 'All'">
+            PC_NO = ${pType}
+         </if>
+         <if test="pStatus == 'Wait'">
+			AND P_STATUS = 'N'
+		 </if>
+         <if test="pStatus == 'IngS'">
+			AND P_END_DATE >= SYSDATE
+			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+		 </if>
+		 <if test="pStatus == 'EndS'">
+			AND SYSDATE > P_END_DATE
+			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+		 </if>
+         <if test="pStatus == 'Ing'">
+			AND P_END_DATE >= SYSDATE
+		 </if>
+		 <if test="pStatus == 'End'">
+			AND SYSDATE > P_END_DATE
+		 </if>
+		 <if test="pStatus == 'EndF'">
+			AND SYSDATE > P_END_DATE
+			AND P_TARGET_AMOUNT > P_SUM_AMOUNT
+		 </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND CRE_NAME LIKE '%'||'${name}'||'%'
+         </if>
+         <if test="pName != ''">
+            AND P_TITLE LIKE '%'||'${pName}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <update id="deleteCon">
+   	UPDATE COMPETITION
+   	SET CON_STATE = 'N'
+   	WHERE CON_NO IN(#{conNumber})
+   </update>
+	
+	<select id="competList" resultMap="CompetResultSet">
+		SELECT *
+		FROM COMPETVIEW
+		WHERE CON_STATE = 'Y'
+	</select>
+	
+	<select id="toDayMemberList" resultMap="memberResultSet">
+		SELECT DISTINCT M_NO, M_NAME, M_ID, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
+      	FROM MEMBER
+      	LEFT JOIN CREATOR USING(M_NO)
+      	WHERE TO_CHAR(M_CONN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayProjectList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE TO_CHAR(P_ENROLL_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayQnAList" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		JOIN MEMBER USING(M_NO)
+		WHERE TO_CHAR(QNA_ENROLLDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
 	
 </mapper>

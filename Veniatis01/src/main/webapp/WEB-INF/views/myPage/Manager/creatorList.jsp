@@ -121,22 +121,22 @@
 <div class="topText">
           <h2>크리에이터 정보</h2>
         </div>
-        <form action="" class="search">
+        <form action="searchCreator.do" class="search">
           <div class="s1">
             회원 검색 :
           </div>
           <div class="s2" align="left">
             <div class="s2Name">
-              <label>이름 :</label>&nbsp;&nbsp;<input type="text" name="id" class="id">
+              <label>이름 :</label>&nbsp;&nbsp;<input type="text" name="name" class="name">
             </div>
             <div class="s2Id">
-              <label>아이디 : </label>&nbsp;&nbsp;<input type="text" name="name" class="name">
+              <label>아이디 : </label>&nbsp;&nbsp;<input type="text" name="id" class="id">
             </div>
             <div class="s2Type">
-              <label>타입 :</label>&nbsp;&nbsp;<select name="power" id="power" style="width:40%;text-align: center">
+              <label>타입 :</label>&nbsp;&nbsp;<select name="type" id="type" style="width:40%;text-align: center">
                 <option value="All" selected>전체</option>
-                <option value="creator">펀딩</option>
-                <option value="Normal">창업</option>
+                <option value="funding">펀딩</option>
+                <option value="create">창업</option>
               </select>
             </div>
           </div>

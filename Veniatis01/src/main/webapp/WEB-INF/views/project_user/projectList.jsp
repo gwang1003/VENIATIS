@@ -91,59 +91,130 @@
 						전체분야 <span class="ico_comm"></span>
 					</button>
 					<ul id="category_list" class="list_cate" role="tablist">
-						<li class="on" role="tab"><a class="link_cate" id="cate0">전체<span
-								class="num_count">(1805)</span></a></li>
-						<li role="tab"><a class="link_cate" id="cate1"> 공간/리빙<span
+						<c:url var="cate0" value="projectList.do">
+							<c:param name="cate" value="0"/>
+						</c:url>
+						<li role="tab" id="cate0"><a href="${ cate0 }" class="link_cate">전체<span
+								class="num_count">(1805)</span>
+						</a></li>
+						
+						<c:url var="cate1" value="projectList.do">
+							<c:param name="cate" value="1"/>
+						</c:url>
+						<li role="tab" id="cate1"><a href="${ cate1 }" class="link_cate"> 공간/리빙<span
 								class="num_count">(157)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate2"> 사회이슈<span
+						<c:url var="cate2" value="projectList.do">
+							<c:param name="cate" value="2"/>
+						</c:url>
+						<li role="tab" id="cate2"><a href="${ cate2 }" class="link_cate"> 사회이슈<span
 								class="num_count">(333)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate3"> 교육/출판<span
+						<c:url var="cate3" value="projectList.do">
+							<c:param name="cate" value="3"/>
+						</c:url>
+						<li role="tab" id="cate3"><a  href="${ cate3 }"class="link_cate"> 교육/출판<span
 								class="num_count">(214)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate4"> 문화예술<span
+						<c:url var="cate4" value="projectList.do">
+							<c:param name="cate" value="4"/>
+						</c:url>
+						<li role="tab" id="cate4"><a href="${ cate4 }" class="link_cate"> 문화예술<span
 								class="num_count">(326)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate5"> 지역재생<span
+						<c:url var="cate5" value="projectList.do">
+							<c:param name="cate" value="5"/>
+						</c:url>
+						<li role="tab" id="cate5"><a href="${ cate5 }" class="link_cate"> 지역재생<span
 								class="num_count">(276)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate6"> 푸드<span
+						<c:url var="cate6" value="projectList.do">
+							<c:param name="cate" value="6"/>
+						</c:url>
+						<li role="tab" id="cate6"><a href="${ cate6 }" class="link_cate"> 푸드<span
 								class="num_count">(293)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate7"> 테크<span
+						<c:url var="cate7" value="projectList.do">
+							<c:param name="cate" value="7"/>
+						</c:url>
+						<li role="tab" id="cate7"><a href="${ cate7 }" class="link_cate"> 테크<span
 								class="num_count">(86)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate8"> 뷰티/패션<span
+						<c:url var="cate8" value="projectList.do">
+							<c:param name="cate" value="8"/>
+						</c:url>
+						<li role="tab" id="cate8"><a href="${ cate8 }" class="link_cate"> 뷰티/패션<span
 								class="num_count">(65)</span>
 						</a></li>
 
-						<li role="tab"><a class="link_cate" id="cate9"> 여행<span
+						<c:url var="cate9" value="projectList.do">
+							<c:param name="cate" value="9"/>
+						</c:url>
+						<li role="tab" id="cate9"><a href="${ cate9 }" class="link_cate"> 여행<span
 								class="num_count">(55)</span>
 						</a></li>
 					</ul>
-					
-					<form method="post" action="projectList2.do" id="cateForm">
-						<input type="hidden" name="cate" value="">
-					</form>
 				</div>
 				
 				<script type="text/javascript">
-					/* $(function(){
-						$('.link_cate').on("click", function (){
-							var cateId = $(this).attr("id").substr(4);
-							//alert(cateId);
-							$('input[name=cate]').val(cateId);
-							$("#cateForm").submit();
-						});
-					}); */
+					$(function(){
+						var cateNum = ${currentCate};
+						
+						switch(cateNum){
+						case 0: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate0").addClass("on");
+							break;
+						case 1: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate1").addClass("on");
+							break;
+						case 2: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate2").addClass("on");
+							break;
+						case 3: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate3").addClass("on");
+							break;
+						case 4: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate4").addClass("on");
+							break;
+						case 5: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate5").addClass("on");
+							break;
+						case 6: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate6").addClass("on");
+							break;
+						case 7: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate7").addClass("on");
+							break;
+						case 8: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate8").addClass("on");
+							break;
+						case 9: 
+							$("li[role=tab]").removeClass("on");
+							$("#cate9").addClass("on");
+							break;
+						default:
+							$("li[role=tab]").removeClass("on");
+							$("#cate0").addClass("on");
+							break;
+						}
+						
+					});
 				</script>
 
 				<div class="wrap_project">
@@ -169,19 +240,17 @@
 						</div>
 					</div>
 					
-
-					<script>
-						$(function() {
-							
-						});
-					</script>
-
 					<!-- 프로젝트 목록  -->
 					<span class="screen_out">프로젝트 목록</span>
 					<ul class="list_prj" id="listPrj">
 						<div class="page-wrapper" style="display: block; overflow: auto;">
 						<!-- 프로젝트 시작 -->
-							<c:forEach var="prj" items="${ projectList }">
+							<c:if test="${ projectListSize eq 0 }">
+								<div style="text-align:center; margin:50px;">
+									<p> 해당 카테고리의 프로젝트가 존재하지 않습니다. </p>
+								</div>
+							</c:if>
+							<c:forEach var="prj" items="${ projectList }" varStatus="vs">
 								<c:url var="pDetail" value="projectDetail.do">
 									<c:param name="pNo" value="${ prj.pNo }"/>
 								</c:url>
@@ -266,7 +335,7 @@
 								</a></li>
 							</c:if>
 							<c:if test="${ pi.currentPage > 1 }">
-								<c:url var="before" value="blist.do">
+								<c:url var="before" value="projectList.do">
 									<c:param name="page" value="${ pi.currentPage - 1 }"/>
 								</c:url>
 								<li class="page-item"><a class="page-link" href="${ before }"
@@ -282,7 +351,7 @@
 									</li>
 								</c:if>
 								<c:if test="${ p ne pi.currentPage }">
-									<c:url var="pagination" value="blist.do">
+									<c:url var="pagination" value="projectList.do">
 										<c:param name="page" value="${ p }"/>
 									</c:url>
 									<li class="page-item">
@@ -300,7 +369,7 @@
 								</a></li>
 							</c:if>
 							<c:if test="${ pi.currentPage < pi.maxPage }">
-								<c:url var="after" value="blist.do">
+								<c:url var="after" value="projectList.do">
 									<c:param name="page" value="${ pi.currentPage + 1 }"/>
 								</c:url> 
 								<li class="page-item"><a class="page-link" href="${ after }"

@@ -16,6 +16,8 @@ public interface ProjectUserService {
 	
 	// 프로젝트 리스트 조회
 	ArrayList<ProjectView> selectList(int currentPage);
+	// 프로젝트 리스트 조회
+	ArrayList<ProjectView> selectList2(int currentPage, int currentCate);
 
 	// 프로젝트 1개 선택
 	ProjectView selectProject(int pNo);

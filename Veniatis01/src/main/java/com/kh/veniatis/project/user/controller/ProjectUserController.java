@@ -44,20 +44,28 @@ public class ProjectUserController {
 	// 카테고리 없는 경우
 	@RequestMapping("projectList.do")
 	public ModelAndView ProjectList(ModelAndView mv,
-			@RequestParam(value="page", required = false) Integer page) {
+			@RequestParam(value="page", required = false) Integer page,
+			@RequestParam(value="cate", required = false) Integer cate) {
 
 		int currentPage = page != null ? page : 1;
+		int currentCate = cate != null ? cate : 0;
+		//System.out.println("카테고리 번호 확인 : " + currentCate);
+		ArrayList<ProjectView> list = new ArrayList<ProjectView>();
 		
-		ArrayList<ProjectView> list = pus.selectList(currentPage);
-		//System.out.println(list);
+		if(currentCate == 0) {
+			list = pus.selectList(currentPage);
+		}else {
+			list = pus.selectList2(currentPage, currentCate);
+		}
 		
 		if(list != null) {
 			/*for(ProjectView p : list) {
 				System.out.println(p);
 			}*/
-			
 			mv.addObject("projectList", list);
+			mv.addObject("projectListSize", list.size());
 			mv.addObject("pi", ProjectPagination.getPageInfo());
+			mv.addObject("currentCate", currentCate);
 			mv.setViewName("project_user/projectList");
 			
 		}else {
@@ -66,35 +74,6 @@ public class ProjectUserController {
 		return mv;
 	}
 	
-	// 카테고리 있는 경우
-	/*@RequestMapping("projectList2.do")
-	public ModelAndView ProjectList(ModelAndView mv,
-			@RequestParam("cate") int cate,
-			@RequestParam(value="page", required = false) Integer page) {
-
-		int currentPage = page != null ? page : 1;
-		
-		ArrayList<ProjectView> list = pus.selectList(currentPage);
-		
-		//System.out.println(list);
-		
-		if(list != null) {
-			for(ProjectView p : list) {
-				System.out.println("카테고리 확인 : " + cate);
-				
-			}
-			mv.addObject("cate", cate);
-			mv.addObject("projectList", list);
-			mv.addObject("pi", ProjectPagination.getPageInfo());
-			mv.setViewName("project_user/projectList2");
-			
-		}else {
-			//throw new BoardException("게시글 전체 조회 실패!!");
-		}
-		return mv;
-	}*/
-
-
 	@RequestMapping("projectDetail.do")
 	public ModelAndView ProjectDetail(ModelAndView mv, int pNo) {
 		//"project_user/projectDetail"

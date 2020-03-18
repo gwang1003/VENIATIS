@@ -34,6 +34,71 @@
 }
 </style>
 <script>
+$(function () {
+    //리워드 길이보다 상세부분 div 높이 길게 지정
+    var h = $(".box_reward_select").height() + "px";
+    $(".box_details_cont").css("min-height", h);
+
+    $("#Intro").on("click", function () {
+        console.log("소개");
+        $(".article_intro").removeClass("div_hide");
+        $(".article_pNotice").addClass("screen_out");
+        $(".article_qna").addClass("screen_out");
+        $(".article_support").addClass("screen_out");
+
+        $(".article_intro").removeClass("screen_out");
+
+        $(".list_tab li").removeClass("on");
+        $(".list_tab li:eq(0)").addClass("on");
+
+    });
+    $("#News").on("click", function () {
+        console.log("최근소식");
+        $(".article_intro").addClass("div_hide");
+        $(".article_intro").addClass("screen_out");
+        //$(".article_pNotice").addClass("screen_out");
+        $(".article_qna").addClass("screen_out");
+        $(".article_support").addClass("screen_out");
+
+        $(".article_pNotice").removeClass("screen_out");
+
+        $(".list_tab li").removeClass("on");
+        $(".list_tab li:eq(1)").addClass("on");
+        
+    });
+    
+    $("#Qna").on("click", function () {
+        console.log("QnA");
+        $(".article_intro").addClass("div_hide");
+        $(".article_intro").addClass("screen_out");
+        $(".article_pNotice").addClass("screen_out");
+        //$(".article_qna").addClass("screen_out");
+        $(".article_support").addClass("screen_out");
+
+        $(".article_qna").removeClass("screen_out");
+
+        $(".list_tab li").removeClass("on");
+        $(".list_tab li:eq(2)").addClass("on");
+        
+        getQnaList();
+    });
+    
+    $("#Cheer").on("click", function () {
+        console.log("참여자 응원");
+        $(".article_intro").addClass("div_hide");
+        $(".article_intro").addClass("screen_out");
+        $(".article_pNotice").addClass("screen_out");
+        $(".article_qna").addClass("screen_out");
+        //$(".article_support").addClass("screen_out");
+
+        $(".article_support").removeClass("screen_out");
+
+        $(".list_tab li").removeClass("on");
+        $(".list_tab li:eq(3)").addClass("on");
+        
+       	getCheerList();
+    });
+});
 //3자리 콤마 찍
 function comma(str) {
     str = String(str);
@@ -195,6 +260,12 @@ function comma(str) {
 									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
                                         	</span>
                                         	<span class="txt_value"> 일 남음</span>
+                                        	<c:if test="${ empty loginUser }">
+												<button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
+											</c:if>
+											<c:if test="${ !empty loginUser }">
+	                                        	<button type="submit" class="link_join" onclick="location.href='${ rSelect }';">참여하기</button>
+	                                        </c:if>
                                         </c:if>
                                         
                                         <c:if test="${eDate-nDate < 0 }">
@@ -202,6 +273,7 @@ function comma(str) {
 	                                            <span class="screen_out">Day</span>
 									        	<span style="color:#777777;">마감된 프로젝트 입니다</span>
                                         	</span>
+                                        	<button type="button" class="link_join" style="background-color:#777777;">프로젝트 마감</a>
                                         </c:if>
                                         
                                         
@@ -213,12 +285,7 @@ function comma(str) {
 										</c:url>
 										
 										
-										<c:if test="${ empty loginUser }">
-											<button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
-										</c:if>
-										<c:if test="${ !empty loginUser }">
-                                        	<button type="submit" class="link_join" onclick="location.href='${ rSelect }';">참여하기</button>
-                                        </c:if>
+										
                                         <script>
 	                                        function checkLogin(){
 	                            				alert("로그인 후 이용 가능합니다.");
@@ -325,71 +392,7 @@ function comma(str) {
                                 		
                                 	}
                                 
-                                    $(function () {
-                                        //리워드 길이보다 상세부분 div 높이 길게 지정
-                                        var h = $(".box_reward_select").height() + "px";
-                                        $(".box_details_cont").css("min-height", h);
-
-                                        $("#Intro").on("click", function () {
-                                            console.log("소개");
-                                            $(".article_intro").removeClass("div_hide");
-                                            $(".article_pNotice").addClass("screen_out");
-                                            $(".article_qna").addClass("screen_out");
-                                            $(".article_support").addClass("screen_out");
-
-                                            $(".article_intro").removeClass("screen_out");
-
-                                            $(".list_tab li").removeClass("on");
-                                            $(".list_tab li:eq(0)").addClass("on");
-
-                                        });
-                                        $("#News").on("click", function () {
-                                            console.log("최근소식");
-                                            $(".article_intro").addClass("div_hide");
-                                            $(".article_intro").addClass("screen_out");
-                                            //$(".article_pNotice").addClass("screen_out");
-                                            $(".article_qna").addClass("screen_out");
-                                            $(".article_support").addClass("screen_out");
-
-                                            $(".article_pNotice").removeClass("screen_out");
-
-                                            $(".list_tab li").removeClass("on");
-                                            $(".list_tab li:eq(1)").addClass("on");
-                                            
-                                        });
-                                        
-                                        $("#Qna").on("click", function () {
-                                            console.log("QnA");
-                                            $(".article_intro").addClass("div_hide");
-                                            $(".article_intro").addClass("screen_out");
-                                            $(".article_pNotice").addClass("screen_out");
-                                            //$(".article_qna").addClass("screen_out");
-                                            $(".article_support").addClass("screen_out");
-
-                                            $(".article_qna").removeClass("screen_out");
-
-                                            $(".list_tab li").removeClass("on");
-                                            $(".list_tab li:eq(2)").addClass("on");
-                                            
-                                            getQnaList();
-                                        });
-                                        
-                                        $("#Cheer").on("click", function () {
-                                            console.log("참여자 응원");
-                                            $(".article_intro").addClass("div_hide");
-                                            $(".article_intro").addClass("screen_out");
-                                            $(".article_pNotice").addClass("screen_out");
-                                            $(".article_qna").addClass("screen_out");
-                                            //$(".article_support").addClass("screen_out");
-
-                                            $(".article_support").removeClass("screen_out");
-
-                                            $(".list_tab li").removeClass("on");
-                                            $(".list_tab li:eq(3)").addClass("on");
-                                            
-                                           	getCheerList();
-                                        });
-                                    });
+                                    
                                 </script>
 
                                 <!-- 탭이 눌려질 때 동적으로 페이지를 로드한다. -->
@@ -414,7 +417,6 @@ function comma(str) {
                                                     <div class="entry_content">
                                                         <h3><strong><span style="color: #0000ff;">안내</span></strong></h3>
                                                         <p>**최근 소식 내용 **</p>
-                                                        <p>아마 노트api로 작성된 거 저장 후 db에서 가져오면 될듯?</p>
                                                     </div>
                                                 </article>
                                             </section>

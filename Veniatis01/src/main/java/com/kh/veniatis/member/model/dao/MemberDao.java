@@ -262,4 +262,19 @@ public class MemberDao {
 	public ArrayList<Member> toDayQnAList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.toDayQnAList");
 	}
+
+
+	public Member idFind(Member m) {
+		return sqlSession.selectOne("memberMapper.idFind", m);
+	}
+
+
+	public Member passFind(Member m) {
+		return sqlSession.selectOne("memberMapper.passFind", m);
+	}
+
+
+	public int fakePwd(Member member) {
+		return sqlSession.update("memberMapper.fakePwd", member);
+	}
 }

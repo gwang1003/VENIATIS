@@ -488,4 +488,24 @@
 		WHERE TO_CHAR(QNA_ENROLLDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
+	<select id="idFind" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_NAME = #{mName}
+		AND M_PHONE = #{mPhone}
+	</select>
+	
+	<select id="passFind" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{mId} 
+		AND M_EMAIL = #{mEmail}
+	</select>
+	
+	<update id="fakePwd">
+		UPDATE MEMBER
+		SET M_PWD = #{mPwd}
+		WHERE M_NO = #{mNo}
+	</update>
+	
 </mapper>

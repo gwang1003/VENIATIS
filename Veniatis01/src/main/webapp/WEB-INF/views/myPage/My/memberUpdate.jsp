@@ -32,6 +32,18 @@ input{
 	margin-bottom:15px;
 	margin-left:5px;
 }
+
+.mUpdate {
+	background:#f7f7f7;;
+	width:20%;
+	height:32px;
+	margin:0;
+	padding:0;
+}
+
+.mInfo {
+	background:darkgray;
+}
 </style>
 <body>
 <c:if test="${ !empty msg }">
@@ -111,7 +123,7 @@ input{
 	    
 	                <form name="addForm" method="post" enctype="multipart/form-data" action="memberUpdate.do" onsubmit="return updateValidate();">
 	                	<fieldset class="box_field">
-	                		<h3 class="tit_info">회원정보</h3>
+	                		<button type="button" class="mUpdate mInfo" onclick="location.href='memberUpdateForm.do'">회원정보</button><button type="button" class="mUpdate mPwd"onclick="location.href='passConfirm.do'">비밀번호변경</button>
 	                		<p class="notice_vital"><span class="mark_vital">*</span>은 필수입력 항목입니다.</p>
 			                <div class="fld_type1">
 			                	<dl class="data_base">

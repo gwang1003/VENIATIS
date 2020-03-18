@@ -208,7 +208,7 @@
         
             // 1. 메인으로 돌아가기
             function returnToMain(){
-                location.href="<%= request.getContextPath() %>";
+                location.href="home.do";
             }
     
             // 2. 유효성 검사

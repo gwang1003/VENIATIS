@@ -240,15 +240,24 @@ function comma(str) {
                                 <div class="item_btns">
                                     <a class="link_share" id="link_share">공유
                                         <span class="num_count" id="share_num_count">
-                                            <!-- 16 -->
-                                        </span></a>
-                                    <input type="hidden" id="like_count" value="2">
-                                    <input type="hidden" id="interest_seq" value="">
-                                    <button type="button" class="btn_like" id="btn_like">관심
+                                        </span>
+                                    </a>
+                                    <c:if test="${ !empty loginUser }"> 
+                                    	<button type="button" class="btn_like" id="btn_like" onclick="fn_likeCheck();">관심
+                                    </c:if>
+                                    <c:if test="${ empty loginUser }"> 
+                                    	<button type="button" class="btn_like" id="btn_like" onclick="checkLogin();">관심
+                                    </c:if>
+                                    <c:if test="${ likeResult eq 0 }">
+                                    	<img id="heartIcon" src="resources/common/noLike.png">
+                                    </c:if>
+                                    <c:if test="${ likeResult > 0 }">
+                                    	<img id="heartIcon" src="resources/common/yesLike.png">
+                                    </c:if>
                                         <span id="icon_like"></span>
                                         <span class="num_count" id="like_num_count">
-                                            <!-- 2 -->
-                                        </span></button>
+                                        </span>
+                                   	</button>
                                 </div>
                             </div>
                         </div>
@@ -284,6 +293,38 @@ function comma(str) {
                                 </nav>
 
                                 <script>
+                                	function fn_likeCheck(){
+                                		// 관심 버튼 클릭 시 
+                                		var pNo = ${project.pNo};
+                                		var mNo = ${loginUser.mNo};
+                                		var yesLike = false;
+                                		var imgSrc = $("#heartIcon").attr("src");
+                                		if(imgSrc == 'resources/common/noLike.png'){
+                                			yesLike = false;
+                                		}else if(imgSrc == 'resources/common/yesLike.png'){
+                                			yesLike = true;
+                                		}
+                                		
+                                		$.ajax({
+                                			url:"updateLikes.do",
+                                			data:{pNo:pNo, mNo:mNo, yesLike:yesLike},
+                                			dataType:"text",
+                                			async: false,
+                                			success:function(data){
+                                				if(data == "success"){
+                                					alert("관심프로젝트 정보가 수정되었습니다.");
+                                					location.href="projectDetail.do?pNo="+pNo;
+                                				}else if(data == "fail"){
+                                					alert("관심프로젝트 정보 수정에 실패하였습니다.");
+                                				}
+                                				
+                                			},error:function(request,status,error){
+                                		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                                		    }
+                                		});
+                                		
+                                	}
+                                
                                     $(function () {
                                         //리워드 길이보다 상세부분 div 높이 길게 지정
                                         var h = $(".box_reward_select").height() + "px";

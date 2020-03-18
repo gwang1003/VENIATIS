@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
@@ -165,6 +166,24 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	@Override
 	public Member selectMemeber(int mNo) {
 		return pud.selectMember(mNo);
+	}
+
+	@Override
+	public int likeProjectCheck(Likes pLike) {
+		// 관심프로젝트인지 조회
+		return pud.likeProjectCheck(pLike);
+	}
+
+	@Override
+	public int deleteLikes(Likes plike) {
+		// 삭제
+		return pud.deleteLikes(plike);
+	}
+
+	@Override
+	public int insertLikes(Likes plike) {
+		// 삽입
+		return pud.insertLikes(plike);
 	}
 	
 

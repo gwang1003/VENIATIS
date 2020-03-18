@@ -143,6 +143,13 @@
 		<result property="enrollDate" column="QNA_ENROLLDATE"/>
 		<result property="answerDate" column="QNA_ANSWER_DATE"/>
 	</resultMap>
+
+	<resultMap id="LikesResultSet" type="com.kh.veniatis.common.likes.model.vo.Likes">
+		<id property="likeNo" column="LIKE_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="bNo" column="B_NO"/>
+		<result property="pNo" column="P_NO"/>
+	</resultMap>
 	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -252,5 +259,22 @@
 		SELECT * FROM MEMBER
 		WHERE M_NO = #{mNo}
 	</select>
+	
+	<select id="likeProjectCheck" parameterType="com.kh.veniatis.common.likes.model.vo.Likes" resultType="_int">
+		SELECT COUNT(*) FROM LIKES
+		WHERE M_NO = #{mNo}
+		AND P_NO = #{pNo}
+	</select>
+	
+	<insert id="insertLikes" parameterType="com.kh.veniatis.common.likes.model.vo.Likes">
+		INSERT INTO LIKES(LIKE_NO, M_NO, P_NO)
+		VALUES(SEQ_LIKE_NO.NEXTVAL, #{mNo}, #{pNo})
+	</insert>
+	
+	<delete id="deleteLikes" parameterType="com.kh.veniatis.common.likes.model.vo.Likes">
+		DELETE FROM LIKES
+		WHERE P_NO = #{pNo}
+		AND M_NO = #{mNo}
+	</delete>
 	
 </mapper>

@@ -3,6 +3,7 @@ package com.kh.veniatis.project.user.model.service;
 import java.util.ArrayList;
 
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
@@ -71,5 +72,11 @@ public interface ProjectUserService {
 
 	// member 조회
 	Member selectMemeber(int getmNo);
-		
+	
+	// 관심프로젝트인지 조회
+	int likeProjectCheck(Likes pLike);
+	
+	// 관심 프로젝트 업데이트(1. 삭제 2. 삽입)
+	int deleteLikes(Likes plike);
+	int insertLikes(Likes plike);
 }

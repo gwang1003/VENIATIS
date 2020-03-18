@@ -30,7 +30,19 @@ public class ProjectUserDao {
 	}
 	
 	public int getListCount2(int currentCate) {
-		return sqlSession.selectOne("puMapper.getListCount", currentCate);
+		String cateName = "";
+		switch(currentCate) {
+		case 1: cateName="공간/리빙"; break;
+		case 2: cateName="사회이슈"; break;
+		case 3: cateName="교육/출판"; break;
+		case 4: cateName="문화예술"; break;
+		case 5: cateName="지역재생"; break;
+		case 6: cateName="푸드"; break;
+		case 7: cateName="테크"; break;
+		case 8: cateName="뷰티/패션"; break;
+		case 9: cateName="여행"; break;
+	}
+		return sqlSession.selectOne("puMapper.getListCount2", cateName);
 	}
 	
 	// 테스트용 메소드

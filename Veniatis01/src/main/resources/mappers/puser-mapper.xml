@@ -157,6 +157,13 @@
 		WHERE P_STATUS='Y'
 	</select>
 	
+	<select id="getListCount2" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_PROJECT
+		WHERE P_STATUS='Y'
+		AND PC_NAME=#{cateName}
+	</select>
+	
 	<select id="selectList" resultMap="prjView">
 		SELECT * FROM V_PROJECT
 		WHERE P_STATUS = 'Y'

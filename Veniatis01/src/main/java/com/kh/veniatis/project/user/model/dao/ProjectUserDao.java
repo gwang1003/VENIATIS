@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.blog.model.vo.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
@@ -145,6 +146,21 @@ public class ProjectUserDao {
 
 	public Member selectMember(int mNo) {
 		return sqlSession.selectOne("puMapper.selectMember", mNo);
+	}
+
+	public int likeProjectCheck(Likes pLike) {
+		// 관심프로젝트인지 조회
+		return sqlSession.selectOne("puMapper.likeProjectCheck", pLike);
+	}
+
+	public int deleteLikes(Likes plike) {
+		// 관심 프로젝트 삭제
+		return sqlSession.delete("puMapper.deleteLikes", plike);
+	}
+
+	public int insertLikes(Likes plike) {
+		// 관심프로젝트 삽입
+		return sqlSession.insert("puMapper.insertLikes", plike);
 	}
 
 	/*

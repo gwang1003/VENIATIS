@@ -18,9 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.veniatis.common.files.model.vo.Files;
+import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
-import com.kh.veniatis.member.model.exception.MemberException;
-import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.vo.Reward;
@@ -75,10 +74,11 @@ public class ProjectUserController {
 	}
 	
 	@RequestMapping("projectDetail.do")
-	public ModelAndView ProjectDetail(ModelAndView mv, int pNo) {
+	public ModelAndView ProjectDetail(ModelAndView mv, HttpSession session, int pNo) {
 		//"project_user/projectDetail"
 		
 		ProjectView p = pus.selectProject(pNo);
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		
 		if(p != null) {
 			// 리워드 목록
@@ -96,7 +96,20 @@ public class ProjectUserController {
 			}
 			
 			int supportCount = pus.selectSupportCount(pNo);
-						
+			
+			// 관심 프로젝트인지 조회
+			int likeResult;
+			if(loginUser != null) {
+				Likes pLike = new Likes();
+				pLike.setmNo(loginUser.getmNo());
+				pLike.setpNo(pNo);
+				likeResult = pus.likeProjectCheck(pLike);
+			}else {
+				likeResult = 0;
+			}
+			
+			
+			mv.addObject("likeResult", likeResult);
 			mv.addObject("project", p);
 			mv.addObject("rewardList", rList);
 			mv.addObject("filesList", fList);
@@ -106,6 +119,33 @@ public class ProjectUserController {
 		}		
 		
 		return mv;
+	}
+	
+	// 관심 프로젝트 업데이트
+	@RequestMapping(value="updateLikes.do", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String updateLikes(int pNo, int mNo, boolean yesLike) {
+		int result;
+		Likes plike = new Likes();
+		plike.setmNo(mNo);
+		plike.setpNo(pNo);
+		if(yesLike) {
+			// 현재 관심프로젝트 -> 관심 해제
+			result = pus.deleteLikes(plike);
+		}else {
+			// 관심 프로젝트 insert
+			result = pus.insertLikes(plike);
+		}
+		
+		String str = "";
+		if(result > 0) {
+			// 업데이트 처리 성공 후
+			str = "success";
+		}else {
+			str = "fail";
+		}
+		
+		return str;
 	}
 	
 	// QnA 리스트 불러오기

@@ -126,4 +126,10 @@ public interface MemberService {
 	ArrayList<Member> toDayProjectList();
 
 	ArrayList<Member> toDayQnAList();
+
+	Member idFind(Member m);
+
+	Member passFind(Member m);
+
+	int fakePwd(Member member);
 }

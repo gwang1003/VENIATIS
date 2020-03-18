@@ -58,7 +58,7 @@
                                                 </form>
                                                 <hr>
                                                 <div class="text-center">
-                                                    <a class="small" href="forgot-password.html">비밀번호 찾기</a>
+                                                    <a class="small" href="idFindForm.do">아이디/비밀번호 찾기</a>
                                                     &nbsp; &nbsp;&nbsp;&nbsp;  <a href="memberInsertInfo.do"> 회원가입 </a>
                                                 </div>
             
@@ -102,8 +102,8 @@
                 </script>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-crossorigin="anonymous"></script>
-
+crossorigin="anonymous"></script> 
+<br><br><br><br><br><br><br>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

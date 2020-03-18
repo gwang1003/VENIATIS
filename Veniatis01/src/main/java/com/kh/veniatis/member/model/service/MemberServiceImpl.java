@@ -286,4 +286,19 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.toDayQnAList();
 	}
 
+	@Override
+	public Member idFind(Member m) {
+		return mDao.idFind(m);
+	}
+
+	@Override
+	public Member passFind(Member m) {
+		return mDao.passFind(m);
+	}
+
+	@Override
+	public int fakePwd(Member member) {
+		return mDao.fakePwd(member);
+	}
+
 }

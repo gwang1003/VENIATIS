@@ -110,6 +110,48 @@ public class MemberController {
 		}
 
 	}
+	
+	@RequestMapping("idFindForm.do")	
+	public String idFindForm() {
+		
+		return "myPage/My/idFind";
+	}
+	
+	@RequestMapping("idFind.do")
+	@ResponseBody
+	public String idFind(Member m) {
+		Member member = mService.idFind(m);
+		System.out.println(m);
+		if(member != null) {
+			return member.getmId();
+		}else {
+			return "fail";
+		}
+	}
+
+	
+	@RequestMapping("passFindForm.do")
+	public String passFindForm() {
+		
+		return "myPage/My/passFind";
+	}
+	
+	@RequestMapping("passFind.do")
+	@ResponseBody
+	public String passFind(HttpServletRequest request, Member m) {
+		Member member = mService.passFind(m);
+
+		if(member != null) {
+			String pwd = mailSending2(request, m.getmEmail());
+			if(pwd != null) {
+				member.setmPwd(pwd);
+				int result = mService.fakePwd(member);
+			}
+			return "suecces";
+		}else {
+			return "fail";
+		}
+	}
 
 	// 로그아웃 메소드
 	@RequestMapping("logout.do")
@@ -557,6 +599,31 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("passConfirm.do")
+	public String passConfirm() {
+		return "myPage/My/passConfirm";
+	}
+	
+	@RequestMapping("passUpdate.do")
+	public ModelAndView passUpdate(HttpSession session, Model model, String newPwd) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(loginUser);
+		loginUser.setmPwd(newPwd);
+		int result = mService.fakePwd(loginUser);
+		System.out.println(loginUser);
+		
+		if (result > 0) {
+			model.addAttribute("loginUser", loginUser);
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("Member", loginUser);
+			mv.addObject("msg", "회원정보가 변경되었습니다.");
+			mv.setViewName("redirect:memberUpdateForm.do");
+			return mv;
+		} else {
+			throw new MemberException("비밀번호 변경 실패!!");
+		}
+	}
+	
 	// 마이페이지 프로필 사진 수정 ajax
 	@RequestMapping(value = "mPhotoUpdate.do")
 	@ResponseBody
@@ -916,6 +983,51 @@ public class MemberController {
 
 		return content;
 	}
+	
+	// 회원 임시비밀번호 발송
+		@RequestMapping(value = "email2.do")
+		@ResponseBody
+		public String mailSending2(HttpServletRequest request, String email) {
+			String setfrom = "VENIATIS";
+			String tomail = email; // 받는 사람 이메일
+			String title = "임시비밀번호를 발송해드렸습니다(VENIATIS)"; // 제목
+
+			StringBuffer temp = new StringBuffer();
+			Random rnd = new Random();
+			for (int i = 0; i < 10; i++) {
+				int rIndex = rnd.nextInt(3);
+				switch (rIndex) {
+				case 0:
+					// a-z
+					temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+					break;
+				case 1:
+					// A-Z
+					temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+					break;
+				case 2:
+					// 0-9
+					temp.append((rnd.nextInt(10)));
+					break;
+				}
+			}
+
+			String content = temp.toString(); // 내용
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+				messageHelper.setFrom(new InternetAddress(setfrom, "VENIATIS")); // 보내는사람 생략하거나 하면 정상작동을 안함
+				messageHelper.setTo(tomail); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+			return content;
+		}
 
 	
 	// 파일 삭제 메소드

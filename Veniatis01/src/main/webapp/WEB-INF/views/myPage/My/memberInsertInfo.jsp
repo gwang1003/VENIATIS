@@ -780,6 +780,9 @@ font-weight:800;
 		</div>
 	</div>
 	<script>
+	function returnToMain(){
+        location.href="home.do";
+    }
                 var checked1 = false; var checked2 = false;
                 var checked3 = false; var checked4 = false;
 

@@ -32,7 +32,7 @@
                                 <div class="col-lg-6 d-none d-lg-block">
                                 
                                   <img
-                                    src="logo.png"
+                                    src="resources/memberPhoto/KakaoTalk_20200319_154020001.jpg"
                                     id="dogimg">
                                 </div>
                                         <div class="col-lg-6">

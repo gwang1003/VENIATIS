@@ -7,11 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Welcome Page click here -><button onclick="javascript:location.href='home.do';">Click me!</button> </h1>
-<br>
-
-<h1>메인화면 만들면 jsp:include해야됨!!!!!</h1>
-<button onclick="javascript:location.href='projectSelect.do';">projectStart</button>
+<script>
+	location.href="home.do";
+</script>
 
 </body>
 </html>

@@ -217,7 +217,7 @@ public class MemberController {
 			ModelAndView mv = new ModelAndView();
 			
 			mv.addObject("pList", pList);
-			mv.setViewName("myPage/Manager/projectList");
+			mv.setViewName("myPage/Manager/okProject");
 			
 			return mv;
 		}else {

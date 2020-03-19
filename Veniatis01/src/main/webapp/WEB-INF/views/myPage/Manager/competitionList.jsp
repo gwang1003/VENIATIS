@@ -106,7 +106,7 @@
               		<td></td>
               		<td></td>
               		<td></td>              		
-              		<td><button class="bbs" style="border:1px solid black; background:darkgray; color:white; width:70%; height:40px">삭제하기</button></td>
+              		<td><button class="bbs" style="background:#40c8b5; color:white; width:70%; height:40px">삭제하기</button></td>
               	</tr>
               </tfoot>
             </table>

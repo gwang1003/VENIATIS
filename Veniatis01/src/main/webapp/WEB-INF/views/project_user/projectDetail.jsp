@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -12,25 +12,25 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 부트 스트랩  -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+   crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-	
+   crossorigin="anonymous"></script>
+   
 <title>VENIATIS : 후원형</title>
 <style>
 .div_hide{
-	opacity:0%;
+   opacity:0%;
 }
 
 #Intro:hover, #News:hover, #Qna:hover, #Cheer:hover{
-	cursor:pointer;
+   cursor:pointer;
 }
 
 #cheerTable{
-	width:90%;
-	border-top:1px solid black; 
-	border-bottom:1px solid black; 
-	margin:10px 10px 10px 20px;
+   width:90%;
+   border-top:1px solid black; 
+   border-bottom:1px solid black; 
+   margin:10px 10px 10px 20px;
 }
 </style>
 <script>
@@ -96,13 +96,16 @@ $(function () {
         $(".list_tab li").removeClass("on");
         $(".list_tab li:eq(3)").addClass("on");
         
-       	getCheerList();
+          getCheerList();
     });
 });
 //3자리 콤마 찍
 function comma(str) {
     str = String(str);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+function checkLogin(){
+   alert("로그인 후 이용 가능합니다.");
 }
 </script>
 </head>
@@ -125,7 +128,7 @@ function comma(str) {
                                 <span class="screen_out">카테고리</span>
                                 <a>
                                 ${ project.cate }
-								</a>
+                        </a>
 
                             </span>
                             <span class="screen_out">프로젝트 제목</span>
@@ -134,8 +137,8 @@ function comma(str) {
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
                                     <c:forTokens var="tag" items="${project.hashtag}" delims=",">
-									    <a class="link_tag">#${tag}</a>
-									</c:forTokens>
+                               <a class="link_tag">#${tag}</a>
+                           </c:forTokens>
                                 </div>
                             </div>
                         </header>
@@ -144,33 +147,33 @@ function comma(str) {
                                 <div id="main_image_slide" uk-slideshow="ratio: 5:3; animation: fade">
                                     <ul class="uk-slideshow-items">
                                     <c:forEach var="photo" items="${filesList}" varStatus="vs" >
-                                    	<c:choose>
-                                    		<c:when test="${vs.begin}">
-                                    			<li class="uk-active uk-transition-active" style="z-index: -1;">
-		                                            <img src="${ photo.filePath }" class="img_g">
-		                                        </li>
-                                    		</c:when>
-                                    		<c:otherwise>
-	                                    		<li>
-		                                            <img src="${ photo.filePath }" class="img_g">
-		                                        </li>
-                                    		</c:otherwise>
-                                    	</c:choose>
+                                       <c:choose>
+                                          <c:when test="${vs.begin}">
+                                             <li class="uk-active uk-transition-active" style="z-index: -1;">
+                                                  <img src="${ photo.filePath }" class="img_g">
+                                              </li>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <li>
+                                                  <img src="${ photo.filePath }" class="img_g">
+                                              </li>
+                                          </c:otherwise>
+                                       </c:choose>
                                     </c:forEach>
                                     </ul>
 
                                     <div class="main_image_nav_wrapper">
                                         <div class="main_image_nav">
-											<c:forEach var="photo" items="${filesList}" varStatus="vs" >
-												<c:choose>
-		                                    		<c:when test="${vs.begin}">
-		                                    			<img src="${ photo.filePath }" data-index="0" class="selected">
-		                                    		</c:when>
-		                                    		<c:otherwise>
-			                                    		<img src="${ photo.filePath }" data-index="${vs.index}">
-		                                    		</c:otherwise>
-		                                    	</c:choose>
-											</c:forEach>
+                                 <c:forEach var="photo" items="${filesList}" varStatus="vs" >
+                                    <c:choose>
+                                                <c:when test="${vs.begin}">
+                                                   <img src="${ photo.filePath }" data-index="0" class="selected">
+                                                </c:when>
+                                                <c:otherwise>
+                                                   <img src="${ photo.filePath }" data-index="${vs.index}">
+                                                </c:otherwise>
+                                             </c:choose>
+                                 </c:forEach>
 
                                         </div>
                                     </div>
@@ -178,15 +181,15 @@ function comma(str) {
                                 </div>
                                 <script>
                                     $(function () {
-                                    	// 초기 페이지 로딩 시 응원 불러오기
-                                		getCheerList();
-                                		getQnaList();
-                                    	// 지속적으로 얻어오기위함
-                                		setInterval(function(){
-                                			getCheerList();
-                                			getQnaList();
-                                		}, 10000);
-                                		
+                                       // 초기 페이지 로딩 시 응원 불러오기
+                                      getCheerList();
+                                      getQnaList();
+                                       // 지속적으로 얻어오기위함
+                                      setInterval(function(){
+                                         getCheerList();
+                                         getQnaList();
+                                      }, 10000);
+                                      
                                         $(".main_image_nav img").on("click", function () {
                                             var index = $(this).index();
                                             //alert(index);
@@ -224,7 +227,7 @@ function comma(str) {
                                     <p><span class="txt_statetitle">모인금액</span></p>
                                     <span class="screen_out">현재 참여금액</span>
                                     <span class="num_value" id="returnAmount">
-                                    	<fmt:formatNumber value="${ project.sumAmount }" groupingUsed="true"/>
+                                       <fmt:formatNumber value="${ project.sumAmount }" groupingUsed="true"/>
                                     </span> 
                                     <span class="txt_value">원&nbsp;모금</span>
                                 </div>
@@ -232,10 +235,10 @@ function comma(str) {
                                     <div class="graph_support">
                                         <span class="screen_out">참여율</span>
                                         <c:if test="${ supportRate<100 }">
-                                        	<span class="bar_graph" style="width:${supportRate}%;"></span>
+                                           <span class="bar_graph" style="width:${supportRate}%;"></span>
                                         </c:if>
                                         <c:if test="${ supportRate>=100 }">
-                                        	<span class="bar_graph" style="width:100%;"></span>
+                                           <span class="bar_graph" style="width:100%;"></span>
                                         </c:if>
                                         <span class="num_per">${supportRate}%</span>                                        
                                     </div>
@@ -249,56 +252,46 @@ function comma(str) {
                                     <div class="item_state">
                                         <p><span class="txt_statetitle">남은기간</span></p>
                                         <!-- 날짜 계산 -->
-								        <c:set var="now" value="<%=new java.util.Date()%>" />
-								        
-								        <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
-								        <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
-								        
-								        <c:if test="${eDate-nDate >= 0 }">
-                                        	<span class="num_value">
-	                                            D-<span class="screen_out">Day</span>
-									        	<span style="color:#40c8b5;">${eDate-nDate}</span>
-                                        	</span>
-                                        	<span class="txt_value"> 일 남음</span>
-                                        	<c:if test="${ empty loginUser }">
-												<button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
-											</c:if>
-											<c:if test="${ !empty loginUser }">
-	                                        	<button type="submit" class="link_join" onclick="location.href='${ rSelect }';">참여하기</button>
-	                                        </c:if>
+                                <c:set var="now" value="<%=new java.util.Date()%>" />
+                                
+                                <fmt:parseNumber var="nDate" value="${now.time/(1000*60*60*24)}" integerOnly="true" />
+                                <fmt:parseNumber var="eDate" value="${project.endDate.time/(1000*60*60*24)}" integerOnly="true" />
+                                
+                                <c:if test="${eDate-nDate >= 0 }">
+                                           <span class="num_value">
+                                               D-<span class="screen_out">Day</span>
+                                      <span style="color:#40c8b5;">${eDate-nDate}</span>
+                                           </span>
+                                           <span class="txt_value"> 일 남음</span>
+                                           <c:if test="${ empty loginUser }">
+                                    <button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
+                                 </c:if>
+                                 <c:if test="${ !empty loginUser }">
+                                 <!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
+                                    <c:url var="rSelect" value="rewardSelect.do">
+                                       <c:param name="pNo" value="${ project.pNo }"/>
+                                    </c:url>
+                                              <button type="submit" class="link_join" onclick="location.href='${ rSelect }';">참여하기</button>
+                                           </c:if>
                                         </c:if>
                                         
                                         <c:if test="${eDate-nDate < 0 }">
-                                        	<span class="num_value">
-	                                            <span class="screen_out">Day</span>
-									        	<span style="color:#777777;">마감된 프로젝트 입니다</span>
-                                        	</span>
-                                        	<button type="button" class="link_join" style="background-color:#777777;">프로젝트 마감</a>
+                                           <span class="num_value">
+                                               <span class="screen_out">Day</span>
+                                      <span style="color:#777777;">마감된 프로젝트 입니다</span>
+                                           </span>
+                                           <button type="button" class="link_join" style="background-color:#777777;">프로젝트 마감</a>
                                         </c:if>
                                         
-                                        
-										<!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
-										<c:url var="rSelect" value="rewardSelect.do">
-											<c:param name="pNo" value="${ project.pNo }"/>
-											<%-- <c:param name="creName" value="${ project.creName }"/>
-											<c:param name="creProfile" value="${ project.creProfile }"/> --%>
-										</c:url>
-										
-										
-										
-                                        <script>
-	                                        function checkLogin(){
-	                            				alert("로그인 후 이용 가능합니다.");
-	                            			}
-                                        </script>
+                              
                                         
                                     </div>
 
                                     <div class="txt_notice ">
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
-                                           	 목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
-											결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
+                                               목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
+                                 결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
                                     </div>
 
@@ -310,21 +303,21 @@ function comma(str) {
                                         </span>
                                     </a>
                                     <c:if test="${ !empty loginUser }"> 
-                                    	<button type="button" class="btn_like" id="btn_like" onclick="fn_likeCheck();">관심
+                                       <button type="button" class="btn_like" id="btn_like" onclick="fn_likeCheck();">관심
                                     </c:if>
                                     <c:if test="${ empty loginUser }"> 
-                                    	<button type="button" class="btn_like" id="btn_like" onclick="checkLogin();">관심
+                                       <button type="button" class="btn_like" id="btn_like" onclick="checkLogin();">관심
                                     </c:if>
                                     <c:if test="${ likeResult eq 0 }">
-                                    	<img id="heartIcon" src="resources/common/noLike.png">
+                                       <img id="heartIcon" src="resources/common/noLike.png">
                                     </c:if>
                                     <c:if test="${ likeResult > 0 }">
-                                    	<img id="heartIcon" src="resources/common/yesLike.png">
+                                       <img id="heartIcon" src="resources/common/yesLike.png">
                                     </c:if>
                                         <span id="icon_like"></span>
                                         <span class="num_count" id="like_num_count">
                                         </span>
-                                   	</button>
+                                      </button>
                                 </div>
                             </div>
                         </div>
@@ -360,37 +353,37 @@ function comma(str) {
                                 </nav>
 
                                 <script>
-                                	function fn_likeCheck(){
-                                		// 관심 버튼 클릭 시 
-                                		var pNo = ${project.pNo};
-                                		var mNo = ${loginUser.mNo};
-                                		var yesLike = false;
-                                		var imgSrc = $("#heartIcon").attr("src");
-                                		if(imgSrc == 'resources/common/noLike.png'){
-                                			yesLike = false;
-                                		}else if(imgSrc == 'resources/common/yesLike.png'){
-                                			yesLike = true;
-                                		}
-                                		
-                                		$.ajax({
-                                			url:"updateLikes.do",
-                                			data:{pNo:pNo, mNo:mNo, yesLike:yesLike},
-                                			dataType:"text",
-                                			async: false,
-                                			success:function(data){
-                                				if(data == "success"){
-                                					alert("관심프로젝트 정보가 수정되었습니다.");
-                                					location.href="projectDetail.do?pNo="+pNo;
-                                				}else if(data == "fail"){
-                                					alert("관심프로젝트 정보 수정에 실패하였습니다.");
-                                				}
-                                				
-                                			},error:function(request,status,error){
-                                		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-                                		    }
-                                		});
-                                		
-                                	}
+                                   function fn_likeCheck(){
+                                      // 관심 버튼 클릭 시 
+                                      var pNo = ${project.pNo};
+                                      var mNo = ${loginUser.mNo};
+                                      var yesLike = false;
+                                      var imgSrc = $("#heartIcon").attr("src");
+                                      if(imgSrc == 'resources/common/noLike.png'){
+                                         yesLike = false;
+                                      }else if(imgSrc == 'resources/common/yesLike.png'){
+                                         yesLike = true;
+                                      }
+                                      
+                                      $.ajax({
+                                         url:"updateLikes.do",
+                                         data:{pNo:pNo, mNo:mNo, yesLike:yesLike},
+                                         dataType:"text",
+                                         async: false,
+                                         success:function(data){
+                                            if(data == "success"){
+                                               alert("관심프로젝트 정보가 수정되었습니다.");
+                                               location.href="projectDetail.do?pNo="+pNo;
+                                            }else if(data == "fail"){
+                                               alert("관심프로젝트 정보 수정에 실패하였습니다.");
+                                            }
+                                            
+                                         },error:function(request,status,error){
+                                              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                                          }
+                                      });
+                                      
+                                   }
                                 
                                     
                                 </script>
@@ -411,7 +404,7 @@ function comma(str) {
                                                         <h1>글 제목</h1>
                                                         <span class="num_time">작성일자</span>
                                                         <span class="txt_author">
-                                                        	** 작성자명
+                                                           ** 작성자명
                                                         </span>
                                                     </header>
                                                     <div class="entry_content">
@@ -455,130 +448,130 @@ function comma(str) {
                                                     <fieldset>
                                                         <legend class="screen_out">댓글달기</legend>
                                                         <c:if test="${ !empty loginUser }">
-	                                                        <div class="comment_form_group" style="margin:0;">
-	                                                            <div class="comment_input_box">
-	                                                                <textarea cols="30" rows="5" class="tf_cmt login_required"
-	                                                                    title="댓글 작성" placeholder="질문을 남겨주세요." name="qContent" id="qContent"></textarea>
-	                                                                <input type="hidden" name="pNo" value="${project.pNo}">
-	                                                            </div>
-	                                                            <div style="margin-bottom:50px;">
-	                                                                <button class="btn_submit point_color" id="qnaSubmit">등록</button>
-	                                                            </div>
-	                                                        </div>
+                                                           <div class="comment_form_group" style="margin:0;">
+                                                               <div class="comment_input_box">
+                                                                   <textarea cols="30" rows="5" class="tf_cmt login_required"
+                                                                       title="댓글 작성" placeholder="질문을 남겨주세요." name="qContent" id="qContent"></textarea>
+                                                                   <input type="hidden" name="pNo" value="${project.pNo}">
+                                                               </div>
+                                                               <div style="margin-bottom:50px;">
+                                                                   <button class="btn_submit point_color" id="qnaSubmit">등록</button>
+                                                               </div>
+                                                           </div>
                                                         </c:if>
                                                         <c:if test="${ empty loginUser }">
-                                                        	<!-- <div class="comment_form_group">
-	                                                            <div class="comment_input_box" style="text-align:center; padding:30px;">
-	                                                            	<span> 로그인 후 이용 가능합니다.</span>		
-	                                                            </div>
-	                                                        </div> -->
+                                                           <!-- <div class="comment_form_group">
+                                                               <div class="comment_input_box" style="text-align:center; padding:30px;">
+                                                                  <span> 로그인 후 이용 가능합니다.</span>      
+                                                               </div>
+                                                           </div> -->
                                                         </c:if>
                                                     </fieldset>
                                                 </form>
-<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ QnA	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ QnA   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                                                 <h2 class="screen_out">댓글</h2>
                                                 <ul class="list_cmt" id="qnaBox" style="margin-top:10px; margin-bottom:30px;">
                                                     
                                                 </ul>
                                                   
-	<script>
-	// Qna 목록 가져오기
-	function getQnaList(){	
-		var pNo = ${project.pNo};
-		$.ajax({
-			url:"getQnaList.do",
-			data:{pNo:pNo},
-			dataType:"json",
-			async: false,
-			success:function(data){
-				$("#Qna .num_count").text(data.length);
-				$ulBody = $("#qnaBox");
-				$ulBody.html("");
-				
-				if(data.length > 0){
-					for(var i in data){
+   <script>
+   // Qna 목록 가져오기
+   function getQnaList(){   
+      var pNo = ${project.pNo};
+      $.ajax({
+         url:"getQnaList.do",
+         data:{pNo:pNo},
+         dataType:"json",
+         async: false,
+         success:function(data){
+            $("#Qna .num_count").text(data.length);
+            $ulBody = $("#qnaBox");
+            $ulBody.html("");
+            
+            if(data.length > 0){
+               for(var i in data){
                         var $li = $("<li>");
-						var $q1 = $("<div class='cmt_output'>");
-						var $q2 = $("<span class='user_profile'>");
-						var $q3 = $("<span class='img_profile' style='background-image:url(resources/project_user/question.png); background-size:contain;'>");
-						var $q4 = $("<span class='txt_name'>").text(data[i].name + " 님");
-						var $q5 = $("<span class='txt_time'>").text(data[i].enrollDate);
-						var $q6 = $("<div class='cmt_content'>");
-						var $q7 = $("<p class='cont_cmt'>").text(data[i].qContent);
-						
-						$li.append($q1);
-						$q1.append($q2);
-						$q2.append($q3);
-						$q2.append($q4);
-						$q1.append($q5);
-						$q1.append($q6);
-						$q6.append($q7);
-						
-						if(data[i].qAnswer == null){
-							$ulBody.append($li);
-						}else{
-							// 답변이 있는 경우
-							var creator = $(".qna_info .txt_name").text();
-							
-							var $a1 = $("<ul class='list_reply'>");
-							var $a2 = $("<li>");
-							var $a3 = $("<div class='cmt_reply'>");
-							var $a4 = $("<span class='user_profile'>");
-							var $a5 = $("<span class='img_profile' style='background-image:url(resources/project_user/answer.png); background-size:contain;'>");
-							var $a6 = $("<span class='txt_name'>").text(creator + " 님");
-							var $a8 = $("<span class='txt_time'>").text(data[i].answerDate);
-							var $a7 = $("<p class='cont_cmt'>").text(data[i].qAnswer);
-							
-							$li.append($a1);
-							$a1.append($a2);
-							$a2.append($a3);
-							$a3.append($a4);
-							$a4.append($a5);
-							$a4.append($a6);
-							$a3.append($a8);
-							$a3.append($a7);
-							
-							
-							$ulBody.append($li);
-						}
-						
-					}
-				}
-			},error : function(xhr, status){
-				alert("ajax 통신 에러");
-			}
-		});
-	}	// getQnaList();
-	
-		$(function(){
-			$("#qnaSubmit").on("click", function(){
-				// db에 넣고 목록 조회
-				var pNo = ${project.pNo};
-				var formData = $("#qnaForm").serialize();
-				$.ajax({
-					url : "insertProjectQna.do", 
-					 type : 'get', 
-					 data : formData,
-					 dataType:"json",
-					 success : function(data) {
-					 	//console.log("data 확인 : " + data);
-					 	alert("ajax확인 : " + data);
-					 	location.href="projectDetail.do?pNo="+pNo;
-					 }, 
-					 error : function(xhr, status) {
-						 alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-				       
-					 }
-				});
-			});
-		});
-	</script>
+                  var $q1 = $("<div class='cmt_output'>");
+                  var $q2 = $("<span class='user_profile'>");
+                  var $q3 = $("<span class='img_profile' style='background-image:url(resources/project_user/question.png); background-size:contain;'>");
+                  var $q4 = $("<span class='txt_name'>").text(data[i].name + " 님");
+                  var $q5 = $("<span class='txt_time'>").text(data[i].enrollDate);
+                  var $q6 = $("<div class='cmt_content'>");
+                  var $q7 = $("<p class='cont_cmt'>").text(data[i].qContent);
+                  
+                  $li.append($q1);
+                  $q1.append($q2);
+                  $q2.append($q3);
+                  $q2.append($q4);
+                  $q1.append($q5);
+                  $q1.append($q6);
+                  $q6.append($q7);
+                  
+                  if(data[i].qAnswer == null){
+                     $ulBody.append($li);
+                  }else{
+                     // 답변이 있는 경우
+                     var creator = $(".qna_info .txt_name").text();
+                     
+                     var $a1 = $("<ul class='list_reply'>");
+                     var $a2 = $("<li>");
+                     var $a3 = $("<div class='cmt_reply'>");
+                     var $a4 = $("<span class='user_profile'>");
+                     var $a5 = $("<span class='img_profile' style='background-image:url(resources/project_user/answer.png); background-size:contain;'>");
+                     var $a6 = $("<span class='txt_name'>").text(creator + " 님");
+                     var $a8 = $("<span class='txt_time'>").text(data[i].answerDate);
+                     var $a7 = $("<p class='cont_cmt'>").text(data[i].qAnswer);
+                     
+                     $li.append($a1);
+                     $a1.append($a2);
+                     $a2.append($a3);
+                     $a3.append($a4);
+                     $a4.append($a5);
+                     $a4.append($a6);
+                     $a3.append($a8);
+                     $a3.append($a7);
+                     
+                     
+                     $ulBody.append($li);
+                  }
+                  
+               }
+            }
+         },error : function(xhr, status){
+            alert("ajax 통신 에러");
+         }
+      });
+   }   // getQnaList();
+   
+      $(function(){
+         $("#qnaSubmit").on("click", function(){
+            // db에 넣고 목록 조회
+            var pNo = ${project.pNo};
+            var formData = $("#qnaForm").serialize();
+            $.ajax({
+               url : "insertProjectQna.do", 
+                type : 'get', 
+                data : formData,
+                dataType:"json",
+                success : function(data) {
+                   //console.log("data 확인 : " + data);
+                   alert("ajax확인 : " + data);
+                   location.href="projectDetail.do?pNo="+pNo;
+                }, 
+                error : function(xhr, status) {
+                   alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                   
+                }
+            });
+         });
+      });
+   </script>
 
-	                                               	<!-- 페이징 번호
-	                                               	<div id="paging" class="paging_comm" style="margin-top:55px;">
-	                                                    <a class="link_page on">1</a>&nbsp;
-	                                                    <input id="pageIndex" name="pageIndex" type="hidden" value="1">
-	                                                </div> -->
+                                                     <!-- 페이징 번호
+                                                     <div id="paging" class="paging_comm" style="margin-top:55px;">
+                                                       <a class="link_page on">1</a>&nbsp;
+                                                       <input id="pageIndex" name="pageIndex" type="hidden" value="1">
+                                                   </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -603,46 +596,46 @@ function comma(str) {
                                     </div>
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 참여자 응원  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->                                    
                                     <script>
-                                	// 참여자 응원 리스트 불러오는 ajax 함수
-                                	function getCheerList(){
-                                		var pNo = ${project.pNo};
-                                		
-                                		$.ajax({
-                                			url:"cheerList.do",
-                                			data:{pNo:pNo},
-                                			dataType:"json",
-                                			success:function(data){
-                                				//console.log(data);
-                                				// 참여자 응원 갯수 표시
-                                				var cheerCount = $("#Cheer .num_count").text(data.length);
-                                				
-                                				$ulBody = $("#cheerBox");
-                                				$ulBody.html("");
-                                				
-                                				if(data.length > 0){
-                                					for(var i in data){
-                                						var $li = $("<li>");
-                                						var $div1 = $("<div class='cmt_output'>");
-                                						var $span1 = $("<span class='user_profile'>");
-                                						var $span1_2 = $("<span class='img_profile'>");
-                                						var imgPath = "background-image:url("+data[i].filePath+"); background-size:contain;";
-                                						$span1_2.attr("style", imgPath);
-                                						var $span1_1 = $("<span class='text_name'>").text(data[i].rWriter + " 님");
-                                						var $span2 = $("<span class='txt_time'>").text(data[i].wDate);
-                                						var $div1_1 = $("<div class='cmt_content'>");
-                                						var $p1 = $("<p class='cont_cmt'>").text(data[i].rContent);
-                                						
-                                						$div1.append($span1);
-                                						$span1.append($span1_2);
-                                						$span1.append($span1_1);
-                                						$div1.append($span2);
-                                						$div1_1.append($p1);
-                                						$div1.append($div1_1);
-                                						$li.append($div1); 
-                                						
-                                						$ulBody.append($li);
-                                						/* 
-                                						<div class="cmt_output">
+                                   // 참여자 응원 리스트 불러오는 ajax 함수
+                                   function getCheerList(){
+                                      var pNo = ${project.pNo};
+                                      
+                                      $.ajax({
+                                         url:"cheerList.do",
+                                         data:{pNo:pNo},
+                                         dataType:"json",
+                                         success:function(data){
+                                            //console.log(data);
+                                            // 참여자 응원 갯수 표시
+                                            var cheerCount = $("#Cheer .num_count").text(data.length);
+                                            
+                                            $ulBody = $("#cheerBox");
+                                            $ulBody.html("");
+                                            
+                                            if(data.length > 0){
+                                               for(var i in data){
+                                                  var $li = $("<li>");
+                                                  var $div1 = $("<div class='cmt_output'>");
+                                                  var $span1 = $("<span class='user_profile'>");
+                                                  var $span1_2 = $("<span class='img_profile'>");
+                                                  var imgPath = "background-image:url("+data[i].filePath+"); background-size:contain;";
+                                                  $span1_2.attr("style", imgPath);
+                                                  var $span1_1 = $("<span class='text_name'>").text(data[i].rWriter + " 님");
+                                                  var $span2 = $("<span class='txt_time'>").text(data[i].wDate);
+                                                  var $div1_1 = $("<div class='cmt_content'>");
+                                                  var $p1 = $("<p class='cont_cmt'>").text(data[i].rContent);
+                                                  
+                                                  $div1.append($span1);
+                                                  $span1.append($span1_2);
+                                                  $span1.append($span1_1);
+                                                  $div1.append($span2);
+                                                  $div1_1.append($p1);
+                                                  $div1.append($div1_1);
+                                                  $li.append($div1); 
+                                                  
+                                                  $ulBody.append($li);
+                                                  /* 
+                                                  <div class="cmt_output">
                                                             <span class="user_profile">
                                                                 <span class="img_profile">
                                                                 </span>
@@ -657,27 +650,27 @@ function comma(str) {
                                                             </div>
                                                         </div>*/
                                                         
-                                					}
-                                					
-                                				}else{
-                                					// 댓글이 등록되지 않았을 때
-                                					var $li = $("<li>");
-                                					var $output = $("<div class='cmt_output'>");
-                                					var $content = $("<div class='cmt_content'>");
-                                					var $rContent = $("<p style='text-align:center; margin-bottom:20px;'>").text("등록 된 응원이 없습니다.");
-                                					$output.append($content);
-                                					$content.append($rContent);
-                                					$li.append($output);
-                                					$ulBody.append($li);
-                                				}
-                                				
-                                			},
-                                			error:function(e){
-                                				console.log(e);
-                                			}
-                                		}); // 참여자 응원 ajax 끝
-                                		
-                                	}
+                                               }
+                                               
+                                            }else{
+                                               // 댓글이 등록되지 않았을 때
+                                               var $li = $("<li>");
+                                               var $output = $("<div class='cmt_output'>");
+                                               var $content = $("<div class='cmt_content'>");
+                                               var $rContent = $("<p style='text-align:center; margin-bottom:20px;'>").text("등록 된 응원이 없습니다.");
+                                               $output.append($content);
+                                               $content.append($rContent);
+                                               $li.append($output);
+                                               $ulBody.append($li);
+                                            }
+                                            
+                                         },
+                                         error:function(e){
+                                            console.log(e);
+                                         }
+                                      }); // 참여자 응원 ajax 끝
+                                      
+                                   }
                                     </script>
 
                                     <div class="box_reward_select">
@@ -685,47 +678,47 @@ function comma(str) {
                                             <fieldset>
                                                 <ul class="list_reward">
                                                 <c:forEach var="reward" items="${ rewardList }">
-                                                	<!-- 리워드 수량 제한 없는 경우 -->
-                                                	<c:if test="${reward.rLimit eq 'N'}">
-                                                	<li>
-														<a class="box_reward"> 
-															<strong class="tit_reward">
-																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
-															</strong>
-															<p class="txt_desc">${ reward.rItem }</p> 
-															<span class="info_dely">
-																<span class="tit_info">배송 예정일</span>
-															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
-															 </span> 
-															 <span class="txt_satea">
-															 	<!-- <em class="num_state">0명</em> 참여하였습니다. -->
-															 </span>
-														</a>
-													</li>
-                                                	</c:if>
-                                                	<!-- 리워드 수량 제한 있는 경우(예: 얼리버드) -->
-                                                	<c:if test="${reward.rLimit eq 'Y'}">
-                                                	<li>
-														<a class="box_reward"> 
-															<span style="font-size:12px;color:#40c8b5;">* 수량 한정</span><br><br>
-															<strong class="tit_reward">
-																<fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
-															</strong>
-															<p class="txt_desc">${ reward.rItem }</p> 
-															<span class="info_dely">
-																<span class="tit_info">배송 예정일</span>
-															 	: <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
-															 </span> 
-															 <span class="txt_satea">
-															 	<!-- <em class="num_state">0명</em> 참여하였습니다. -->
-															 	<small class="txt_count">(수량 ${reward.rCount}개 남음)</small>
-															 </span>
-														</a>
-													</li>
-                                                	</c:if>
-													
+                                                   <!-- 리워드 수량 제한 없는 경우 -->
+                                                   <c:if test="${reward.rLimit eq 'N'}">
+                                                   <li>
+                                          <a class="box_reward"> 
+                                             <strong class="tit_reward">
+                                                <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
+                                             </strong>
+                                             <p class="txt_desc">${ reward.rItem }</p> 
+                                             <span class="info_dely">
+                                                <span class="tit_info">배송 예정일</span>
+                                                 : <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
+                                              </span> 
+                                              <span class="txt_satea">
+                                                 <!-- <em class="num_state">0명</em> 참여하였습니다. -->
+                                              </span>
+                                          </a>
+                                       </li>
+                                                   </c:if>
+                                                   <!-- 리워드 수량 제한 있는 경우(예: 얼리버드) -->
+                                                   <c:if test="${reward.rLimit eq 'Y'}">
+                                                   <li>
+                                          <a class="box_reward"> 
+                                             <span style="font-size:12px;color:#40c8b5;">* 수량 한정</span><br><br>
+                                             <strong class="tit_reward">
+                                                <fmt:formatNumber value="${ reward.rPrice }" groupingUsed="true"/>원 펀딩
+                                             </strong>
+                                             <p class="txt_desc">${ reward.rItem }</p> 
+                                             <span class="info_dely">
+                                                <span class="tit_info">배송 예정일</span>
+                                                 : <span class="txt_info"><fmt:formatDate value="${ reward.rDelivery }" pattern="yyyy년 MM월 dd일"/>부터 순차적으로 제공</span>
+                                              </span> 
+                                              <span class="txt_satea">
+                                                 <!-- <em class="num_state">0명</em> 참여하였습니다. -->
+                                                 <small class="txt_count">(수량 ${reward.rCount}개 남음)</small>
+                                              </span>
+                                          </a>
+                                       </li>
+                                                   </c:if>
+                                       
                                                 </c:forEach>
-												</ul>
+                                    </ul>
                                             </fieldset>
                                         </form>
                                     </div>

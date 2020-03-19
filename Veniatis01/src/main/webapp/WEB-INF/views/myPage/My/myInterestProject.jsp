@@ -79,19 +79,16 @@
                                     </div>
                             <ul class="list_prj">
                                 
-                                <c:forEach var="p" items="${interestList }">
+                                <c:forEach var="p" items="${interestList }"> 
                                 <li class="prj_type_support"> <!-- 후원형 프로젝트일 경우 class="prj_type_support" -->                 
                                     <label for="chkPrj_0" class="chk_comm">
-                                        <input type="hidden" name="projectSeq" value="7779">
-                                        <input type="hidden" name="projectType" value="R">
-                                        <input type="hidden" name="createId" value="236857">
                                         <input type="checkbox" id="chkPrj_0" name="deleteCheck" class="inp_chk">
                                         <span class="chk_square"><span class="fa fa-check"></span></span>
                                         <span class="txt_cont">프로젝트 체크</span>
                                     </label>
                                     <div class="box_project">
                                         <div class="related_words">
-                                            <a href="/reward/7779" class="link_card">
+                                            <a href="projectDetail.do?pNo=${p.pNo }" class="link_card">
                                                 <span class="thumb_g" style="background-image:url('${p.thumbnail}')"></span>
                                             </a>
                                         </div>

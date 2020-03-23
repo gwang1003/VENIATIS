@@ -15,6 +15,7 @@
 		<result property="mInterest" column="M_INTERESTS"/>
 		<result property="mDate" column="M_CONN"/>
 		<result property="filePath" column="FILE_PATH"/>
+		<result property="cStatus" column="CRE_STATUS"/>
 	</resultMap>
 	
 	<resultMap id="filesResultSet" type="Files">
@@ -32,6 +33,66 @@
 		<result property="status" column="STATUS"/>
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
+	
+	
+	<resultMap id="creViewResultSet" type="CreView">
+		<id property="creNo" column="CRE_NO"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creType" column="CRE_TYPE"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
+		<result property="crePhone" column="CRE_PHONE"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mId" column="M_ID"/>
+	</resultMap>
+	
+	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
+		<id property="pNo" column="P_NO"/>
+		<result property="cate" column="PC_NAME"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="hashtag" column="P_HASHTAG"/>
+		<result property="startDate" column="P_START_DATE"/>
+		<result property="endDate" column="P_END_DATE"/>
+		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="sumAmount" column="P_SUM_AMOUNT"/>
+		<result property="thumbnail" column="THUMB"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="creId" column="M_ID"/>
+		<result property="creName" column="CRE_NAME"/>
+		<result property="creEmail" column="CRE_EMAIL"/>
+		<result property="creProfile" column="PROFILE"/>
+		<result property="pStatus" column="P_STATUS"/>
+		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Compet" id="CompetResultSet">
+		<id property="conNo" column="CON_NO"/>
+		<result property="conName" column="CON_NAME"/>
+		<result property="conHost" column="CON_HOST"/>
+		<result property="startDate" column="CON_STARTDATE"/>
+		<result property="lastDate" column="CON_LASTDATE"/>
+		<result property="conHp" column="CON_HP"/>
+		<result property="conTarget" column="CON_TARGET"/>
+		<result property="conBenefit" column="CON_BENEFIT"/>
+		<result property="conState" column="CON_STATE"/>
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
+	
+	<resultMap type="QnA" id="QAResultSet">
+		<id property="qNo" column="QNA_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="name" column="M_NAME"/>
+		<result property="qType" column="QNA_TYPE"/>
+		<result property="qCategory" column="QNA_CATE"/>
+		<result property="qContent" column="QNA_CONTENT"/>
+		<result property="qAnswer" column="QNA_ANSWER"/>
+		<result property="enrollDate" column="QNA_ENROLLDATE"/>
+	</resultMap>
 
 	<!-- 로그인 -->
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
@@ -40,6 +101,28 @@
 		WHERE M_ID=#{mId}
 		AND M_PWD=#{mPwd}
 	</select>
+	
+	<update id="updateDate">
+		UPDATE MEMBER
+		SET M_CONN = SYSDATE
+		WHERE M_NO = #{getmNo}
+	</update>
+	
+	<select id="selectLog" resultType="_int">
+		SELECT COUNT(*)
+		FROM LOG
+		WHERE TO_CHAR(DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<insert id="insertDate">
+		INSERT INTO LOG
+		VALUES(SYSDATE, 0)
+	</insert>
+	
+	<update id="updateDateCount">
+		UPDATE LOG
+		SET NO = NO+1
+	</update>
 	
 	
 	<select id="selectOneUserId" parameterType="Member" resultMap="memberResultSet">
@@ -74,10 +157,355 @@
 	<delete id="mPhotoDelete">
 		DELETE
 		FROM FILES
-		WHERE M_NO = ${mNo}
+		WHERE M_NO = #{mNo}
 		AND FILE_LEVEL = 3
 	</delete>
 	
+	<insert id="question">
+		INSERT INTO QNA
+		VALUES(SEQ_QID.NEXTVAL, NULL, #{mNo}, 2, #{qCategory}, #{qContent}, NULL, SYSDATE)
+	</insert>
 	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT DISTINCT M_NAME, M_ID, M_NO, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
+		FROM MEMBER
+		LEFT JOIN CREATOR USING(M_NO)
+	</select>
+	
+	<select id="myOpenProject" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		AND P_STATUS ='Y'
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		AND P_STATUS ='Y'
+		</if>
+		<if test="sort == 'Wait'">
+		AND P_STATUS ='N'
+		</if>
+	</select>
+	
+	<select id="myInterestProject" resultMap="prjView">
+		SELECT *
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
+		AND P_STATUS = 'Y'
+	</select>
+	
+	<select id="selectAttend" resultMap="prjView">
+		SELECT *
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
+	</select>
+	
+	<select id="interestListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
+		AND P_STATUS = 'Y'
+	</select>
+	
+	<select id="attendListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+		<if test="sort == 'Ing'">
+		AND P_END_DATE >= SYSDATE
+		</if>
+		<if test="sort == 'End'">
+		AND SYSDATE > P_END_DATE
+		</if>
+	</select>
+	
+	<select id="openListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_PROJECT
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="selectInterestList" resultMap="prjView">
+		SELECT *
+		FROM P_LIKES_VIEW
+		WHERE M_NO = #{getmNo}
+		AND P_STATUS = 'Y'
+	</select>
+	
+	<select id="selectAttendList" resultMap="prjView">
+		SELECT *
+		FROM P_SUPPORT_VIEW
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<select id="selectOpenList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		JOIN MEMBER USING(M_ID)
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	
+	
+	
+	
+	<select id="toDayVisitor" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE TO_CHAR(M_CONN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE TO_CHAR(P_ENROLL_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayQnA" resultType="_int">
+		SELECT COUNT(*)
+		FROM QNA
+		WHERE TO_CHAR(QNA_ENROLLDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectMVisitor" resultType="_int">
+		SELECT NO
+		FROM LOG
+        WHERE TO_CHAR(DAY, 'MM') = TO_CHAR(SYSDATE, 'MM')-1
+		ORDER BY DAY
+	</select>
+	
+	<select id="selectMVisitor2" resultType="_int">
+		SELECT NO
+		FROM LOG
+        WHERE TO_CHAR(DAY, 'MM') = TO_CHAR(SYSDATE, 'MM')
+		ORDER BY DAY
+	</select>
+	
+	<select id="requestProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE P_STATUS = 'N'
+	</select>
+	
+	<select id="selectProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_END_DATE > SYSDATE
+	</select>
+	
+	<select id="selectEndProject" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT
+		WHERE SYSDATE > P_END_DATE
+	</select>
+	
+	<select id="selectCreatorList" resultMap="creViewResultSet">
+		SELECT CRE_NO, CRE_NAME, M_ID, CRE_TYPE, CRE_PHONE, CRE_EMAIL, P_NO
+		FROM CREATOR
+		JOIN MEMBER USING(M_NO)
+		JOIN PROJECT USING(CRE_NO)
+	</select>
+	
+	<select id="selectOkProject" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'N'
+	</select>
+	
+	<select id="selectProjectList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+	</select>
+	
+	<insert id="competitionInsert">
+		INSERT INTO COMPETITION
+		VALUES(SEQ_COMPET.NEXTVAL, #{conName}, #{conHost}, #{startDate}, #{lastDate}, #{conHp}, #{conTarget}, #{conBenefit}, 'Y')
+	</insert>
+	
+	<select id="selectOneCompet" resultMap="CompetResultSet">
+		SELECT *
+		FROM COMPETITION
+		WHERE CON_NAME = #{conName}
+	</select>
+	
+	<insert id="conPhotoInsert">
+		INSERT INTO FILES
+		VALUES(SEQ_FID.NEXTVAL, NULL, NULL, NULL, #{conNo}, NULL, 4, #{originName}, #{changeName}, #{filePath}, SYSDATE, 'Y', 2)
+	</insert>
+	
+	<select id="selectQAList" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		JOIN MEMBER USING(M_NO)
+	</select>
+	
+	<update id="okProject" >
+		UPDATE PROJECT
+		SET P_STATUS = 'Y'
+		WHERE P_NO = #{pNo}
+	</update>
+	
+	<select id="selectSearchMember" resultMap="memberResultSet">
+      SELECT DISTINCT M_NO, M_NAME, M_ID, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
+      FROM MEMBER
+      LEFT JOIN CREATOR USING(M_NO)
+      <where>
+         <if test="power == 'creator'">
+            CRE_STATUS IS NOT NULL
+         </if>
+         <if test="power == 'Normal'">
+            CRE_STATUS IS NULL
+         </if>
+         <if test="gender == 'Male'">
+            AND GENDER = 'M'
+         </if>
+         <if test="gender == 'FeMale'">
+            AND GENDER = 'F'
+         </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND M_NAME LIKE '%'||'${name}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <select id="selectSearchCreator" resultMap="creViewResultSet">
+      SELECT CRE_NO, CRE_NAME, M_ID, CRE_TYPE, CRE_PHONE, CRE_EMAIL, P_NO
+		FROM CREATOR
+		JOIN MEMBER USING(M_NO)
+		JOIN PROJECT USING(CRE_NO)
+      <where>
+         <if test="type == 'funding'">
+            CRE_TYPE = 1
+         </if>
+         <if test="type == 'create'">
+            CRE_TYPE = 2
+         </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND CRE_NAME LIKE '%'||'${name}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <select id="selectSearchProject" resultMap="prjView">
+	SELECT *
+	FROM V_PROJECT
+	JOIN PRJ_CATE USING(PC_NAME)
+      <where>
+         <if test="pType != 'All'">
+            PC_NO = ${pType}
+         </if>
+         <if test="pStatus == 'Wait'">
+			AND P_STATUS = 'N'
+		 </if>
+         <if test="pStatus == 'IngS'">
+			AND P_END_DATE >= SYSDATE
+			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+		 </if>
+		 <if test="pStatus == 'EndS'">
+			AND SYSDATE > P_END_DATE
+			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+		 </if>
+         <if test="pStatus == 'Ing'">
+			AND P_END_DATE >= SYSDATE
+		 </if>
+		 <if test="pStatus == 'End'">
+			AND SYSDATE > P_END_DATE
+		 </if>
+		 <if test="pStatus == 'EndF'">
+			AND SYSDATE > P_END_DATE
+			AND P_TARGET_AMOUNT > P_SUM_AMOUNT
+		 </if>
+         <if test="id != ''">
+            AND M_ID LIKE '%'||'${id}'||'%'
+         </if>
+         <if test="name != ''">
+            AND CRE_NAME LIKE '%'||'${name}'||'%'
+         </if>
+         <if test="pName != ''">
+            AND P_TITLE LIKE '%'||'${pName}'||'%'
+         </if>
+      </where>
+   </select>
+   
+   <update id="deleteCon">
+   	UPDATE COMPETITION
+   	SET CON_STATE = 'N'
+   	WHERE CON_NO IN(#{conNumber})
+   </update>
+	
+	<select id="competList" resultMap="CompetResultSet">
+		SELECT *
+		FROM COMPETVIEW
+		WHERE CON_STATE = 'Y'
+	</select>
+	
+	<select id="toDayMemberList" resultMap="memberResultSet">
+		SELECT DISTINCT M_NO, M_NAME, M_ID, GENDER, M_BIRTHDAY, M_PHONE, M_EMAIL, M_CONN, CRE_STATUS
+      	FROM MEMBER
+      	LEFT JOIN CREATOR USING(M_NO)
+      	WHERE TO_CHAR(M_CONN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayProjectList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE TO_CHAR(P_ENROLL_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="toDayQnAList" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		JOIN MEMBER USING(M_NO)
+		WHERE TO_CHAR(QNA_ENROLLDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="idFind" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_NAME = #{mName}
+		AND M_PHONE = #{mPhone}
+	</select>
+	
+	<select id="passFind" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{mId} 
+		AND M_EMAIL = #{mEmail}
+	</select>
+	
+	<update id="fakePwd">
+		UPDATE MEMBER
+		SET M_PWD = #{mPwd}
+		WHERE M_NO = #{mNo}
+	</update>
 	
 </mapper>

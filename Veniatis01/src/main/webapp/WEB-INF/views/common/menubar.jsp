@@ -155,8 +155,10 @@ s0.parentNode.insertBefore(s1,s0);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="serch_form">
-                    <input type="text" placeholder="Search">
-                    <button type="submit">search</button>
+                <form action="projectSearch.do" method="get">
+                    <input type="text" name="searchValue" placeholder="검색할 프로젝트명을 입력하세요!">
+                    <button type="submit">검색</button>
+                </form>
                 </div>
             </div>
         </div>

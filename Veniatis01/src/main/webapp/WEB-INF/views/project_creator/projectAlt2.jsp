@@ -201,7 +201,7 @@ function validation(){
 					
 						<input type="hidden" value="${creator.creNo }" name="creNo">
 						<input type="hidden" value="${creator.creUrl }" name="creUrl">
-				
+						<input type="hidden" value="${pNo}" name="pNo">
 						<fieldset class="fld_comm">
 							
 							<ul>
@@ -249,16 +249,18 @@ function validation(){
 										<li class="box_info">
 											<p class="tit_name txt-right">(대표)이미지</p>
 											<div class="txt_input input_full">
-												<input class="upload_name" id='uploadName0'	disabled="disabled" value="${fList.get(0).originName }">
+												<input class="upload_name" id='uploadName0'	disabled="disabled">
 												 <label for="fileName0"	class="btn_search">찾아보기</label>
 												  <input type="file" id="fileName0" name="mainImage" class="upload_hidden">
-												
-												<p class="txt_notice">※ 프로젝트 목록 및 프로젝트 상세페이지 첫번째 노출되는
-													이미지입니다.</p>
+												<div class="file_attach" id="divFileName0">
+																	<span class="file_name">		
+																				<a>${fList.get(0).originName }</a><button type="button" class="btn_del" id="del"><span class="screen_out">삭제</span></button></span>
+																	</div>
+												<p class="txt_notice">※ 프로젝트를 수정하기 위해 이미지를 새로 등록해주세요(동일한 사진을 사용하더라도 파일을 업로드 해주세요)</p>
 													<!-- 추가되는 이미지 name subImage1 subImage2.... -->
 											</div>
 										</li>
-											 <c:forEach var="f" items="${fList }" varStatus="status">      
+											 <c:forEach var="f" begin="1" items="${fList }" varStatus="status">      
 										
 										<li class="box_info" id="file${status.count}">
 											<div id="file${status.count}div" class="add_file">
@@ -401,9 +403,13 @@ function validation(){
  
  여기서 파일 추가하면 기존에 불러온 이름 파일들을 없애버릴 방법 찾아야함
  
- */*/
+ */
 
 	$(document).on("change",".upload_hidden",function(){
+		
+		$(this).parent().children('div').remove();
+		
+		
         var changeHandler = this;
         var getFileId = $(this).attr('id').replace("fileName","");
 
@@ -412,6 +418,8 @@ function validation(){
         } else {
             var filename = $(this).val().split('/').pop().split('\\').pop();
         }
+        
+        
 
         var img = new Image();
         var _URL = window.URL || window.webkitURL;
@@ -431,7 +439,7 @@ function fn_imgAdd() {
       var make_img_div = existimg+1;
 
       if (existimg>=max_img_cnt){
-          alert("프로젝트 이미지는 최대  "+ (max_img_cnt+1) +"개까지 등록가능합니다.");
+          alert("프로젝트 추가 이미지는 최대  "+ (max_img_cnt+1) +"개까지 등록가능합니다.");
           return false;
       } else {
           var html = "<li class='box_info' id='file"+ make_img_div +"'>";
@@ -532,6 +540,8 @@ function fn_validateCheck(){
         $('#simpleText').focus();
         return false;
     }
+    
+    
 
    
 
@@ -557,7 +567,7 @@ function fn_validateCheck(){
         }
        
     }
-    alert(ab);
+    
     $("#tagArea").append("<input type='hidden' name='pHashTag' value='"+ab+"'>");
     
     return true;

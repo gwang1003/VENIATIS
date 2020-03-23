@@ -66,6 +66,14 @@
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
+	<resultMap type="PNotice" id="PNoticeResultSet">
+		<id property="pnNo" column="PN_NO"/>
+		<result property="pNo" column="p_NO"/>
+		<result property="pnTitle" column="PN_TITLE"/>
+		<result property="pnContent" column="PN_CONTENT"/>
+		<result property="pnEnrollDate" column="PN_ENROLL_DATE"/>
+	</resultMap>
+	
 	<insert id="creatorInsert" parameterType="Creator">
 		INSERT INTO CREATOR
 		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,1,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
@@ -85,7 +93,7 @@
 	
 	<insert id="projectInsert" parameterType="Project">
 		INSERT INTO PROJECT
-		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W',SYSDATE)
+		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W',SYSDATE,1)
 		<selectKey keyProperty="pNo" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_PID.CURRVAL FROM DUAL 
 		</selectKey>
@@ -150,6 +158,30 @@
 	WHERE CRE_NO=#{creNo}
 	</update>
 	
+	<update id="projectUpdate" parameterType="Project">
+	UPDATE PROJECT
+	SET PC_NO=#{pcNo},
+		P_URL=#{pUrl},
+		P_TITLE=#{pTitle},
+		P_SIMPLE_TEXT=#{pText},
+		P_DESC=#{pDesc},
+		P_VIDEO=#{pVideo},
+		P_HASHTAG=#{pHashTag}
+	WHERE P_NO=#{pNo}
+	
+	</update>
+	
+	<update id="pPhotoUpdate" parameterType="Files">
+	INSERT INTO FILES
+	VALUES(SEQ_FID.NEXTVAL,null,#{pNo},null,null,null,2,#{originName},#{changeName},#{filePath},SYSDATE,'Y',#{fileLevel})
+	
+	</update>
+	
+	<delete id="deleteFiles">
+		DELETE FROM FILES
+		WHERE P_NO=#{pNo}
+			</delete>
+	
 	<select id="creNoforDel" resultType="Integer">
 		SELECT CRE_NO 
 		FROM PROJECT
@@ -169,12 +201,23 @@
 	<select id="selectFiles" resultMap="FilesResultSet2">
 		SELECT * FROM FILES
 		WHERE P_NO=#{pNo}
+		ORDER BY FILE_NO
 	</select>
 	
-	<delete id="deleteFiles">
-		DELETE FROM FILES
+	<insert id="pNoticeInsert">
+		INSERT iNTO P_NOTICE
+		VALUE(SEQ_PNID.NEXTVAL,#{pNo},#{pnTitle},#{pnContent},SYSDATE)
+	</insert>
+
+	<select id="rewardSelect" resultMap="rewardResultSet">
+		SELECT * FROM REWARD
 		WHERE P_NO=#{pNo}
+		ORDER BY R_SEQ
 		
-	</delete>
+	</select>
+	
+	<!-- <update id="rewardUpdate" parameterType="Reward">
+		UPDATE REWARD
+	</update> -->
 	
 </mapper>

@@ -460,6 +460,7 @@ function fn_validateCheck(){
     var focus = "";
     if(isEmpty(jQuery('#projectName').val())){
         alert("프로젝트 제목을 입력하세요.");
+        
         jQuery('#projectName').focus();
         return false;
     }
@@ -508,8 +509,7 @@ function fn_validateCheck(){
         ab= ab+b+",";
         }
     }
-    alert(ab);
-    
+   
     $("#tagArea").append("<input type='hidden' name='pHashTag' value='"+ab+"'>");
   
     return true;

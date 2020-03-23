@@ -19,6 +19,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 @Repository("bDao") 
 public class BlogDao {
 	@Autowired
@@ -401,6 +402,12 @@ public class BlogDao {
 	public int adminSubDelete(BlogSub bs) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("blogMapper.adminSubDelete",bs);
+	}
+
+	// 플젝서치
+	public ArrayList<ProjectView> projectSearch(String searchValue) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.projectSearch",searchValue);
 	}
 
 

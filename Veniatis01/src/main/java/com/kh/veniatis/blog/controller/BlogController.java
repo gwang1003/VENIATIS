@@ -45,9 +45,17 @@ import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.user.model.service.ProjectUserService;
+import com.kh.veniatis.project.user.model.vo.ProjectPagination;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Controller
 public class BlogController {
+	
+
+	   
+	
+	
 	// 사진 저장을 위한 전역변수
 	ArrayList<String> originName = new ArrayList();
 	ArrayList<String> changeName = new ArrayList();
@@ -63,6 +71,24 @@ public class BlogController {
 		return "blog/test";
 	}
 
+	
+	// 프로젝트검색
+	   @RequestMapping("projectSearch.do")
+	   public ModelAndView ProjectList(ModelAndView mv,
+			   @RequestParam("searchValue") String searchValue) {
+
+		   ArrayList<ProjectView> list = bService.projectSearch(searchValue);
+		   System.out.println(list);
+		   mv.addObject("projectList", list);
+		   mv.addObject("projectListSize", list.size());
+		   mv.setViewName("blog/projectSearch");
+	       mv.addObject("searchValue",searchValue);
+	      
+	      return mv;
+	   }
+	
+	
+	
 	// 블로그 메인
 	@RequestMapping("blogMain2.do")
 	public ModelAndView blogList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,

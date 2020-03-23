@@ -19,6 +19,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Service("bService")
 public class BlogServiceImpl implements BlogService{
@@ -396,6 +397,15 @@ public class BlogServiceImpl implements BlogService{
 	public int adminSubDelete(BlogSub bs) {
 		// TODO Auto-generated method stub
 		return bDao.adminSubDelete(bs);
+	}
+	
+	
+	
+	//프로젝트 서치
+	@Override
+	public ArrayList<ProjectView> projectSearch(String searchValue) {
+		// TODO Auto-generated method stub
+		return bDao.projectSearch(searchValue);
 	}
 	
 

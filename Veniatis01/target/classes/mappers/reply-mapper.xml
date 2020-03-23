@@ -11,6 +11,8 @@
 		<result property="wDate" column="WDATE"/>
 		<result property="rContent" column="CONTENT"/>
 		<result property="rWriter" column="M_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="mId" column="M_ID"/>
 	</resultMap>
 	<!-- 블로그 댓글 조회 -->
 	<select id="getReplyList" resultMap="replyResultSet">

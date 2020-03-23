@@ -32,6 +32,27 @@
    border-bottom:1px solid black; 
    margin:10px 10px 10px 20px;
 }
+
+#btn_like{
+	width:98%;
+	font-size:1.2em;
+}
+
+.delBtn{
+/* QnA 질문 삭제 버튼*/
+	background-color:#777777; 
+	color:white; 
+	margin-left:30px; 
+	padding:5px;
+}
+
+.answerBtn{
+/* QnA 답변 작성 버튼*/
+	 background-color:#40c8b5; 
+	 color:white; 
+	 margin-left:50px; 
+	 padding:5px;
+}
 </style>
 <script>
 $(function () {
@@ -98,6 +119,7 @@ $(function () {
         
           getCheerList();
     });
+    
 });
 //3자리 콤마 찍
 function comma(str) {
@@ -107,6 +129,7 @@ function comma(str) {
 function checkLogin(){
    alert("로그인 후 이용 가능합니다.");
 }
+
 </script>
 </head>
 <body>
@@ -166,13 +189,13 @@ function checkLogin(){
                                         <div class="main_image_nav">
                                  <c:forEach var="photo" items="${filesList}" varStatus="vs" >
                                     <c:choose>
-                                                <c:when test="${vs.begin}">
-                                                   <img src="${ photo.filePath }" data-index="0" class="selected">
-                                                </c:when>
-                                                <c:otherwise>
-                                                   <img src="${ photo.filePath }" data-index="${vs.index}">
-                                                </c:otherwise>
-                                             </c:choose>
+	                                    <c:when test="${vs.begin}">
+	                                       <img src="${ photo.filePath }" data-index="0" class="selected">
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                       <img src="${ photo.filePath }" data-index="${vs.index}">
+	                                    </c:otherwise>
+	                                 </c:choose>
                                  </c:forEach>
 
                                         </div>
@@ -187,7 +210,7 @@ function checkLogin(){
                                        // 지속적으로 얻어오기위함
                                       setInterval(function(){
                                          getCheerList();
-                                         getQnaList();
+                                         //getQnaList();
                                       }, 10000);
                                       
                                         $(".main_image_nav img").on("click", function () {
@@ -207,15 +230,31 @@ function checkLogin(){
                                 <div class="author_profile">
                                     <div class="user_profile">
                                         <span class="img_profile">
-
                                             <img src="${project.creProfile }">
-
                                         </span>
                                         <div class="author_cont">
                                             <div class="builder_profile_wrapper">
                                                 <p><span class="txt_name">${ project.creName }</span></p>
-                                                <span class="txt_mail">${ project.creEmail }</span>
-
+                                                <span class="txt_mail">Email : ${ project.creEmail }</span>
+												<span class="sns_area">
+                                                        <span class="box_links">
+                                                            <span class="screen_out">프로젝트 관련 링크</span>
+                                                            	<c:if test="${ !empty project.pUrl }">
+                                                                <a href="${ project.pUrl }" class="link_home" target="_blank">
+                                                                    <span class="ico_comm" style='background-image:url(resources/project_user/homeIcon.png); 
+                                                                    	background-size:cover; background-position:center center; background-repeat: no-repeat;'></span>
+                                                                    <span class="sns_name"></span>
+                                                                </a>
+                                                                </c:if>
+                                                                <c:if test="${ !empty project.pVideo }">
+                                                                <a href="${ project.pVideo }" class="link_home" target="_blank">
+                                                                    <span class="ico_comm" style='background-image:url(resources/project_user/videoIcon.png); 
+                                                                    	background-size:cover; background-position:center center; background-repeat: no-repeat;'></span>
+                                                                    <span class="sns_name"></span>
+                                                                </a>
+                                                                </c:if>
+                                                        </span>
+                                                    </span>
                                             </div>
                                         </div>
                                     </div>
@@ -223,6 +262,14 @@ function checkLogin(){
                                 </div>
                             </div>
                             <div class="project_details">
+                            	<div class="item_state">
+                            		<p><span class="txt_statetitle">목표 금액</span></p>
+                                  	<span class="screen_out">목표 금액</span>
+                                   	<span class="num_value">
+                                   		<fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>
+                                   	</span> 
+                                 	<span class="txt_value">원</span>
+                               	</div>
                                 <div class="item_state">
                                     <p><span class="txt_statetitle">모인금액</span></p>
                                     <span class="screen_out">현재 참여금액</span>
@@ -264,7 +311,7 @@ function checkLogin(){
                                            </span>
                                            <span class="txt_value"> 일 남음</span>
                                            <c:if test="${ empty loginUser }">
-                                    <button type="button" onclick="checkLogin();" class="link_join">참여하기</a>
+                                    <button type="button" onclick="checkLogin();" class="link_join">참여하기</button>
                                  </c:if>
                                  <c:if test="${ !empty loginUser }">
                                  <!-- 참여하기 버튼 클릭 시 리워드 선택 페이지 이동, 프로젝트 번호 같이 넘겨야함 -->
@@ -280,33 +327,30 @@ function checkLogin(){
                                                <span class="screen_out">Day</span>
                                       <span style="color:#777777;">마감된 프로젝트 입니다</span>
                                            </span>
-                                           <button type="button" class="link_join" style="background-color:#777777;">프로젝트 마감</a>
+                                           <button type="button" class="link_join" style="background-color:#777777;">프로젝트 마감</button>
                                         </c:if>
-                                        
-                              
-                                        
                                     </div>
 
-                                    <div class="txt_notice ">
+                                    <%-- <div class="txt_notice ">
                                         <span class="sign_notice">성공해야<br />리워드</span>
                                         <span class="txt">
                                                목표액 <fmt:formatNumber value="${ project.targetAmount }" groupingUsed="true"/>원에 미달하면 결제가 진행되지 않는 프로젝트입니다.<br>
                                  결제는 목표액달성시 <fmt:formatDate value="${ project.endDate }" pattern="yyyy년 MM월 dd일"/>에 진행됩니다.
                                         </span>
-                                    </div>
+                                    </div> --%>
 
                                 </div>
 
                                 <div class="item_btns">
-                                    <a class="link_share" id="link_share">공유
+                                    <!-- <a class="link_share" id="link_share">공유
                                         <span class="num_count" id="share_num_count">
                                         </span>
-                                    </a>
+                                    </a> -->
                                     <c:if test="${ !empty loginUser }"> 
-                                       <button type="button" class="btn_like" id="btn_like" onclick="fn_likeCheck();">관심
+                                       <button type="button" class="btn_like" id="btn_like" onclick="fn_likeCheck();">관심 프로젝트
                                     </c:if>
                                     <c:if test="${ empty loginUser }"> 
-                                       <button type="button" class="btn_like" id="btn_like" onclick="checkLogin();">관심
+                                       <button type="button" class="btn_like" id="btn_like" onclick="checkLogin();">관심 프로젝트
                                     </c:if>
                                     <c:if test="${ likeResult eq 0 }">
                                        <img id="heartIcon" src="resources/common/noLike.png">
@@ -478,6 +522,10 @@ function checkLogin(){
    // Qna 목록 가져오기
    function getQnaList(){   
       var pNo = ${project.pNo};
+      var loginMember = ${loginUser.mNo};
+      var loginMid = '${loginUser.mId}';
+      var projectCreator = '${project.creId}';
+      /* alert("로그인 : " + logimMid + "크리에이터 : " + projectCreator); */
       $.ajax({
          url:"getQnaList.do",
          data:{pNo:pNo},
@@ -490,12 +538,27 @@ function checkLogin(){
             
             if(data.length > 0){
                for(var i in data){
-                        var $li = $("<li>");
+            	   var qWriter = data[i].mNo;
+            	   
+                  var $li = $("<li>");
                   var $q1 = $("<div class='cmt_output'>");
                   var $q2 = $("<span class='user_profile'>");
                   var $q3 = $("<span class='img_profile' style='background-image:url(resources/project_user/question.png); background-size:contain;'>");
                   var $q4 = $("<span class='txt_name'>").text(data[i].name + " 님");
                   var $q5 = $("<span class='txt_time'>").text(data[i].enrollDate);
+                  if(qWriter == loginMember){
+                	  var $delBtn = $("<button type='button' class='delBtn'>삭제하기</button>");
+                	  var $qnaNo = $("<input type='hidden' name='qnaNo'>").val(data[i].qNo);
+                	  $delBtn.append($qnaNo);
+                	  $q5.append($delBtn);
+                  }
+                  if(projectCreator == loginMid){
+                	  console.log("로그인멤버가 크리에이터");
+                	  var $answerBtn = $("<button type='button' class='answerBtn''>답변하기</button>");
+                	  var $qnaNo = $("<input type='hidden' name='qnaNo'>").val(data[i].qNo);
+                	  $answerBtn.append($qnaNo);
+                	  $q5.append($answerBtn);
+                  }
                   var $q6 = $("<div class='cmt_content'>");
                   var $q7 = $("<p class='cont_cmt'>").text(data[i].qContent);
                   
@@ -544,6 +607,31 @@ function checkLogin(){
    }   // getQnaList();
    
       $(function(){
+    	//QnA 관련
+   	    $(document).on('click', '.delBtn', function(){
+   	    	var delConfirm = confirm('당신의 질문을 삭제할 것입니까?');
+   	    	var qNo = $(this).find('input[name=qnaNo]').val();
+   	    	if(delConfirm){
+   	    		$.ajax({
+   	                url:"deleteProjectQna.do",
+   	                data:{qNo:qNo},
+   	                dataType:"text",
+   	                async: false,
+   	                success:function(data){
+   	                   if(data == "success"){
+   	                      alert("QnA 삭제 완료.");
+   	                   	  getQnaList();
+   	                      location.href="projectDetail.do?pNo="+pNo;
+   	                   }else if(data == "fail"){
+   	                      alert("QnA 삭제 실패");
+   	                   }
+   	                   
+   	                },error:function(request,status,error){
+   	                     alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+   	                 }
+   	             });
+   	    	}
+   	    });
          $("#qnaSubmit").on("click", function(){
             // db에 넣고 목록 조회
             var pNo = ${project.pNo};

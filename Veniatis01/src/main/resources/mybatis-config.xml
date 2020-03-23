@@ -20,7 +20,8 @@
 		<typeAlias type="com.kh.veniatis.common.files.model.vo.Files" alias="Files"/>
 		<typeAlias type="com.kh.veniatis.common.likes.model.vo.Likes" alias="Likes"/>
 		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	
-		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Project" alias="Project"/>			
+		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Project" alias="Project"/>	
+		<typeAlias type="com.kh.veniatis.project.creator.model.vo.PNotice" alias="PNotice"/>		
 		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Creator" alias="Creator"/>	
 		<typeAlias type="com.kh.veniatis.project.creator.model.vo.Reward" alias="Reward"/>
 	</typeAliases>

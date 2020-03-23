@@ -1,5 +1,6 @@
 package com.kh.veniatis.project.creator.model.dao;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.vo.Creator;
+import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 
@@ -29,11 +31,14 @@ public class CreatorDao {
 	}
 	public int projectInsert(Project p) {
 		sqlSession.insert("creatorMapper.projectInsert",p);
+		
+		
 		return p.getpNo();
 	}
-	public int projectUpdate(int pNo) {
-		
-		return sqlSession.update("creatorMapper.projectUpdate",pNo);
+	
+	public int projectUpdate(Project p) {
+		sqlSession.update("creatorMapper.projectUpdate",p);
+		return p.getpNo();
 	}
 	public int projectDelete(int pNo) {
 		int creNo = sqlSession.selectOne("creatorMapper.creNoforDel",pNo);
@@ -47,19 +52,22 @@ public class CreatorDao {
 		
 		return sqlSession.delete("creatorMapper.creatorDelete",creNo);
 	}
+	
 	public Project selectOneProject(Project p) {
-		// TODO Auto-generated method stub
+
 		return sqlSession.selectOne("creatorMapper.selectOneProject", p);
 	}
+	
 	public int pPhotoInsert(ArrayList<Files> files) {
-		
+		int result = 0;
+		sqlSession.insert("creatorMapper.pPhotoMainInsert",files.get(0));
 		for(int i=1;i<=files.size()-1;i++) {
-			System.out.println(files.get(i));
-			sqlSession.insert("creatorMapper.pPhotoInsert",files.get(i));
+	
+			result = sqlSession.insert("creatorMapper.pPhotoInsert",files.get(i));
 		
 		}
 		
-		return sqlSession.insert("creatorMapper.pPhotoMainInsert",files.get(0));
+		return result;
 	}
 	public int rewardInsert(ArrayList<Reward> rewardInsertList) {
 		int num = 0;
@@ -71,7 +79,7 @@ public class CreatorDao {
 		return num;
 	}
 	public Project selectOneProject(Integer pNo) {
-		// TODO Auto-generated method stub
+	
 		return sqlSession.selectOne("creatorMapper.selectProject",pNo);
 	}
 	public int finishProject(Project project) {
@@ -98,6 +106,52 @@ public class CreatorDao {
 		
 		return sqlSession.selectList("creatorMapper.selectFiles",pNo);
 	}
+	public int pPhotoUpdate(ArrayList<Files> files) {
+	
+		
+		
+				
+		
+		sqlSession.delete("creatorMapper.deleteFiles", files.get(0).getpNo());
+		
+		
+		int result = 0;
+		sqlSession.insert("creatorMapper.pPhotoMainInsert",files.get(0));
+		for(int i=1;i<=files.size()-1;i++) {
+	
+			result = sqlSession.insert("creatorMapper.pPhotoInsert",files.get(i));
+		
+		}
+		
+	
+		
+		
+		return result;
+	
 	
 
+}
+	public int fileDelete(int fileNo) {
+		
+		return sqlSession.delete("creatorMapper.deleteFile",fileNo);
+	}
+	public int pNoticeInsert(PNotice pn) {
+		
+		return sqlSession.insert("creatorMapper.pNoticeInsert",pn);
+	}
+	public List<Reward> rewardSelect(String pNo) {
+		
+		return sqlSession.selectList("creatorMapper.rewardSelect",pNo);
+	}
+	public int rewardUpdate(ArrayList<Reward> rewardUpdateList) {
+		
+		int num = 0;
+		for(int i=0;i<rewardUpdateList.size();i++) {
+			System.out.println(rewardUpdateList.get(i));
+			num = sqlSession.update("creatorMapper.rewardUpdate",rewardUpdateList.get(i));
+		}
+		
+		return num;
+	}
+	
 }

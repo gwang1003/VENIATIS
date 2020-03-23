@@ -1,5 +1,6 @@
 package com.kh.veniatis.project.creator.model.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.project.creator.model.dao.CreatorDao;
 import com.kh.veniatis.project.creator.model.vo.Creator;
+import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 
@@ -35,11 +37,6 @@ public class CreatorServiceImpl implements CreatorService {
 		return cDao.projectInsert(p);
 	}
 
-	@Override
-	public int projectUpdate(int pNo) {
-
-		return cDao.projectUpdate(pNo);
-	}
 
 	@Override
 	public int projectDelete(int pNo) {
@@ -112,6 +109,45 @@ public class CreatorServiceImpl implements CreatorService {
 		
 		return cDao.selectFiles(pNo);
 	}
+
+	@Override
+	public int projectUpdate(Project p) {
+	
+		return cDao.projectUpdate(p);
+	}
+
+	@Override
+	public int pPhotoUpdate(ArrayList<Files> files) {
+		
+		return cDao.pPhotoUpdate(files);
+	}
+
+	@Override
+	public int fileDelete(int fileNo) {
+		
+		return cDao.fileDelete(fileNo);
+	}
+
+	@Override
+	public int pNoticeInsert(PNotice pn) {
+	
+		return cDao.pNoticeInsert(pn);
+	}
+
+	@Override
+	public List<Reward> selectReward(String pNo) {
+		
+		return cDao.rewardSelect(pNo);
+	}
+
+	@Override
+	public int rewardUpdate(ArrayList<Reward> rewardUpdateList) {
+		
+		return cDao.rewardUpdate(rewardUpdateList);
+	}
+
+	
+
 
 
 

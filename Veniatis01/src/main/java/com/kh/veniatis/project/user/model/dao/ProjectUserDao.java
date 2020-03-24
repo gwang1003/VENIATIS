@@ -7,13 +7,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.Funding;
 import com.kh.veniatis.project.user.model.vo.Order;
@@ -25,8 +24,21 @@ public class ProjectUserDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	public int getListCount() {
-		return sqlSession.selectOne("puMapper.getListCount");
+	public int getListCount(int currentCate) {
+		String cateName = "";
+		switch(currentCate) {
+		case 1: cateName="공간/리빙"; break;
+		case 2: cateName="사회이슈"; break;
+		case 3: cateName="교육/출판"; break;
+		case 4: cateName="문화예술"; break;
+		case 5: cateName="지역재생"; break;
+		case 6: cateName="푸드"; break;
+		case 7: cateName="테크"; break;
+		case 8: cateName="뷰티/패션"; break;
+		case 9: cateName="여행"; break;
+		default: cateName=null; break;
+		}
+		return sqlSession.selectOne("puMapper.getListCount", cateName);
 	}
 	
 	public int getListCount2(int currentCate) {
@@ -41,6 +53,7 @@ public class ProjectUserDao {
 		case 7: cateName="테크"; break;
 		case 8: cateName="뷰티/패션"; break;
 		case 9: cateName="여행"; break;
+		default: cateName=null; break;
 	}
 		return sqlSession.selectOne("puMapper.getListCount2", cateName);
 	}
@@ -51,12 +64,24 @@ public class ProjectUserDao {
 	}
 	
 	// 전체 프로젝트 리스트 조회
-	public ArrayList<ProjectView> selectList(PageInfo pi) {
+	public ArrayList<ProjectView> selectList(PageInfo pi, int currentCate) {
 		// 마이바티스에서 페이징처리는 RowBounds를 이용
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("puMapper.selectList", null, rowBounds);
+		String cateName = "";
+		switch(currentCate) {
+			case 1: cateName="공간/리빙"; break;
+			case 2: cateName="사회이슈"; break;
+			case 3: cateName="교육/출판"; break;
+			case 4: cateName="문화예술"; break;
+			case 5: cateName="지역재생"; break;
+			case 6: cateName="푸드"; break;
+			case 7: cateName="테크"; break;
+			case 8: cateName="뷰티/패션"; break;
+			case 9: cateName="여행"; break;
+			default: cateName=null; break;
+		}
+		return (ArrayList)sqlSession.selectList("puMapper.selectList", cateName, rowBounds);
 	}
 	
 	public ArrayList<ProjectView> selectList2(PageInfo pi, int currentCate) {
@@ -74,6 +99,7 @@ public class ProjectUserDao {
 			case 7: cateName="테크"; break;
 			case 8: cateName="뷰티/패션"; break;
 			case 9: cateName="여행"; break;
+			default: cateName=null; break;
 		}
 		return (ArrayList)sqlSession.selectList("puMapper.selectList2", cateName, rowBounds);
 	}
@@ -173,6 +199,10 @@ public class ProjectUserDao {
 	public int insertLikes(Likes plike) {
 		// 관심프로젝트 삽입
 		return sqlSession.insert("puMapper.insertLikes", plike);
+	}
+
+	public int deleteProjectQna(int qNo) {
+		return sqlSession.delete("puMapper.deleteProjectQna", qNo);
 	}
 
 	/*

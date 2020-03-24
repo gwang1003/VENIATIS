@@ -546,6 +546,7 @@ function checkLogin(){
                   var $q3 = $("<span class='img_profile' style='background-image:url(resources/project_user/question.png); background-size:contain;'>");
                   var $q4 = $("<span class='txt_name'>").text(data[i].name + " 님");
                   var $q5 = $("<span class='txt_time'>").text(data[i].enrollDate);
+                  
                   if(qWriter == loginMember){
                 	  var $delBtn = $("<button type='button' class='delBtn'>삭제하기</button>");
                 	  var $qnaNo = $("<input type='hidden' name='qnaNo'>").val(data[i].qNo);

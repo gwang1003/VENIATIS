@@ -59,7 +59,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
 	@Override
 	public Member selectCreatorInfo(int creNo) {
-		// 크리에이터의 유저 정보 가져오기
+		// 크리에이터의 유저 정보 가져오기 
 		int mNo = pud.selectCreatorNumber(creNo);
 		if(mNo == 0) {
 			return new Member();

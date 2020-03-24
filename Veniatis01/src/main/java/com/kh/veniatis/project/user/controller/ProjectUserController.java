@@ -91,6 +91,7 @@ public class ProjectUserController {
          /*for(ProjectView p : list) {
             System.out.println(p);
          }*/
+    	  
          mv.addObject("projectList", list);
          mv.addObject("projectListSize", list.size());
          mv.addObject("pi", ProjectPagination.getPageInfo());

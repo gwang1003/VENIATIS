@@ -58,7 +58,6 @@ public class ProjectUserDao {
 		return sqlSession.selectOne("puMapper.getListCount2", cateName);
 	}
 	
-	// 테스트용 메소드
 	public ProjectView selectProject(int pNo) {
 		return sqlSession.selectOne("puMapper.selectProject", pNo);
 	}

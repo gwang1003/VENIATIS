@@ -229,13 +229,49 @@
 					</div> -->
 
 					<div class="dropdown" id="box-sorting">
-						<button class="btn dropdown-toggle" type="button"
+					<c:choose>
+						<c:when test="${ currentArrange eq 1 }">
+							<button class="btn dropdown-toggle" type="button"
+							id="sorting_btn" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">최근등록순&nbsp;</button>
+						</c:when>
+						<c:when test="${ currentArrange eq 2 }">
+							<button class="btn dropdown-toggle" type="button"
+							id="sorting_btn" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">펀딩금액순&nbsp;</button>
+						</c:when>
+						<c:when test="${ currentArrange eq 3 }">
+							<button class="btn dropdown-toggle" type="button"
+							id="sorting_btn" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">마감임박순&nbsp;</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn dropdown-toggle" type="button"
 							id="sorting_btn" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false">정렬 기준&nbsp;</button>
+						</c:otherwise>
+					</c:choose>
+						
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="sorting_btn">
-							<button class="dropdown-item" type="button">최신순</button>
-							<button class="dropdown-item" type="button">펀딩금액순</button>
-							<button class="dropdown-item" type="button">마감임박순</button>
+							<c:url var="latest" value="projectList.do">
+								<c:param name="cate" value="${ currentCate }"/>
+								<c:param name="arrange" value="1"/>
+							</c:url>
+							<c:url var="highest" value="projectList.do">
+								<c:param name="cate" value="${ currentCate }"/>
+								<c:param name="arrange" value="2"/>
+							</c:url>
+							<c:url var="impendence" value="projectList.do">
+								<c:param name="cate" value="${ currentCate }"/>
+								<c:param name="arrange" value="3"/>
+							</c:url>
+							<%-- <c:url var="largest" value="projectList.do">
+								<c:param name="cate" value="${ currentCate }"/>
+								<c:param name="arrange" value="4"/>
+							</c:url> --%>
+							<button class="dropdown-item" type="button" onclick="location.href='${ latest }';">최근등록순</button>
+							<button class="dropdown-item" type="button" onclick="location.href='${ highest }';">펀딩금액순</button>
+							<button class="dropdown-item" type="button" onclick="location.href='${ impendence }';">마감임박순</button>
 							<button class="dropdown-item" type="button">참여자순</button>
 						</div>
 					</div>
@@ -338,6 +374,7 @@
 								<c:url var="before" value="projectList.do">
 									<c:param name="page" value="${ pi.currentPage - 1 }"/>
 									<c:param name="cate" value="${ currentCate }"/>
+									<c:param name="arrange" value="${ currentArrange }"/>
 								</c:url>
 								<li class="page-item"><a class="page-link" href="${ before }"
 									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
@@ -355,6 +392,7 @@
 									<c:url var="pagination" value="projectList.do">
 										<c:param name="page" value="${ p }"/>
 										<c:param name="cate" value="${ currentCate }"/>
+										<c:param name="arrange" value="${ currentArrange }"/>
 									</c:url>
 									<li class="page-item">
 										<a class="page-link" href="${ pagination }">${ p }
@@ -374,6 +412,7 @@
 								<c:url var="after" value="projectList.do">
 									<c:param name="page" value="${ pi.currentPage + 1 }"/>
 									<c:param name="cate" value="${ currentCate }"/>
+									<c:param name="arrange" value="${ currentArrange }"/>
 								</c:url> 
 								<li class="page-item"><a class="page-link" href="${ after }"
 									aria-label="Next"> <span aria-hidden="true">&raquo;</span>

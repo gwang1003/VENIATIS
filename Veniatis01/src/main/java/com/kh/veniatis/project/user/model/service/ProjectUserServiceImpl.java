@@ -25,14 +25,27 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	
 	// 개인 프로젝트 리스트 조회
 	@Override
-	public ArrayList<ProjectView> selectList(int currentPage, int currentCate) {
+	public ArrayList<ProjectView> selectList(int currentPage, int currentCate, int currentArrange) {
 		// 1. 게시글 개수 조회
-		int listCount = pud.getListCount(currentCate);
+		String cateName = "";
+		switch(currentCate) {
+		case 1: cateName="공간/리빙"; break;
+		case 2: cateName="사회이슈"; break;
+		case 3: cateName="교육/출판"; break;
+		case 4: cateName="문화예술"; break;
+		case 5: cateName="지역재생"; break;
+		case 6: cateName="푸드"; break;
+		case 7: cateName="테크"; break;
+		case 8: cateName="뷰티/패션"; break;
+		case 9: cateName="여행"; break;
+		default: cateName=null; break;
+		}
+		int listCount = pud.getListCount(cateName);
 		
 		// 페이지 정보 저장
 		PageInfo pi = ProjectPagination.getPageInfo(currentPage, listCount);
 		// 2. 게시글 리스트 조회
-		return pud.selectList(pi, currentCate);
+		return pud.selectList(pi, cateName, currentArrange);
 	}
 	
 	// 창업 프로젝트 리스트 조회
@@ -184,6 +197,17 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	@Override
 	public int deleteProjectQna(int qNo) {
 		return pud.deleteProjectQna(qNo);
+	}
+
+	@Override
+	public int updateProjectQna(QnA q) {
+		//  QnA 답변 업데이트
+		return pud.updateProjectQna(q);
+	}
+
+	@Override
+	public QnA selectQnAOne(int qNo) {
+		return pud.selectQnAOne(qNo);
 	}
 	
 

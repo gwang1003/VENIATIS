@@ -16,7 +16,7 @@ import com.kh.veniatis.project.user.model.vo.ProjectView;
 public interface ProjectUserService {
 	
 	// 개인 프로젝트 리스트 조회
-	ArrayList<ProjectView> selectList(int currentPage, int currentCate);
+	ArrayList<ProjectView> selectList(int currentPage, int currentCate, int currentArrange);
 	// 창업 프로젝트 리스트 조회
 	ArrayList<ProjectView> selectList2(int currentPage, int currentCate);
 
@@ -66,10 +66,15 @@ public interface ProjectUserService {
 
 	// 프로젝트 QnA 질문하기
 	int insertProjectQna(QnA qa);
+	// 프로젝트 QnA 답변하기
+	int updateProjectQna(QnA q);
+	// 프로젝트 QnA 삭제하기
 	int deleteProjectQna(int qNo);
 
 	// QnA 목록 가져오기
 	ArrayList<QnA> selectQnAList(int pNo);
+	// QnA 하나 가져오기
+	QnA selectQnAOne(int qNo);
 
 	// member 조회
 	Member selectMemeber(int getmNo);
@@ -80,5 +85,8 @@ public interface ProjectUserService {
 	// 관심 프로젝트 업데이트(1. 삭제 2. 삽입)
 	int deleteLikes(Likes plike);
 	int insertLikes(Likes plike);
+	
+	
+	
 	
 }

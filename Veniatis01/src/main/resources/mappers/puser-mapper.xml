@@ -170,6 +170,7 @@
 		AND P_TYPE = 2
 	</select>
 	
+	<!-- 개인 -->
 	<select id="selectList" resultMap="prjView" parameterType="string">
 		SELECT *
 		FROM V_PROJECT
@@ -181,6 +182,52 @@
 		ORDER BY P_NO DESC
 	</select>
 	
+	<select id="selectList01" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
+		ORDER BY P_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectList02" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
+		ORDER BY P_SUM_AMOUNT DESC
+	</select>
+	
+	<!-- 마감임박순 -->
+	<select id="selectList03" resultMap="prjView" parameterType="string">
+		SELECT * FROM(SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &gt;= 0
+        ORDER BY P_END_DATE)
+		UNION ALL
+		SELECT * FROM
+		(SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &lt; 0
+		ORDER BY P_END_DATE)
+	</select>
+	
+	<!-- 기업 -->
 	<select id="selectList2" resultMap="prjView" parameterType="string">
 		SELECT * 
 		FROM V_PROJECT
@@ -304,5 +351,16 @@
 		DELETE FROM QNA
 		WHERE QNA_NO = #{qNo}
 	</delete>
+	
+	<select id="selectQnAOne" parameterType="_int" resultMap="QAResultSet">
+		SELECT * FROM QNA
+		WHERE QNA_NO = #{qNo}
+	</select>
+	
+	<update id="updateProjectQna">
+		UPDATE QNA 
+		SET QNA_ANSWER = #{qAnswer}
+		WHERE QNA_NO = #{qNo}
+	</update>
 	
 </mapper>

@@ -17,7 +17,7 @@ public class ProjectPagination {
 		int startPage;      // 현재 페이지에서 보여질 페이징 버튼의 시작 페이지
 		int endPage;    	// 현재 페이지에서 보여질 페이징 버튼의 끝 페이지
 		
-		int boardLimit = 12; // 한 페이지에 보여질 게시글 개수
+		int boardLimit = 8; // 한 페이지에 보여질 게시글 개수
 		
 		// * maxPage 
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);

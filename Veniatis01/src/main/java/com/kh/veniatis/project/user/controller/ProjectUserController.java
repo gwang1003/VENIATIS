@@ -44,19 +44,16 @@ public class ProjectUserController {
    @RequestMapping("projectList.do")
    public ModelAndView ProjectList(ModelAndView mv,
          @RequestParam(value="page", required = false) Integer page,
-         @RequestParam(value="cate", required = false) Integer cate) {
+         @RequestParam(value="cate", required = false) Integer cate,
+         @RequestParam(value="arrange", required = false) Integer arrange) {
 
       int currentPage = page != null ? page : 1;
       int currentCate = cate != null ? cate : 0;
+      int currentArrange = arrange != null ? arrange : 0;
       //System.out.println("카테고리 번호 확인 : " + currentCate);
       ArrayList<ProjectView> list = new ArrayList<ProjectView>();
       
-      list = pus.selectList(currentPage, currentCate);
-      /*if(currentCate == 0) {
-         list = pus.selectList(currentPage);
-      }else {
-         list = pus.selectList2(currentPage, currentCate);
-      }*/
+      list = pus.selectList(currentPage, currentCate, currentArrange);
       
       if(list != null) {
          /*for(ProjectView p : list) {
@@ -65,7 +62,8 @@ public class ProjectUserController {
          mv.addObject("projectList", list);
          mv.addObject("projectListSize", list.size());
          mv.addObject("pi", ProjectPagination.getPageInfo());
-         mv.addObject("currentCate", currentCate);
+         mv.addObject("currentCate", cate);
+         mv.addObject("currentArrange", arrange);
          mv.setViewName("project_user/projectList");
          
       }else {
@@ -382,6 +380,27 @@ public class ProjectUserController {
     	  str="fail";
       }
       return str;
+   }
+   
+   // 답변 하기
+   @RequestMapping(value="insertProjectAnswer.do", produces="application/json; charset=utf-8")
+   @ResponseBody
+   public String insertProjectAnswer(HttpSession session,
+         @RequestParam("qNo") int qNo,
+         @RequestParam("qAnswer") String qAnswer) {
+	   
+	   //int qNo = Integer.parseInt(qNo1);
+	   QnA q = pus.selectQnAOne(qNo);
+	   q.setqAnswer(qAnswer);
+	   int result = pus.updateProjectQna(q);
+	   String str = "";
+       if(result>0) {
+    	  str="success";
+       }else {
+    	  str="fail";
+       }
+       return str;
+	   
    }
    
    

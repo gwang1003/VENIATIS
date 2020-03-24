@@ -15,7 +15,10 @@
    crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
    crossorigin="anonymous"></script>
-   
+<!-- 최근소식용 스크립트 -->
+<script type="text/javascript" src="resources/smartEditor/js/jquery.js"></script>
+<script type="text/javascript" src="resources/smartEditor/js/jquery-ui.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/smartEditor/SE2/js/HuskyEZCreator.js"></script>   
 <title>VENIATIS : 후원형</title>
 <style>
 .div_hide{
@@ -50,9 +53,30 @@
 /* QnA 답변 작성 버튼*/
 	 background-color:#40c8b5; 
 	 color:white; 
-	 margin-left:50px; 
+	 margin-left:30px; 
 	 padding:5px;
 }
+
+.answerModal{
+	display: none; /* Hidden by default */
+   	position: fixed; /* Stay in place */
+   	z-index: 1; /* Sit on top */
+   	left: 0;
+   	top: 0;
+   	width: 100%; 
+   	height: 100%; /* Full height */
+   	overflow: auto; /* Enable scroll if needed */
+   	background-color: rgb(0,0,0); /* Fallback color */
+   	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal-content2 {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */                          
+}
+
 </style>
 <script>
 $(function () {
@@ -428,7 +452,42 @@ function checkLogin(){
                                       });
                                       
                                    }
-                                
+                                   
+                                   
+                                   /* 최근소식 */
+                                   var oEditors = []; // 개발되어 있는 소스에 맞추느라, 전역변수로 사용하였지만, 지역변수로 사용해도 전혀 무관 함.
+
+                                   $(document).ready(function() {
+                                   	// Editor Setting
+                                   	
+                                   	nhn.husky.EZCreator.createInIFrame({
+                                   		oAppRef : oEditors, // 전역변수 명과 동일해야 함.
+                                   		elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
+                                   		sSkinURI : "resources/smartEditor/SE2/SmartEditor2Skin.html", // Editor HTML
+                                   		fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
+                                   		htParams : {
+                                   			// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+                                   			bUseToolbar : true,
+                                   			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+                                   			bUseVerticalResizer : true,
+                                   			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+                                   			bUseModeChanger : true, 
+                                   		}
+                                   	});
+
+                                   	// 전송버튼 클릭이벤트
+                                   	$("#savebutton").click(function(){
+                                   		//if(confirm("저장하시겠습니까?")) {
+                                   			// id가 smarteditor인 textarea에 에디터에서 대입
+                                   			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+
+                                   			// 이부분에 에디터 validation 검증
+                                   			if(validation()) {
+                                   				return true;
+                                   			}
+                                   		//}
+                                   	})
+                                   });
                                     
                                 </script>
 
@@ -457,15 +516,36 @@ function checkLogin(){
                                                     </div>
                                                 </article>
                                             </section>
+                                            
+                                            <div id="noticeModal">
+	                                           	<div class="text-center">
+	                                            	<h1 class="h4">최근소식 수정	</h1>
+	                                            </div>
+                                                <form id="noticeForm" action="pNoticeInsert.do" method="post">
+                                                <input type="hidden" value="${project.pNo}" name="pNo">
+                                                    <div class="form-group">
+                                                    <h3>제목</h3>
+                                                    <input type="text" name="pnTitle" id="pnTitle" class="form-control form-control-user">
+                                                      
+                                                    </div>
+                                                    <h4>내용</h4>
+                                                    <div class="form-group">
+                                                        <textarea name="pnContent" id="smarteditor" rows="10" cols="70" style="width:640px; height:412px; "></textarea> 
+                                                    </div>
+            
+                                                    <button id="savebutton" type="submit"
+                                                    class="btn btn-primary btn-user btn-block">최근소식 등록</button><br>
+                                                </form>
+                                            </div>
 
-                                            <div id="paging" class="paging_comm">
+                                            <!-- <div id="paging" class="paging_comm">
                                                 <a class="link_page on">1</a>&nbsp;
                                                 <a href="?pageIndex=2" onclick="link_page(2);return false; " class="link_page">2</a>&nbsp;
                                                 <a href="?pageIndex=3" onclick="link_page(3);return false; " class="link_page">3</a>&nbsp;
                                                 <a href="?pageIndex=4" onclick="link_page(4);return false; " class="link_page">4</a>&nbsp;
                                                 <a href="?pageIndex=5" onclick="link_page(5);return false; " class="link_page">5</a>&nbsp;
                                                 <input id="pageIndex" name="pageIndex" type="hidden" value="1">
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
 
@@ -517,14 +597,48 @@ function checkLogin(){
                                                 <ul class="list_cmt" id="qnaBox" style="margin-top:10px; margin-bottom:30px;">
                                                     
                                                 </ul>
+                                                
+   
+<div class="modal fade" id="answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="answerModalLabel">답변하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form id="updateAnswerForm">
+      		<input type="hidden" name="qNo" id="selectqNo">
+      		<textarea cols="30" rows="5" class="tf_cmt login_required" title="댓글 작성" placeholder="답변을 작성해주세요." 
+      		name="qAnswer" id="qAnswer" style="width:95%; margin:2%;"></textarea>
+      	</form>
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn" id="ansInsertBtn2" 
+        	onclick="fn_answerInsert();" style="background-color:#40c8b5; color:#ffffff">수정/등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
                                                   
    <script>
    // Qna 목록 가져오기
    function getQnaList(){   
       var pNo = ${project.pNo};
-      var loginMember = ${loginUser.mNo};
-      var loginMid = '${loginUser.mId}';
       var projectCreator = '${project.creId}';
+      <c:if test="${!empty sessionScope.loginUser}">
+	      var loginMember = ${loginUser.mNo};
+	      var loginMid = '${loginUser.mId}';
+      </c:if>
+      <c:if test="${ empty sessionScope.loginUser}">
+	      var loginMember = 0;
+	      var loginMid = null;
+	  </c:if>     
       /* alert("로그인 : " + logimMid + "크리에이터 : " + projectCreator); */
       $.ajax({
          url:"getQnaList.do",
@@ -594,7 +708,6 @@ function checkLogin(){
                      $a3.append($a8);
                      $a3.append($a7);
                      
-                     
                      $ulBody.append($li);
                   }
                   
@@ -608,6 +721,7 @@ function checkLogin(){
    
       $(function(){
     	//QnA 관련
+    	//삭제하기 버튼 클릭 시
    	    $(document).on('click', '.delBtn', function(){
    	    	var delConfirm = confirm('당신의 질문을 삭제할 것입니까?');
    	    	var qNo = $(this).find('input[name=qnaNo]').val();
@@ -632,18 +746,29 @@ function checkLogin(){
    	             });
    	    	}
    	    });
+    	// 질문에 크리에이터가 답변하기
+    	$(document).on('click', '.answerBtn', function(){
+    		// 답변하기 누르면 답변내용 작성 부분 있어야함
+    		// 답변작성 후 해당 내용 버튼 클릭 시 데이터 전송
+    		var qNo = $(this).find('input[name=qnaNo]').val();
+    		$("#selectqNo").val(qNo);
+    		$("#answerModal").modal('show');
+    		
+   	    });
+    	
          $("#qnaSubmit").on("click", function(){
             // db에 넣고 목록 조회
             var pNo = ${project.pNo};
             var formData = $("#qnaForm").serialize();
             $.ajax({
                url : "insertProjectQna.do", 
-                type : 'get', 
+                type : 'post', 
                 data : formData,
                 dataType:"json",
                 success : function(data) {
                    //console.log("data 확인 : " + data);
-                   alert("ajax확인 : " + data);
+                   //alert("ajax확인 : " + data);
+                   getQnaList();
                    location.href="projectDetail.do?pNo="+pNo;
                 }, 
                 error : function(xhr, status) {
@@ -653,6 +778,30 @@ function checkLogin(){
             });
          });
       });
+      
+      // 모달 창에서 답변 등록 버튼 클릭 시 
+      function fn_answerInsert(){
+    	  var formData = $("#updateAnswerForm").serialize();
+    	  $.ajax({
+              url : "insertProjectAnswer.do", 
+               type : 'post', 
+               data : formData,
+               dataType:"text",
+               success : function(data) {
+                  //console.log("data 확인 : " + data);
+                  //alert("ajax확인 : " + data);
+                  $("#answerModal").find($("#qAnswer")).val("");
+                  $("#answerModal").modal('hide');
+                  getQnaList();
+                  location.href="projectDetail.do?pNo="+pNo;
+               }, 
+               error : function(xhr, status) {
+                  alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                  
+               }
+           });
+    	  
+      }
    </script>
 
                                                      <!-- 페이징 번호

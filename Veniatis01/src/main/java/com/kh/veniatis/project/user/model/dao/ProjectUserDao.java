@@ -24,20 +24,7 @@ public class ProjectUserDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	public int getListCount(int currentCate) {
-		String cateName = "";
-		switch(currentCate) {
-		case 1: cateName="공간/리빙"; break;
-		case 2: cateName="사회이슈"; break;
-		case 3: cateName="교육/출판"; break;
-		case 4: cateName="문화예술"; break;
-		case 5: cateName="지역재생"; break;
-		case 6: cateName="푸드"; break;
-		case 7: cateName="테크"; break;
-		case 8: cateName="뷰티/패션"; break;
-		case 9: cateName="여행"; break;
-		default: cateName=null; break;
-		}
+	public int getListCount(String cateName) {
 		return sqlSession.selectOne("puMapper.getListCount", cateName);
 	}
 	
@@ -64,24 +51,19 @@ public class ProjectUserDao {
 	}
 	
 	// 전체 프로젝트 리스트 조회
-	public ArrayList<ProjectView> selectList(PageInfo pi, int currentCate) {
+	public ArrayList<ProjectView> selectList(PageInfo pi, String cateName, int currentArrange) {
 		// 마이바티스에서 페이징처리는 RowBounds를 이용
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		String cateName = "";
-		switch(currentCate) {
-			case 1: cateName="공간/리빙"; break;
-			case 2: cateName="사회이슈"; break;
-			case 3: cateName="교육/출판"; break;
-			case 4: cateName="문화예술"; break;
-			case 5: cateName="지역재생"; break;
-			case 6: cateName="푸드"; break;
-			case 7: cateName="테크"; break;
-			case 8: cateName="뷰티/패션"; break;
-			case 9: cateName="여행"; break;
-			default: cateName=null; break;
+		
+		switch(currentArrange) {
+		case 1:return (ArrayList)sqlSession.selectList("puMapper.selectList01", cateName, rowBounds);
+		case 2:return (ArrayList)sqlSession.selectList("puMapper.selectList02", cateName, rowBounds);
+		case 3:return (ArrayList)sqlSession.selectList("puMapper.selectList03", cateName, rowBounds);
+		/*case 4:return (ArrayList)sqlSession.selectList("puMapper.selectList04", cateName, rowBounds);*/
+		default:return (ArrayList)sqlSession.selectList("puMapper.selectList", cateName, rowBounds);
 		}
-		return (ArrayList)sqlSession.selectList("puMapper.selectList", cateName, rowBounds);
+		
 	}
 	
 	public ArrayList<ProjectView> selectList2(PageInfo pi, int currentCate) {
@@ -205,23 +187,15 @@ public class ProjectUserDao {
 		return sqlSession.delete("puMapper.deleteProjectQna", qNo);
 	}
 
-	/*
-	// 최근 소식 가져오기
-	public ArrayList<PNotice> selectPNoticeList(int pNo) {
+	public QnA selectQnAOne(int qNo) {
 		// TODO Auto-generated method stub
-		return null;
-	}*/
+		return sqlSession.selectOne("puMapper.selectQnAOne", qNo);
+	}
 
-	/*public ArrayList<Reply> selectReplyList(int pNo) {
-		// 프로젝트 qna 댓글 목록 가져오기
-		return (ArrayList)sqlSession.selectList("puMapper.selectReplyList", pNo);
-	}*/
-
-	/*public int insertReply(Reply r) {
-		// 프로젝트 qna 댓글 등록
-		return sqlSession.insert("puMapper.insertReply", r);
-	}*/
-
+	public int updateProjectQna(QnA q) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("puMapper.updateProjectQna", q);
+	}
 
 	
 

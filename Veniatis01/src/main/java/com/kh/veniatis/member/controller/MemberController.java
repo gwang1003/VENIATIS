@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,6 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -181,8 +192,16 @@ public class MemberController {
 		int requestProject = mService.requestProject();
 		int project = mService.selectProject();
 		int endProject = mService.selectEndProject();
-		/*int money = mService.selectMoney();*/ // 나중에 구현
-		
+		ArrayList<Revenue> revenue = mService.mainRevenue();
+		System.out.println(revenue);
+		/*ArrayList<Revenue> revenue2 = new ArrayList<>();
+		for(int i = 0; i < 12; i++) {
+			if(revenue.get(i).equals(i+1)) {
+				revenue2.add(revenue.get(i));
+			}else {
+				revenue2.add(new Revenue("0"+(i+1), 0));
+			}
+		}*/
 		Map map = new HashMap();
 		map.put("visitor", visitor);
 		map.put("openProject", openProject);
@@ -192,6 +211,7 @@ public class MemberController {
 		map.put("requestProject", requestProject);
 		map.put("project", project);
 		map.put("endProject", endProject);
+		map.put("revenue", revenue);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addAllObjects(map);
@@ -589,61 +609,70 @@ public class MemberController {
 		}
 	}
 	
-	// 프로젝트 통계
-	@RequestMapping("projectTotal.do")
-	public ModelAndView projectTotal() {
-		 Descending descending = new Descending();
-		ArrayList<ProjectTotal> pTotal = mService.pTotalList();
-		ArrayList<ProjectTotal> pTotalSuccess = mService.pTotalSuccessList();
-		
-		for(int i = 0; i < pTotal.size(); i++) {
-			for(int j = 0; j < pTotalSuccess.size(); j++) {
-				if(pTotal.get(i).getPcNo() == pTotalSuccess.get(j).getPcNo()) {
-					int percent = (int) (Math.round(((double)pTotalSuccess.get(j).getAmount()/pTotal.get(i).getAmount())*10000)/100);
-					pTotal.get(i).setPercent(percent); 
-				}
-			}
-		}
-		
-		ArrayList<ProjectTotal> pSolo = mService.pSoloList();
-		ArrayList<ProjectTotal> pSoloSuccess = mService.pSoloSuccessList();
-		
-		for(int i = 0; i < pSolo.size(); i++) {
-			for(int j = 0; j < pSoloSuccess.size(); j++) {
-				if(pSolo.get(i).getPcNo() == pSoloSuccess.get(j).getPcNo()) {
-					int percent = (int) (Math.round(((double)pSoloSuccess.get(j).getAmount()/pSolo.get(i).getAmount())*10000)/100);
-					pSolo.get(i).setPercent(percent); 
-				}
-			}
-		}
-		Collections.sort(pSolo, descending);
 
-		ArrayList<ProjectTotal> pCompany = mService.pCompanyList();
-		ArrayList<ProjectTotal> pCompanySuccess = mService.pCompanySuccessList();	
-		for(int i = 0; i < pCompany.size(); i++) {
-			for(int j = 0; j < pCompanySuccess.size(); j++) {
-				if(pCompany.get(i).getPcNo() == pCompanySuccess.get(j).getPcNo()) {
-					int percent = (int) (Math.round(((double)pCompanySuccess.get(j).getAmount()/pCompany.get(i).getAmount())*10000)/100);
-					pCompany.get(i).setPercent(percent); 
-				}
-			}
-		}
-		
-		Collections.sort(pCompany, descending);
-		if(pTotal != null && pSolo != null && pCompany != null) {
-			ModelAndView mv = new ModelAndView();
-			
-			mv.addObject("pTotal", pTotal);
-			mv.addObject("pSolo", pSolo);
-			mv.addObject("pCompany", pCompany);
-			mv.setViewName("myPage/Manager/projectTotal");
-			System.out.println("pCom : " + pCompany.size());
-			
-			return mv;
-		}else {
-			throw new MemberException("프로젝트 통계 조회 실패!!");
-		}
-	}
+	   // 프로젝트 통계
+	   @RequestMapping("projectTotal.do")
+	   public ModelAndView projectTotal() {
+	       Descending descending = new Descending();
+	      ArrayList<ProjectTotal> pTotal = mService.pTotalList();
+	      ArrayList<ProjectTotal> pTotalSuccess = mService.pTotalSuccessList();
+	      
+	      for(int i = 0; i < pTotal.size(); i++) {
+	         for(int j = 0; j < pTotalSuccess.size(); j++) {
+	            if(pTotal.get(i).getPcNo() == pTotalSuccess.get(j).getPcNo()) {
+	               int percent = (int) (Math.round(((double)pTotalSuccess.get(j).getAmount()/pTotal.get(i).getAmount())*10000)/100);
+	               pTotal.get(i).setPercent(percent); 
+	            }
+	         }
+	      }
+	      
+	      ArrayList<ProjectTotal> pSolo = mService.pSoloList();
+	      ArrayList<ProjectTotal> pSoloSuccess = mService.pSoloSuccessList();
+	      
+	      for(int i = 0; i < pSolo.size(); i++) {
+	         for(int j = 0; j < pSoloSuccess.size(); j++) {
+	            if(pSolo.get(i).getPcNo() == pSoloSuccess.get(j).getPcNo()) {
+	               int percent = (int) (Math.round(((double)pSoloSuccess.get(j).getAmount()/pSolo.get(i).getAmount())*10000)/100);
+	               pSolo.get(i).setPercent(percent); 
+	            }
+	         }
+	      }
+	      Collections.sort(pSolo, descending);
+
+	      ArrayList<ProjectTotal> pCompany = mService.pCompanyList();
+	      ArrayList<ProjectTotal> pCompanySuccess = mService.pCompanySuccessList();   
+	      for(int i = 0; i < pCompany.size(); i++) {
+	         for(int j = 0; j < pCompanySuccess.size(); j++) {
+	            if(pCompany.get(i).getPcNo() == pCompanySuccess.get(j).getPcNo()) {
+	               int percent = (int) (Math.round(((double)pCompanySuccess.get(j).getAmount()/pCompany.get(i).getAmount())*10000)/100);
+	               pCompany.get(i).setPercent(percent); 
+	            }
+	         }
+	      }
+	      
+	      Collections.sort(pCompany, descending);
+	      if(pTotal != null && pSolo != null && pCompany != null) {
+	         ModelAndView mv = new ModelAndView();
+	         
+	         
+	         //추가내역
+	            ArrayList<ProjectView> list = new ArrayList<ProjectView>();
+	            list = bService.AllProjectList();
+	            
+	            mv.addObject("projectList", list);
+	            mv.addObject("projectListSize", list.size());
+	         
+	         mv.addObject("pTotal", pTotal);
+	         mv.addObject("pSolo", pSolo);
+	         mv.addObject("pCompany", pCompany);
+	         mv.setViewName("myPage/Manager/projectTotal");
+	         System.out.println("pCom : " + pCompany.size());
+	         
+	         return mv;
+	      }else {
+	         throw new MemberException("프로젝트 통계 조회 실패!!");
+	      }
+	   }
 	
 	// 통계
 	@RequestMapping("revenue.do")
@@ -666,13 +695,11 @@ public class MemberController {
 		map.put("eDate", eDate);
 		map.put("type", type);
 		map.put("cate", cate);
-		System.out.println(sDate);
-		System.out.println(eDate);
 		ArrayList<Project> pList = mService.projectList(map);
-		System.out.println(pList);
+		
+		
 		if(pList != null) {
 			ArrayList<Revenue> rList = mService.revenue(map);
-			System.out.println(rList);
 			int sumMoney = 0;
 			for(int i = 0; i < pList.size(); i++) {
 				sumMoney += pList.get(i).getpSumAmount();
@@ -1228,5 +1255,119 @@ public class MemberController {
 			return "success";
 		}
 	}
+	
+	@RequestMapping(value = "excelDown.do")
+	public void excelDown(HttpServletResponse response,
+			@RequestParam(value="sDate", required=false) String sDate,
+			@RequestParam(value="eDate", required=false) String eDate,
+			@RequestParam(value="type", required=false) String type,
+			@RequestParam(value="cate", required=false) String cate) throws Exception {
+		if(sDate == null || sDate.length() < 5) {
+			sDate = null;
+		}if(eDate == null || eDate.length() < 5) {
+			eDate = null;
+		}if(cate == null || cate.equals("All") || cate.equals("")) {
+			cate = null;
+		}if(type == null || type.equals("All") || type.equals("")) {
+			type = null;
+		}
+		Map map = new HashMap();
+		
+		map.put("sDate", sDate);
+		map.put("eDate", eDate);
+		map.put("type", type);
+		map.put("cate", cate);
+		ArrayList<Revenue> rList = mService.revenue(map);
 
+
+	    // 워크북 생성
+	    Workbook wb = new HSSFWorkbook();
+	    Sheet sheet = wb.createSheet("VENIATIS수익");
+	    Row row = null;
+	    Cell cell = null;
+	    int rowNo = 0;
+
+
+	    // 테이블 헤더용 스타일
+	    CellStyle headStyle = wb.createCellStyle();
+	    
+	    // 가는 경계선을 가집니다.
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+
+
+	    // 배경색은 노란색입니다.
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+	    // 데이터는 가운데 정렬합니다.
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+
+
+	    // 데이터용 경계 스타일 테두리만 지정
+	    CellStyle bodyStyle = wb.createCellStyle();
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    
+	    sheet.setColumnWidth(3, 4500);
+        sheet.setColumnWidth(4, 3500);
+        sheet.setColumnWidth(5, 4500);
+        sheet.setColumnWidth(6, 4500);
+
+
+	    // 헤더 생성
+	    row = sheet.createRow(rowNo++);
+	    row = sheet.createRow(rowNo++);
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("");
+	    cell = row.createCell(1);
+	    cell.setCellValue("");
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("후원 성공일");
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("결제건수");
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("실 결제금액");
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("수익");
+	    // 데이터 부분 생성
+	    
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    for(Revenue vo : rList) {
+	        row = sheet.createRow(rowNo++);
+	        cell = row.createCell(0);
+	        cell.setCellValue("");
+	        cell = row.createCell(1);
+	        cell.setCellValue("");
+	        cell = row.createCell(2);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(sdf.format(vo.getDay()));
+	        cell = row.createCell(3);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getAmount());
+	        cell = row.createCell(4);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getRealMoney());
+	        cell = row.createCell(5);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getRevenue());
+	    }
+
+	    // 컨텐츠 타입과 파일명 지정
+	    response.setContentType("ms-vnd/excel");
+	    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+
+	    // 엑셀 출력
+	    wb.write(response.getOutputStream());
+	    wb.close();
+	}
 }

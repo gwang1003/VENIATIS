@@ -3,26 +3,33 @@ package com.kh.veniatis.member.model.vo;
 import java.sql.Date;
 
 public class Revenue {
-	private Date day;
+	private String day;
 	private int amount;
 	private int realMoney;
 	private int revenue;
 	
 	public Revenue() {}
 
-	public Revenue(Date day, int amount, int realMoney, int revenue) {
+	public Revenue(String day, int amount, int realMoney, int revenue) {
 		super();
 		this.day = day;
 		this.amount = amount;
 		this.realMoney = realMoney;
 		this.revenue = revenue;
 	}
+	
 
-	public Date getDay() {
+	public Revenue(String day, int revenue) {
+		super();
+		this.day = day;
+		this.revenue = revenue;
+	}
+
+	public String getDay() {
 		return day;
 	}
 
-	public void setDay(Date day) {
+	public void setDay(String day) {
 		this.day = day;
 	}
 

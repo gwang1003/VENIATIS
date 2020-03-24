@@ -115,7 +115,7 @@
 	</resultMap>
 	
 	<resultMap type="Revenue" id="RevenueResultSet">
-		<result property="day" column="P_DATE"/>
+		<result property="day" column="P_END_DATE"/>
 		<result property="amount" column="COUNT"/>
 		<result property="realMoney" column="AMOUNT"/>
 		<result property="revenue" column="REVENUE"/>
@@ -587,7 +587,7 @@
 	</select>
 	
 	<select id="revenue" resultMap="RevenueResultSet">
-		SELECT TO_CHAR(P_END_DATE, 'YYYY-MM-DD') P_DATE, COUNT(P_END_DATE) COUNT, SUM(P_SUM_AMOUNT) AMOUNT, SUM(P_SUM_AMOUNT * 0.05) REVENUE
+		SELECT TO_CHAR(P_END_DATE, 'YYYY-MM-DD') P_END_DATE, COUNT(P_END_DATE) COUNT, SUM(P_SUM_AMOUNT) AMOUNT, SUM(P_SUM_AMOUNT * 0.05) REVENUE
 		FROM PROJECT
 		WHERE SYSDATE > P_END_DATE
 		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
@@ -665,5 +665,10 @@
 		AND P_TYPE = 2
 		GROUP BY PC_NAME, PC_NO
 		ORDER BY PC_NO
+	</select>
+	
+	<select id="mainRevenue" resultMap="RevenueResultSet">
+		SELECT *
+		FROM M_REVENUE
 	</select>
 </mapper>

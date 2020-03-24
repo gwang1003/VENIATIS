@@ -339,4 +339,9 @@ public class MemberDao {
 	public ArrayList<ProjectTotal> pCompanySuccessList() {
 		return (ArrayList)sqlSession.selectList("memberMapper.pCompanySuccessList");
 	}
+
+
+	public ArrayList<Revenue> mainRevenue() {
+		return (ArrayList)sqlSession.selectList("memberMapper.mainRevenue");
+	}
 }

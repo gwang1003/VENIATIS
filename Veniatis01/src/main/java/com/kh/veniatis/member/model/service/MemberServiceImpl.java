@@ -364,4 +364,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.pCompanySuccessList();
 	}
 
+	@Override
+	public ArrayList<Revenue> mainRevenue() {
+		return mDao.mainRevenue();
+	}
+
 }

@@ -17,6 +17,8 @@
 		<typeAlias type="com.kh.veniatis.blog.model.vo.Compet" alias="Compet"/>
 		<typeAlias type="com.kh.veniatis.member.model.vo.QnA" alias="QnA"/>
 		<typeAlias type="com.kh.veniatis.member.model.vo.CreView" alias="CreView"/>
+		<typeAlias type="com.kh.veniatis.member.model.vo.Revenue" alias="Revenue"/>
+		<typeAlias type="com.kh.veniatis.member.model.vo.ProjectTotal" alias="ProjectTotal"/>
 		<typeAlias type="com.kh.veniatis.common.files.model.vo.Files" alias="Files"/>
 		<typeAlias type="com.kh.veniatis.common.likes.model.vo.Likes" alias="Likes"/>
 		<typeAlias type="com.kh.veniatis.common.reply.model.vo.Reply" alias="Reply"/>	

@@ -34,6 +34,25 @@
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
+	<resultMap id="projectResultSet" type="Project">
+		<id property="pNo" column="P_NO"/>
+		<result property="creNo" column="CRE_NO"/>
+		<result property="pcNo" column="PC_NO"/>
+		<result property="pUrl" column="P_URL"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="pVideo" column="P_VIDEO"/>
+		<result property="pHashTag" column="P_HASHTAG"/>
+		<result property="pStartDate" column="P_START_DATE"/>
+		<result property="pEndDate" column="P_END_DATE"/>
+		<result property="pTargetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="pSumAmount" column="P_SUM_AMOUNT"/>
+		<result property="pAccount" column="P_ACCOUNT"/>
+		<result property="pStatus" column="P_STATUS"/>
+		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+	</resultMap>
+	
 	
 	<resultMap id="creViewResultSet" type="CreView">
 		<id property="creNo" column="CRE_NO"/>
@@ -92,6 +111,20 @@
 		<result property="qContent" column="QNA_CONTENT"/>
 		<result property="qAnswer" column="QNA_ANSWER"/>
 		<result property="enrollDate" column="QNA_ENROLLDATE"/>
+		<result property="answerDate" column="QNA_ANSWER_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Revenue" id="RevenueResultSet">
+		<result property="day" column="P_DATE"/>
+		<result property="amount" column="COUNT"/>
+		<result property="realMoney" column="AMOUNT"/>
+		<result property="revenue" column="REVENUE"/>
+	</resultMap>
+	
+	<resultMap type="ProjectTotal" id="pTotalResultSet">
+		<result property="pcNo" column="PC_NO"/>
+		<result property="pcName" column="PC_NAME"/>
+		<result property="amount" column="COUNT(P_NO)"/>
 	</resultMap>
 
 	<!-- 로그인 -->
@@ -163,7 +196,7 @@
 	
 	<insert id="question">
 		INSERT INTO QNA
-		VALUES(SEQ_QID.NEXTVAL, NULL, #{mNo}, 2, #{qCategory}, #{qContent}, NULL, SYSDATE)
+		VALUES(SEQ_QID.NEXTVAL, NULL, #{mNo}, 2, #{qCategory}, #{qContent}, NULL, SYSDATE ,NULL)
 	</insert>
 	
 	<select id="selectMemberList" resultMap="memberResultSet">
@@ -360,6 +393,7 @@
 		SELECT *
 		FROM QNA
 		JOIN MEMBER USING(M_NO)
+		WHERE QNA_TYPE = 2
 	</select>
 	
 	<update id="okProject" >
@@ -508,4 +542,128 @@
 		WHERE M_NO = #{mNo}
 	</update>
 	
+	<select id="QnAList" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		WHERE M_NO = #{getmNo}
+		AND QNA_TYPE = 2
+	</select>
+	
+	<select id="QnADetail" resultMap="QAResultSet">
+		SELECT *
+		FROM QNA
+		WHERE QNA_NO = #{qNo}
+	</select>
+	
+	<delete id="QnADelete">
+		DELETE FROM QNA
+		WHERE QNA_NO = #{qNo}
+	</delete>
+	
+	<update id="insertAnswer">
+		UPDATE QNA
+		SET QNA_ANSWER = #{qAnswer}, QNA_ANSWER_DATE = SYSDATE
+		WHERE QNA_NO = #{qNo}
+	</update>
+	
+	<select id="projectList" resultMap="projectResultSet">
+		SELECT P_SUM_AMOUNT
+		FROM PROJECT
+		JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+        <if test="cate != null">
+			AND	PC_NO = ${cate}
+		</if>
+		<if test="type != null">
+			AND P_TYPE = ${type}
+		</if>
+        <if test="sDate != null">
+			AND TO_CHAR(P_END_DATE, 'YYYY-MM-DD') >= '${sDate}'
+		</if>
+		<if test="eDate != null">
+			AND  '${eDate}' >= TO_CHAR(P_END_DATE, 'YYYY-MM-DD')
+		</if>
+	</select>
+	
+	<select id="revenue" resultMap="RevenueResultSet">
+		SELECT TO_CHAR(P_END_DATE, 'YYYY-MM-DD') P_DATE, COUNT(P_END_DATE) COUNT, SUM(P_SUM_AMOUNT) AMOUNT, SUM(P_SUM_AMOUNT * 0.05) REVENUE
+		FROM PROJECT
+		WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+        <if test="cate != null">
+			AND	PC_NO = ${cate}
+		</if>
+		<if test="type != null">
+			AND P_TYPE = ${type}
+		</if>
+        <if test="sDate != null">
+			AND TO_CHAR(P_END_DATE, 'YYYY-MM-DD') >= '${sDate}'
+		</if>
+		<if test="eDate != null">
+			AND  '${eDate}' >= TO_CHAR(P_END_DATE, 'YYYY-MM-DD')
+		</if>
+		GROUP BY TO_CHAR(P_END_DATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="pTotalList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
+	
+	<select id="pTotalSuccessList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
+	
+	<select id="pSoloList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_TYPE = 1
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
+	
+	<select id="pSoloSuccessList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_TYPE = 1
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
+	
+	<select id="pCompanyList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_TYPE = 2
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
+	
+	<select id="pCompanySuccessList" resultMap="pTotalResultSet">
+		SELECT PC_NO, PC_NAME, COUNT(P_NO)
+		FROM PROJECT
+		RIGHT JOIN PRJ_CATE USING(PC_NO)
+		WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_TYPE = 2
+		GROUP BY PC_NAME, PC_NO
+		ORDER BY PC_NO
+	</select>
 </mapper>

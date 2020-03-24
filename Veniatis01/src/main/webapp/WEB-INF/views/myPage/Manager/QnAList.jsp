@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/css/guidecss.css">
 <style>
 
@@ -86,7 +87,7 @@
 				  			답변완료
 			  			</c:if>
 			  		</td>
-			  		<td><button id="answerBtn">답변하기</button></td>
+			  		<td><button id="answerBtn" onclick="location.href='QnADetail.do?qNo=${q.qNo}'">답변하기</button></td>
 			  	</tr>
 			  </c:forEach>
               </tbody>

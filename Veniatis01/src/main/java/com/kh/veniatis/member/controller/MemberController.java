@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -38,8 +39,12 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.exception.MemberException;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.CreView;
+import com.kh.veniatis.member.model.vo.Descending;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @SessionAttributes({ "loginUser", "msg" })
@@ -484,8 +489,10 @@ public class MemberController {
 		}
 		int result = mService.deleteCon(conNumber);
 		if(result > 0) {
+			ArrayList<Compet> cList = mService.competList();
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("msg", "공모전 삭제 완료!");
+			mv.addObject("cList", cList);
 			mv.setViewName("myPage/Manager/competitionList");
 			return mv;
 		}else {
@@ -567,10 +574,127 @@ public class MemberController {
 		}
 	}
 	
+	// 관리자페이지 문의 답변
+	@RequestMapping("Answer.do")
+	public ModelAndView Answer(QnA QnA) {
+		int result = mService.insertAnswer(QnA);
+		if(result > 0) {
+			ArrayList<QnA> qaList = mService.selectQAList();
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("qaList", qaList);
+			mv.setViewName("myPage/Manager/QnAList");
+			return mv;
+		}else {
+			throw new MemberException("문의 답변 실패!");
+		}
+	}
+	
+	// 프로젝트 통계
+	@RequestMapping("projectTotal.do")
+	public ModelAndView projectTotal() {
+		 Descending descending = new Descending();
+		ArrayList<ProjectTotal> pTotal = mService.pTotalList();
+		ArrayList<ProjectTotal> pTotalSuccess = mService.pTotalSuccessList();
+		
+		for(int i = 0; i < pTotal.size(); i++) {
+			for(int j = 0; j < pTotalSuccess.size(); j++) {
+				if(pTotal.get(i).getPcNo() == pTotalSuccess.get(j).getPcNo()) {
+					int percent = (int) (Math.round(((double)pTotalSuccess.get(j).getAmount()/pTotal.get(i).getAmount())*10000)/100);
+					pTotal.get(i).setPercent(percent); 
+				}
+			}
+		}
+		
+		ArrayList<ProjectTotal> pSolo = mService.pSoloList();
+		ArrayList<ProjectTotal> pSoloSuccess = mService.pSoloSuccessList();
+		
+		for(int i = 0; i < pSolo.size(); i++) {
+			for(int j = 0; j < pSoloSuccess.size(); j++) {
+				if(pSolo.get(i).getPcNo() == pSoloSuccess.get(j).getPcNo()) {
+					int percent = (int) (Math.round(((double)pSoloSuccess.get(j).getAmount()/pSolo.get(i).getAmount())*10000)/100);
+					pSolo.get(i).setPercent(percent); 
+				}
+			}
+		}
+		Collections.sort(pSolo, descending);
+
+		ArrayList<ProjectTotal> pCompany = mService.pCompanyList();
+		ArrayList<ProjectTotal> pCompanySuccess = mService.pCompanySuccessList();	
+		for(int i = 0; i < pCompany.size(); i++) {
+			for(int j = 0; j < pCompanySuccess.size(); j++) {
+				if(pCompany.get(i).getPcNo() == pCompanySuccess.get(j).getPcNo()) {
+					int percent = (int) (Math.round(((double)pCompanySuccess.get(j).getAmount()/pCompany.get(i).getAmount())*10000)/100);
+					pCompany.get(i).setPercent(percent); 
+				}
+			}
+		}
+		
+		Collections.sort(pCompany, descending);
+		if(pTotal != null && pSolo != null && pCompany != null) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("pTotal", pTotal);
+			mv.addObject("pSolo", pSolo);
+			mv.addObject("pCompany", pCompany);
+			mv.setViewName("myPage/Manager/projectTotal");
+			System.out.println("pCom : " + pCompany.size());
+			
+			return mv;
+		}else {
+			throw new MemberException("프로젝트 통계 조회 실패!!");
+		}
+	}
+	
 	// 통계
 	@RequestMapping("revenue.do")
-	public String revenue() {
-		return "myPage/Manager/revenue";
+	public ModelAndView revenue(@RequestParam(value="startDate", required=false) String sDate,
+			@RequestParam(value="endDate", required=false) String eDate,
+			@RequestParam(value="type", required=false) String type,
+			@RequestParam(value="cate", required=false) String cate) {
+		if(sDate == null || sDate.length() < 5) {
+			sDate = null;
+		}if(eDate == null || eDate.length() < 5) {
+			eDate = null;
+		}if(cate == null || cate.equals("All")) {
+			cate = null;
+		}if(type == null || type.equals("All")) {
+			type = null;
+		}
+		Map map = new HashMap();
+		
+		map.put("sDate", sDate);
+		map.put("eDate", eDate);
+		map.put("type", type);
+		map.put("cate", cate);
+		System.out.println(sDate);
+		System.out.println(eDate);
+		ArrayList<Project> pList = mService.projectList(map);
+		System.out.println(pList);
+		if(pList != null) {
+			ArrayList<Revenue> rList = mService.revenue(map);
+			System.out.println(rList);
+			int sumMoney = 0;
+			for(int i = 0; i < pList.size(); i++) {
+				sumMoney += pList.get(i).getpSumAmount();
+			}
+			
+			int revenue = (int) (sumMoney * 0.05);
+			int successNo = pList.size();
+			int[] index = new int[3];
+			index[0] = sumMoney;
+			index[1] = revenue;
+			index[2] = successNo;
+			
+			ModelAndView mv = new ModelAndView();
+			mv.addAllObjects(map);
+			mv.addObject("index", index);
+			mv.addObject("pList", pList);
+			mv.addObject("rList", rList);
+			mv.setViewName("myPage/Manager/revenue");
+			return mv;
+		}else {
+			throw new MemberException("통계 검색 실패!!");
+		}
 	}
 
 	// 마이페이지 내 정보 수정 폼
@@ -917,6 +1041,24 @@ public class MemberController {
 			
 
 	}
+	
+	// 문의리스트
+	@RequestMapping("myQnAList.do")
+	public ModelAndView QnAList(HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		ArrayList<QnA> qList = mService.QnAList(loginUser.getmNo());
+		if(qList != null) {
+			ModelAndView mv = new ModelAndView();
+			System.out.println(qList);
+			mv.addObject("qList", qList);
+			mv.setViewName("myPage/My/QnAList");
+			
+			return mv;
+		}else {
+			throw new MemberException("문의리스트 조회 실패!");
+		}
+	}
 
 	// 문의하기 폼
 	@RequestMapping("questionForm.do")
@@ -936,6 +1078,38 @@ public class MemberController {
 		return mv;
 		}else {
 			throw new MemberException("문의 실패!");
+		}
+	}
+	
+	@RequestMapping("QnADetail.do")
+	public ModelAndView QnADetail(int qNo) {
+		QnA QnA = mService.QnADetail(qNo);
+		
+		if(QnA != null) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("QnA", QnA);
+			mv.setViewName("myPage/My/QnADetail");
+			
+			return mv;
+		}else {
+			throw new MemberException("문의 조회 실패!");
+		}
+	}
+	
+	@RequestMapping("QnADelete.do")
+	public ModelAndView QnADelete(int qNo) {
+		int result = mService.QnADelete(qNo);
+		
+		if(result > 0) {
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("msg", "문의 삭제 완료");
+			mv.setViewName("myPage/My/QnAList");
+			
+			return mv;
+		}else {
+			throw new MemberException("문의 삭제 실패!");
 		}
 	}
 

@@ -88,7 +88,7 @@
               </a>
               <div id="collapsePages5" class="collapse " aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="#" id="marketad">프로젝트 통계</a>
+                  <a class="collapse-item" href="projectTotal.do" id="marketad">프로젝트 통계</a>
                   <a class="collapse-item" href="revenue.do" id="marketad">수익 통계</a>
                 </div>
  
@@ -240,11 +240,8 @@
 
 
   <!-- Bootstrap core JavaScript-->
-  <script src="resources/vendor/jquery/jquery.min.js"></script>
   <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="resources/js/sb-admin-2.min.js"></script>

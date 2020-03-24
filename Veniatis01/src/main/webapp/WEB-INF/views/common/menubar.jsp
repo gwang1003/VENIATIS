@@ -208,7 +208,7 @@ s0.parentNode.insertBefore(s1,s0);
              <div class="go1 attendProject">참여 프로젝트</div>
              <div class="myInterestProject">관심 프로젝트</div>
              <div class="go1 blogBtn">내 블로그</div>
-             <div class="question">문의하기</div>
+             <div class="question">문의목록</div>
              <div class="go1 logoutBtn">로그아웃</div>
           </div>
        </div>
@@ -252,7 +252,7 @@ s0.parentNode.insertBefore(s1,s0);
         })
         
          $(".question").click(function(){
-           location.href="questionForm.do";
+           location.href="myQnAList.do";
         })
         
          $(".logoutBtn").click(function(){

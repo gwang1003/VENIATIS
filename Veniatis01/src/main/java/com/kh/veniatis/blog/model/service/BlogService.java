@@ -13,6 +13,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -180,6 +181,12 @@ public interface BlogService {
 	
 	//프로젝트 검색
 	ArrayList<ProjectView> projectSearch(String searchValue);
+	
+	//모든플젝리스트
+	ArrayList<ProjectView> AllProjectList();
+	
+	//리워드리스트
+	ArrayList<Reward> selectRewardList(int pNo);
 
 
 }

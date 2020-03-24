@@ -19,6 +19,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Service("bService")
@@ -406,6 +407,20 @@ public class BlogServiceImpl implements BlogService{
 	public ArrayList<ProjectView> projectSearch(String searchValue) {
 		// TODO Auto-generated method stub
 		return bDao.projectSearch(searchValue);
+	}
+	
+	//모든플젝리스트
+	@Override
+	public ArrayList<ProjectView> AllProjectList() {
+		// TODO Auto-generated method stub
+		return bDao.AllProjectList();
+	}
+	
+	//리워드 리스트
+	@Override
+	public ArrayList<Reward> selectRewardList(int pNo) {
+		// TODO Auto-generated method stub
+		return bDao.selectRewardList(pNo);
 	}
 	
 

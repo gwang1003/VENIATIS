@@ -19,6 +19,7 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 @Repository("bDao") 
 public class BlogDao {
@@ -408,6 +409,18 @@ public class BlogDao {
 	public ArrayList<ProjectView> projectSearch(String searchValue) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("blogMapper.projectSearch",searchValue);
+	}
+
+	// 모든플젝리스트
+	public ArrayList<ProjectView> AllProjectList() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.allProjectList");
+	}
+	
+	//리워드리스트
+	public ArrayList<Reward> selectRewardList(int pNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("blogMapper.selectReardList",pNo);
 	}
 
 

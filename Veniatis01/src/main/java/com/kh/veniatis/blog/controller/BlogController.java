@@ -45,6 +45,7 @@ import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.service.MemberService;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
 import com.kh.veniatis.project.user.model.vo.ProjectPagination;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
@@ -1460,4 +1461,23 @@ public class BlogController {
 		mv.setViewName("blog/competition");
 		return mv;
 	}
+	
+	
+	
+	// 리워드리스트
+	@RequestMapping(value = "rewardList.do", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String rewardList(int pNo) {
+		ArrayList<Reward> reList = bService.selectRewardList(pNo);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		return gson.toJson(reList);
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
 }

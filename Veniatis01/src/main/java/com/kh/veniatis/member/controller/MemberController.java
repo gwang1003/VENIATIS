@@ -1313,10 +1313,10 @@ public class MemberController {
 	    bodyStyle.setBorderLeft(BorderStyle.THIN);
 	    bodyStyle.setBorderRight(BorderStyle.THIN);
 	    
-	    sheet.setColumnWidth(3, 4500);
-        sheet.setColumnWidth(4, 3500);
+	    sheet.setColumnWidth(2, 4500);
+        sheet.setColumnWidth(3, 3500);
+        sheet.setColumnWidth(4, 4500);
         sheet.setColumnWidth(5, 4500);
-        sheet.setColumnWidth(6, 4500);
 
 
 	    // 헤더 생성
@@ -1341,7 +1341,6 @@ public class MemberController {
 	    cell.setCellValue("수익");
 	    // 데이터 부분 생성
 	    
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    for(Revenue vo : rList) {
 	        row = sheet.createRow(rowNo++);
 	        cell = row.createCell(0);
@@ -1350,7 +1349,7 @@ public class MemberController {
 	        cell.setCellValue("");
 	        cell = row.createCell(2);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(sdf.format(vo.getDay()));
+	        cell.setCellValue(vo.getDay());
 	        cell = row.createCell(3);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(vo.getAmount());

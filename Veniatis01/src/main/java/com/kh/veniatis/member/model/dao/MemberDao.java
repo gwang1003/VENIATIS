@@ -13,8 +13,10 @@ import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.Creator;
+import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 
@@ -276,5 +278,65 @@ public class MemberDao {
 
 	public int fakePwd(Member member) {
 		return sqlSession.update("memberMapper.fakePwd", member);
+	}
+
+
+	public ArrayList<QnA> QnAList(int getmNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.QnAList", getmNo);
+	}
+
+
+	public QnA QnADetail(int qNo) {
+		return sqlSession.selectOne("memberMapper.QnADetail", qNo);
+	}
+
+
+	public int QnADelete(int qNo) {
+		return sqlSession.delete("memberMapper.QnADelete", qNo);
+	}
+
+
+	public int insertAnswer(QnA QnA) {
+		return sqlSession.update("memberMapper.insertAnswer", QnA);
+	}
+
+
+	public ArrayList<Project> projectList(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.projectList", map);
+	}
+
+
+	public ArrayList<Revenue> revenue(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.revenue", map);
+	}
+
+
+	public ArrayList<ProjectTotal> pTotalList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pTotalList");
+	}
+
+
+	public ArrayList<ProjectTotal> pTotalSuccessList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pTotalSuccessList");
+	}
+
+
+	public ArrayList<ProjectTotal> pSoloList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pSoloList");
+	}
+
+
+	public ArrayList<ProjectTotal> pSoloSuccessList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pSoloSuccessList");
+	}
+
+
+	public ArrayList<ProjectTotal> pCompanyList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pCompanyList");
+	}
+
+
+	public ArrayList<ProjectTotal> pCompanySuccessList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.pCompanySuccessList");
 	}
 }

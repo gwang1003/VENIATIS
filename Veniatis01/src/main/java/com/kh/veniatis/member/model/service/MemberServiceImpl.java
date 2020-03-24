@@ -21,7 +21,10 @@ import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.dao.MemberDao;
 import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 @Service("mService")
@@ -299,6 +302,66 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int fakePwd(Member member) {
 		return mDao.fakePwd(member);
+	}
+
+	@Override
+	public ArrayList<QnA> QnAList(int getmNo) {
+		return mDao.QnAList(getmNo);
+	}
+
+	@Override
+	public QnA QnADetail(int qNo) {
+		return mDao.QnADetail(qNo);
+	}
+
+	@Override
+	public int QnADelete(int qNo) {
+		return mDao.QnADelete(qNo);
+	}
+
+	@Override
+	public int insertAnswer(QnA QnA) {
+		return mDao.insertAnswer(QnA);
+	}
+
+	@Override
+	public ArrayList<Project> projectList(Map map) {
+		return mDao.projectList(map);
+	}
+
+	@Override
+	public ArrayList<Revenue> revenue(Map map) {
+		return mDao.revenue(map);
+	}
+
+	@Override
+	public ArrayList<ProjectTotal> pTotalList() {
+		return mDao.pTotalList();
+	}
+	
+	@Override
+	public ArrayList<ProjectTotal> pTotalSuccessList() {
+		return mDao.pTotalSuccessList();
+	}
+
+	@Override
+	public ArrayList<ProjectTotal> pSoloList() {
+		return mDao.pSoloList();
+	}
+
+	@Override
+	public ArrayList<ProjectTotal> pSoloSuccessList() {
+		return mDao.pSoloSuccessList();
+	}
+
+	@Override
+	public ArrayList<ProjectTotal> pCompanyList() {
+		return mDao.pCompanyList();
+	}
+
+	@Override
+	public ArrayList<ProjectTotal> pCompanySuccessList() {
+		return mDao.pCompanySuccessList();
 	}
 
 }

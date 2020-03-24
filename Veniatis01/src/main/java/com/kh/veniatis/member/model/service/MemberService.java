@@ -7,7 +7,10 @@ import com.kh.veniatis.blog.model.vo.Compet;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.member.model.vo.CreView;
 import com.kh.veniatis.member.model.vo.Member;
+import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
+import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 public interface MemberService {
@@ -132,4 +135,28 @@ public interface MemberService {
 	Member passFind(Member m);
 
 	int fakePwd(Member member);
+
+	ArrayList<QnA> QnAList(int getmNo);
+
+	QnA QnADetail(int qNo);
+
+	int QnADelete(int qNo);
+
+	int insertAnswer(QnA qnA);
+
+	ArrayList<Project> projectList(Map map);
+
+	ArrayList<Revenue> revenue(Map map);
+
+	ArrayList<ProjectTotal> pTotalList();
+
+	ArrayList<ProjectTotal> pTotalSuccessList();
+
+	ArrayList<ProjectTotal> pSoloList();
+
+	ArrayList<ProjectTotal> pSoloSuccessList();
+
+	ArrayList<ProjectTotal> pCompanyList();
+
+	ArrayList<ProjectTotal> pCompanySuccessList();
 }

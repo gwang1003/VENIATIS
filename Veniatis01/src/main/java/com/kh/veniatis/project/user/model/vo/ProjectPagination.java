@@ -1,6 +1,6 @@
 package com.kh.veniatis.project.user.model.vo;
 
-import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.common.PageInfo;
 
 public class ProjectPagination {
 	// 페이지 정보를 담아 줄 PageInfo 참조 변수 선언

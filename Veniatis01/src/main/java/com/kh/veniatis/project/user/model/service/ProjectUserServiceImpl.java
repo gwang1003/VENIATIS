@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.veniatis.blog.model.vo.PageInfo;
+import com.kh.veniatis.common.PageInfo;
 import com.kh.veniatis.common.files.model.vo.Files;
 import com.kh.veniatis.common.likes.model.vo.Likes;
 import com.kh.veniatis.common.reply.model.vo.Reply;
 import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.QnA;
-import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.dao.ProjectUserDao;
 import com.kh.veniatis.project.user.model.vo.Funding;
@@ -24,17 +23,19 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	@Autowired
 	ProjectUserDao pud;
 	
+	// 개인 프로젝트 리스트 조회
 	@Override
-	public ArrayList<ProjectView> selectList(int currentPage) {
+	public ArrayList<ProjectView> selectList(int currentPage, int currentCate) {
 		// 1. 게시글 개수 조회
-		int listCount = pud.getListCount();
+		int listCount = pud.getListCount(currentCate);
 		
 		// 페이지 정보 저장
 		PageInfo pi = ProjectPagination.getPageInfo(currentPage, listCount);
 		// 2. 게시글 리스트 조회
-		return pud.selectList(pi);
+		return pud.selectList(pi, currentCate);
 	}
 	
+	// 창업 프로젝트 리스트 조회
 	@Override
 	public ArrayList<ProjectView> selectList2(int currentPage, int currentCate) {
 		// 1. 게시글 개수 조회
@@ -55,12 +56,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	public ArrayList<Reward> selectRewardList(int pNo) {
 		return pud.selectRewardList(pNo);
 	}
-
-	/*@Override
-	public int selectCreatorNumber(int creNo) {
-		// 크리에이터의 유저 넘버 가져오기
-		return pud.selectCreatorNumber(creNo);
-	}*/
 
 	@Override
 	public Member selectCreatorInfo(int creNo) {
@@ -184,6 +179,11 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	public int insertLikes(Likes plike) {
 		// 삽입
 		return pud.insertLikes(plike);
+	}
+
+	@Override
+	public int deleteProjectQna(int qNo) {
+		return pud.deleteProjectQna(qNo);
 	}
 	
 

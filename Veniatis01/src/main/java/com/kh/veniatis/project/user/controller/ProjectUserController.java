@@ -40,7 +40,7 @@ public class ProjectUserController {
       return "project_user/projectList";
    }*/
    
-   // 카테고리 없는 경우
+   // 개인 프로젝트 리스트
    @RequestMapping("projectList.do")
    public ModelAndView ProjectList(ModelAndView mv,
          @RequestParam(value="page", required = false) Integer page,
@@ -51,11 +51,41 @@ public class ProjectUserController {
       //System.out.println("카테고리 번호 확인 : " + currentCate);
       ArrayList<ProjectView> list = new ArrayList<ProjectView>();
       
-      if(currentCate == 0) {
+      list = pus.selectList(currentPage, currentCate);
+      /*if(currentCate == 0) {
          list = pus.selectList(currentPage);
       }else {
          list = pus.selectList2(currentPage, currentCate);
+      }*/
+      
+      if(list != null) {
+         /*for(ProjectView p : list) {
+            System.out.println(p);
+         }*/
+         mv.addObject("projectList", list);
+         mv.addObject("projectListSize", list.size());
+         mv.addObject("pi", ProjectPagination.getPageInfo());
+         mv.addObject("currentCate", currentCate);
+         mv.setViewName("project_user/projectList");
+         
+      }else {
+         //throw new BoardException("게시글 전체 조회 실패!!");
       }
+      return mv;
+   }
+   
+   // 기업 프로젝트 리스트
+   @RequestMapping("projectList2.do")
+   public ModelAndView ProjectList2(ModelAndView mv,
+         @RequestParam(value="page", required = false) Integer page,
+         @RequestParam(value="cate", required = false) Integer cate) {
+
+      int currentPage = page != null ? page : 1;
+      int currentCate = cate != null ? cate : 0;
+      //System.out.println("카테고리 번호 확인 : " + currentCate);
+      ArrayList<ProjectView> list = new ArrayList<ProjectView>();
+      
+      list = pus.selectList2(currentPage, currentCate);
       
       if(list != null) {
          /*for(ProjectView p : list) {
@@ -337,5 +367,23 @@ public class ProjectUserController {
 
       return "프로젝트 QnA insert";
    }
+   
+   // QnA 삭제
+   @RequestMapping(value="deleteProjectQna.do", produces="application/json; charset=utf-8")
+   @ResponseBody
+   public String deleteProjectQna(HttpSession session,
+         @RequestParam("qNo") int qNo) {
+      
+      int result = pus.deleteProjectQna(qNo);
+      String str = "";
+      if(result>0) {
+    	  str="success";
+      }else {
+    	  str="fail";
+      }
+      return str;
+   }
+   
+   
    
 }

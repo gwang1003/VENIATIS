@@ -159,4 +159,6 @@ public interface MemberService {
 	ArrayList<ProjectTotal> pCompanyList();
 
 	ArrayList<ProjectTotal> pCompanySuccessList();
+
+	ArrayList<Revenue> mainRevenue();
 }

@@ -187,6 +187,9 @@ public interface BlogService {
 	
 	//리워드리스트
 	ArrayList<Reward> selectRewardList(int pNo);
+	
+	//플젝해쉬
+	ArrayList<ProjectView> projectHash(String hashTag);
 
 
 }

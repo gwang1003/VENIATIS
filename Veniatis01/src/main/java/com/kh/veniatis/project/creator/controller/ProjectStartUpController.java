@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,59 +16,69 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.kh.veniatis.common.files.model.vo.Files;
-import com.kh.veniatis.member.model.vo.Member;
-import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.project.creator.model.exception.ProjectException;
 import com.kh.veniatis.project.creator.model.service.CreatorService;
+import com.kh.veniatis.project.creator.model.service.StartUpService;
 import com.kh.veniatis.project.creator.model.vo.Creator;
 import com.kh.veniatis.project.creator.model.vo.MultiRowReward;
-import com.kh.veniatis.project.creator.model.vo.PNotice;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.creator.model.vo.Reward;
 import com.kh.veniatis.project.user.model.service.ProjectUserService;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
-
 @Controller
-public class ProjectCreatorController {
+public class ProjectStartUpController {
+
 	@Autowired
 	private CreatorService cService;
 	
 	@Autowired
+	private StartUpService sService;
+	
+	@Autowired
 	private ProjectUserService pus;
- 
-	@RequestMapping("creatorInsert.do")
+	
+	@RequestMapping("startUpproject.do")
+	public String ProjectStart() {
+		return "project_creator/startUpproject_startPage";
+	}
+	
+	@RequestMapping("startUpprojectPage1.do")
+	public String startUpprojectPage1() {
+		return "project_creator/startUpprojectPage1";
+	}
+	
+	@RequestMapping("startUpInsert.do")
 	public ModelAndView projectInfoInsert(HttpServletRequest request, Creator c, Model model,
 			@RequestParam(value = "userPost") String post, @RequestParam(value = "userAddr1") String addr1,
 			@RequestParam(value = "userAddr2") String addr2, @RequestParam(value = "mNo") int mNo) {
 		c.setCreAddress(post + "#" + addr1 + "#" + addr2);
 		c.setmNo(mNo);
 
-		int result = cService.creatorInsert(c);
+		int creNo = sService.startUpCreatorInsert(c);
+
 		
-		System.out.println(result);
+
 		
 		
-		Creator creator = cService.selectCreNo(result);
+		Creator creator = cService.selectCreator(creNo);
+	
 		
-		if (result > 0) {
+		if (creNo > 0) {
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("creator", creator);
-			mv.setViewName("project_creator/projectStartPage2");
+			mv.setViewName("project_creator/startUpprojectPage2");
 			return mv;
 		} else {
-			throw new ProjectException("크리에이터 등록 실패!");
+			throw new ProjectException("창업 크리에이터 등록 실패!");
 		}
 
 	}
-
-
-	@RequestMapping("projectInsert.do")
+	
+	@RequestMapping("startUpprojectInsert.do")
 	public ModelAndView projectInsert(Project p, Model model, HttpServletRequest request,
 			@RequestParam(value = "creUrl") String creUrl,
 			@RequestParam(value="creNum") String creNum,
@@ -80,8 +89,8 @@ public class ProjectCreatorController {
 			@RequestParam(value = "subImage4", required = false) MultipartFile image5) {
 		p.setpUrl(creUrl);
 		p.setCreNo(Integer.parseInt(creNum));
-		System.out.println(p);
-		int result = cService.projectInsert(p);
+	
+		int result = sService.startUpprojectInsert(p);
 		
 		Project project = cService.selectProject(result);
 		
@@ -133,6 +142,7 @@ public class ProjectCreatorController {
 				files.add(file);
 			}
 			
+			
 			for(int i=0;i<files.size();i++) {
 				files.get(i).setpNo(project.getpNo());
 			}
@@ -141,7 +151,7 @@ public class ProjectCreatorController {
 			if (result2 > 0) {
 				ModelAndView mv = new ModelAndView();
 				mv.addObject("project", project);
-				mv.setViewName("project_creator/projectStartPage_reward");
+				mv.setViewName("project_creator/startUpprojectPage3");
 				return mv;
 			} else {
 				throw new ProjectException("프로젝트 등록 실패!");
@@ -155,7 +165,7 @@ public class ProjectCreatorController {
 	private Files saveFile(MultipartFile file, HttpServletRequest request,int num) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 
-		String savePath = root + "\\project_creator";
+		String savePath = root + "\\project_startUp";
 
 		File folder = new File(savePath);
 
@@ -173,7 +183,7 @@ public class ProjectCreatorController {
 
 		String filePath = folder + "\\" + renameFilename;
 		Files files = new Files(3, file.getOriginalFilename(), renameFilename,
-				"resources/project_creator/" + renameFilename);
+				"resources/project_startUp/" + renameFilename);
 		try {
 			// 이 순간 서버에 파일이 저장 된다
 			file.transferTo(new File(filePath));
@@ -182,8 +192,9 @@ public class ProjectCreatorController {
 		}
 		return files;
 	}
-
-	@RequestMapping("insertReward.do")
+	
+	
+	@RequestMapping("startUpInsertReward.do")
 	public ModelAndView insertReward(@ModelAttribute MultiRowReward rewards,
 			@RequestParam(value = "rDelivery0") String rDelivery0,
 			@RequestParam(value = "rDelivery1", required = false) String rDelivery1,
@@ -273,29 +284,19 @@ public class ProjectCreatorController {
 				}
 			}
 		}
-		
 
-		
-
-	
-	
-
-		System.out.println(rewards);
-		System.out.println(rewardInsertList);
 		int result = cService.rewardInsert(rewardInsertList);
-		System.out.println(result);
 		ModelAndView mv = new ModelAndView();
 		
 		// project 정보를 위해 담아서 다음페이지로 보내기
 		Project project = cService.selectProject(pNo);
 		mv.addObject("project", project);
-		mv.setViewName("project_creator/projectStartPage_last");
+		mv.setViewName("project_creator/startUpprojectPage4");
 
 		return mv;
 	}
-
 	
-	@RequestMapping("finishProject.do")
+	@RequestMapping("startUpFinishProject.do")
 	public ModelAndView finishProject(Project project,@RequestParam(value="pNo") Integer pNo,
 			@RequestParam(value="pStartDate_str") String pStartDate_str,
 			@RequestParam(value="pEndDate_str") String pEndDate_str,
@@ -305,7 +306,6 @@ public class ProjectCreatorController {
 		
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 		
-		
 		Date pStartDate = sdf2.parse(pStartDate_str);
 		Date pEndDate = sdf2.parse(pEndDate_str);
 		String pAccount=pAccount_num+", "+pAccount_bank;
@@ -314,15 +314,11 @@ public class ProjectCreatorController {
 		project.setpEndDate(pEndDate);
 		project.setpAccount(pAccount);
 		
-		
-		System.out.println(project);
-		
 		ModelAndView mv = new ModelAndView();
 		int result = cService.finishProject(project);
-		System.out.println("finishProject int result : "+result);
 		
 		if(result>0) {
-			mv.addObject("msg","프로젝트가 등록되었습니다. 승인여부는 마이페이지에서 확인해주세요");
+			mv.addObject("msg","창업 프로젝트가 등록되었습니다. 승인여부는 마이페이지에서 확인해주세요");
 			mv.setViewName("main");
 			return mv;	
 		}else {
@@ -331,27 +327,19 @@ public class ProjectCreatorController {
 				
 	}
 	
-	
-	/*-------------- 프로젝트 수정하기 -----------------*/
-	
-	@RequestMapping("projectAlt.do")
+	@RequestMapping("startUpprojectAlt.do")
 	public ModelAndView ProjectDetail(ModelAndView mv, int pNo) {
-		System.out.println(pNo);
+	
 		ProjectView p = pus.selectProject(pNo);
-		System.out.println(p);
-		Creator c = cService.selectCreator(p.getCreNo());
-		System.out.println(c);
 
-		
+		Creator c = cService.selectCreator(p.getCreNo());
+
 		if(p != null) {
 			
-			// 리워드 목록
 			ArrayList<Reward> rList = pus.selectRewardList(pNo);
-			//System.out.println(rList);
-			
-			// 프로젝트 사진 목록 가져오기(ArrayList<Files>)
+	
 			ArrayList<Files> fList = pus.selectFileList(pNo);
-			//System.out.println(fList);
+
 			System.out.println(fList);
 			
 			mv.addObject("project", p);
@@ -359,13 +347,13 @@ public class ProjectCreatorController {
 			mv.addObject("fList", fList);
 		
 			mv.addObject("creator",c);
-			mv.setViewName("project_creator/projectAlt");
+			mv.setViewName("project_creator/startUpprojectAlt");
 		}		
 		
 		return mv;
 	}
 	
-	@RequestMapping("creatorUpdate.do")
+	@RequestMapping("startUpCreatorUpdate.do")
 	public ModelAndView creatorUpdate(HttpServletRequest request, Creator c, Model model,
 			@RequestParam(value = "userPost") String post, @RequestParam(value = "userAddr1") String addr1,
 			@RequestParam(value = "userAddr2") String addr2, @RequestParam(value = "mNo") int mNo,
@@ -402,7 +390,7 @@ public class ProjectCreatorController {
 			mv.addObject("hashList",hashList);
 			mv.addObject("creNum",c.getCreNo());
 			
-			mv.setViewName("project_creator/projectAlt2");
+			mv.setViewName("project_creator/startUpprojectAlt2");
 			return mv;
 		} else {
 			throw new ProjectException("크리에이터 등록 실패!");
@@ -410,7 +398,7 @@ public class ProjectCreatorController {
 
 	}
 	
-	@RequestMapping("projectUpdate.do")
+	@RequestMapping("startUpprojectUpdate.do")
 	public ModelAndView projectUpdate(Project p, Model model, HttpServletRequest request,
 			@RequestParam(value = "creUrl") String creUrl,
 			@RequestParam(value = "pNo") String pNo,
@@ -431,114 +419,6 @@ public class ProjectCreatorController {
 		List<Files> oldFiles = cService.selectFiles(p.getpNo());
 				
 		ArrayList<Files> files = new ArrayList<Files>();
-				
-		/*if (result > 0) {
-						
-			if (image1 != null && image1.getOriginalFilename() != "") {
-				Files file = new Files();
-				
-				
-				file.setOriginName(oldFiles.get(0).getOriginName());
-				
-				deleteFile(oldFiles.get(0).getChangeName(),request);
-				
-				file = saveFile(image1, request,1);
-				file.setFileNo(oldFiles.get(0).getFileNo());
-				file.setFileLevel(oldFiles.get(0).getFileLevel());
-				files.add(file);
-			}else if(image1 != null && image1.getOriginalFilename() == "") {
-				files.add(oldFiles.get(0));
-			}
-			
-			--------------------------------------------
-			if ( image2 != null && image2.getOriginalFilename() != "") {
-				Files file = new Files();
-				
-				if(oldFiles.size()==1) {
-					file = saveFile(image2, request,2);
-					file.setFileLevel(2);
-					files.add(file);
-				}else {
-				
-				file.setOriginName(oldFiles.get(1).getOriginName());
-				
-				deleteFile(oldFiles.get(1).getChangeName(),request);
-
-				file = saveFile(image2, request,3);
-				file.setFileLevel(oldFiles.get(1).getFileLevel());
-				files.add(file);
-				}
-			}else if(image2 != null && image2.getOriginalFilename() == "") {
-				files.add(oldFiles.get(1));
-			}
-			
-			if (image3 != null && image3.getOriginalFilename() != "") {
-				Files file = new Files();
-				if(oldFiles.size()==2) {
-					file = saveFile(image3, request,3);
-					file.setFileLevel(2);
-					files.add(file);
-				}else {
-				
-				file.setOriginName(oldFiles.get(2).getOriginName());
-				
-				deleteFile(oldFiles.get(2).getChangeName(),request);
-				file = saveFile(image3, request,4);
-				file.setFileNo(oldFiles.get(2).getFileNo());
-				file.setFileLevel(oldFiles.get(2).getFileLevel());
-				files.add(file);
-				}
-			}else if(image3 != null && image3.getOriginalFilename() == "") {
-				files.add(oldFiles.get(2));
-			}
-			----------------------------------------
-			if (image4 != null && image4.getOriginalFilename() != ""  ) {
-				Files file = new Files();
-				if(oldFiles.size()==3) {
-					file = saveFile(image4, request,4);
-					file.setFileLevel(2);
-					files.add(file);
-				}else {				
-				file.setOriginName(oldFiles.get(3).getOriginName());
-				
-				deleteFile(oldFiles.get(3).getChangeName(),request);
-
-				file = saveFile(image4, request,4);
-				file.setFileNo(oldFiles.get(3).getFileNo());
-				file.setFileLevel(oldFiles.get(3).getFileLevel());
-				files.add(file);
-				}
-			}else if(image4 != null && image4.getOriginalFilename() == "") {
-				files.add(oldFiles.get(3));
-			}
-			----------------------------------------------
-			
-			if ( image5 != null && image5.getOriginalFilename() != ""  ) {
-				Files file = new Files();
-				if(oldFiles.size()==4) {
-					file = saveFile(image5, request,5);
-					file.setFileLevel(2);
-					files.add(file);
-				}else {
-				
-				file.setOriginName(oldFiles.get(4).getOriginName());
-				
-				deleteFile(oldFiles.get(4).getChangeName(),request);
-
-				file = saveFile(image5, request,5);
-				file.setFileNo(oldFiles.get(4).getFileNo());
-				file.setFileLevel(oldFiles.get(4).getFileLevel());
-				files.add(file);
-				}
-			}else if(image5 != null && image5.getOriginalFilename() == "") {
-				files.add(oldFiles.get(4));
-			}
-
-			for(int i=0;i<files.size();i++) {
-				files.get(i).setpNo(project.getpNo());
-			}
-			
-			System.out.println(files);*/
 		
 if (result > 0) {
 			
@@ -602,18 +482,13 @@ if (result > 0) {
 					String to = transFormat.format(rewardList.get(i).getrDelivery());
 				dList.add(to);
 				}
-				
-				System.out.println("dList : "+dList);
-				
-				
-				
-				
+		
 				ModelAndView mv = new ModelAndView();
 				System.out.println(rewardList);
 				mv.addObject("dList",dList);
 				mv.addObject("rList",rewardList);
 				mv.addObject("project", project);
-				mv.setViewName("project_creator/projectAlt3");
+				mv.setViewName("project_creator/startUpprojectAlt3");
 				return mv;
 			} else {
 				throw new ProjectException("프로젝트 수정 실패!");
@@ -624,8 +499,18 @@ if (result > 0) {
 		}
 	}
 	
+	public void deleteFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\project_startUp"; // 경로 수정
+		
+		File f = new File(savePath + "\\" + fileName);
+		System.out.println(f);
+		
+		if(f.exists()) 
+			f.delete();
+	}
 	
-	@RequestMapping("updateReward.do")
+	@RequestMapping("startUpUpdateReward.do")
 	public ModelAndView updateReward(@ModelAttribute MultiRowReward rewards,
 			@RequestParam(value = "pNo") int pNo,
 			@RequestParam(value = "rDelivery0") String rDelivery0,
@@ -715,8 +600,6 @@ if (result > 0) {
 			}
 		}
 		
-		System.out.println(rewards);
-		System.out.println(rewardUpdateList);
 		int result = cService.rewardUpdate(rewardUpdateList);
 		ModelAndView mv = new ModelAndView();
 		
@@ -739,54 +622,13 @@ if (result > 0) {
 		mv.addObject("eDate",eDate);
 		mv.addObject("accountNum",accountNum);
 		mv.addObject("accountBank",accountBank);
-		mv.setViewName("project_creator/projectAlt4");
+		mv.setViewName("project_creator/startUpprojectAlt4");
 
 		return mv;
 		
 	}
 	
-	/* ================= 프로젝트 삭제 =============================*/
-	@RequestMapping("projectDelete.do")
-	public ModelAndView projectDelete(@RequestParam(value = "pNo") int pNo,
-			HttpServletRequest request) {
-		List<Files> f = cService.selectFiles(pNo);
-
-
-		for(int i=0;i<f.size();i++) {
-		if(!f.get(i).getOriginName().isEmpty()) {
-			deleteFile(f.get(i).getChangeName(),request);
-		}
-		
-		}
-		
-	
-		
-		
-		int result = cService.projectDelete(pNo);
-		
-		if(result>0) {
-			ModelAndView mv = new ModelAndView();
-			mv.setViewName("myPage/My/myOpenProject");
-			return mv;
-		}else {
-			throw new ProjectException("프로젝트 삭제 실패!");
-		}
-		
-
-	}
-	
-	public void deleteFile(String fileName, HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\project_creator"; // 경로 수정
-		
-		File f = new File(savePath + "\\" + fileName);
-		System.out.println(f);
-		
-		if(f.exists()) 
-			f.delete();
-	}
-	
-	@RequestMapping("finishProjectUpdate.do")
+	@RequestMapping("startUpFinishProjectUpdate.do")
 	public ModelAndView finishProjectUpdate(Project project,@RequestParam(value="pNo") Integer pNo,
 			@RequestParam(value="pStartDate_str") String pStartDate_str,
 			@RequestParam(value="pEndDate_str") String pEndDate_str,
@@ -820,88 +662,7 @@ if (result > 0) {
 		}
 				
 	}
-			
-	
-	
-	 // 최근소식 추가
-	   @RequestMapping(value="pNoticeInsert.do", produces="application/json; charset=utf-8")
-	   @ResponseBody
-	   public String pNoticeInsert(HttpSession session,
-	         @RequestParam("pNo") int pNo,
-	         @RequestParam("pnTitle")String pnTitle,
-	         @RequestParam("pnContent")String pnContent) {
-		   PNotice pn = new PNotice();
-		   pn.setpNo(pNo);
-		   pn.setPnTitle(pnTitle);
-		   pn.setPnContent(pnContent);
-
-	      
-		int result = cService.pNoticeInsert(pn);
-
-	      return "프로젝트 PNotice insert";
-	   }
-	   
-	   /*최근소식 리스트*/
-	@RequestMapping(value="getpNoticeList.do",produces="application/json; charset=utf-8")
-	@ResponseBody
-	public String getpNoticeList(int pNo) {
-		List<PNotice> pnList = cService.selectPnoticeList(pNo);
-		Gson gson = new Gson();
-		return gson.toJson(pnList);
-	}
-	
-	// 최근소식 삭제
-	   @RequestMapping(value="deletepNotice.do", produces="application/json; charset=utf-8")
-	   @ResponseBody
-	   public String deletepNotice(HttpSession session,
-	         @RequestParam("pnNo") int pnNo) {
-	      
-	      int result = cService.deletepNotice(pnNo);
-	      String str = "";
-	      if(result>0) {
-	    	  str="success";
-	      }else {
-	    	  str="fail";
-	      }
-	      return str;
-	   }
 
 	
-
-
-	@RequestMapping("projectStart.do")
-	public String ProjectStart() {
-		return "project_creator/projectStart";
-	}
-
-	@RequestMapping("projectSelect.do")
-	public String ProjectSelect() {
-		return "project_creator/projectSelect";
-	}
-
-	@RequestMapping("projectStartPage.do")
-	public String ProjectStartPage() {
-		return "project_creator/projectStartPage";
-	}
-
-	@RequestMapping("projectStartPage2.do")
-	public String ProjectStartPage2() {
-		return "project_creator/projectStartPage2";
-	}
-
-	@RequestMapping("projectStartPage_reward.do")
-	public String ProjectStartPage_reward() {
-		return "project_creator/projectStartPage_reward";
-	}
-
-	@RequestMapping("projectStartPage_last.do")
-	public String ProjectStartPage_last() {
-		return "project_creator/projectStartPage_last";
-	}
-
-	@RequestMapping("test.do")
-	public String test() {
-		return "project_creator/test";
-	}
-
+	
 }

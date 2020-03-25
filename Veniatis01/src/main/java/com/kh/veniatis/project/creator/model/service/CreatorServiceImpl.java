@@ -146,6 +146,24 @@ public class CreatorServiceImpl implements CreatorService {
 		return cDao.rewardUpdate(rewardUpdateList);
 	}
 
+	@Override
+	public List<PNotice> selectPnoticeList(int pNo) {
+		
+		return cDao.selectPnoticeLiist(pNo);
+	}
+
+	@Override
+	public int deletepNotice(int pnNo) {
+	
+		return cDao.deletepNotice(pnNo);
+	}
+
+	@Override
+	public int finishProjectUpdate(Project project) {
+		
+		return cDao.finishProjectUpdate(project);
+	}
+
 	
 
 

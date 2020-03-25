@@ -51,6 +51,7 @@
 		<result property="pAccount" column="P_ACCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+		<result property="pType" column="P_TYPE"/>
 	</resultMap>
 	
 	
@@ -85,6 +86,7 @@
 		<result property="creProfile" column="PROFILE"/>
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+		<result property="pType" column="p_TYPE"/>
 	</resultMap>
 	
 	<resultMap type="Compet" id="CompetResultSet">

@@ -4,8 +4,8 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 	
-<mapper namespace = "creatorMapper">
-	<resultMap id="creatorResultSet" type="Creator">
+<mapper namespace = "startUpMapper">
+	<resultMap id="startUpcreatorResultSet" type="Creator">
 		<id property="creNo" column="CRE_NO"/>
 		<result property="mNo" column="M_NO"/>
 		<result property="creName" column="CRE_NAME"/>
@@ -16,10 +16,10 @@
 		<result property="crePhone" column="CRE_PHONE"/>
 		<result property="creUrl" column="CRE_URL"/>
 		<result property="creStatus" column="CRE_STATUS"/>
-				 
+				
 	</resultMap>
 	
-	<resultMap id="projectResultSet" type="Project">
+	<resultMap id="startUpprojectResultSet" type="Project">
 		<id property="pNo" column="P_NO"/>
 		<result property="creNo" column="CRE_NO"/>
 		<result property="pcNo" column="PC_NO"/>
@@ -36,10 +36,9 @@
 		<result property="pAccount" column="P_ACCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
-		<result property="pType" column="P_TYPE"/>
 	</resultMap>
 	
-	<resultMap id="rewardResultSet" type="Reward">
+	<resultMap id="startUprewardResultSet" type="Reward">
 		<id property="rNo" column="R_NO"></id>
 		<result property="pNo" column="P_NO"/>
 		<result property="rSeq" column="R_SEQ"/>
@@ -51,7 +50,7 @@
 		<result property="rDelivery" column="R_DELIVERY"/>
 	</resultMap>
 	
-	<resultMap type="Files" id="FilesResultSet2">
+	<resultMap type="Files" id="startUpFilesResultSet2">
 		<id property="fileNo" column="FILE_NO"/>
 		<result property="bNo" column="B_NO"/>
 		<result property="pNo" column="P_NO"/>
@@ -67,7 +66,7 @@
 		<result property="fileLevel" column="FILE_LEVEL"/>
 	</resultMap>
 	
-	<resultMap type="PNotice" id="PNoticeResultSet">
+	<resultMap type="PNotice" id="startUpPNoticeResultSet">
 		<id property="pnNo" column="PN_NO"/>
 		<result property="pNo" column="p_NO"/>
 		<result property="pnTitle" column="PN_TITLE"/>
@@ -75,14 +74,25 @@
 		<result property="pnEnrollDate" column="PN_ENROLL_DATE"/>
 	</resultMap>
 	
-	<insert id="creatorInsert" parameterType="Creator">
+	
+	<insert id="startUpCreatorInsert" parameterType="Creator">
 		INSERT INTO CREATOR
-		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,1,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
+		VALUES(SEQ_CRE_NO.NEXTVAL,#{mNo},NULL,2,#{creEmail},#{crePhone},#{creAddress},#{creUrl},'Y',#{creName})
 		<selectKey keyProperty="creNo" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_CRE_NO.CURRVAL FROM DUAL 
 		</selectKey>
 
 	</insert>
+	
+	<insert id="startUpprojectInsert" parameterType="Project">
+		INSERT INTO PROJECT
+		VALUES(SEQ_PID.NEXTVAL,#{creNo},#{pcNo},#{pUrl},#{pTitle},#{pText},#{pDesc},#{pVideo},#{pHashTag},null,null,null,null,null,'W',SYSDATE,2)
+		<selectKey keyProperty="pNo" resultType="Integer" order="AFTER"> 
+		SELECT SEQ_PID.CURRVAL FROM DUAL 
+		</selectKey>
+	</insert>
+	
+	<!-- 
 
 	<select id="selectCreNo" parameterType="Creator" resultMap="creatorResultSet">
 		SELECT * FROM
@@ -244,6 +254,6 @@
 	WHERE P_NO=#{pNo}
 		
 		
-	</update>
+	</update> -->
 	
 </mapper>

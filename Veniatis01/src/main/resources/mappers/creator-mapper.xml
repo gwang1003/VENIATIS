@@ -16,7 +16,7 @@
 		<result property="crePhone" column="CRE_PHONE"/>
 		<result property="creUrl" column="CRE_URL"/>
 		<result property="creStatus" column="CRE_STATUS"/>
-				
+				 
 	</resultMap>
 	
 	<resultMap id="projectResultSet" type="Project">
@@ -36,6 +36,7 @@
 		<result property="pAccount" column="P_ACCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+		<result property="pType" column="P_TYPE"/>
 	</resultMap>
 	
 	<resultMap id="rewardResultSet" type="Reward">
@@ -166,7 +167,8 @@
 		P_SIMPLE_TEXT=#{pText},
 		P_DESC=#{pDesc},
 		P_VIDEO=#{pVideo},
-		P_HASHTAG=#{pHashTag}
+		P_HASHTAG=#{pHashTag},
+		P_STATUS='W'
 	WHERE P_NO=#{pNo}
 	
 	</update>
@@ -216,8 +218,32 @@
 		
 	</select>
 	
-	<!-- <update id="rewardUpdate" parameterType="Reward">
-		UPDATE REWARD
-	</update> -->
+	<select id="pnoticeSelect" resultMap="PNoticeResultSet">
+		SELECT * FROM P_NOTICE
+		WHERE P_NO=#{pNo}
+	</select>
+	
+	<delete id="pnoticeDelete">
+		DELETE FROM P_NOTICE
+		WHERE PN_NO = #{pnNo}
+	</delete>
+	
+	<delete id="deleteReward">
+		DELETE FROM REWARD
+		WHERE P_NO = #{pNo}
+	</delete>
+	 
+	 <update id="finishProjectUpdate" parameterType="Project">
+	UPDATE PROJECT
+	SET P_START_DATE=#{pStartDate},
+		P_END_DATE=#{pEndDate},
+		P_TARGET_AMOUNT=#{pTargetAmount},
+		P_SUM_AMOUNT=0,
+		P_ACCOUNT=#{pAccount},
+		P_STATUS='N'
+	WHERE P_NO=#{pNo}
+		
+		
+	</update>
 	
 </mapper>

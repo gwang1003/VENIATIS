@@ -35,6 +35,7 @@
 		<mapper resource="mappers/files-mapper.xml"/>	
 		<mapper resource="mappers/puser-mapper.xml"/>
 		<mapper resource="mappers/creator-mapper.xml"/>
+		<mapper resource="mappers/startUp-mapper.xml"/>
 	</mappers>
 
 </configuration>

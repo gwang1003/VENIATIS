@@ -25,13 +25,14 @@ public class ProjectView {
 	private String pStatus;	// 프로젝트 상태
 	private String progress;	// 진행 상태
 	private Date pEnrollDate;
+	private int pType;
 	
 	public ProjectView() {}
 
 	public ProjectView(int pNo, String cate, String pTitle, String pText, String pDesc, String pUrl, String pVideo,
 			String hashtag, Date startDate, Date endDate, int targetAmount, int sumAmount, String thumbnail, int creNo,
 			String creId, String creName, String creEmail, String creProfile, String pStatus, String progress,
-			Date pEnrollDate) {
+			Date pEnrollDate, int pType) {
 		super();
 		this.pNo = pNo;
 		this.cate = cate;
@@ -54,11 +55,18 @@ public class ProjectView {
 		this.pStatus = pStatus;
 		this.progress = progress;
 		this.pEnrollDate = pEnrollDate;
+		this.pType = pType;
 	}
 
-
-
-
+	@Override
+	public String toString() {
+		return "ProjectView [pNo=" + pNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText + ", pDesc="
+				+ pDesc + ", pUrl=" + pUrl + ", pVideo=" + pVideo + ", hashtag=" + hashtag + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount
+				+ ", thumbnail=" + thumbnail + ", creNo=" + creNo + ", creId=" + creId + ", creName=" + creName
+				+ ", creEmail=" + creEmail + ", creProfile=" + creProfile + ", pStatus=" + pStatus + ", progress="
+				+ progress + ", pEnrollDate=" + pEnrollDate + ", pType=" + pType + "]";
+	}
 
 	public int getpNo() {
 		return pNo;
@@ -155,11 +163,11 @@ public class ProjectView {
 	public void setSumAmount(int sumAmount) {
 		this.sumAmount = sumAmount;
 	}
-	
+
 	public String getThumbnail() {
 		return thumbnail;
 	}
-	
+
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
@@ -211,15 +219,14 @@ public class ProjectView {
 	public void setpStatus(String pStatus) {
 		this.pStatus = pStatus;
 	}
-	
-	public String getProgress(){
+
+	public String getProgress() {
 		return progress;
 	}
-	
+
 	public void setProgress(String progress) {
 		this.progress = progress;
 	}
-	
 
 	public Date getpEnrollDate() {
 		return pEnrollDate;
@@ -229,14 +236,14 @@ public class ProjectView {
 		this.pEnrollDate = pEnrollDate;
 	}
 
-	@Override
-	public String toString() {
-		return "ProjectView [pNo=" + pNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText + ", pDesc="
-				+ pDesc + ", pUrl=" + pUrl + ", pVideo=" + pVideo + ", hashtag=" + hashtag + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", targetAmount=" + targetAmount + ", sumAmount=" + sumAmount
-				+ ", thumbnail=" + thumbnail + ", creNo=" + creNo + ", creId=" + creId + ", creName=" + creName
-				+ ", creEmail=" + creEmail + ", creProfile=" + creProfile + ", pStatus=" + pStatus + ", progress="
-				+ progress + ", pEnrollDate=" + pEnrollDate + "]";
+	public int getpType() {
+		return pType;
 	}
+
+	public void setpType(int pType) {
+		this.pType = pType;
+	}
+
+	
 	
 }

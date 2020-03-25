@@ -55,6 +55,12 @@ public interface CreatorService {
 
 	int rewardUpdate(ArrayList<Reward> rewardUpdateList);
 
+	List<PNotice> selectPnoticeList(int pNo);
+
+	int deletepNotice(int pnNo);
+
+	int finishProjectUpdate(Project project);
+
 
 
 	

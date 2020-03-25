@@ -29,6 +29,7 @@
 	background-position: 50%;
 	background-repeat: no-repeat;
 	cursor: default;
+	background-color: #05a7e2;
 }
 
 #icon4 {
@@ -37,6 +38,10 @@
 	background-position: 50%;
 	background-repeat: no-repeat;
 	cursor: default;
+}
+
+#btn{
+background-color: #05a7e2;
 }
 </style>
 <link rel="stylesheet" href="resources/css/guidecss.css">
@@ -49,12 +54,12 @@
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	<div id="omcContainer" class="cont_support">
-	<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
+	<h2 id="omcBody" class="screen_out">창업 프로젝트</h2>
 	<div id="cMain">
 
 			<header class="head_comm">
 			<br>
-				<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
+				<h1 class="tit_comm">창업 프로젝트 신청하기</h1>
 			</header>
 
 			<!-- 신청서 -->
@@ -99,7 +104,7 @@
 				</p>
 			</div>
 			<div class="form_area bg_smoke">
-				<form action="updateReward.do" name="addForm" method="post">
+				<form action="startUpUpdateReward.do" name="addForm" method="post">
 				<input type="hidden" value="${project.pNo }" name="pNo">
 					<fieldset class="fld_comm">
 						<div class="tit_area">
@@ -476,7 +481,7 @@
 		</div>
 		<div class="btn_area">
 			<!-- <input type="submit" class="btn_temporarily_save" title="임시저장" value="임시저장" onclick="fn_save('save');">  -->
-				<input	type="submit" class="btn_next" title="다음단계" value="다음단계">
+				<input	type="submit" class="btn_next" title="다음단계" value="다음단계" id="btn">
 		</div>
 			</form>
 	</div>

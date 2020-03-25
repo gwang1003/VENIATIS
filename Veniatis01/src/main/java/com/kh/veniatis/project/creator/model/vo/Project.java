@@ -19,12 +19,13 @@ public class Project {
 	private String pAccount;
 	private String pStatus;
 	private String pEnrollDate;
+	private int pType;
 	
 	public Project() {}
 
 	public Project(int pNo, int creNo, int pcNo, String pUrl, String pTitle, String pText, String pDesc, String pVideo,
 			String pHashTag, Date pStartDate, Date pEndDate, int pTargetAmount, int pSumAmount, String pAccount,
-			String pStatus,String pEnrollDate) {
+			String pStatus, String pEnrollDate, int pType) {
 		super();
 		this.pNo = pNo;
 		this.creNo = creNo;
@@ -41,15 +42,8 @@ public class Project {
 		this.pSumAmount = pSumAmount;
 		this.pAccount = pAccount;
 		this.pStatus = pStatus;
-		this.pEnrollDate=pEnrollDate;
-	}
-
-	public String getpEnrollDate() {
-		return pEnrollDate;
-	}
-
-	public void setpEnrollDate(String pEnrollDate) {
 		this.pEnrollDate = pEnrollDate;
+		this.pType = pType;
 	}
 
 	public int getpNo() {
@@ -172,14 +166,33 @@ public class Project {
 		this.pStatus = pStatus;
 	}
 
+	public String getpEnrollDate() {
+		return pEnrollDate;
+	}
+
+	public void setpEnrollDate(String pEnrollDate) {
+		this.pEnrollDate = pEnrollDate;
+	}
+
+	public int getpType() {
+		return pType;
+	}
+
+	public void setpType(int pType) {
+		this.pType = pType;
+	}
+
 	@Override
 	public String toString() {
 		return "Project [pNo=" + pNo + ", creNo=" + creNo + ", pcNo=" + pcNo + ", pUrl=" + pUrl + ", pTitle=" + pTitle
 				+ ", pText=" + pText + ", pDesc=" + pDesc + ", pVideo=" + pVideo + ", pHashTag=" + pHashTag
 				+ ", pStartDate=" + pStartDate + ", pEndDate=" + pEndDate + ", pTargetAmount=" + pTargetAmount
 				+ ", pSumAmount=" + pSumAmount + ", pAccount=" + pAccount + ", pStatus=" + pStatus + ", pEnrollDate="
-				+ pEnrollDate + "]";
+				+ pEnrollDate + ", pType=" + pType + "]";
 	}
+
+
+	
 
 	
 	

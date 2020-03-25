@@ -1,6 +1,8 @@
 package com.kh.veniatis.blog.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -421,6 +423,27 @@ public class BlogDao {
 	public ArrayList<Reward> selectRewardList(int pNo) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("blogMapper.selectReardList",pNo);
+	}
+
+	//해쉬태그
+	public ArrayList<ProjectView> projectHash(String hashTag) {
+		
+		ArrayList<ProjectView> allProject = (ArrayList)sqlSession.selectList("blogMapper.allProjectList");
+		ArrayList<ProjectView> hashProject= new ArrayList<ProjectView>();
+		for(int i=0; i<allProject.size();i++) {
+			String tagirr[] = allProject.get(i).getHashtag().split(",");
+			if(tagirr!=null) {
+				for(int k=0; k<tagirr.length; k++) {
+					if(tagirr[k].equals(hashTag)) {
+						hashProject.add(allProject.get(i));
+					}
+				}
+			}
+		}
+		
+		
+		System.out.println("해쉬태그있는프로젝트:"+hashProject);
+		return hashProject;
 	}
 
 

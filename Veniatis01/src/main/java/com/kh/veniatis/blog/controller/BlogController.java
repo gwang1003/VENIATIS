@@ -72,22 +72,7 @@ public class BlogController {
 		return "blog/test";
 	}
 
-	
-	// 프로젝트검색
-	   @RequestMapping("projectSearch.do")
-	   public ModelAndView ProjectList(ModelAndView mv,
-			   @RequestParam("searchValue") String searchValue) {
 
-		   ArrayList<ProjectView> list = bService.projectSearch(searchValue);
-		   System.out.println(list);
-		   mv.addObject("projectList", list);
-		   mv.addObject("projectListSize", list.size());
-		   mv.setViewName("blog/projectSearch");
-	       mv.addObject("searchValue",searchValue);
-	      
-	      return mv;
-	   }
-	
 	
 	
 	// 블로그 메인
@@ -1428,7 +1413,7 @@ public class BlogController {
 		mv.setViewName("blog/blogAdminSub");
 		return mv;
 	}
-	
+//----------------------------------------------------------------------------------------------------------------	
 	// etc
 	@RequestMapping("guideMain.do")
 	public ModelAndView guideGo(ModelAndView mv, HttpServletRequest request) {
@@ -1474,6 +1459,33 @@ public class BlogController {
 	}	
 	
 	
+	// 프로젝트검색
+	   @RequestMapping("projectSearch.do")
+	   public ModelAndView ProjectList(ModelAndView mv,
+			   @RequestParam("searchValue") String searchValue) {
+
+		   ArrayList<ProjectView> list = bService.projectSearch(searchValue);
+		   mv.addObject("projectList", list);
+		   mv.addObject("projectListSize", list.size());
+		   mv.setViewName("blog/projectSearch");
+	       mv.addObject("searchValue",searchValue);
+	      
+	      return mv;
+	   }
+	// 프로제트 해시태그
+	   @RequestMapping("projectHash.do")
+	   public ModelAndView ProjectHash(ModelAndView mv,
+			   @RequestParam("hashTag") String hashTag) {
+		   ArrayList<ProjectView> list = bService.projectHash(hashTag);
+		   mv.addObject("projectList", list);
+		   mv.addObject("projectListSize", list.size());
+		   mv.addObject("hashTag",hashTag);
+		   mv.setViewName("blog/projectHashTag");
+
+	      return mv;
+	   }	   
+	   
+	   	
 	
 	
 	

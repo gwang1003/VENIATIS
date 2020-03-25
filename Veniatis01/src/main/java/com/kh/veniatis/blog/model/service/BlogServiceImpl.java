@@ -423,6 +423,13 @@ public class BlogServiceImpl implements BlogService{
 		return bDao.selectRewardList(pNo);
 	}
 	
+	//해쉬태그
+	@Override
+	public ArrayList<ProjectView> projectHash(String hashTag) {
+		// TODO Auto-generated method stub
+		return bDao.projectHash(hashTag);
+	}
+	
 
 	
 

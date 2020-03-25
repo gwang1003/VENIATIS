@@ -231,6 +231,7 @@ function checkLogin(){
                                        // 초기 페이지 로딩 시 응원 불러오기
                                       getCheerList();
                                       getQnaList();
+                                      getPnoticeList();
                                        // 지속적으로 얻어오기위함
                                       setInterval(function(){
                                          getCheerList();

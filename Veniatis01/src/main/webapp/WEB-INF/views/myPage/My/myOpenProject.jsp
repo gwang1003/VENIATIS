@@ -37,6 +37,10 @@
 		color:white;
 		cursor:pointer;
 	} 
+	
+	#btn{
+	background: #05a7e2;
+	}
 </style>
 </head>
 <body class="login">
@@ -109,12 +113,27 @@
                                  <c:param name="pNo" value="${ p.pNo }"/>
                               </c:url>
                                         <div class="box_btn_area">
+                                        <c:if test="${p.pType eq 1 }">
                                                     <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>   
+                                         </c:if> 
+                                         <c:if test="${p.pType eq 2 }">
+                                                    <a class="btn_preview" href="${pDetail }" title="미리보기" id="btn">미리보기</a>   
+                                         </c:if>           
                                         <c:url var="pAlt" value="projectAlt.do">
                                            <c:param name="pNo" value="${ p.pNo }"/>
                                            
-                                        </c:url>                              
+                                        </c:url> 
+                                        
+                                          <c:url var="spAlt" value="startUpprojectAlt.do">
+                                           <c:param name="pNo" value="${ p.pNo }"/>
+                                           
+                                        </c:url>           
+                                        	<c:if test="${p.pType eq 1 }">               
                                                         <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
+                                             </c:if>
+                                             <c:if test="${p.pType eq 2 }">
+                                             			 <a class="btn_edit" href="${spAlt }" title="수정하기">수정하기</a>
+                                             </c:if>
                                            
                                          <c:url var="pDelete" value="projectDelete.do">
                                             <c:param name="pNo" value="${p.pNo }"/>

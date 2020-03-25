@@ -40,7 +40,7 @@
 								<c:if test="${ empty loginUser }">
 								<a class="btn_apply" onclick="checkLogin();" style="cursor: pointer;">프로젝트 개설 신청하기</a>
 								</c:if>								
-								<a class="btn_guide" href="/guide/maker/reward#mkrRewApp">후원 가이드보기</a>
+								<a class="btn_guide" href="guideMain.do">프로젝트 가이드 보기</a>
 							</div>
 							<div class="apply_stock">
 								<span class="intro_img" id="startUp"></span>
@@ -53,7 +53,7 @@
 								<c:if test="${ empty loginUser }">
 								<a class="btn_apply" onclick="checkLogin();" style="cursor: pointer;">프로젝트 개설 신청하기</a>
 								</c:if>					
-								<a class="btn_guide" href="/guide/maker/invest#mkrInvApp"><span>창업</span> 가이드보기</a>
+								<a class="btn_guide" href="guideMain.do">프로젝트 가이드 보기</a>
 							</div>
 						</div>
 						<div class="apply_guide">

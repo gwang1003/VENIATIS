@@ -145,13 +145,31 @@ public class CreatorDao {
 	}
 	public int rewardUpdate(ArrayList<Reward> rewardUpdateList) {
 		
+		int pNo = rewardUpdateList.get(0).getpNo();
+		List<Reward> oldList = sqlSession.selectList("creatorMapper.rewardSelect",pNo);
+		for(int i=0;i<oldList.size();i++) {
+			sqlSession.delete("creatorMapper.deleteReward",oldList.get(i));
+		}
+		
 		int num = 0;
 		for(int i=0;i<rewardUpdateList.size();i++) {
 			System.out.println(rewardUpdateList.get(i));
-			num = sqlSession.update("creatorMapper.rewardUpdate",rewardUpdateList.get(i));
+			num = sqlSession.insert("creatorMapper.rewardInsert",rewardUpdateList.get(i));
 		}
 		
 		return num;
+	}
+	public List<PNotice> selectPnoticeLiist(int pNo) {
+		
+		return sqlSession.selectList("creatorMapper.pnoticeSelect",pNo);
+	}
+	public int deletepNotice(int pnNo) {
+		
+		return sqlSession.delete("creatorMapper.pnoticeDelete",pnNo);
+	}
+	public int finishProjectUpdate(Project project) {
+		
+		return sqlSession.update("creatorMapper.finishProjectUpdate",project);
 	}
 	
 }

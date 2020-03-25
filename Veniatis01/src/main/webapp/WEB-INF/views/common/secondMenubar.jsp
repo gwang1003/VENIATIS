@@ -116,14 +116,14 @@ s0.parentNode.insertBefore(s1,s0);
                                     </nav>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 d-none d-lg-block">
+                          <div class="col-xl-4 col-lg-4 d-none d-lg-block">
                                 <div class="social_wrap d-flex align-items-center justify-content-end">
 
                                     <div class="social_links d-none d-xl-block">
                                         <ul>
                                              <c:if test="${empty sessionScope.loginUser}">
                                         
-                                            <li><a href="loginView.do"> 로그인 </a></li>
+                                            <li><a href="memberLogin.do"> 로그인 </a></li>
                                             <li><a href="memberInsertInfo.do"> 회원가입 </a></li>
                                         </c:if>
                                         <c:if test="${ !empty sessionScope.loginUser}">                                        
@@ -160,8 +160,10 @@ s0.parentNode.insertBefore(s1,s0);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="serch_form">
-                    <input type="text" placeholder="Search">
-                    <button type="submit">search</button>
+                <form action="projectSearch.do" method="get">
+                    <input type="text" name="searchValue" placeholder="검색할 프로젝트명을 입력하세요!">
+                    <button type="submit">검색</button>
+                </form>
                 </div>
             </div>
         </div>
@@ -169,7 +171,9 @@ s0.parentNode.insertBefore(s1,s0);
     
     
 
-   
+
+    <script src="resources/main/js/nice-select.min.js"></script>
+  
 
     
     <!--contact js-->
@@ -190,15 +194,15 @@ s0.parentNode.insertBefore(s1,s0);
           <div class="myPageGo">
              <div class="go1 myInfo">내 정보</div>
              <div class="myOpenProject">개설 프로젝트</div>
-             <div class="go1 attendProject">관심 프로젝트</div>
-             <div class="myInterestProject">참여 프로젝트</div>
-             <div class="go1">내 블로그</div>
-             <div class="question">문의하기</div>
+             <div class="go1 attendProject">참여 프로젝트</div>
+             <div class="myInterestProject">관심 프로젝트</div>
+             <div class="go1 blogBtn">내 블로그</div>
+             <div class="question">문의목록</div>
              <div class="go1 logoutBtn">로그아웃</div>
           </div>
        </div>
     </div>
-    <script>
+  <script>
      $(function(){
         $(".myPage").click(function(){
            $(".none").css({"display":"block"})
@@ -237,12 +241,18 @@ s0.parentNode.insertBefore(s1,s0);
         })
         
          $(".question").click(function(){
-           location.href="questionForm.do";
+           location.href="myQnAList.do";
         })
         
          $(".logoutBtn").click(function(){
            location.href="logout.do";
         })
+        
+         $(".blogBtn").click(function(){
+           location.href="blogHome.do";
+        })
+        
+        
      })
     </script>
 </body>

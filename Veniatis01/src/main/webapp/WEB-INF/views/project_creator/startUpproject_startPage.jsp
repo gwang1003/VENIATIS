@@ -8,18 +8,21 @@
 	<title>Veniatis</title>
 	<style>
 	#btn2{
-	 background-color: #40c8b5;
+	background-color: #05a7e2;
 	}
 	
 	#textArea{
-	 background-image:url("resources/project_creator/funding.jpg");
+	 background-image:url("resources/project_startUp/startUp2.jpg");
 	
 	  background-repeat:no-repeat;
+	
+	
 	
 	}
 	
 	#text_desc{
-	color:black;
+	font-weight:900;
+	opacity:1;
 	}
 	
 	
@@ -36,22 +39,22 @@
 
 
 <div id="omcContainer" class="cont_apply">
- <h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
+ <h2 id="omcBody" class="screen_out">창업 프로젝트</h2>
     <div class="cMain">
         <article id="mContent" class="support_guide">
         	<form name="applicationForm" method="post">
             <header class="head_comm">
-				<h2 id="omcBody" class="tit_apply"><span class="font_normal">여러분의 아이디어를</span><span>크라우드펀딩을 통해 실현시켜 보세요</span></h2>
+				<h2 id="omcBody" class="tit_apply"><span class="font_normal">창업의 꿈을</span><span>크라우드펀딩을 통해 실현시켜 보세요</span></h2>
             </header>
 			<div class="box_desc" id="textArea">
 				<p class="txt_desc" id="text_desc"> <!-- guidecss.css -> 8467줄에서 배경이미지 설정 가능 -->
-					베니아티스는 새로운 도전을 시도하고 앞으로 나아가는 크리에이터들의<br>
-					프로젝트를 대중들에게 소개하는 크라우드펀딩 플랫폼입니다.<br>
-					베니아티스를 통해 여러분의 아이디어를 실현시킬 추진동력을 끌어 올려보세요.<br>
+					베니아니티스는 창업의 꿈을 가지고 있는 모든 도전자들의<br>
+					창업 프로젝트를 크라우드 펀딩을 통해 지원하는 플랫폼입니다.<br>
+					베니아티스와 함께 새로운 도전을 향해 첫걸음을 시작해보세요.<br>
 					우선, 크라우드펀딩 프로젝트를 개설하기 전 개설자를 위한 가이드를 꼭 읽어주세요.<br>
-					크라우드펀딩 진행방식, 프로젝트 스토리 구성, 리워드 설정 등 <br>
-					성공적인 프로젝트 개설을 위한 안내서가 준비되어 있습니다.<br>
-					<br>
+					크라우드펀딩 진행, 프로젝트 스토리 구성, 리워드 설정 등 <br>
+					성공적인 창업 프로젝트를 위한 안내서가 준비되어 있습니다.<br>
+				
 				</p>
 				<br>
 				<div class="btn_area">
@@ -78,6 +81,13 @@
 									<span class="txt_cont">언제 프로젝트를 진행하고, 리워드를 제공할 지 실행계획은 준비되었나요 ?</span>
 								</label>
 							</li>
+							<li>
+								<label for="chkRegister3" class="chk_comm">
+									<input type="checkbox" id="chkRegister3" name="chkaAccept3" class="inp_chk">
+									<span class="chk_square"><span class="fa fa-check"></span></span>
+									<span class="txt_cont">크라우드 펀딩이 완료되고 창업을 진행할 서류와 방법은 준비되었나요?</span>
+								</label>
+							</li>
 							
 						</ul>
 					</div>
@@ -93,9 +103,9 @@
     <jsp:include page="../common/footer.jsp"/>
     <script>
     	function fn_check(){
-    		if($("#chkRegister1").prop("checked") && $("#chkRegister2").prop("checked")){
+    		if($("#chkRegister1").prop("checked") && $("#chkRegister2").prop("checked") && $("#chkRegister3").prop("checked")){
     			
-    			location.href='projectStartPage.do';
+    			location.href='startUpprojectPage1.do';
     		
     			}else{
     				alert('크라우드펀딩 진행방식 준비여부에 체크해주세요.');

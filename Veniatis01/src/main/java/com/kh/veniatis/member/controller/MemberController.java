@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -21,13 +20,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -55,6 +54,7 @@ import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.member.model.vo.SupportView;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -78,7 +78,7 @@ public class MemberController {
 	
 	// 로그인 메소드, 방문자수 및 최근 접속일 업데이트
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
-	public String memberLogin(Member m, Model model,
+	public ModelAndView memberLogin(Member m, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 		// HttpSession 커맨드 객체 생략
 		Calendar cal = new GregorianCalendar();
@@ -113,16 +113,15 @@ public class MemberController {
 			
 			// -> 이렇게만 작성하면 requestScope에만 담김
 			// 가장 위로 올라가서 @SessionAttributes라는 어노테이션을 추가한다.
-
-			return "main";
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("main");
+			return mv;
 		} else {
-			// Exception을 이용하여 errorPage 연결
-
-			// RuntimeException으로 상속 받았을 때의 차이점
-			// -> throws를 넘길 필요 없으며 try-catch로 잡을 필요도 없음
-			throw new MemberException("로그인 실패!!");
-			// 에러페이지로 연결하는 방법 -> web.xml에 공용 에러 페이지를 등록하여
-			// 모든 예외가 발생 시 그 페이지가 뜨게끔 설정
+			
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("msg", "아이디와 비밀번호를 확인해주세요.");
+			mv.setViewName("myPage/My/memberLogin");
+			return mv;
 		}
 
 	}
@@ -896,7 +895,7 @@ public class MemberController {
 		map.put("sort", sort);
 		ArrayList<ProjectView> allList = mService.selectAttendList(loginUser.getmNo());
 		System.out.println("allList : " + allList);
-		ArrayList<ProjectView> attendProject = mService.selectAttend(currentPage, map);
+		ArrayList<SupportView> attendProject = mService.selectAttend(currentPage, map);
 		int[] index = new int[3];
 		int allIndex = 0;
 		int ingIndex = 0;

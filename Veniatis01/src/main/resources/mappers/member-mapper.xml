@@ -89,6 +89,23 @@
 		<result property="pType" column="p_TYPE"/>
 	</resultMap>
 	
+	<resultMap id="supView" type="SupportView">
+		<id property="pNo" column="P_NO"/>
+		<result property="cate" column="PC_NAME"/>
+		<result property="pTitle" column="P_TITLE"/>
+		<result property="pText" column="P_SIMPLE_TEXT"/>
+		<result property="pDesc" column="P_DESC"/>
+		<result property="startDate" column="P_START_DATE"/>
+		<result property="endDate" column="P_END_DATE"/>
+		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
+		<result property="sumAmount" column="P_SUM_AMOUNT"/>
+		<result property="thumbnail" column="THUMB"/>
+		<result property="pStatus" column="P_STATUS"/>
+		<result property="pEnrollDate" column="P_ENROLL_DATE"/>
+		<result property="attendDate" column="ORDER_DATE"/>
+		<result property="attendAmount" column="TOTAL_AMOUNT"/>
+	</resultMap>
+	
 	<resultMap type="Compet" id="CompetResultSet">
 		<id property="conNo" column="CON_NO"/>
 		<result property="conName" column="CON_NAME"/>
@@ -238,7 +255,7 @@
 		AND P_STATUS = 'Y'
 	</select>
 	
-	<select id="selectAttend" resultMap="prjView">
+	<select id="selectAttend" resultMap="supView">
 		SELECT *
 		FROM P_SUPPORT_VIEW
 		WHERE M_NO = #{getmNo}

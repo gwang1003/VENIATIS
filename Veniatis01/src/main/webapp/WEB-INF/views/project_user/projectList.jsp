@@ -94,7 +94,7 @@
 						<c:url var="cate0" value="projectList.do">
 							<c:param name="cate" value="0"/>
 						</c:url>
-						<li role="tab" id="cate0"><a href="${ cate0 }" class="link_cate">전체<span
+						<li role="tab" id="cate0" class="on"><a href="${ cate0 }" class="link_cate">전체<span
 								class="num_count">(1805)</span>
 						</a></li>
 						

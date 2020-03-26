@@ -247,7 +247,7 @@
   <script src="resources/js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="resources/vendor/datatables/jquery.dataTables.min.js"></script>
+  <!-- <script src="resources/vendor/datatables/jquery.dataTables.min.js"></script> -->
   <script src="resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="resources/vendor/chart.js/Chart.min.js"></script>
 

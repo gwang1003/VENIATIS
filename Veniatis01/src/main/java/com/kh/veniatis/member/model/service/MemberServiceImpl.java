@@ -24,6 +24,7 @@ import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.member.model.vo.SupportView;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -117,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<ProjectView> selectAttend(int currentPage, Map map) {
+	public ArrayList<SupportView> selectAttend(int currentPage, Map map) {
 		int listCount = mDao.attendListCount(map);
 
 		// 페이지 정보 저장

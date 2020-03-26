@@ -23,7 +23,7 @@
                     <form id="joinForm" name="joinForm" action="memberInsert.do" method="post" onsubmit="return joinValidate();"
                     enctype="multipart/form-data">
                         <div class="xans-element- xans-member xans-member-edit">
-                            <h3>회원가입</h3>
+                            <h1 style="text-align:center">회원가입</h1>
                             <div class="boardWrite">
                                 <table border="1" summary="">
                                     <tbody>
@@ -60,9 +60,9 @@
                                         <tr class="">
                                             <th scope="row">성별</th>
                                             <td><input id="man" name="gender"
-                                                value="남자" type="radio"/><label for="is_sex0">남자</label> <input
+                                                value="M" type="radio"/><label for="man">남자</label> <input
                                                 type="radio"id="woman" name="gender"
-                                                value="여자"><label for="is_sex1">여자</label></td>
+                                                value="F"><label for="woman">여자</label></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">주소</th>
@@ -95,17 +95,17 @@
                                             <th scope="row">관심 분야</th>
                                             <td>
                                                 <div id="email">
-                                                    <input type="checkbox" name="mInterest" value="공간/리빙">공간/리빙 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="사회이슈">사회이슈 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="교육/출판">교육/출판 &nbsp;&nbsp;
+                                                    <input id="i1" type="checkbox" name="mInterest" value="공간/리빙"><label for="i1">공간/리빙</label> &nbsp;&nbsp;
+                                                    <input id="i2" type="checkbox" name="mInterest" value="사회이슈"><label for="i2">사회이슈</label> &nbsp;&nbsp;
+                                                    <input id="i3" type="checkbox" name="mInterest" value="교육/출판"><label for="i3">교육/출판</label> &nbsp;&nbsp;
                                                     <br>
-                                                    <input type="checkbox" name="mInterest" value="문화예술">문화예술 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="지역재생">지역재생 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="푸드">푸드&nbsp;&nbsp;
+                                                    <input id="i4" type="checkbox" name="mInterest" value="문화예술"><label for="i4">문화예술</label> &nbsp;&nbsp;
+                                                    <input id="i5" type="checkbox" name="mInterest" value="지역재생"><label for="i5">지역재생</label> &nbsp;&nbsp;
+                                                    <input id="i6" type="checkbox" name="mInterest" value="푸드"><label for="i6">푸드</label>&nbsp;&nbsp;
                                                     <br>
-                                                    <input type="checkbox" name="mInterest" value="테크">테크&nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="뷰티/패션">뷰티/패션 &nbsp;&nbsp;
-                                                    <input type="checkbox" name="mInterest" value="여행">여행 &nbsp;&nbsp;
+                                                    <input id="i7" type="checkbox" name="mInterest" value="테크"><label for="i7">테크</label>&nbsp;&nbsp;
+                                                    <input id="i8" type="checkbox" name="mInterest" value="뷰티/패션"><label for="i8">뷰티/패션</label> &nbsp;&nbsp;
+                                                    <input id="i9" type="checkbox" name="mInterest" value="여행"><label for="i9">여행</label> &nbsp;&nbsp;
                                                 </div>
                                             </td>
                                         </tr>

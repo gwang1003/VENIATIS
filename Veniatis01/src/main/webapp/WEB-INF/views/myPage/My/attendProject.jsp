@@ -79,15 +79,6 @@
 											<dd class="unit_price"><em>3,000</em>원</dd>
 										</dl>
 									</div>
-		
-									<div class="status_item m_full_w">
-										<dl>
-											<dt>펀드잔고</dt>
-											<dd class="unit_ico"><span class="img_ico ico_type3"></span></dd>
-											<dd class="unit_price"><em>0</em>원</dd>
-											
-										</dl>
-									</div>
 								</div>
 							</div>
 		
@@ -124,7 +115,6 @@
 									</div>
 									<div class="info_thumb">
 										<strong class="tit_thumb">${i.pTitle }</strong>
-												<p class="item_relate">리워드 없이 참여</p>
 										<p class="item_period">(펀딩기간 : ${i.startDate } ~ ${i.endDate })</p>
 										<div class="item_price">
 											<em>${i.sumAmount }</em>원 / 목표액${i.targetAmount }원
@@ -132,15 +122,15 @@
 										<div class="my_participation_contents">
 											<dl>
 												<dt>참여금액</dt>
-												<dd><strong>새로 vo 만들어서 가져오기</strong>원</dd>
-											</dl>
-											<dl>
-												<dt>결제방식</dt>
-												<dd>예약결제</dd>			
+												<dd><strong>${i.attendAmount }</strong>원</dd>
 											</dl>
 											<dl>
 												<dt>참여일</dt>
-												<dd>2020-01-17 14:39</dd>
+												<dd>${i.attendDate }</dd>
+											</dl>
+											<dl>
+												<dt>카테고리</dt>
+												<dd>${i.cate }</dd>
 											</dl>
 											<dl>
 												<dt>프로젝트 상태  </dt>

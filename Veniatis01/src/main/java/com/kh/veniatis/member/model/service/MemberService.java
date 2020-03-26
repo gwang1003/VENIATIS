@@ -10,6 +10,7 @@ import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.member.model.vo.SupportView;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -42,7 +43,7 @@ public interface MemberService {
 	ArrayList<ProjectView> myOpenProject(int currentPage, Map map);
 
 	// 참여프로젝트 리스트(페이징 및 정렬 기준)
-	ArrayList<ProjectView> selectAttend(int currentPage, Map map);
+	ArrayList<SupportView> selectAttend(int currentPage, Map map);
 
 	// 관심 프로젝트 리스트(페이징 및 정렬 기준)
 	ArrayList<ProjectView> myInterestProject(int getmNo, Map map);

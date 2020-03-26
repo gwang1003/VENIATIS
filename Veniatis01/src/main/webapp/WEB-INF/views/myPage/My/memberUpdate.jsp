@@ -42,7 +42,11 @@ input{
 }
 
 .mInfo {
-	background:darkgray;
+	background : #40c8b5;
+}
+
+.btn_delete{
+	background:salmon;
 }
 </style>
 <body>
@@ -118,7 +122,7 @@ input{
 		                		</form>
 		                		<button type="button" class="btn_del" onclick="fn_fileDel()"><span class="ico_cross">프로필이미지 삭제</span></button>
 	                		</div>
-	                		<p class="txt_edit">※ 프로필 사진 권장 비율은 가로, 세로 1:1 입니다. (jpg, png)</p>
+	                		<p class="txt_edit">※사진 선택 시 프로필 사진이 즉시 변경됩니다.</p>
 	                	</fieldset>
 	    
 	                <form name="addForm" method="post" enctype="multipart/form-data" action="memberUpdate.do" onsubmit="return updateValidate();">
@@ -227,8 +231,8 @@ input{
 					
 
                         <footer class="account_foot">
-                            <span id="link_leave" class="link_leave">회원탈퇴</span>
                             <div class="set_btn">
+                                <button type="button" class="btn_delete">회원탈퇴</button>
                                 <button class="btn_sumbit">수정완료</button>
                             </div>
                         </footer>
@@ -240,6 +244,16 @@ input{
     </main>
 </div>
 <script>
+	$(function(){
+		$(".btn_delete").click(function(){
+			if(confirm("정말로 탈퇴하시겠습니까?")){
+                location.href="memberDelete.do";
+            }else{
+                return false;
+            }
+		})
+	})
+
 	function updateValidate() {
 		if($("#passwd").val() == $("#passwdCheck").val()) {
 			if($("#passwd").val() != "${loginUser.mPwd}") {

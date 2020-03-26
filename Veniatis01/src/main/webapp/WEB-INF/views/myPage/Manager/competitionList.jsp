@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <script src="resources/vendor/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/css/guidecss.css">
+<script src="resources/vendor/datatables/paging8.js"></script>
 <style>
 
     .mid {
@@ -56,12 +57,6 @@
       	text-align:center;
       }
   </style>
-  <c:if test="${ !empty msg }">
-		<script>
-			alert('${msg}');
-		</script>
-		<c:remove var="msg"/>
-	</c:if>
 </head>
 <c:if test="${ !empty msg }">
 		<script>
@@ -131,7 +126,7 @@
 		})
 	})
 </script>
-  <script src="resources/js/demo/chart-area-demo.js"></script>
+<script src="resources/vendor/datatables/pagingCom.js"></script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/guidecss.css">
+
 <style>
     .mid {
         width:100%;
@@ -90,7 +91,7 @@
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-  
+  <script src="resources/vendor/datatables/paging8.js"></script>
   <script>
    $(function() {
     $("#datepicker").datepicker({
@@ -259,6 +260,7 @@
 	$(function(){
 		$("#content").append($(".mid"))
 	})
+	
 </script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>

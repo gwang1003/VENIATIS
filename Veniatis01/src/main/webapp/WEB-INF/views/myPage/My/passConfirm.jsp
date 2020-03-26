@@ -41,8 +41,8 @@ input{
 	padding:0;
 }
 
-.mInfo {
-	background:darkgray;
+.mPwd {
+	background:#40c8b5;
 }
 </style>
 <body>

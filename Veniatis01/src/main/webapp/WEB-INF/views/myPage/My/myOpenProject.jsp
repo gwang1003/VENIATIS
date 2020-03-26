@@ -39,7 +39,20 @@
 	} 
 	
 	#btn{
-	background: #05a7e2;
+		background: #05a7e2;
+	}
+	
+	.but {
+		background:#666666;
+		display:block;
+		width:103px;
+		height:40px;
+		margin-bottom:10px;
+		font-size:0.875em;
+		line-height:40px;
+		color:#fff;
+		text-align:center;
+		text-decoration:none;
 	}
 </style>
 </head>
@@ -128,13 +141,22 @@
                                            <c:param name="pNo" value="${ p.pNo }"/>
                                            
                                         </c:url>           
+                                        <c:if test="${p.progress eq '승인대기' }">
                                         	<c:if test="${p.pType eq 1 }">               
                                                         <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
                                              </c:if>
                                              <c:if test="${p.pType eq 2 }">
                                              			 <a class="btn_edit" href="${spAlt }" title="수정하기">수정하기</a>
                                              </c:if>
-                                           
+                                        </c:if>
+                                        <c:if test="${p.progress ne '승인대기' }">
+                                        	<c:if test="${p.pType eq 1 }">               
+                                                        <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
+                                             </c:if>
+                                             <c:if test="${p.pType eq 2 }">
+                                             			 <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
+                                             </c:if>
+                                        </c:if>
                                          <c:url var="pDelete" value="projectDelete.do">
                                             <c:param name="pNo" value="${p.pNo }"/>
                                          </c:url>               
@@ -214,6 +236,10 @@
                             return false;
                         }
                 	})
+                	
+                	function noUpdate() {
+                		alert("승인대기중인 프로젝트만 수정할 수 있습니다.")
+                	}
                 </script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>

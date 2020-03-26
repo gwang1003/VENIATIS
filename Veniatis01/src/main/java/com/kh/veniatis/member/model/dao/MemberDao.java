@@ -16,6 +16,7 @@ import com.kh.veniatis.member.model.vo.Member;
 import com.kh.veniatis.member.model.vo.ProjectTotal;
 import com.kh.veniatis.member.model.vo.QnA;
 import com.kh.veniatis.member.model.vo.Revenue;
+import com.kh.veniatis.member.model.vo.SupportView;
 import com.kh.veniatis.project.creator.model.vo.Project;
 import com.kh.veniatis.project.user.model.vo.ProjectView;
 
@@ -79,7 +80,7 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
 	}
 	
-	public ArrayList<ProjectView> selectAttend(PageInfo pi, Map map) {
+	public ArrayList<SupportView> selectAttend(PageInfo pi, Map map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());

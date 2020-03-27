@@ -18,7 +18,7 @@
 <!-- 최근소식용 스크립트 -->
 <script type="text/javascript" src="resources/smartEditor/js/jquery.js"></script>
 <script type="text/javascript" src="resources/smartEditor/js/jquery-ui.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/smartEditor/SE2/js/HuskyEZCreator.js"></script>   
+<script src="<%=request.getContextPath()%>/resources/smartEditor/SE2/js/HuskyEZCreator.js"></script> 
 <title>VENIATIS : 후원형</title>
 <style>
 .div_hide{
@@ -69,12 +69,12 @@
    	background-color: rgb(0,0,0); /* Fallback color */
    	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-.modal-content2 {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */                          
+
+#pNoticeWriteBtn{
+	padding:5px;
+	background-color:#40c8b5;
+	color:#ffffff;
+	z-index:100;
 }
 
 </style>
@@ -110,6 +110,7 @@ $(function () {
         $(".list_tab li").removeClass("on");
         $(".list_tab li:eq(1)").addClass("on");
         
+        getpNoticeList();
     });
     
     $("#Qna").on("click", function () {
@@ -184,7 +185,7 @@ function checkLogin(){
                                 <div class="tag_rel">
                                     <span class="screen_out">관련 태그</span>
                                     <c:forTokens var="tag" items="${project.hashtag}" delims=",">
-                               <a class="link_tag">#${tag}</a>
+                               <a class="link_tag" href="projectHash.do?hashTag=${tag}">#${tag}</a>
                            </c:forTokens>
                                 </div>
                             </div>
@@ -483,12 +484,35 @@ function checkLogin(){
                                    			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
 
                                    			// 이부분에 에디터 validation 검증
-                                   			if(validation()) {
+                                   			/* if(validation()) {
                                    				return true;
-                                   			}
+                                   			} */
                                    		//}
+                                   			
                                    	})
                                    });
+                                   
+                                   function fn_insertpNotice(){
+                                	   var pNo = ${project.pNo};
+                                       var formData1 = $("#noticeForm").serialize();
+                                       $.ajax({
+                                          url : "pNoticeInsert.do", 
+                                           type : 'post', 
+                                           data : formData1,
+                                           dataType:"text",
+                                           success : function(data) {
+                                              //console.log("data 확인 : " + data);
+                                              alert("ajax확인 : " + data);
+                                              $("#noticeModal").modal('hide');
+                                              getpNoticeList();
+                                              location.href="projectDetail.do?pNo="+pNo;
+                                           }, 
+                                           error : function(xhr, status) {
+                                              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                                              
+                                           }
+                                       });
+                                   }
                                     
                                 </script>
 
@@ -501,43 +525,54 @@ function checkLogin(){
 
                                     <div id="reward_tab_content">
                                         <div class="article_pNotice screen_out">
-                                            <section class="section_cont">
+                                        <c:if test="${!empty sessionScope.loginUser}">
+                                           	<c:if test="${loginUser.mId eq project.creId }">
+                                           		<!-- 로그인 유저가 크리에이터 일때 -->
+                                           		<div class="row" style="margin:10px;">
+                                           			<div class="col-9"></div>
+                                           			<button type="button" id="pNoticeWriteBtn" onclick="fn_pNoticeWrite();">최근 소식 작성하기</button>
+                                           		</div>
+										 	</c:if>
+									    </c:if>
+                                            <section class="section_cont" id="NewsBox">
                                                 <h2 class="screen_out">최근소식</h2>
-                                                <article class="post_cont">
-                                                    <header class="entry_head project_article_header">
-                                                        <h1>글 제목</h1>
-                                                        <span class="num_time">작성일자</span>
-                                                        <span class="txt_author">
-                                                           ** 작성자명
-                                                        </span>
-                                                    </header>
-                                                    <div class="entry_content">
-                                                        <h3><strong><span style="color: #0000ff;">안내</span></strong></h3>
-                                                        <p>**최근 소식 내용 **</p>
-                                                    </div>
-                                                </article>
+                                                <!-- ajax로 조회후 출력 -->
                                             </section>
                                             
-                                            <div id="noticeModal">
-	                                           	<div class="text-center">
-	                                            	<h1 class="h4">최근소식 수정	</h1>
-	                                            </div>
-                                                <form id="noticeForm" action="pNoticeInsert.do" method="post">
-                                                <input type="hidden" value="${project.pNo}" name="pNo">
-                                                    <div class="form-group">
-                                                    <h3>제목</h3>
-                                                    <input type="text" name="pnTitle" id="pnTitle" class="form-control form-control-user">
-                                                      
-                                                    </div>
-                                                    <h4>내용</h4>
-                                                    <div class="form-group">
-                                                        <textarea name="pnContent" id="smarteditor" rows="10" cols="70" style="width:640px; height:412px; "></textarea> 
-                                                    </div>
-            
-                                                    <button id="savebutton" type="submit"
-                                                    class="btn btn-primary btn-user btn-block">최근소식 등록</button><br>
-                                                </form>
-                                            </div>
+<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form id="noticeForm" method="post">
+      <div class="modal-header">
+        <h5 class="modal-title" id="noticeModalLabel">최근 소식</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <input type="hidden" value="${project.pNo}" name="pNo">
+            <div class="form-group">
+            <h3>제목</h3>
+            <input type="text" name="pnTitle" id="pnTitle" class="form-control form-control-user">
+              
+            </div>
+            <h4>내용</h4>
+            <div class="form-group">
+                <textarea name="pnContent" id="smarteditor" rows="10" cols="50" style=" height:412px; "></textarea> 
+            </div>
+
+        
+      </div>
+      <div class="modal-footer">
+        <button id="cancelBtn" type="button" class="btn btn-secondary btn-user btn-block" data-dismiss="modal">취소</button>
+        <button id="savebutton" type="button" class="btn btn-primary btn-user btn-block" onclick="fn_insertpNotice();">최근소식 등록</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
 
                                             <!-- <div id="paging" class="paging_comm">
                                                 <a class="link_page on">1</a>&nbsp;
@@ -549,7 +584,79 @@ function checkLogin(){
                                             </div> -->
                                         </div>
                                     </div>
+<script>
+function getpNoticeList(){
+	var pNo = ${project.pNo};
+	var projectCreator = '${project.creId}';
+    <c:if test="${!empty sessionScope.loginUser}">
+	      var loginMember = ${loginUser.mNo};
+	      var loginMid = '${loginUser.mId}';
+    </c:if>
+    <c:if test="${ empty sessionScope.loginUser}">
+	      var loginMember = 0;
+	      var loginMid = null;
+	</c:if>     	
+	$.ajax({
+        url:"getpNoticeList.do",
+        data:{pNo:pNo},
+        dataType:"json",
+        async: false,
+        success:function(data){
+        	$("#News .num_count").text(data.length);
+        	var $NewsBox = $("#NewsBox");
+            $NewsBox.html("");
+            
+        	if(data.length > 0){
+                for(var i in data){
 
+                	var $n1 = $("<div class='post_cont'>");
+                	var $n2 = $("<header class='entry_head project_article_header'>");
+                	var $n3 = $("<h1>").text(data[i].pnTitle);
+                	var $n4 = $("<span class='num_time'>").text(data[i].pnEnrollDate);
+                	var $n5 = $("<span class='txt_author'>");
+                	var $n6 = $("<div class='entry_content'>");
+                	var $n7 = $("<p>").text(data[i].pnContent);
+                	
+                	$n1.append($n2);
+                	$n2.append($n3);
+                	$n2.append($n4);
+                	$n2.append($n5);
+                	$n1.append($n6);
+                	$n6.append($n7);
+                	
+                	/* if(projectCreator == loginMid){
+                  	  console.log("로그인멤버가 크리에이터");
+                  	  var $addNoticeBtn = $("<button type='button' class='addNoticeBtn point_color'>등록하기</button>");
+                  	  var $pnNo = $("<input type='hidden' name='pnNo'>").val(data[i].pnNo);
+                  	  $addNoticeBtn.append($pnNo);
+                  	  $n1.append($addNoticeBtn);
+                    } */
+                	
+                	$NewsBox.append($n1);
+                }
+        	}else{
+        		var $n1 = $("<div class='cmt_output'>");
+        		var $n2 = $("<div style='margin:30px; padding:20px; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;'>");
+        		var $n3 = $("<p style='text-align:center;'>").text('등록된 소식이 없습니다.');
+
+        		$n1.append($n2);
+            	$n2.append($n3);
+            	
+            	$NewsBox.append($n1);
+        	}
+        },error : function(xhr, status){
+            alert("ajax 통신 에러");
+        }
+     });
+	
+}
+
+function fn_pNoticeWrite(){
+	$("#noticeModal").modal('show');
+}
+
+
+</script>
 
                                     <div id="reward_tab_content">
                                         <div class="article_qna screen_out">
@@ -653,7 +760,7 @@ function checkLogin(){
             
             if(data.length > 0){
                for(var i in data){
-            	   var qWriter = data[i].mNo;
+            	  var qWriter = data[i].mNo;
             	   
                   var $li = $("<li>");
                   var $q1 = $("<div class='cmt_output'>");

@@ -345,4 +345,29 @@ public class MemberDao {
 	public ArrayList<Revenue> mainRevenue() {
 		return (ArrayList)sqlSession.selectList("memberMapper.mainRevenue");
 	}
+
+
+	public int attendMoney(int getmNo) {
+		return sqlSession.selectOne("memberMapper.attendMoney", getmNo);
+	}
+
+
+	public int attendAllMoney(int getmNo) {
+		return sqlSession.selectOne("memberMapper.attendAllMoney", getmNo);
+	}
+
+
+	public int deleteOrder(String oNo) {
+		return sqlSession.delete("memberMapper.deleteOrder", oNo);
+	}
+
+
+	public int deleteFunding(String oNo) {
+		return sqlSession.delete("memberMapper.deleteFunding", oNo);
+	}
+
+
+	public int updateProject(Map map) {
+		return sqlSession.update("memberMapper.updateProject", map);
+	}
 }

@@ -91,6 +91,7 @@
 	
 	<resultMap id="supView" type="SupportView">
 		<id property="pNo" column="P_NO"/>
+		<result property="oNo" column="O_NO"/>
 		<result property="cate" column="PC_NAME"/>
 		<result property="pTitle" column="P_TITLE"/>
 		<result property="pText" column="P_SIMPLE_TEXT"/>
@@ -690,4 +691,37 @@
 		SELECT *
 		FROM M_REVENUE
 	</select>
+	
+	<select id="attendMoney" resultType="_int">
+		SELECT NVL(SUM(TOTAL_AMOUNT), 0)
+		FROM R_ORDER
+		JOIN FUNDING USING(O_NO)
+		JOIN PROJECT USING(P_NO)
+		WHERE M_NO = #{getmNo}
+		AND TO_CHAR(P_END_DATE, 'YYYY-MM-DD') > TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<select id="attendAllMoney" resultType="_int">
+		SELECT NVL(SUM(TOTAL_AMOUNT), 0)
+		FROM R_ORDER
+		WHERE M_NO = #{getmNo}
+	</select>
+	
+	<delete id="deleteOrder">
+		DELETE FROM R_ORDER
+		WHERE O_NO = #{oNo}
+	</delete>
+	
+	<delete id="deleteFunding">
+		DELETE FROM FUNDING
+		WHERE O_NO = #{oNo}
+	</delete>
+	
+	<update id="updateProject">
+		UPDATE PROJECT
+		SET P_SUM_AMOUNT = P_SUM_AMOUNT - ${aMoney}
+		WHERE P_NO = ${pNo}
+	</update>
+	
+	
 </mapper>

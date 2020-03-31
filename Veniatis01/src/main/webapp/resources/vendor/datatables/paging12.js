@@ -3314,7 +3314,7 @@
         fnStateSaveParams: null,
         iStateDuration: 7200,
         iDeferLoading: null,
-        iDisplayLength: 12,
+        iDisplayLength: 10,
         iDisplayStart: 0,
         iTabIndex: 0,
         oClasses: {},

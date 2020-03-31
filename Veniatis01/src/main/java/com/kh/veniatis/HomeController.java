@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.veniatis.blog.model.service.BlogService;
@@ -23,6 +24,7 @@ import com.kh.veniatis.project.user.model.vo.ProjectView;
 /**
  * Handles requests for the application home page.
  */
+@SessionAttributes({"proList", "comList" })
 @Controller
 public class HomeController {
 	 @Autowired
@@ -37,7 +39,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping("home.do")
-	public ModelAndView home(Locale locale, Model model) {
+	public String home(Locale locale, Model model) {
 		// 프로젝트(개인)리스트 받아오기
 		
 		
@@ -50,11 +52,9 @@ public class HomeController {
 		 // 공모전 불러오기
 			ArrayList<Compet> clist = bService.competMainView();
 			
-			  ModelAndView mv = new ModelAndView();
-			  mv.addObject("pList",list);
-			  mv.addObject("cList",clist);
-			  mv.setViewName("main");
-		return mv;
+			model.addAttribute("proList", list);
+			model.addAttribute("comList", clist);
+		return "main";
 	}
 
 }

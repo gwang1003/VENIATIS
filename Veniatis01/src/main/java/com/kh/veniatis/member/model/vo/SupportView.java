@@ -5,6 +5,7 @@ import java.sql.Date;
 public class SupportView {
 	
 	private int pNo;	// 프로젝트 번호
+	private String oNo;    // 오더 번호
 	private String cate;	//프로젝트 카테고리
 	private String pTitle;	// 프로젝트 제목
 	private String pText;	// 프로젝트 간단 소개
@@ -22,11 +23,12 @@ public class SupportView {
 	
 	public SupportView() {}
 
-	public SupportView(int pNo, String cate, String pTitle, String pText, String pDesc, Date startDate, Date endDate,
-			int targetAmount, int sumAmount, String thumbnail, String pStatus, String progress, Date pEnrollDate,
-			Date attendDate, int attendAmount) {
+	public SupportView(int pNo, String oNo, String cate, String pTitle, String pText, String pDesc, Date startDate,
+			Date endDate, int targetAmount, int sumAmount, String thumbnail, String pStatus, String progress,
+			Date pEnrollDate, Date attendDate, int attendAmount) {
 		super();
 		this.pNo = pNo;
+		this.oNo = oNo;
 		this.cate = cate;
 		this.pTitle = pTitle;
 		this.pText = pText;
@@ -49,6 +51,14 @@ public class SupportView {
 
 	public void setpNo(int pNo) {
 		this.pNo = pNo;
+	}
+
+	public String getoNo() {
+		return oNo;
+	}
+
+	public void setoNo(String oNo) {
+		this.oNo = oNo;
 	}
 
 	public String getCate() {
@@ -165,10 +175,12 @@ public class SupportView {
 
 	@Override
 	public String toString() {
-		return "SupportView [pNo=" + pNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText + ", pDesc="
-				+ pDesc + ", startDate=" + startDate + ", endDate=" + endDate + ", targetAmount=" + targetAmount
-				+ ", sumAmount=" + sumAmount + ", thumbnail=" + thumbnail + ", pStatus=" + pStatus + ", progress="
-				+ progress + ", pEnrollDate=" + pEnrollDate + ", attendDate=" + attendDate + ", attendAmount="
-				+ attendAmount + "]";
-	}	
+		return "SupportView [pNo=" + pNo + ", oNo=" + oNo + ", cate=" + cate + ", pTitle=" + pTitle + ", pText=" + pText
+				+ ", pDesc=" + pDesc + ", startDate=" + startDate + ", endDate=" + endDate + ", targetAmount="
+				+ targetAmount + ", sumAmount=" + sumAmount + ", thumbnail=" + thumbnail + ", pStatus=" + pStatus
+				+ ", progress=" + progress + ", pEnrollDate=" + pEnrollDate + ", attendDate=" + attendDate
+				+ ", attendAmount=" + attendAmount + "]";
+	}
+
+	
 }

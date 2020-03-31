@@ -894,8 +894,8 @@ public class MemberController {
 		map.put("getmNo", loginUser.getmNo());
 		map.put("sort", sort);
 		ArrayList<ProjectView> allList = mService.selectAttendList(loginUser.getmNo());
-		System.out.println("allList : " + allList);
 		ArrayList<SupportView> attendProject = mService.selectAttend(currentPage, map);
+		System.out.println("이거 " + attendProject);
 		int[] index = new int[3];
 		int allIndex = 0;
 		int ingIndex = 0;
@@ -925,7 +925,9 @@ public class MemberController {
 					attendProject.get(i).setProgress("종료(실패)");
 				}
 			}
-			index = new int[] { allIndex, ingIndex, endIndex };
+			int attendMoney = mService.attendMoney(loginUser.getmNo());
+			int attendAllMoney = mService.attendAllMoney(loginUser.getmNo());
+			index = new int[] { allIndex, ingIndex, endIndex, attendMoney, attendAllMoney };
 			mv.addObject("attendProject", attendProject);
 			mv.addObject("pi", Pagination.getPageInfo());
 			if (align != null)
@@ -939,6 +941,31 @@ public class MemberController {
 			throw new MemberException("프로젝트 조회 실패!!");
 		}
 
+	}
+	
+	// 후원 취소하기
+	@RequestMapping("deleteAttend.do")
+	public ModelAndView deleteAttend(@RequestParam(value="oNo")String oNo,
+			@RequestParam(value="pNo")String pNo,
+			@RequestParam(value="aMoney")int aMoney) {
+		Map map = new HashMap();
+		map.put("pNo", pNo);
+		map.put("aMoney", aMoney);
+		int result = mService.deleteOrder(oNo);
+		int result2 = mService.deleteFunding(oNo);
+		int result3 = mService.updateProject(map);
+		
+		if(result > 0 && result2 > 0 && result3 > 0) {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", "후원 취소 완료");
+		mv.setViewName("main");
+
+		return mv;
+		}else {
+			throw new MemberException("후원 취소 실패!!");
+		}
+		
 	}
 
 	// 관심 프로젝트 리스트

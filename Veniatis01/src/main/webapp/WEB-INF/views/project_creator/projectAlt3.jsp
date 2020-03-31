@@ -54,7 +54,7 @@
 
 			<header class="head_comm">
 			<br>
-				<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
+				<h1 class="tit_comm">후원형 프로젝트 수정하기</h1>
 			</header>
 
 			<!-- 신청서 -->
@@ -95,7 +95,7 @@
 					필수입력 항목입니다.</span>
 				<p class="link_area">
 
-					<a class="link_prewindow" href="#" title="미리보기" target="_blank">미리보기</a>
+					
 				</p>
 			</div>
 			<div class="form_area bg_smoke">

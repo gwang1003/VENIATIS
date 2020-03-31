@@ -98,7 +98,7 @@
 					필수입력 항목입니다.</span>
 				<p class="link_area">
 
-					<a class="link_prewindow" href="#" title="미리보기" target="_blank">미리보기</a>
+					
 				</p>
 			</div>
 			<div class="form_area bg_smoke">

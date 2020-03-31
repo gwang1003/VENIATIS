@@ -116,7 +116,7 @@ $(document).on("click","#investEndDateButton",function(){
 		
 		<header class="head_comm">
 		<br>
-					<h1 class="tit_comm">후원형 프로젝트 신청하기</h1>
+					<h1 class="tit_comm">후원형 프로젝트 수정하기</h1>
 				</header>
 
 				<!-- 신청서 -->

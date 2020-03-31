@@ -19,7 +19,8 @@
 	}
 	
 	#text_desc{
-	color:black;
+	font-weight:900;
+	
 	}
 	
 	

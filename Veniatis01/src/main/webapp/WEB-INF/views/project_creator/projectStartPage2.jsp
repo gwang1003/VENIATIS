@@ -84,7 +84,9 @@ $("input[name=inputHashTag]").keydown(function (key) {
                 alert("태그는 5개까지 입력 가능합니다.");
                 return false;
             } else {
-                $(".inner_hashtag").append("<div class='hashtag'><span>#"+$("#inputHashTag").val()+"<input type='hidden' value='"+$("#inputHashTag").val()+"' id='tag"+num+"' ></span><button type='button' class='ico_comm' id='red_icon'>X 아이콘</button></div>");
+                $(".inner_hashtag").append("<div class='hashtag'><span>#"+$("#inputHashTag").val()+
+                		"<input type='hidden' value='"+$("#inputHashTag").val()+"' id='tag"+num+"' >
+                </span><button type='button' class='ico_comm' id='red_icon'>X 아이콘</button></div>");
                 num = num +1;
                 $("#inputHashTag").val('');
                 return false;

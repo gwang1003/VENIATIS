@@ -81,7 +81,7 @@
       }
 
       th {
-        font-size:17px;
+        font-size:15px;
         text-align: center;
         background:#40c8b5;
         color:black;
@@ -93,7 +93,7 @@
       }
 
       .s2 input {
-        width: 15%;
+        width: 14%;
         height:50%;
       }
       
@@ -152,8 +152,8 @@
                   <th width="9%">아이디</th>
                   <th width="19%">프로젝트 명</th>
                   <th width="8%">타입</th>
-                  <th width="15%">모금현황</th>
-                  <th width="12%">기업명</th>
+                  <th width="12%">모금현황</th>
+                  <th width="15%">해쉬태그</th>
                   <th width="11%">기간</th>
                   <th width="8%">상태</th>
                 </tr>
@@ -169,7 +169,8 @@
 						<td>${p.creId }</td>
 						<td><a href="${pDetail }">${p.pTitle }</a></td>
 						<td>${p.cate }</td>
-						<td>${p.sumAmount}(원)~${p.targetAmount }(원)</td>
+						<td>${p.sumAmount}(원) /<br>
+						 ${p.targetAmount }(원)</td>
 						<td>${p.hashtag }</td>
 						<td>${p.startDate }~<br>${p.endDate }</td>
 						<td>${p.progress }</td>

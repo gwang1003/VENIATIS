@@ -96,7 +96,7 @@
                                 <span style="padding:20px 0 20px; font-weight: 900; font-size: 40px;">후원 완료</span>
                                 <h4 style="padding:40px 0 40px;">참여한 프로젝트는 마이페이지에서 확인 가능합니다.</h4>
                                 <div class="btn_box">
-                                    <button type="button" class="btn_page">마이페이지</button>
+                                    <button type="button" class="btn_page" onclick="location.href='attendProject.do'">마이페이지</button>
                                     <button type="button" class="btn_page" id="homeBtn"
                                     	style="background-color: #999;">홈으로</button>
                                 </div>

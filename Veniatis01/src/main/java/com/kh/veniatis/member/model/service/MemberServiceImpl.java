@@ -370,4 +370,29 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.mainRevenue();
 	}
 
+	@Override
+	public int attendMoney(int getmNo) {
+		return mDao.attendMoney(getmNo);
+	}
+
+	@Override
+	public int attendAllMoney(int getmNo) {
+		return mDao.attendAllMoney(getmNo);
+	}
+
+	@Override
+	public int deleteOrder(String oNo) {
+		return mDao.deleteOrder(oNo);
+	}
+
+	@Override
+	public int deleteFunding(String oNo) {
+		return mDao.deleteFunding(oNo);
+	}
+
+	@Override
+	public int updateProject(Map map) {
+		return mDao.updateProject(map);
+	}
+
 }

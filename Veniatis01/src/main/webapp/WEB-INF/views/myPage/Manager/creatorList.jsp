@@ -53,6 +53,7 @@
       .s3 {
         width: 9%;
         height:100%;
+        padding:0;
       }
 
       .s2 * {
@@ -105,7 +106,7 @@
       }
 
       th {
-        font-size:18px;
+        font-size:15px;
         text-align: center;
         background:#40c8b5;
         color:black;
@@ -142,7 +143,7 @@
               </select>
             </div>
           </div>
-          <div class="s3"><button type="submit">검색</button></div>
+          <div class="s3" style="padding:0;"><button type="submit">검색</button></div>
         </form>
         <div class="card-body">
           <div class="table=responsive">

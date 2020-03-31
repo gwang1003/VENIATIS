@@ -83,7 +83,7 @@
       }
 
       th {
-        font-size:18px;
+        font-size:16px;
         text-align: center;
         background:#40c8b5;
         color:black;

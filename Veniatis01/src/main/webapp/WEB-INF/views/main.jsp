@@ -73,7 +73,8 @@
                             <div class="slider_text text-center">
                                 <h3 id="aa">후원하기</h3>
                                 <p>새로운 프로젝트를 확인해보세요!</p>
-                                <a href="#" class="boxed-btn3">페이지로 이동</a>
+                                <a href="projectList.do" class="boxed-btn3">개인</a>
+                                <a href="projectList2.do" class="boxed-btn3">기업</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                             <div class="slider_text text-center">
                                 <h3 id="aa">블로그</h3>
                                 <p>자신만의 이야기를 공유해보세요!</p>
-                                <a href="#" class="boxed-btn3">페이지로 이동</a>
+                                <a href="blogHome.do" class="boxed-btn3">페이지로 이동</a>
                             </div>
                         </div>
                     </div>
@@ -99,7 +100,7 @@
                                 <div class="slider_text text-center">
                                     <h3 id="aa">공모전</h3>
                                     <p>공모전을 통해 꿈에 날개를 달아보세요!</p>
-                                    <a href="#" class="boxed-btn3">페이지로 이동</a>
+                                    <a href="competView.do" class="boxed-btn3">페이지로 이동</a>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +124,7 @@
                 
                 
                 <div class="row">
-                <c:forEach var="p" items="${pList }" varStatus="status"> 
+                <c:forEach var="p" items="${proList }" varStatus="status"> 
               					  <c:url var="pDetail" value="projectDetail.do">
 									<c:param name="pNo" value="${ p.pNo }"/>
 								</c:url>
@@ -252,7 +253,7 @@
                 </div>
             </div>
             <div class="row">
-            <c:forEach var="c" items="${cList }" varStatus="status"> 
+            <c:forEach var="c" items="${comList }" varStatus="status"> 
                 <div class="col-lg-4 col-md-6">
                     <div class="single_trip">
                         <div class="thumb imgArea2">

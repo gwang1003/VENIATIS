@@ -44,6 +44,20 @@
 		color:white;
 		cursor:pointer;
 	} 
+	
+	.but {
+		background:#666666;
+		display:block;
+		width:103px;
+		height:40px;
+		top:10px;
+		margin-left:374px;
+		font-size:0.875em;
+		line-height:40px;
+		color:#fff; 
+		text-align:center;
+		text-decoration:none;
+	}
 </style>
 </head>
 <body class="login">
@@ -67,16 +81,16 @@
 									<div class="status_item">
 										<dl>
 											<dt>현재 참여중인 금액</dt>
-											<dd class="unit_ico"><span class="img_ico ico_type1"></span></dd>
-											<dd class="unit_price"><em>0</em>원</dd>
+											<dd class="unit_ico"><img src="resources/memberPhoto/left.jpg" style="width:150px; height:150px; border-radius: 50%;"></dd>
+											<dd class="unit_price"><em>${index[3] }</em>원</dd>
 										</dl>
 									</div>
 		
 									<div class="status_item">
 										<dl>
 											<dt>총 참여 금액</dt>
-											<dd class="unit_ico"><span class="img_ico ico_type2"></span></dd>
-											<dd class="unit_price"><em>3,000</em>원</dd>
+											<dd class="unit_ico"><img src="resources/memberPhoto/right.PNG"style="width:150px; height:150px; border-radius: 50%; background:gray;"></dd>
+											<dd class="unit_price"><em>${index[4] }</em>원</dd>
 										</dl>
 									</div>
 								</div>
@@ -138,6 +152,12 @@
 																     ${i.progress }
 																</dd>
 											</dl>
+											<c:url var="attendX" value="deleteAttend.do">
+												<c:param name="oNo" value="${i.oNo }"/>
+												<c:param name="pNo" value="${i.pNo }"/>
+												<c:param name="aMoney" value="${i.attendAmount }"/>
+											</c:url>
+											<a href="${attendX }" class="btn_detail" style="top:20px;">후원취소</a>
 											<a href="projectDetail.do?pNo=${i.pNo }" class="btn_detail">자세히보기</a>
 										</div>
 									</div>

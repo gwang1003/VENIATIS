@@ -162,4 +162,14 @@ public interface MemberService {
 	ArrayList<ProjectTotal> pCompanySuccessList();
 
 	ArrayList<Revenue> mainRevenue();
+
+	int attendMoney(int getmNo);
+
+	int attendAllMoney(int getmNo);
+
+	int deleteOrder(String oNo);
+
+	int deleteFunding(String oNo);
+
+	int updateProject(Map map);
 }

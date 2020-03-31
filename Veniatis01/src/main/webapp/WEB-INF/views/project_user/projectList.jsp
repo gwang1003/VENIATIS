@@ -265,14 +265,9 @@
 								<c:param name="cate" value="${ currentCate }"/>
 								<c:param name="arrange" value="3"/>
 							</c:url>
-							<%-- <c:url var="largest" value="projectList.do">
-								<c:param name="cate" value="${ currentCate }"/>
-								<c:param name="arrange" value="4"/>
-							</c:url> --%>
 							<button class="dropdown-item" type="button" onclick="location.href='${ latest }';">최근등록순</button>
 							<button class="dropdown-item" type="button" onclick="location.href='${ highest }';">펀딩금액순</button>
 							<button class="dropdown-item" type="button" onclick="location.href='${ impendence }';">마감임박순</button>
-							<button class="dropdown-item" type="button">참여자순</button>
 						</div>
 					</div>
 					

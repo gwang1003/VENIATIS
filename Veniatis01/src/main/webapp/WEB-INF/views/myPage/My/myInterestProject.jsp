@@ -82,8 +82,7 @@
                                 <c:forEach var="p" items="${interestList }"> 
                                 <li class="prj_type_support"> <!-- 후원형 프로젝트일 경우 class="prj_type_support" -->                 
                                     <label for="chkPrj_0" class="chk_comm">
-                                        <input type="checkbox" id="chkPrj_0" name="deleteCheck" class="inp_chk">
-                                        <span class="chk_square"><span class="fa fa-check"></span></span>
+                                        <input type="checkbox" style="width:20px; height:20px;"> 
                                         <span class="txt_cont">프로젝트 체크</span>
                                     </label>
                                     <div class="box_project">
@@ -108,11 +107,7 @@
     </span>
                                             <span class="txt_cate"><span class="screen_out">카테고리</span>${p.cate }</span>
                                         </div>
-                                        <div class="state_project">                          
-                                                <p class="txt_state"><span class="num">83</span>명이 프로젝트를 참여했습니다.<br>
-                                                총 <span class="num">${p.sumAmount }</span> 모집 [<span class="txt_success">${p.progress }</span>]</p>
-                                        
-                                        </div>
+	<br>
                                     </div>
                                 </li>
                                 </c:forEach>

@@ -39,7 +39,7 @@
                                 <div class="col-lg-6 d-none d-lg-block">
                                 
                                   <img
-                                    src="resources/memberPhoto/KakaoTalk_20200319_154020001.jpg"
+                                    src="resources/memberPhoto/KakaoTalk_20200331_202514219.png"
                                     id="dogimg">
                                 </div>
                                         <div class="col-lg-6">

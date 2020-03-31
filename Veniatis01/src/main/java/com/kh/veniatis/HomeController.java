@@ -1,34 +1,60 @@
 package com.kh.veniatis;
 
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.veniatis.blog.model.service.BlogService;
+import com.kh.veniatis.blog.model.vo.BlogPost;
+import com.kh.veniatis.blog.model.vo.Compet;
+import com.kh.veniatis.member.model.service.MemberService;
+import com.kh.veniatis.project.user.model.service.ProjectUserService;
+import com.kh.veniatis.project.user.model.vo.ProjectView;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
+	 @Autowired
+	   private ProjectUserService pus;
+		@Autowired
+		private BlogService bService;
+		@Autowired
+		private MemberService mService;
+		
+		
+	 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		// DispatcherServlet에게 뷰 정보를 전달하는 방법은 두가지가 있음
-		// 1) View 타입의 오브젝트를 주는 방법
-		// 2) String 타입의 뷰 이름을 주는 방법
-		// 이름으로부터 실제로 사용할 뷰 객체를 결정해주는 뷰 리졸버가 필요
-		// 특정 뷰 리졸버를 빈으로 등록하지 않는다면,
-		// DispatcherServlet은 기본 뷰 리졸버인 InternalResourceViewResolver를 사용
-		// servlet-context.xml 참조
+	@RequestMapping("home.do")
+	public ModelAndView home(Locale locale, Model model) {
+		// 프로젝트(개인)리스트 받아오기
 		
-		return "main";
+		
+		 ArrayList<ProjectView> list = new ArrayList<ProjectView>();
+		 list = pus.selectMainList();
+		 
+	
+
+		 
+		 // 공모전 불러오기
+			ArrayList<Compet> clist = bService.competMainView();
+			
+			  ModelAndView mv = new ModelAndView();
+			  mv.addObject("pList",list);
+			  mv.addObject("cList",clist);
+			  mv.setViewName("main");
+		return mv;
 	}
 
 }

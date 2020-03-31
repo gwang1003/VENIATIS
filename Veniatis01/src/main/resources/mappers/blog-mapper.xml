@@ -511,8 +511,21 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		SELECT *
 		FROM COMPETVIEW
 		WHERE CON_STATE='Y'
+		ORDER BY CON_NO
 	</select>
 	
+		<!-- 메인용 공모전 -->
+	<select id="competMainView" resultMap="CompetResultSet">
+		<![CDATA[
+		SELECT *
+		FROM 
+		(SELECT * FROM 
+		COMPETVIEW
+		WHERE CON_STATE='Y'
+		ORDER BY CON_NO)
+		WHERE ROWNUM <=3
+		]]>
+	</select>
 	
 	
 	

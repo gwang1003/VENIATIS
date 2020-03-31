@@ -429,6 +429,12 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return bDao.projectHash(hashTag);
 	}
+
+	@Override
+	public ArrayList<Compet> competMainView() {
+		// TODO Auto-generated method stub
+		return bDao.competMainView();
+	}
 	
 
 	

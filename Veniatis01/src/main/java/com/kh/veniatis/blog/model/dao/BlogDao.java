@@ -447,6 +447,12 @@ public class BlogDao {
 	}
 
 
+	public ArrayList<Compet> competMainView() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("competMainView");
+	}
+
+
 
 
 

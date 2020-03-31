@@ -191,5 +191,8 @@ public interface BlogService {
 	//플젝해쉬
 	ArrayList<ProjectView> projectHash(String hashTag);
 
+	// 메인용 공모전 리스트(3개)
+	ArrayList<Compet> competMainView();
+
 
 }

@@ -35,7 +35,6 @@
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="cStatus" column="CRE_STATUS"/>
 	</resultMap>
-	
 
 	<resultMap id="prjView" type="com.kh.veniatis.project.user.model.vo.ProjectView">
 		<id property="pNo" column="P_NO"/>
@@ -151,34 +150,98 @@
 		<result property="pNo" column="P_NO"/>
 	</resultMap>
 	
-	<select id="getListCount" resultType="_int">
+	<select id="getListCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*)
 		FROM V_PROJECT
 		WHERE P_STATUS='Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
 	</select>
 	
-	<select id="getListCount2" resultType="_int">
+	<select id="getListCount2" resultType="_int" parameterType="string">
 		SELECT COUNT(*)
 		FROM V_PROJECT
 		WHERE P_STATUS='Y'
+		<if test="value != null and value != ''">
 		AND PC_NAME=#{cateName}
+		</if>
+		AND P_TYPE = 2
 	</select>
 	
-	<select id="selectList" resultMap="prjView">
-		SELECT * FROM V_PROJECT
+	<!-- 개인 -->
+	<select id="selectList" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
 		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
 		ORDER BY P_NO DESC
 	</select>
 	
-	<select id="selectList2" resultMap="prjView">
-		SELECT * FROM V_PROJECT
+	<select id="selectList01" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
 		WHERE P_STATUS = 'Y'
-		AND PC_NAME=#{cateName}
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
+		ORDER BY P_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectList02" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 1
+		ORDER BY P_SUM_AMOUNT DESC
+	</select>
+	
+	<!-- 마감임박순 -->
+	<select id="selectList03" resultMap="prjView" parameterType="string">
+		SELECT * FROM(SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &gt;= 0
+        ORDER BY P_END_DATE)
+		UNION ALL
+		SELECT * FROM
+		(SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &lt; 0
+		ORDER BY P_END_DATE)
+	</select>
+	
+	<!-- 기업 -->
+	<select id="selectList2" resultMap="prjView" parameterType="string">
+		SELECT * 
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 2
 		ORDER BY P_NO DESC
 	</select>
 	
 	<select id="selectProject" parameterType="_int" resultMap="prjView">
-		SELECT * FROM V_PROJECT
+		SELECT * 
+		FROM V_PROJECT
 		WHERE P_NO = #{pNo}
 	</select>
 	
@@ -283,5 +346,34 @@
 		WHERE P_NO = #{pNo}
 		AND M_NO = #{mNo}
 	</delete>
+	
+	<delete id="deleteProjectQna" parameterType="_int">
+		DELETE FROM QNA
+		WHERE QNA_NO = #{qNo}
+	</delete>
+	
+	<select id="selectQnAOne" parameterType="_int" resultMap="QAResultSet">
+		SELECT * FROM QNA
+		WHERE QNA_NO = #{qNo}
+	</select>
+	
+	<update id="updateProjectQna">
+		UPDATE QNA 
+		SET QNA_ANSWER = #{qAnswer}
+		WHERE QNA_NO = #{qNo}
+	</update>
+	
+	<select id="selectMainList" resultMap="prjView" >
+		<![CDATA[
+		SELECT *
+		FROM 
+		(SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		ORDER BY P_NO DESC)
+		WHERE ROWNUM <=6
+			]]>
+	</select>
 	
 </mapper>

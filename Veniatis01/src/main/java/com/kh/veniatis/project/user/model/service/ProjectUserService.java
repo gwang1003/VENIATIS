@@ -85,6 +85,8 @@ public interface ProjectUserService {
 	// 관심 프로젝트 업데이트(1. 삭제 2. 삽입)
 	int deleteLikes(Likes plike);
 	int insertLikes(Likes plike);
+	//메인용 리스트 
+	ArrayList<ProjectView> selectMainList();
 	
 	
 	

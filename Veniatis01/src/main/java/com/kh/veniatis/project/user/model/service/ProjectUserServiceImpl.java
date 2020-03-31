@@ -209,6 +209,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	public QnA selectQnAOne(int qNo) {
 		return pud.selectQnAOne(qNo);
 	}
+
+	@Override
+	public ArrayList<ProjectView> selectMainList() {
+	
+		return pud.selectMainList();
+	}
 	
 
 }

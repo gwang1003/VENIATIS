@@ -511,8 +511,21 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		SELECT *
 		FROM COMPETVIEW
 		WHERE CON_STATE='Y'
+		ORDER BY CON_NO
 	</select>
 	
+		<!-- 메인용 공모전 -->
+	<select id="competMainView" resultMap="CompetResultSet">
+		<![CDATA[
+		SELECT *
+		FROM 
+		(SELECT * FROM 
+		COMPETVIEW
+		WHERE CON_STATE='Y'
+		ORDER BY CON_NO)
+		WHERE ROWNUM <=3
+		]]>
+	</select>
 	
 	
 	
@@ -550,8 +563,30 @@ ORDER BY COUNT(LIKE_NO) DESC ,b_no ASC
 		ORDER BY P_NO DESC
 	</select>	
 	
+	<!-- 모든플젝리스트 -->
+	<select id="allProjectList" resultMap="prjView">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS='Y'
+		ORDER BY P_NO DESC
+	</select>
 	
 	
+	<!-- 리워드리스트 -->
+	<resultMap id="rewardList" type="com.kh.veniatis.blog.model.vo.RewardList">
+		<id property="pNo" column="P_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="rName" column="R_NAME"/>
+		<result property="totalAmount" column="TOTAL_AMOUNT"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="SumAmount" column="P_SUM_AMOUNT"/>
+		<result property="targetAmount" column="P_TARGET_AMOUNT"/>
+	</resultMap>
 	
+	<select id="selectReardList" parameterType="_int" resultMap="rewardList" >
+		SELECT *
+		FROM REWARDLIST
+		WHERE P_NO=#{pNo}
 	
+	</select>
 </mapper>

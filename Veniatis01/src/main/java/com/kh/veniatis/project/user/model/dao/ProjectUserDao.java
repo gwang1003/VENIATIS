@@ -197,6 +197,11 @@ public class ProjectUserDao {
 		return sqlSession.update("puMapper.updateProjectQna", q);
 	}
 
+	public ArrayList<ProjectView> selectMainList() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("puMapper.selectMainList");
+	}
+
 	
 
 }

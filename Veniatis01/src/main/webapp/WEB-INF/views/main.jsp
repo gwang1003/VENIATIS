@@ -3,7 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
+ <link rel="stylesheet" href="resources/css/guidecss.css">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -24,11 +24,21 @@
             background-image: url('resources/main/mainblog.png') !important;
         }
         .slider_bg_4{	
-            background-image: url('resources/main/test4.jpg') !important;
+            background-image: url('resources/main/idea.jpg') !important;
         }
 
         #aa{
             font-family: "돋움체" !important;
+        }
+        
+        .imgArea{
+         width:350px !important;
+         height:216px !important;
+        }
+        
+        .imgArea2{
+         width:350px !important;
+         height:350px !important;
         }
     </style>
 
@@ -62,7 +72,7 @@
                         <div class="col-xl-12 col-md-12">
                             <div class="slider_text text-center">
                                 <h3 id="aa">후원하기</h3>
-                                <p>기부천사가 됩시다</p>
+                                <p>새로운 프로젝트를 확인해보세요!</p>
                                 <a href="#" class="boxed-btn3">페이지로 이동</a>
                             </div>
                         </div>
@@ -75,7 +85,7 @@
                         <div class="col-xl-12 col-md-12">
                             <div class="slider_text text-center">
                                 <h3 id="aa">블로그</h3>
-                                <p>블로거지가 됩시다</p>
+                                <p>자신만의 이야기를 공유해보세요!</p>
                                 <a href="#" class="boxed-btn3">페이지로 이동</a>
                             </div>
                         </div>
@@ -88,7 +98,7 @@
                             <div class="col-xl-12 col-md-12">
                                 <div class="slider_text text-center">
                                     <h3 id="aa">공모전</h3>
-                                    <p>공모전확인합시다</p>
+                                    <p>공모전을 통해 꿈에 날개를 달아보세요!</p>
                                     <a href="#" class="boxed-btn3">페이지로 이동</a>
                                 </div>
                             </div>
@@ -106,20 +116,26 @@
                         <div class="section_title text-center mb_70">
                             <img src="resources/main/nowpro.png">
                             <br>
-                            <p>현재 진행 중인 인기 프로젝트들의 목록입니다</p>
+                            <p>현재 진행 중인 프로젝트들의 목록입니다</p>
                         </div>
                     </div>
                 </div>
+                
+                
                 <div class="row">
+                <c:forEach var="p" items="${pList }" varStatus="status"> 
+              					  <c:url var="pDetail" value="projectDetail.do">
+									<c:param name="pNo" value="${ p.pNo }"/>
+								</c:url>
                     <div class="col-lg-4 col-md-6">
                         <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
+                            <div class="thumb imgArea" >
+                                <img src="${p.thumbnail }" alt="">
+                                <a href="${ pDetail }" class="prise">${p.cate}</a>
                             </div>
                             <div class="place_info">
-                                <a href="destination_details.html"><h3>California</h3></a>
-                                <p>United State of America</p>
+                                <a href="${ pDetail }"><h3>${p.pTitle}</h3></a>
+                                <p>${p.pText }</p>
                                 <div class="rating_days d-flex justify-content-between">
                                     <span class="d-flex justify-content-center align-items-center">
                                          <i class="fa fa-star"></i> 
@@ -127,161 +143,23 @@
                                          <i class="fa fa-star"></i> 
                                          <i class="fa fa-star"></i> 
                                          <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
+                                 	
                                     </span>
                                     <div class="days">
                                         <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
-                            </div>
-                            <div class="place_info">
-                                <a href="destination_details.html"><h3>Korola Megna</h3></a>
-                                <p>United State of America</p>
-                                <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
-                            </div>
-                            <div class="place_info">
-                                <a href="destination_details.html"><h3>London</h3></a>
-                                <p>United State of America</p>
-                                <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
-                            </div>
-                            <div class="place_info">
-                                <a href="destination_details.html"><h3>Miami Beach</h3></a>
-                                <p>United State of America</p>
-                                <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
-                            </div>
-                            <div class="place_info">
-                                <a href="destination_details.html"><h3>California</h3></a>
-                                <p>United State of America</p>
-                                <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_place">
-                            <div class="thumb">
-                                <img src="resources/main/test.jpg" alt="">
-                                <a href="#" class="prise">$500</a>
-                            </div>
-                            <div class="place_info">
-                                <a href="destination_details.html"><h3>Saintmartine Iceland</h3></a>
-                                <p>United State of America</p>
-                                <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                         <a href="#">(20 Review)</a>
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        <a href="#">5 Days</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="more_place_btn text-center">
-                            <a class="boxed-btn4" href="#">More Places</a>
-                        </div>
-                    </div>
-                </div>
+                 </c:forEach>
             </div>
+               
         </div>
-
-
-
+       </div>	
     <!-- popular_destination_area_start  -->
-    <div class="popular_destination_area">
+   <!--  <div class="popular_destination_area">  인기 게시글(블로그라서 일단 제외)
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
@@ -360,10 +238,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- popular_destination_area_end  -->
 
-    <div class="recent_trip_area" style="background-color:#f7fafd;">
+    <div class="popular_destination_area" >
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
@@ -374,63 +252,32 @@
                 </div>
             </div>
             <div class="row">
+            <c:forEach var="c" items="${cList }" varStatus="status"> 
                 <div class="col-lg-4 col-md-6">
                     <div class="single_trip">
-                        <div class="thumb">
-                            <img src="resources/main/test.jpg" alt="">
+                        <div class="thumb imgArea2">
+                            <img src="${c.filePath }" alt="">
                             <br>
                            
                         </div>
                         <div class="info">
                             <div class="date">
-                                <span>Oct 12, 2019</span>
+                                <span>${c.conHost }</span>
                             </div>
-                            <a href="#">
-                                <h3>Journeys Are Best Measured In
-                                    New Friends</h3>
+                            <a href="${c.conHp }">
+                                <h3>${c.conName}</h3>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_trip">
-                        <div class="thumb">
-                            <img src="resources/main/test.jpg" alt="">
-                        </div>
-                        <div class="info">
-                            <div class="date">
-                                <span>Oct 12, 2019</span>
-                            </div>
-                            <a href="#">
-                                <h3>Journeys Are Best Measured In
-                                    New Friends</h3>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_trip">
-                        <div class="thumb">
-                            <img src="resources/main/test.jpg" alt="">
-                        </div>
-                        <div class="info">
-                            <div class="date">
-                                <span>Oct 12, 2019</span>
-                            </div>
-                            <a href="#">
-                                <h3>Journeys Are Best Measured In
-                                    New Friends</h3>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+               </c:forEach>
             </div>
         </div>
     </div>
 
 
 
-    <footer class="footer">
+  <!--   <footer class="footer">
         <div class="footer_top">
             <div class="container">
                 <div class="row">
@@ -553,15 +400,16 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <p class="copy_right text-center">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
+    <jsp:include page="common/footer.jsp" />
 
 
   <!-- Modal -->

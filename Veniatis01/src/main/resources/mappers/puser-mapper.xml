@@ -363,4 +363,17 @@
 		WHERE QNA_NO = #{qNo}
 	</update>
 	
+	<select id="selectMainList" resultMap="prjView" >
+		<![CDATA[
+		SELECT *
+		FROM 
+		(SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 1
+		ORDER BY P_NO DESC)
+		WHERE ROWNUM <=6
+			]]>
+	</select>
+	
 </mapper>

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 <style>
 	.fnb_comm {
@@ -17,10 +18,10 @@
     <div class="inner">
         <h2 class="screen_out">약관메뉴</h2>
         <ul class="fnb_comm">
-            <li><a href="/company/vision" class="link_fnb">회사소개</a></li>
-            <li><a href="/policy/rewardTerms" class="link_fnb">이용약관</a></li>
-            <li><a href="/policy/rewardPrivacy" class="link_fnb">개인정보보호정책</a></li>
-            <li><a href="/sitemap" class="link_fnb">사이트맵</a></li>
+            <li><a href="projectList.do" class="link_fnb">후원하기</a></li>
+            <li><a href="guideMain.do" class="link_fnb">이용가이드</a></li>
+            <li><a href="competView.do" class="link_fnb">공모전</a></li>
+            <li><a href="blogHome.do" class="link_fnb">블로그</a></li>
         </ul>
         <!--  
         <div class="social_comm">

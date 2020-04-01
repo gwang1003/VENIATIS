@@ -192,7 +192,8 @@ public class MemberController {
 		int project = mService.selectProject();
 		int endProject = mService.selectEndProject();
 		ArrayList<Revenue> revenue = mService.mainRevenue();
-		System.out.println(revenue);
+		ArrayList<Revenue> revenue2 = mService.mainRevenue2();
+		ArrayList<Revenue> revenueAll = mService.mainRevenueAll();		
 		/*ArrayList<Revenue> revenue2 = new ArrayList<>();
 		for(int i = 0; i < 12; i++) {
 			if(revenue.get(i).equals(i+1)) {
@@ -211,6 +212,8 @@ public class MemberController {
 		map.put("project", project);
 		map.put("endProject", endProject);
 		map.put("revenue", revenue);
+		map.put("revenue2", revenue2);
+		map.put("revenueAll", revenueAll);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addAllObjects(map);
@@ -443,7 +446,8 @@ public class MemberController {
 	         @RequestParam(value="pStatus", required=false) String pStatus,
 	         @RequestParam(value="id", required=false) String id,
 	         @RequestParam(value="name", required=false) String name,
-	         @RequestParam(value="pName", required=false) String pName) {
+	         @RequestParam(value="pName", required=false) String pName,
+	         @RequestParam(value="pDate", required=false) String pDate) {
 	      System.out.println(pType);
 	      Map map = new HashMap();
 	      
@@ -452,7 +456,8 @@ public class MemberController {
 	      map.put("id", id);
 	      map.put("name", name);
 	      map.put("pName", pName);
-
+	      map.put("pDate", pDate);
+	      System.out.println("map : " + map);
 	      ArrayList<ProjectView> pList = mService.selectSearchProject(map);
 	      System.out.println("pList : " + pList);
 	      if(pList != null) {
@@ -697,9 +702,10 @@ public class MemberController {
 		map.put("eDate", eDate);
 		map.put("type", type);
 		map.put("cate", cate);
+		System.out.println("Map : " + map);
 		ArrayList<Project> pList = mService.projectList(map);
-		
-		
+		ArrayList<Revenue> revenueChart = mService.revenueChart(map);
+		System.out.println(revenueChart);
 		if(pList != null) {
 			ArrayList<Revenue> rList = mService.revenue(map);
 			int sumMoney = 0;
@@ -716,6 +722,7 @@ public class MemberController {
 			
 			ModelAndView mv = new ModelAndView();
 			mv.addAllObjects(map);
+			mv.addObject("revenue", revenueChart);
 			mv.addObject("index", index);
 			mv.addObject("pList", pList);
 			mv.addObject("rList", rList);
@@ -774,6 +781,26 @@ public class MemberController {
 			return mv;
 		} else {
 			throw new MemberException("비밀번호 변경 실패!!");
+		}
+	}
+	
+	// 회원 탈퇴
+	@RequestMapping(value="memberDelete.do")
+	public ModelAndView memberDelete(HttpSession session, SessionStatus status) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		int result = mService.memberDelete(loginUser.getmNo());
+		
+		if(result > 0) {
+			status.setComplete();
+			
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("msg", "회원탈퇴가 되었습니다.");
+			mv.setViewName("redirect:home.do");
+			
+			return mv;
+		}else {
+			throw new MemberException("회원탈퇴 실패!!");
 		}
 	}
 	
@@ -1030,6 +1057,32 @@ public class MemberController {
 			throw new MemberException("프로젝트 조회 실패!!");
 		}
 	}
+	
+	// 관심 프로젝트 삭제
+	@RequestMapping("deleteInterest.do")
+	public ModelAndView deleteInterest(@RequestParam(value="pNo") String pNo,
+			HttpSession session) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		String[] pNos = pNo.split(" ");
+		int[] pNumber = new int[pNos.length];
+		for(int i = 0; i < pNos.length; i++) {
+			System.out.println(Integer.parseInt(pNos[i]));
+			pNumber[i] = Integer.parseInt(pNos[i]);
+		}
+		
+		Map map = new HashMap();
+		map.put("pNo", pNumber);
+		map.put("mNo", loginUser.getmNo());
+		int result = mService.deleteInterest(map);
+		if(result > 0) {		
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("msg", "관심프로젝트 삭제 완료!");
+			mv.setViewName("redirect:myInterestProject.do");
+			return mv;
+		}else {
+			throw new MemberException("관심프로젝트 삭제 실패!!");
+		}
+	}
 
 	// 나의 개설 프로젝트 리스트
 	@RequestMapping("myOpenProject.do")
@@ -1130,7 +1183,7 @@ public class MemberController {
 		if( result > 0) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("msg", "문의 완료");
-		mv.setViewName("redirect:questionForm.do");
+		mv.setViewName("redirect:myQnAList.do");
 		return mv;
 		}else {
 			throw new MemberException("문의 실패!");
@@ -1161,7 +1214,7 @@ public class MemberController {
 			ModelAndView mv = new ModelAndView();
 			
 			mv.addObject("msg", "문의 삭제 완료");
-			mv.setViewName("myPage/My/QnAList");
+			mv.setViewName("redirect:myQnAList.do");
 			
 			return mv;
 		}else {

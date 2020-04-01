@@ -370,4 +370,36 @@ public class MemberDao {
 	public int updateProject(Map map) {
 		return sqlSession.update("memberMapper.updateProject", map);
 	}
+
+
+	public ArrayList<Revenue> mainRevenue2() {
+		return (ArrayList)sqlSession.selectList("memberMapper.mainRevenue2");
+	}
+
+
+	public ArrayList<Revenue> mainRevenueAll() {
+		return (ArrayList)sqlSession.selectList("memberMapper.mainRevenueAll");
+	}
+
+
+	public int memberDelete(int getmNo) {
+		return sqlSession.delete("memberMapper.memberDelete", getmNo);
+	}
+
+
+	public int deleteInterest(Map map) {
+		int result = 0;
+		int[] pNumber = (int[]) map.get("pNo");
+		for(int i = 0; i < pNumber.length; i++) {
+			int no = pNumber[i];
+			map.put("no", no);
+			result = sqlSession.delete("memberMapper.deleteInterest", map);
+		}
+		return result;
+	}
+
+
+	public ArrayList<Revenue> revenueChart(Map map) {
+		return (ArrayList)sqlSession.selectList("memberMapper.revenueChart", map);
+	}
 }

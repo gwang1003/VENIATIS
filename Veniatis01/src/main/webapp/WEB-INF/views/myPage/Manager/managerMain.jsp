@@ -81,7 +81,7 @@
 
       .Vtoday img, .project img {
         margin-top: 5%;
-        width:50%;
+        width:40%;
         height:50%;
       }
 
@@ -170,15 +170,15 @@
         <h2 class="mTitle">◎오늘의 VENIATIS</h2>
         <div class="Vtoday">
           <div class="Tvisitor">
-            <img src="resources/common/undraw_posting_photo.svg">
+            <img src="resources/memberPhoto/visitor.png">
             <h3>방문자 수 : ${visitor }</h3>
           </div>
           <div class="Tproject">
-            <img src="resources/common/undraw_posting_photo.svg" alt="">
+            <img src="resources/memberPhoto/oProject.png">
             <h3>개설 프로젝트 수 : ${openProject }</h3>
           </div>
           <div class="TQnA">
-            <img src="resources/common/undraw_posting_photo.svg" alt="">
+            <img src="resources/memberPhoto/question.png">
             <h3>문의 내역 : ${QnA }</h3>
           </div>
         </div>
@@ -189,15 +189,15 @@
         <h2 class="mTitle">◎프로젝트 통계</h2>
         <div class="project">
           <div class="okProject">
-            <img src="resources/common/undraw_posting_photo.svg">
+            <img src="resources/memberPhoto/wait.png">
             <h3>개설 요청 프로젝트 : ${requestProject }</h3>
           </div>
           <div class="ingProject">
-            <img src="resources/common/undraw_posting_photo.svg" alt="">
+            <img src="resources/memberPhoto/ing.png">
             <h3>진행중인 프로젝트 : ${project }</h3>
           </div>
           <div class="endProject">
-            <img src="resources/common/undraw_posting_photo.svg" alt="">
+            <img src="resources/memberPhoto/end.png">
             <h3>마감된 프로젝트 : ${endProject }</h3>
           </div>
         </div>
@@ -217,12 +217,22 @@
 	$(function(){
 		$("#content").append($(".mid"))
 		
-		var tRevenue = 0;		
+		var tRevenue = 0;
+		var bRevenue = 0;
+		var aRevenue = 0;
 		<c:forEach var="r" items="${revenue}">
 			tRevenue += ${r.revenue};
 		</c:forEach>
-		
+		<c:forEach var="r2" items="${revenue2}">
+			bRevenue += ${r2.revenue};
+		</c:forEach>
+		<c:forEach var="r3" items="${revenueAll}">
+			aRevenue += ${r3.revenue};
+		</c:forEach>	
 		$(".tRevenue").append(tRevenue + "원");
+		$(".revenue").append(parseInt((tRevenue/bRevenue)*100) + "%");
+		$(".totalRevenue").append(aRevenue + "원");
+		
 		
 		$(".Tvisitor").click(function(){
 			location.href="todayMember.do"
@@ -230,7 +240,7 @@
 			$(this).css({"cursor":"pointer"});
 		})
 		$(".Tproject").click(function(){
-			location.href="todayProject.do"
+			location.href="searchProject.do?pDate=on&pType=All"
 		}).mouseenter(function(){
 			$(this).css({"cursor":"pointer"});
 		})
@@ -240,7 +250,7 @@
 			$(this).css({"cursor":"pointer"});
 		})
 		$(".okProject").click(function(){
-			location.href="searchProject.do?pStatus=Wait&pType=All"
+			location.href="joinProject.do"
 		}).mouseenter(function(){
 			$(this).css({"cursor":"pointer"});
 		})
@@ -340,7 +350,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return number_format(value) + "원";
           }
         },
         gridLines: {
@@ -372,7 +382,7 @@ var myLineChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return '수익 : ' + number_format(tooltipItem.yLabel) + "원";
         }
       }
     }

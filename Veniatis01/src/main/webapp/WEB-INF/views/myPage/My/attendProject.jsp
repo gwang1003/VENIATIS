@@ -122,47 +122,56 @@
                                     <a href="${ End }"><button>마감 ${index[2] }</button></a>
                                 </div>
 								<hr>
-								<c:forEach var="i" items="${attendProject }">
-								<div class="article_cont">
-									<div class="link_thumb">
-										<a href="/reward/7870"><img src="${i.thumbnail }" style="width:996px;height:305px"></a>
-									</div>
-									<div class="info_thumb">
-										<strong class="tit_thumb">${i.pTitle }</strong>
-										<p class="item_period">(펀딩기간 : ${i.startDate } ~ ${i.endDate })</p>
-										<div class="item_price">
-											<em>${i.sumAmount }</em>원 / 목표액${i.targetAmount }원
+								<c:if test="${!empty attendProject }">
+									<c:forEach var="i" items="${attendProject }">
+									<div class="article_cont">
+										<div class="link_thumb">
+											<a href="/reward/7870"><img src="${i.thumbnail }" style="width:996px;height:305px"></a>
 										</div>
-										<div class="my_participation_contents">
-											<dl>
-												<dt>참여금액</dt>
-												<dd><strong>${i.attendAmount }</strong>원</dd>
-											</dl>
-											<dl>
-												<dt>참여일</dt>
-												<dd>${i.attendDate }</dd>
-											</dl>
-											<dl>
-												<dt>카테고리</dt>
-												<dd>${i.cate }</dd>
-											</dl>
-											<dl>
-												<dt>프로젝트 상태  </dt>
-															     <dd>
-																     ${i.progress }
-																</dd>
-											</dl>
-											<c:url var="attendX" value="deleteAttend.do">
-												<c:param name="oNo" value="${i.oNo }"/>
-												<c:param name="pNo" value="${i.pNo }"/>
-												<c:param name="aMoney" value="${i.attendAmount }"/>
-											</c:url>
-											<a href="${attendX }" class="btn_detail" style="top:20px;">후원취소</a>
-											<a href="projectDetail.do?pNo=${i.pNo }" class="btn_detail">자세히보기</a>
+										<div class="info_thumb">
+											<strong class="tit_thumb">${i.pTitle }</strong>
+											<p class="item_period">(펀딩기간 : ${i.startDate } ~ ${i.endDate })</p>
+											<div class="item_price">
+												<em>${i.sumAmount }</em>원 / 목표액${i.targetAmount }원
+											</div>
+											<div class="my_participation_contents">
+												<dl>
+													<dt>참여금액</dt>
+													<dd><strong>${i.attendAmount }</strong>원</dd>
+												</dl>
+												<dl>
+													<dt>참여일</dt>
+													<dd>${i.attendDate }</dd>
+												</dl>
+												<dl>
+													<dt>카테고리</dt>
+													<dd>${i.cate }</dd>
+												</dl>
+												<dl>
+													<dt>프로젝트 상태  </dt>
+																     <dd>
+																	     ${i.progress }
+																	</dd>
+												</dl>
+												<c:url var="attendX" value="deleteAttend.do">
+													<c:param name="oNo" value="${i.oNo }"/>
+													<c:param name="pNo" value="${i.pNo }"/>
+													<c:param name="aMoney" value="${i.attendAmount }"/>
+												</c:url>
+												<c:if test="${i.progress ne '종료(성공)' }">
+													<c:if test="${i.progress ne '종료(실패)' }">
+														<a href="${attendX }" class="btn_detail" style="top:20px;">후원취소</a>
+													</c:if>
+												</c:if>
+												<a href="projectDetail.do?pNo=${i.pNo }" class="btn_detail">자세히보기</a>
+											</div>
 										</div>
 									</div>
-								</div>
-								</c:forEach>
+									</c:forEach>
+								</c:if>
+                                <c:if test="${empty attendProject }">
+                                  	<dl align="center">프로젝트가 존재하지 않습니다.</di>
+                                </c:if>
 								</div>
 							<table align="center" class="pagingTable">
 								<tr align="center" height="20">

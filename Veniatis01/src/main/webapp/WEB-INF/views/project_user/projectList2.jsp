@@ -290,7 +290,7 @@
 								<c:url var="pDetail" value="projectDetail.do">
 									<c:param name="pNo" value="${ prj.pNo }"/>
 								</c:url>
-								<li class="project_card reward_project_card"
+								<li class="project_card invest_project_card"
 									data-project-seq="7779" data-page-number="1">
 									<div class="project_card_inner">
 										<a class="project_detail_link" onclick="location.href='${ pDetail }';" style="cursor:pointer;"> 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -9,61 +9,61 @@
 <style>
 #icon1{
  background-image:url("resources/project_creator/information.png");
-	  background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
-	  cursor: default;
-	 
+     background-size:70%;
+     background-position:50%;
+     background-repeat:no-repeat;
+     cursor: default;
+    
 }
 
 #icon2{
  background-image:url("resources/project_creator/script.png");
-	 background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
-	  cursor: default;
+    background-size:70%;
+     background-position:50%;
+     background-repeat:no-repeat;
+     cursor: default;
 }
 
 #icon3{
  background-image:url("resources/project_creator/reward.png");
-	   background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
-	  cursor: default;
+      background-size:70%;
+     background-position:50%;
+     background-repeat:no-repeat;
+     cursor: default;
 }
 
 #icon4{
  background-image:url("resources/project_creator/money.png");
-	  background-size:70%;
-	  background-position:50%;
-	  background-repeat:no-repeat;
-	  cursor: default;
+     background-size:70%;
+     background-position:50%;
+     background-repeat:no-repeat;
+     cursor: default;
 }
 
 
 
 .btn_search {
-	margin-top: 7px;
+   margin-top: 7px;
 }
 
 #red_icon {
-	background-image: url("resources/project_creator/cross.png");
-	background-size: 100%;
-	background-position: 50%;
-	background-repeat: no-repeat;
+   background-image: url("resources/project_creator/cross.png");
+   background-size: 100%;
+   background-position: 50%;
+   background-repeat: no-repeat;
 }
 
 
 
 #box_select {
 
-	float: left;
+   float: left;
 
 }
 </style>
 <link rel="stylesheet" href="resources/css/guidecss.css">
-<script type="text/javascript"	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+<script type="text/javascript"   src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet"   href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 <script src="resources/js/commonUtil.js"></script>
 <script type="text/javascript" src="resources/smartEditor/js/jquery.js"></script>
 <script type="text/javascript" src="resources/smartEditor/js/jquery-ui.min.js"></script>
@@ -71,15 +71,15 @@
 
 <script>
 
-	var num = 1
+   var num = 1
 
 $(document).ready(function() {
 
-	if($(".hashtag").length!=0){
-		num = $(".hashtag").length+1	;
-	}
+   if($(".hashtag").length!=0){
+      num = $(".hashtag").length+1   ;
+   }
 $("input[name=inputHashTag]").keydown(function (key) {
-	
+   
     if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
         if($("#inputHashTag").val().length==0){
             alert("태그는 1글자 이상 입력해주세요.");
@@ -108,285 +108,311 @@ num = num -1;
 var oEditors = []; // 개발되어 있는 소스에 맞추느라, 전역변수로 사용하였지만, 지역변수로 사용해도 전혀 무관 함.
 
 $(document).ready(function() {
-	// Editor Setting
-	
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef : oEditors, // 전역변수 명과 동일해야 함.
-		elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
-		sSkinURI : "resources/smartEditor/SE2/SmartEditor2Skin.html", // Editor HTML
-		fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
-		htParams : {
-			// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseToolbar : true,
-			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseVerticalResizer : true,
-			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseModeChanger : true, 
-		}
-	});
+   // Editor Setting
+   
+   nhn.husky.EZCreator.createInIFrame({
+      oAppRef : oEditors, // 전역변수 명과 동일해야 함.
+      elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
+      sSkinURI : "resources/smartEditor/SE2/SmartEditor2Skin.html", // Editor HTML
+      fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
+      htParams : {
+         // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+         bUseToolbar : true,
+         // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+         bUseVerticalResizer : true,
+         // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+         bUseModeChanger : true, 
+      }
+   });
 
-	// 전송버튼 클릭이벤트
-	$("#savebutton").click(function(){
-		//if(confirm("저장하시겠습니까?")) {
-			// id가 smarteditor인 textarea에 에디터에서 대입
-			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+   // 전송버튼 클릭이벤트
+   $("#savebutton").click(function(){
+      //if(confirm("저장하시겠습니까?")) {
+         // id가 smarteditor인 textarea에 에디터에서 대입
+         oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
 
-			// 이부분에 에디터 validation 검증
-			if(validation()) {
-				return true;
-			}
-		//}
-	})
+         // 이부분에 에디터 validation 검증
+         if(validation()) {
+            return true;
+         }
+      //}
+   })
 });
 
 // 필수값 Check
 function validation(){
-	var contents = $.trim(oEditors[0].getContents());
-	if(contents === '<p>&nbsp;</p>' || contents === ''){ // 기본적으로 아무것도 입력하지 않아도 <p>&nbsp;</p> 값이 입력되어 있음. 
-		alert("내용을 입력하세요.");
-		oEditors.getById['smarteditor'].exec('FOCUS');
-		return false;
-	}
-	return true;
+   var contents = $.trim(oEditors[0].getContents());
+   if(contents === '<p>&nbsp;</p>' || contents === ''){ // 기본적으로 아무것도 입력하지 않아도 <p>&nbsp;</p> 값이 입력되어 있음. 
+      alert("내용을 입력하세요.");
+      oEditors.getById['smarteditor'].exec('FOCUS');
+      return false;
+   }
+   return true;
 }
 
 </script>
 </head>
 <body>
 <jsp:include page="../common/menubar.jsp"/>
-	<div id="omcContainer" class="cont_support">
-	<br>
-		<h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
-		<div id="cMain">
-			<header class="head_comm">
-				<h1 class="tit_comm">후원형 프로젝트 수정하기</h1>
-			</header>
+   <div id="omcContainer" class="cont_support">
+   <br>
+      <h2 id="omcBody" class="screen_out">후원형 프로젝트</h2>
+      <div id="cMain">
+         <header class="head_comm">
+            <h1 class="tit_comm">후원형 프로젝트 수정하기</h1>
+         </header>
 
-		<!-- 신청서 -->
-			<div class="apply_cont apply_support">
-				<div class="box_comm">
+      <!-- 신청서 -->
+         <div class="apply_cont apply_support">
+            <div class="box_comm">
 
-					<ol class="list_process">
-						<li><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
-						 <span class="fa fa-angle-right"></span>
-							<div class="flow_cont">
-								<p class="txt_step">개설자 정보</p>
-							</div></li>
-							
-						<li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon2">
-						</a> 
-						 <span class="fa fa-angle-right"></span>
-							<div class="flow_cont">
-								<p class="txt_step">프로젝트 스토리</p>
-							</div></li>
-							
-						<li><a href="javascript:void(0)" class="flow_reward" id="icon3">
-						</a> 
-						 <span class="fa fa-angle-right"></span>
-							<div class="flow_cont">
-								<p class="txt_step">리워드</p>
-							</div></li>
-					
-						<li><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
+               <ol class="list_process">
+                  <li><a href="javascript:void(0)" class="flow_reward" id="icon1"> </a>
+                   <span class="fa fa-angle-right"></span>
+                     <div class="flow_cont">
+                        <p class="txt_step">개설자 정보</p>
+                     </div></li>
+                     
+                  <li class="on"><a href="javascript:void(0)" class="flow_reward" id="icon2">
+                  </a> 
+                   <span class="fa fa-angle-right"></span>
+                     <div class="flow_cont">
+                        <p class="txt_step">프로젝트 스토리</p>
+                     </div></li>
+                     
+                  <li><a href="javascript:void(0)" class="flow_reward" id="icon3">
+                  </a> 
+                   <span class="fa fa-angle-right"></span>
+                     <div class="flow_cont">
+                        <p class="txt_step">리워드</p>
+                     </div></li>
+               
+                  <li><a href="javascript:void(0)" class="flow_reward" id="icon4"></a>
 
-							<div class="flow_cont">
-								<p class="txt_step">정산</p>
-							</div></li>
-					</ol>
-					
-			<div class="sheet_info">
-				<div class="form_area">
-					<form action="projectUpdate.do" name="addForm" id="frm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
-					
-					
-						<input type="hidden" value="${creator.creNo }" name="creNo">
-						<input type="hidden" value="${creator.creUrl }" name="creUrl">
-						<input type="hidden" value="${pNo}" name="pNo">
-						<fieldset class="fld_comm">
-							
-							<ul>
-								<li class="box_info">
-									<p class="tit_name">프로젝트 분야</p>
-									<div id="box_select">
-										<select  id="projectCate" name="pcNo" title="프로젝트 분야">	
-											<option value="1">공간/리빙</option>
-											<option value="2">사회이슈</option>
-											<option value="3">교육/출판</option>
-											<option value="4">문화예술</option>
-											<option value="5">지역재생</option>
-											<option value="6">푸드</option>
-											<option value="7">테크</option>
-											<option value="8">뷰티/패션</option>
-											<option value="9">여행</option>
-										</select>
-									</div>
-								</li>
-								<li class="box_info">
-									<p class="tit_name">
-										프로젝트 제목<span class="txt_warning">*</span>
-									</p>
-									<p class="txt_input input_mid">
-										<label for="tfTitle" class="tf_comm"> 
-										<input	type="text" id="projectName" name="pTitle"
-											class="tf_cont" value="${project.pTitle }" maxlength="35" placeholder="최대 35글자까지 가능합니다.">
-										</label>
-									</p>
-									
-								</li>
-								<li class="box_info box_file">
-									<ul id="file_area">
-										<li class="box_info">
-											<p class="tit_name">
-												프로젝트 이미지<span class="txt_warning">*</span>
-											</p>
-											<p>
-												<button type="button" id="btn_add_file" class="btn_add" onclick="fn_imgAdd()">
-													이미지파일 추가 <span>+</span>
-												</button>												
-											</p>
-										</li>
-								 
-										<li class="box_info">
-											<p class="tit_name txt-right">(대표)이미지</p>
-											<div class="txt_input input_full">
-												<input class="upload_name" id='uploadName0'	disabled="disabled">
-												 <label for="fileName0"	class="btn_search">찾아보기</label>
-												  <input type="file" id="fileName0" name="mainImage" class="upload_hidden">
-												<div class="file_attach" id="divFileName0">
-																	<span class="file_name">		
-																				<a>${fList.get(0).originName }</a><button type="button" class="btn_del" id="del"><span class="screen_out">삭제</span></button></span>
-																	</div>
-												<p class="txt_notice">※ 프로젝트를 수정하기 위해 이미지를 새로 등록해주세요(동일한 사진을 사용하더라도 파일을 업로드 해주세요)</p>
-													<!-- 추가되는 이미지 name subImage1 subImage2.... -->
-											</div>
-										</li>
-											 <c:forEach var="f" begin="1" items="${fList }" varStatus="status">      
-										
-										<li class="box_info" id="file${status.count}">
-											<div id="file${status.count}div" class="add_file">
-												<p class="tit_name txt-right">이미지</p>
-												<div class="txt_input input_full">
-													<input class="upload_name" id="uploadName${status.count}" disabled="disabled">
-																							
-													
-													<label for="fileName${status.count}" class="btn_search">찾아보기</label>
-													<button type="button" class="btn_delete">삭제</button>
-													<input type="file" id="fileName${status.count}" name="subImage${status.count}" class="upload_hidden">
-														<div class="file_attach" id="divFileName${statis.count}">
-																	<span class="file_name">		
-																				<a>${f.originName}</a><button type="button" class="btn_del" id="del"><span class="screen_out">삭제</span></button></span>
-																	</div>
-												</div>
-											</div>
-										</li>		 
-											</c:forEach> 
-									</ul>
-								</li>
-								
+                     <div class="flow_cont">
+                        <p class="txt_step">정산</p>
+                     </div></li>
+               </ol>
+               
+         <div class="sheet_info">
+            <div class="form_area">
+               <form action="projectUpdate.do" name="addForm" id="frm" method="post" enctype="multipart/form-data" onsubmit="return fn_validateCheck()">
+               
+               
+                  <input type="hidden" value="${creator.creNo }" name="creNo">
+                  <input type="hidden" value="${creator.creUrl }" name="creUrl">
+                  <input type="hidden" value="${pNo}" name="pNo">
+                  <fieldset class="fld_comm">
+                     <c:if test="${project.cate == '공간/리빙'}">
+                              <c:set var="selected1" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '사회이슈'}">
+                              <c:set var="selected2" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '교욱/출판'}">
+                              <c:set var="selected3" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '문화예술'}">
+                              <c:set var="selected4" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '지역재생'}">
+                              <c:set var="selected5" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '푸드'}">
+                              <c:set var="selected6" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '테크'}">
+                              <c:set var="selected7" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '뷰티/패션'}">
+                              <c:set var="selected8" value="selected"/>                           
+                           </c:if>
+                           <c:if test="${project.cate == '여행'}">
+                              <c:set var="selected9" value="selected"/>                           
+                           </c:if>
+                     <ul>
+                        <li class="box_info">
+                           <p class="tit_name">프로젝트 분야</p>
+                           <div id="box_select">
+                              <select  id="projectCate" name="pcNo" title="프로젝트 분야">   
+                                 <option value="1" ${selected1}>공간/리빙</option>
+                                 <option value="2" ${selected2}>사회이슈</option>
+                                 <option value="3" ${selected3}>교육/출판</option>
+                                 <option value="4" ${selected4}>문화예술</option>
+                                 <option value="5" ${selected5}>지역재생</option>
+                                 <option value="6" ${selected6}>푸드</option>
+                                 <option value="7" ${selected7}>테크</option>
+                                 <option value="8" ${selected8}>뷰티/패션</option>
+                                 <option value="9" ${selected9}>여행</option>
+                              </select>
+                           </div>
+                        </li>
+                        <li class="box_info">
+                           <p class="tit_name">
+                              프로젝트 제목<span class="txt_warning">*</span>
+                           </p>
+                           <p class="txt_input input_mid">
+                              <label for="tfTitle" class="tf_comm"> 
+                              <input   type="text" id="projectName" name="pTitle"
+                                 class="tf_cont" value="${project.pTitle }" maxlength="35" placeholder="최대 35글자까지 가능합니다.">
+                              </label>
+                           </p>
+                           
+                        </li>
+                        <li class="box_info box_file">
+                           <ul id="file_area">
+                              <li class="box_info">
+                                 <p class="tit_name">
+                                    프로젝트 이미지<span class="txt_warning">*</span>
+                                 </p>
+                                 <p>
+                                    <button type="button" id="btn_add_file" class="btn_add" onclick="fn_imgAdd()">
+                                       이미지파일 추가 <span>+</span>
+                                    </button>                                    
+                                 </p>
+                              </li>
+                         
+                              <li class="box_info">
+                                 <p class="tit_name txt-right">(대표)이미지</p>
+                                 <div class="txt_input input_full">
+                                    <input class="upload_name" id='uploadName0'   disabled="disabled">
+                                     <label for="fileName0"   class="btn_search">찾아보기</label>
+                                      <input type="file" id="fileName0" name="mainImage" class="upload_hidden">
+                                    <div class="file_attach" id="divFileName0">
+                                                   <span class="file_name">      
+                                                            <a>${fList.get(0).originName }</a><button type="button" class="btn_del" id="del"><span class="screen_out">삭제</span></button></span>
+                                                   </div>
+                                    <p class="txt_notice">※ 프로젝트를 수정하기 위해 이미지를 새로 등록해주세요(동일한 사진을 사용하더라도 파일을 업로드 해주세요)</p>
+                                       <!-- 추가되는 이미지 name subImage1 subImage2.... -->
+                                 </div>
+                              </li>
+                                  <c:forEach var="f" begin="1" items="${fList }" varStatus="status">      
+                              
+                              <li class="box_info" id="file${status.count}">
+                                 <div id="file${status.count}div" class="add_file">
+                                    <p class="tit_name txt-right">이미지</p>
+                                    <div class="txt_input input_full">
+                                       <input class="upload_name" id="uploadName${status.count}" disabled="disabled">
+                                                                     
+                                       
+                                       <label for="fileName${status.count}" class="btn_search">찾아보기</label>
+                                       <button type="button" class="btn_delete">삭제</button>
+                                       <input type="file" id="fileName${status.count}" name="subImage${status.count}" class="upload_hidden">
+                                          <div class="file_attach" id="divFileName${statis.count}">
+                                                   <span class="file_name">      
+                                                            <a>${f.originName}</a><button type="button" class="btn_del" id="del"><span class="screen_out">삭제</span></button></span>
+                                                   </div>
+                                    </div>
+                                 </div>
+                              </li>       
+                                 </c:forEach> 
+                           </ul>
+                        </li>
+                        
 
-								<li class="box_info box_radio" style="margin-bottom: 15px;">
-									<p class="tit_name">
-										프로젝트 동영상<span class="txt_warning">*</span>
-									</p>
-									<p class="inner_radio">
-										<c:choose>
-										<c:when test="${empty project.pUrl}">
-										<input type="radio" id="videoFlag3" name="videoFlag" value="N" checked>
-										<label for="videoFlag3" class="radio_label">미사용</label>
-										<input type="radio" id="videoFlag4" name="videoFlag" value="Y">
-										<label for="videoFlag4" class="radio_label">사용</label>
-										</c:when>
-										
-										<c:when test="${not empty project.pUrl}">
-										<input type="radio" id="videoFlag3" name="videoFlag" value="N">
-										<label for="videoFlag3" class="radio_label">미사용</label>
-										<input type="radio" id="videoFlag4" name="videoFlag" value="Y" checked>
-										<label for="videoFlag4" class="radio_label">사용</label>
-										</c:when>
-										</c:choose>	
-										</p>
-										
-									<div class="txt_input input_full">
-										<label for="tfSimpleIntroduce" class="tf_comm"> 
-										<c:choose>
-										<c:when test="${empty project.pUrl}">
-										<input	type="text" id="videoUrl" name="pVideo"	class="tf_cont input_hold" value="">
-										</c:when>
-										
-										<c:when test="${not empty project.pUrl}">
-										<input	type="text" id="videoUrl" name="pVideo"	class="tf_cont input_hold" value="${project.pUrl}">
-										</c:when>
-										</c:choose>
-										</label>
-										<p class="txt_notice">
-											※ '사용' 체크 후 Youtube 공유 주소를 입력해주세요.<br> ※ 프로젝트 동영상 사용 시
-											대표 이미지는 1개만 프로젝트 목록에서 노출됩니다.<br>
-										</p>
-									</div>
-								</li>
-								<li class="box_info">
-									<p class="tit_name">
-										프로젝트 간략소개<span class="txt_warning">*</span>
-									</p>
-									<p class="txt_input input_mid">
-										<label for="tfSimpleIntroduce" class="tf_comm">
-										 <input	type="text" id="simpleText" name="pText" class="tf_cont"
-											value="${project.pText }" maxlength="50">
-										</label>
-									</p>
-									
-								</li>
-								<li class="box_info">
-									<p class="tit_agreement">
-										프로젝트 소개<span class="txt_warning">*</span> 
-									<div id="contentArea">
-										<%-- <textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
-										name="pDesc" style="resize: none; overflow-x: hidden;">${project.pDesc}</textarea> --%>
-										
-										<textarea name="pDesc" id="smarteditor" rows="10" cols="100" style="width:700px; height:412px; ">${project.pDesc}</textarea> 
-										<!-- 에디트 삽입 영역		</div> 입니다. -->
-									</div>
-									<div class="wrap_notice">
-										<p class="txt_notice">※ 타 파일에서 문장을 복사, 붙여넣기 전에는 메모장 등에 한번
-											거쳐서 입력해주세요.</p>
-										<p class="txt_notice">※ 이미지 삽입을 통해 gif파일 삽입이 가능합니다.</p>
-									</div>
-								</li>
-								<li class="box_info box_hashtag">
-												<ul>
-													<li>
-														<p class="tit_name">해시태그|(#)</p>
-														<div class="txt_input">
-															<label for="tfHashtag" class="tf_comm">
-																<input type="text" id="inputHashTag" name="inputHashTag" class="tf_cont">
-															</label>
-														</div>
-														<p class="txt_notice">※ 검색에 노출될 태그를 입력하고 엔터(최대 5개)</p>
-														<textarea name="tag" id="tag" style="display:none;"></textarea>
-													</li>
-													<li>
-														<div class="inner_hashtag" id="tagArea">
-														 <c:forEach var="h" items="${hashList}" varStatus="status">      
-															<div class="hashtag"><span>#${h}<input type="hidden" value="${h}" id="tag${status.count}"></span>
-															<button type="button" class="ico_comm" id="red_icon">X 아이콘</button></div>
-														</c:forEach>
-														</div>
-							</ul>
-						</li>
-					</ul>
-				
-						</fieldset>
-					
-				</div>
-				<!-- // 개설자 정보 -->
-			</div>
-			<div class="btn_area">
-				<input	type="submit" class="btn_next" id="savebutton" title="다음단계" value="다음단계">
-			</div>
-			</form>
-		</div>
-		
-	</div>
+                        <li class="box_info box_radio" style="margin-bottom: 15px;">
+                           <p class="tit_name">
+                              프로젝트 동영상<span class="txt_warning">*</span>
+                           </p>
+                           <p class="inner_radio">
+                              <c:choose>
+                              <c:when test="${empty project.pUrl}">
+                              <input type="radio" id="videoFlag3" name="videoFlag" value="N" checked>
+                              <label for="videoFlag3" class="radio_label">미사용</label>
+                              <input type="radio" id="videoFlag4" name="videoFlag" value="Y">
+                              <label for="videoFlag4" class="radio_label">사용</label>
+                              </c:when>
+                              
+                              <c:when test="${not empty project.pUrl}">
+                              <input type="radio" id="videoFlag3" name="videoFlag" value="N">
+                              <label for="videoFlag3" class="radio_label">미사용</label>
+                              <input type="radio" id="videoFlag4" name="videoFlag" value="Y" checked>
+                              <label for="videoFlag4" class="radio_label">사용</label>
+                              </c:when>
+                              </c:choose>   
+                              </p>
+                              
+                           <div class="txt_input input_full">
+                              <label for="tfSimpleIntroduce" class="tf_comm"> 
+                              <c:choose>
+                              <c:when test="${empty project.pUrl}">
+                              <input   type="text" id="videoUrl" name="pVideo"   class="tf_cont input_hold" value="">
+                              </c:when>
+                              
+                              <c:when test="${not empty project.pUrl}">
+                              <input   type="text" id="videoUrl" name="pVideo"   class="tf_cont input_hold" value="${project.pUrl}">
+                              </c:when>
+                              </c:choose>
+                              </label>
+                              <p class="txt_notice">
+                                 ※ '사용' 체크 후 Youtube 공유 주소를 입력해주세요.<br> ※ 프로젝트 동영상 사용 시
+                                 대표 이미지는 1개만 프로젝트 목록에서 노출됩니다.<br>
+                              </p>
+                           </div>
+                        </li>
+                        <li class="box_info">
+                           <p class="tit_name">
+                              프로젝트 간략소개<span class="txt_warning">*</span>
+                           </p>
+                           <p class="txt_input input_mid">
+                              <label for="tfSimpleIntroduce" class="tf_comm">
+                               <input   type="text" id="simpleText" name="pText" class="tf_cont"
+                                 value="${project.pText }" maxlength="50">
+                              </label>
+                           </p>
+                           
+                        </li>
+                        <li class="box_info">
+                           <p class="tit_agreement">
+                              프로젝트 소개<span class="txt_warning">*</span> 
+                           <div id="contentArea">
+                              <%-- <textarea id="content" cols="90" rows="20" placeholder="프로젝트에 대해 소개하는 가장 중요한 부분입니다!"
+                              name="pDesc" style="resize: none; overflow-x: hidden;">${project.pDesc}</textarea> --%>
+                              
+                              <textarea name="pDesc" id="smarteditor" rows="10" cols="100" style="width:700px; height:412px; ">${project.pDesc}</textarea> 
+                              <!-- 에디트 삽입 영역      </div> 입니다. -->
+                           </div>
+                           <div class="wrap_notice">
+                              <p class="txt_notice">※ 타 파일에서 문장을 복사, 붙여넣기 전에는 메모장 등에 한번
+                                 거쳐서 입력해주세요.</p>
+                              <p class="txt_notice">※ 이미지 삽입을 통해 gif파일 삽입이 가능합니다.</p>
+                           </div>
+                        </li>
+                        <li class="box_info box_hashtag">
+                                    <ul>
+                                       <li>
+                                          <p class="tit_name">해시태그|(#)</p>
+                                          <div class="txt_input">
+                                             <label for="tfHashtag" class="tf_comm">
+                                                <input type="text" id="inputHashTag" name="inputHashTag" class="tf_cont">
+                                             </label>
+                                          </div>
+                                          <p class="txt_notice">※ 검색에 노출될 태그를 입력하고 엔터(최대 5개)</p>
+                                          <textarea name="tag" id="tag" style="display:none;"></textarea>
+                                       </li>
+                                       <li>
+                                          <div class="inner_hashtag" id="tagArea">
+                                           <c:forEach var="h" items="${hashList}" varStatus="status">      
+                                             <div class="hashtag"><span>#${h}<input type="hidden" value="${h}" id="tag${status.count}"></span>
+                                             <button type="button" class="ico_comm" id="red_icon">X 아이콘</button></div>
+                                          </c:forEach>
+                                          </div>
+                     </ul>
+                  </li>
+               </ul>
+            
+                  </fieldset>
+               
+            </div>
+            <!-- // 개설자 정보 -->
+         </div>
+         <div class="btn_area">
+            <input   type="submit" class="btn_next" id="savebutton" title="다음단계" value="다음단계">
+         </div>
+         </form>
+      </div>
+      
+   </div>
 </div>
 </div>
 
@@ -405,11 +431,11 @@ function validation(){
  
  */
 
-	$(document).on("change",".upload_hidden",function(){
-		
-		$(this).parent().children('div').remove();
-		
-		
+   $(document).on("change",".upload_hidden",function(){
+      
+      $(this).parent().children('div').remove();
+      
+      
         var changeHandler = this;
         var getFileId = $(this).attr('id').replace("fileName","");
 
@@ -428,13 +454,13 @@ function validation(){
         img.onload = function () {
             var width = this.width;
             var height = this.height;
-			changeHandler.parentNode.firstElementChild.value = filename;
-			
+         changeHandler.parentNode.firstElementChild.value = filename;
+         
         };
     });
-	
+   
 function fn_imgAdd() {
-	  var existimg = $(".add_file").length;
+     var existimg = $(".add_file").length;
       var max_img_cnt = 4;
       var make_img_div = existimg+1;
 
@@ -453,8 +479,8 @@ function fn_imgAdd() {
           html += "</div></div></li>"
 
           $("#file_area").append(html);
-		 
-	}
+       
+   }
 };
 
 /*    파일 삭제처리 (분석 필요)    */
@@ -549,19 +575,19 @@ function fn_validateCheck(){
         if($.trim($(this).val())==""){
             if(focus == ""){
                 focus = $(this);
-			}
+         }
             check_project_info = false;
         }
     });
 
    
 
-	// 태그 넣기
-	var ab="";
+   // 태그 넣기
+   var ab="";
     for(var i=1; i<num; i++){
         var b = $("#tag"+i).val();
         if(i==num-1){
-        ab = ab+b;	
+        ab = ab+b;   
         }else{
         ab= ab+b+",";
         }
@@ -571,7 +597,7 @@ function fn_validateCheck(){
     $("#tagArea").append("<input type='hidden' name='pHashTag' value='"+ab+"'>");
     
     return true;
-}	
+}   
 $('input[type=radio][name=videoFlag]').change(function() {
     if (this.value == 'N') {
         $("#videoUrl").val('');

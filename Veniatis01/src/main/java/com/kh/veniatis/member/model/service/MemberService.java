@@ -172,4 +172,14 @@ public interface MemberService {
 	int deleteFunding(String oNo);
 
 	int updateProject(Map map);
+
+	ArrayList<Revenue> mainRevenue2();
+
+	ArrayList<Revenue> mainRevenueAll();
+
+	int memberDelete(int getmNo);
+
+	int deleteInterest(Map map);
+
+	ArrayList<Revenue> revenueChart(Map map);
 }

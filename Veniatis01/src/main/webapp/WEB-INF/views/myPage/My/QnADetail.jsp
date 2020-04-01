@@ -78,7 +78,7 @@
 								</c:if>
 								<c:if test="${loginUser.mId ne 'admin' }">
 									<button type="button" class="btn_submit" onclick="deleteBtn()">삭제하기</button>
-									<button type="button" class="btn_submit" onclick="location.href='home.do'">뒤로가기</button>
+									<button type="button" class="btn_submit" onclick="location.href='myQnAList.do'">뒤로가기</button>
 								</c:if>																
 							</div>
 						</fieldset>

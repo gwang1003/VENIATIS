@@ -92,81 +92,85 @@
                                 
                                 <!-- 프로젝트 신청목록 -->
                                 <ul class="list_pjtapply">  
-                                
-                                	<c:forEach var="p" items="${alignList }">                              
-                                    <li>
-                                        <div class="img_thumb">
-                                            <div style="width:290px;height:174px;">
-                                            	<img src="${p.thumbnail }" style="width:290px;height:174px;">
-                                            </div>
-                                        </div>
-                                        <div class="box_text_area">
-                                            <dl>
-                                                <dt>프로젝트명</dt>
-                                                    <dd class="txt_none">${p.pTitle }</dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>펀딩기간</dt>
-                                                    <dd class="txt_none">${p.startDate } ~ ${p.endDate}</dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>상태</dt>       
-                                                
-                                                            <dd>${p.progress }<em class="num_state"></em></dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>등록일</dt>
-                                                <dd>
-                                                    
-                                                    ${p.pEnrollDate }
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                        <c:url var="pDetail" value="projectDetail.do">
-                                 <c:param name="pNo" value="${ p.pNo }"/>
-                              </c:url>
-                                        <div class="box_btn_area">
-                                        <c:if test="${p.pType eq 1 }">
-                                                    <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>   
-                                         </c:if> 
-                                         <c:if test="${p.pType eq 2 }">
-                                                    <a class="btn_preview" href="${pDetail }" title="미리보기" id="btn">미리보기</a>   
-                                         </c:if>           
-                                        <c:url var="pAlt" value="projectAlt.do">
-                                           <c:param name="pNo" value="${ p.pNo }"/>
-                                           
-                                        </c:url> 
-                                        
-                                          <c:url var="spAlt" value="startUpprojectAlt.do">
-                                           <c:param name="pNo" value="${ p.pNo }"/>
-                                           
-                                        </c:url>           
-                                        <c:if test="${p.progress eq '승인대기' }">
-                                        	<c:if test="${p.pType eq 1 }">               
-                                                        <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
-                                             </c:if>
-                                             <c:if test="${p.pType eq 2 }">
-                                             			 <a class="btn_edit" href="${spAlt }" title="수정하기">수정하기</a>
-                                             </c:if>
-                                             <c:url var="pDelete" value="projectDelete.do">
-                                             	<c:param name="pNo" value="${p.pNo }"/>
-                                         	 </c:url>               
-                                             <a class="btn_delete" id="Dbtn" href="${pDelete}"  title="삭제하기">삭제하기</a>
-                                        </c:if>
-                                        <c:if test="${p.progress ne '승인대기' }">
-                                        	<c:if test="${p.pType eq 1 }">               
-                                                        <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
-                                             </c:if>
-                                             <c:if test="${p.pType eq 2 }">
-                                             			 <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
-                                             </c:if>
-                                             <a class="btn_delete" onclick="noDelete()" title="삭제하기">삭제하기</a>
-                                        </c:if>
-                                         
-
-                                        </div>
-                                    </li>
-                                    </c:forEach>
+                                	<c:if test="${!empty alignList }">
+	                                	<c:forEach var="p" items="${alignList }">                              
+	                                    <li>
+	                                        <div class="img_thumb">
+	                                            <div style="width:290px;height:174px;">
+	                                            	<img src="${p.thumbnail }" style="width:290px;height:174px;">
+	                                            </div>
+	                                        </div>
+	                                        <div class="box_text_area">
+	                                            <dl>
+	                                                <dt>프로젝트명</dt>
+	                                                    <dd class="txt_none">${p.pTitle }</dd>
+	                                            </dl>
+	                                            <dl>
+	                                                <dt>펀딩기간</dt>
+	                                                    <dd class="txt_none">${p.startDate } ~ ${p.endDate}</dd>
+	                                            </dl>
+	                                            <dl>
+	                                                <dt>상태</dt>       
+	                                                
+	                                                            <dd>${p.progress }<em class="num_state"></em></dd>
+	                                            </dl>
+	                                            <dl>
+	                                                <dt>등록일</dt>
+	                                                <dd>
+	                                                    
+	                                                    ${p.pEnrollDate }
+	                                                </dd>
+	                                            </dl>
+	                                        </div>
+	                                        <c:url var="pDetail" value="projectDetail.do">
+	                                 <c:param name="pNo" value="${ p.pNo }"/>
+	                              </c:url>
+	                                        <div class="box_btn_area">
+	                                        <c:if test="${p.pType eq 1 }">
+	                                                    <a class="btn_preview" href="${pDetail }" title="미리보기">미리보기</a>   
+	                                         </c:if> 
+	                                         <c:if test="${p.pType eq 2 }">
+	                                                    <a class="btn_preview" href="${pDetail }" title="미리보기" id="btn">미리보기</a>   
+	                                         </c:if>           
+	                                        <c:url var="pAlt" value="projectAlt.do">
+	                                           <c:param name="pNo" value="${ p.pNo }"/>
+	                                           
+	                                        </c:url> 
+	                                        
+	                                          <c:url var="spAlt" value="startUpprojectAlt.do">
+	                                           <c:param name="pNo" value="${ p.pNo }"/>
+	                                           
+	                                        </c:url>           
+	                                        <c:if test="${p.progress eq '승인대기' }">
+	                                        	<c:if test="${p.pType eq 1 }">               
+	                                                        <a class="btn_edit" href="${pAlt }" title="수정하기">수정하기</a>
+	                                             </c:if>
+	                                             <c:if test="${p.pType eq 2 }">
+	                                             			 <a class="btn_edit" href="${spAlt }" title="수정하기">수정하기</a>
+	                                             </c:if>
+	                                             <c:url var="pDelete" value="projectDelete.do">
+	                                             	<c:param name="pNo" value="${p.pNo }"/>
+	                                         	 </c:url>               
+	                                             <a class="btn_delete" id="Dbtn" href="${pDelete}"  title="삭제하기">삭제하기</a>
+	                                        </c:if>
+	                                        <c:if test="${p.progress ne '승인대기' }">
+	                                        	<c:if test="${p.pType eq 1 }">               
+	                                                        <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
+	                                             </c:if>
+	                                             <c:if test="${p.pType eq 2 }">
+	                                             			 <button class="btn_edit but" onclick="noUpdate()" title="수정하기">수정하기</button>
+	                                             </c:if>
+	                                             <a class="btn_delete" onclick="noDelete()" title="삭제하기">삭제하기</a>
+	                                        </c:if>
+	                                         
+	
+	                                        </div>
+	                                    </li>
+	                                    </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty alignList }">
+                                    	<li align="center">프로젝트가 존재하지 않습니다.</li>
+                                    </c:if>
                                 </ul>
                                 
                                 <table align="center" class="pagingTable">

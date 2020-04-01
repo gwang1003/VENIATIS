@@ -1467,7 +1467,7 @@ public class BlogController {
 		   ArrayList<ProjectView> list = bService.projectSearch(searchValue);
 		   mv.addObject("projectList", list);
 		   mv.addObject("projectListSize", list.size());
-		   mv.setViewName("blog/projectSearch");
+		   mv.setViewName("project_user/projectSearch");
 	       mv.addObject("searchValue",searchValue);
 	      
 	      return mv;

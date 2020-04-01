@@ -43,6 +43,12 @@
 </style>
 </head>
 <body class="login">
+<c:if test="${ !empty msg }">
+		<script>
+			alert('${msg}');
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
 <jsp:include page="../../common/menubar.jsp"/>
  <div id="omcIndex">
             <a href="#omcGnb" class="shortcut">주메뉴 바로가기</a>
@@ -56,7 +62,7 @@
                         <header class="head_comm">
                             <h1 class="tit_comm">관심프로젝트</h1>
                             <div class="area_delete_selected">
-                                <button type="button" class="btn_del" id="btn_del">선택삭제</button>
+                                <button type="button" class="btn_del bbs" id="btn_del">선택삭제</button>
                             </div>
                         </header>
                         
@@ -78,12 +84,11 @@
                                         <a href="${ End }"><button>마감 ${index[2] }</button></a>
                                     </div>
                             <ul class="list_prj">
-                                
+                                <c:if test="${!empty interestList }">
                                 <c:forEach var="p" items="${interestList }"> 
                                 <li class="prj_type_support"> <!-- 후원형 프로젝트일 경우 class="prj_type_support" -->                 
                                     <label for="chkPrj_0" class="chk_comm">
-                                        <input type="checkbox" style="width:20px; height:20px;"> 
-                                        <span class="txt_cont">프로젝트 체크</span>
+                                        <input type="checkbox" name="chk" value="${p.pNo }" style="background:white; border:1px solid gray; width:20px; height:20px;">
                                     </label>
                                     <div class="box_project">
                                         <div class="related_words">
@@ -111,6 +116,10 @@
                                     </div>
                                 </li>
                                 </c:forEach>
+                                </c:if>
+                                <c:if test="${empty interestList }">
+                                	<div align="center">프로젝트가 존재하지 않습니다.</div>
+                                </c:if>
                             </ul>
                         </div>
    							<table align="center" class="pagingTable">
@@ -151,6 +160,7 @@
 											&nbsp;
 										</c:forEach>
 										
+										
 										<!-- [다음] -->
 									<td>
 										<c:if test="${ pi.currentPage >= pi.maxPage }">
@@ -173,6 +183,22 @@
                 </div>
             </main>
             </form>
+            
+<script>
+$(function(){
+	$(".bbs").click(function(){
+		var chk = $("input[name='chk']")
+		var pNo = "";
+		for(var i = 0; i < chk.length; i++) {
+			if(chk[i].checked) {
+				pNo += chk[i].value +" ";
+			}
+		}			
+		location.href="deleteInterest.do?pNo="+pNo;
+	})
+})
+
+</script>
 <jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

@@ -103,6 +103,10 @@
         padding:0;
         margin:0;
       }
+      
+      .pagination {
+      	position:absolute;
+      }
   </style>
 </head>
 <body>
@@ -133,7 +137,7 @@
         </form>
         <div class="card-body">
           <div class="table=responsive">
-            <table class="table table-boardered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-boardered" id="dataTable" cellspacing="0">
               <thead>
                 <tr>
                   <th>회원번호</li>

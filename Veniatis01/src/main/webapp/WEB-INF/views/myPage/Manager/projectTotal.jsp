@@ -340,8 +340,8 @@
         ['31', 45, 40], */
       ]);
       var options = {
-        title: '월간 방문자 통계',
-        vAxis: { title: "개,(%)" },
+        title: '프로젝트 통계',
+        vAxis: { title: "건,(%)" },
         seriesType: "bars",
         series: { 5: { type: "line" } }
       };
@@ -354,7 +354,7 @@
 <body>
 <jsp:include page="../../common/sidebar.jsp"/>
 <div class="mid" align="center">
-        <h2 class="mTitle">◎월별 방문자 통계</h2>
+        <h2 class="mTitle">◎프로젝트 통계</h2>
         <div class="log">
           <div id="chart_div" style="width: 100%; height: 100%;"></div>
         </div>  

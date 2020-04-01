@@ -483,20 +483,25 @@
          <if test="pStatus == 'IngS'">
 			AND P_END_DATE >= SYSDATE
 			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+			AND P_STATUS = 'Y'
 		 </if>
 		 <if test="pStatus == 'EndS'">
 			AND SYSDATE > P_END_DATE
 			AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+			AND P_STATUS = 'Y'
 		 </if>
          <if test="pStatus == 'Ing'">
 			AND P_END_DATE >= SYSDATE
+			AND P_STATUS = 'Y'
 		 </if>
 		 <if test="pStatus == 'End'">
 			AND SYSDATE > P_END_DATE
+			AND P_STATUS = 'Y'
 		 </if>
 		 <if test="pStatus == 'EndF'">
 			AND SYSDATE > P_END_DATE
 			AND P_TARGET_AMOUNT > P_SUM_AMOUNT
+			AND P_STATUS = 'Y'
 		 </if>
          <if test="id != ''">
             AND M_ID LIKE '%'||'${id}'||'%'
@@ -506,6 +511,9 @@
          </if>
          <if test="pName != ''">
             AND P_TITLE LIKE '%'||'${pName}'||'%'
+         </if>
+         <if test="pDate == 'on'">
+         	AND TO_CHAR(P_ENROLL_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
          </if>
       </where>
    </select>
@@ -591,7 +599,7 @@
 		FROM PROJECT
 		JOIN PRJ_CATE USING(PC_NO)
 		WHERE SYSDATE > P_END_DATE
-		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
         <if test="cate != null">
 			AND	PC_NO = ${cate}
 		</if>
@@ -610,7 +618,7 @@
 		SELECT TO_CHAR(P_END_DATE, 'YYYY-MM-DD') P_END_DATE, COUNT(P_END_DATE) COUNT, SUM(P_SUM_AMOUNT) AMOUNT, SUM(P_SUM_AMOUNT * 0.05) REVENUE
 		FROM PROJECT
 		WHERE SYSDATE > P_END_DATE
-		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
         <if test="cate != null">
 			AND	PC_NO = ${cate}
 		</if>
@@ -640,7 +648,7 @@
 		FROM PROJECT
 		RIGHT JOIN PRJ_CATE USING(PC_NO)
 		WHERE SYSDATE > P_END_DATE
-		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
 		GROUP BY PC_NAME, PC_NO
 		ORDER BY PC_NO
 	</select>
@@ -660,7 +668,7 @@
 		FROM PROJECT
 		RIGHT JOIN PRJ_CATE USING(PC_NO)
 		WHERE SYSDATE > P_END_DATE
-		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
 		AND P_TYPE = 1
 		GROUP BY PC_NAME, PC_NO
 		ORDER BY PC_NO
@@ -681,7 +689,7 @@
 		FROM PROJECT
 		RIGHT JOIN PRJ_CATE USING(PC_NO)
 		WHERE SYSDATE > P_END_DATE
-		AND P_SUM_AMOUNT > P_TARGET_AMOUNT
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
 		AND P_TYPE = 2
 		GROUP BY PC_NAME, PC_NO
 		ORDER BY PC_NO
@@ -723,5 +731,46 @@
 		WHERE P_NO = ${pNo}
 	</update>
 	
+	<select id="mainRevenue2" resultMap="RevenueResultSet">
+		SELECT *
+		FROM M_REVENUE2
+	</select>
+	
+	<select id="mainRevenueAll" resultMap="RevenueResultSet">
+		SELECT *
+		FROM M_REVENUE_All
+	</select>
+	
+	<delete id="memberDelete">
+		DELETE FROM MEMBER
+		WHERE M_NO = #{getmNo}
+	</delete>
+	
+	<delete id="deleteInterest">
+	   	DELETE FROM LIKES
+	   	WHERE M_NO = ${mNo}
+	   	AND P_NO = ${no}
+   </delete>
+	
+   <select id="revenueChart" resultMap="RevenueResultSet">
+   	SELECT TO_CHAR(P_END_DATE, 'YYYY-MM') P_END_DATE, SUM(P_SUM_AMOUNT * 0.05) REVENUE
+	FROM PROJECT
+	WHERE SYSDATE > P_END_DATE
+		AND P_SUM_AMOUNT >= P_TARGET_AMOUNT
+        <if test="cate != null">
+			AND	PC_NO = ${cate}
+		</if>
+		<if test="type != null">
+			AND P_TYPE = ${type}
+		</if>
+        <if test="sDate != null">
+			AND TO_CHAR(P_END_DATE, 'YYYY-MM-DD') >= '${sDate}'
+		</if>
+		<if test="eDate != null">
+			AND  '${eDate}' >= TO_CHAR(P_END_DATE, 'YYYY-MM-DD')
+		</if>
+		GROUP BY TO_CHAR(P_END_DATE, 'YYYY-MM')
+		ORDER BY 1
+   </select>
 	
 </mapper>

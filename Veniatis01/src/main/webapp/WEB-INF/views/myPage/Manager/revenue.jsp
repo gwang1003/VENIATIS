@@ -249,7 +249,7 @@
 	              </tbody>
 	              <tfoot>
 	                <th colspan="3"></th>
-	                <th><button>Excel로 다운로드</button> <button>인쇄하기</button></th>
+	                <th><button>Excel로 다운로드</button></th>
 	              </tfoot>
 	            </table>
             </form>

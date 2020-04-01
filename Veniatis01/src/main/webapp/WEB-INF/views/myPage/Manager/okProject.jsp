@@ -53,6 +53,9 @@
         display:none;
       }
       
+      .pagination {
+      	position:absolute;
+      }
       
   </style>
 </head>
@@ -95,7 +98,7 @@
 						<td>${p.targetAmount }</td>
 						<td>${p.cate }</td>
 						<td>${p.startDate }~${p.endDate }</td>
-						<td><button onclick="location.href='${pOk}'">등업</button></td>
+						<td><button onclick="location.href='${pOk}'">승인</button></td>
 					</tr>
 				</c:forEach>
               </tbody>

@@ -395,4 +395,29 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateProject(map);
 	}
 
+	@Override
+	public ArrayList<Revenue> mainRevenue2() {
+		return mDao.mainRevenue2();
+	}
+
+	@Override
+	public ArrayList<Revenue> mainRevenueAll() {
+		return mDao.mainRevenueAll();
+	}
+
+	@Override
+	public int memberDelete(int getmNo) {
+		return mDao.memberDelete(getmNo);
+	}
+
+	@Override
+	public int deleteInterest(Map map) {
+		return mDao.deleteInterest(map);
+	}
+
+	@Override
+	public ArrayList<Revenue> revenueChart(Map map) {
+		return mDao.revenueChart(map);
+	}
+
 }

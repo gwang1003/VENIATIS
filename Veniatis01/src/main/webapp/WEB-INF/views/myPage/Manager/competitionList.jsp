@@ -56,6 +56,10 @@
       td {
       	text-align:center;
       }
+      
+      .pagination {
+      	position:absolute;
+      }
   </style>
 </head>
 <c:if test="${ !empty msg }">

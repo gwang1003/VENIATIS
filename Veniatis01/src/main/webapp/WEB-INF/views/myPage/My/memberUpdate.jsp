@@ -128,7 +128,7 @@ input{
 	                <form name="addForm" method="post" enctype="multipart/form-data" action="memberUpdate.do" onsubmit="return updateValidate();">
 	                	<fieldset class="box_field">
 	                		<button type="button" class="mUpdate mInfo" onclick="location.href='memberUpdateForm.do'">회원정보</button><button type="button" class="mUpdate mPwd"onclick="location.href='passConfirm.do'">비밀번호변경</button>
-	                		<p class="notice_vital"><span class="mark_vital">*</span>은 필수입력 항목입니다.</p>
+	                		<p class="notice_vital"></p>
 			                <div class="fld_type1">
 			                	<dl class="data_base">
 			                		<dt><label for="tfId" class="tit_item">아이디</label></dt>
@@ -141,11 +141,11 @@ input{
                                     </dl>
                                     <dl class="data_base">
                                         <dt><label for="tfName" class="tit_item">이름<span
-                                                class="mark_vital">*</span></label></dt>
+                                                class="mark_vital"></span></label></dt>
                                         <dd>
 				                		<span class="tf_comm">
 											<input type="text" id="memberName" name="mName" class="tf_cont"
-                                                   value="${loginUser.mName }">
+                                                   value="${loginUser.mName }" readonly="readonly">
 										</span>
                                         </dd>
                                     </dl>
@@ -162,7 +162,7 @@ input{
                                     </dl>
                                     <dl class="data_base">
                                         <dt><label for="tfEmail" class="tit_item">이메일<span
-                                                class="mark_vital">*</span></label></dt>
+                                                class="mark_vital"></span></label></dt>
                                         <dd>
 			                			<span class="tf_comm">
 											<input type="text" id="email" name="mEmail" class="tf_cont"
@@ -181,7 +181,7 @@ input{
                                         </dd>
                                     </dl>
                                     <dl>
-                                        <dt><label for="tfPhone" class="tit_item">휴대폰번호<span class="mark_vital">*</span></label>
+                                        <dt><label for="tfPhone" class="tit_item">휴대폰번호<span class="mark_vital"></span></label>
                                         </dt>
                                         <dd>
 			                			<span class="tf_comm">

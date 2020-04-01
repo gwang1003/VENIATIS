@@ -52,6 +52,10 @@
       td {
       	font-size:18px;
       }
+      
+      .pagination {
+      	position:absolute;
+      }
   </style>
 </head>
 <body>

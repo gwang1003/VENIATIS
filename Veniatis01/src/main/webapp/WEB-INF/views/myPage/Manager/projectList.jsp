@@ -102,6 +102,10 @@
         padding:0;
         margin:0;
       }
+      
+      .pagination {
+      	position:absolute;
+      }
   </style>
 </head>
 <body>

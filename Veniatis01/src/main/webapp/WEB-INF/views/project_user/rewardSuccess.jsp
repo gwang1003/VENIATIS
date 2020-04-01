@@ -65,19 +65,9 @@
             <div class="cMain">
                 <article id="mContent" class="project_reward">
                     <header class="head_comm">
-					<h1 id="projectName" class="tit_comm">${ project.pTitle }</h1>
-					<div class="author_reward">
-						<span class="txt_author">by</span> <span class="user_profile">
-							<span class="img_profile clear_empty_picture"> 
-								<img src="${ project.creProfile }"> 
-							</span> 
-							<span class="txt_name">${ project.creName }</span>
-						</span>
-
-					</div>
-				</header>
+					<%-- <h1 id="projectName" class="tit_comm">${ project.pTitle }</h1> --%>
+					</header>
                     <div class="cont_comm reward-join-box">
-
 
                         <div class="step-navigation-wrapper reward">
                             <div class="step-navigation-bar">

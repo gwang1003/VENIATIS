@@ -116,6 +116,10 @@
       .col-md-6 {
         display:none;
       }
+      
+      .pagination {
+      	position:absolute;
+      }
   </style>
 </head>
 <body>

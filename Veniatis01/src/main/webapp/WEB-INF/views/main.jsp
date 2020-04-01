@@ -125,9 +125,9 @@
                 
                 <div class="row">
                 <c:forEach var="p" items="${proList }" varStatus="status"> 
-              					  <c:url var="pDetail" value="projectDetail.do">
-									<c:param name="pNo" value="${ p.pNo }"/>
-								</c:url>
+                               <c:url var="pDetail" value="projectDetail.do">
+                           <c:param name="pNo" value="${ p.pNo }"/>
+                        </c:url>
                     <div class="col-lg-4 col-md-6">
                         <div class="single_place">
                             <div class="thumb imgArea" >
@@ -138,18 +138,41 @@
                                 <a href="${ pDetail }"><h3>${p.pTitle}</h3></a>
                                 <p>${p.pText }</p>
                                 <div class="rating_days d-flex justify-content-between">
-                                    <span class="d-flex justify-content-center align-items-center">
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i> 
-                                         <i class="fa fa-star"></i>
-                                 	
-                                    </span>
-                                    <div class="days">
-                                        <i class="fa fa-clock-o"></i>
-                                        
-                                    </div>
+                                
+                                                      <div style="width: 100%; height : 20px;">
+                        
+                                    
+                                 
+                                 <div class="graphTest">
+                                    <c:if test="${ p.sumAmount ne 0 }">
+                                       <c:set var="supportRate" value="${ p.sumAmount *100 / p.targetAmount } " />
+                                       <span class="screen_out">참여율</span> 
+                                       <c:if test="${ p.sumAmount *100 / p.targetAmount < 100 }">
+                                          <span class="greenbar" style="width: ${ p.sumAmount *100 / p.targetAmount }%;"></span>
+                                       </c:if>
+                                       <c:if test="${ p.sumAmount *100 / p.targetAmount >= 100 }">
+                                          <span class="greenbar" style="width: 100%;"></span>
+                                       </c:if>
+                                       <span class="invest_rate"><!-- (#)참여율 -->
+                                       <fmt:parseNumber var="sRate" value="${ supportRate }" integerOnly="true"/>
+                                          ${sRate}%
+                                       </span>
+                                    </c:if>
+                                    <c:if test="${ p.sumAmount eq 0 }">
+                                       <span class="screen_out">참여율</span> 
+                                       <span class="greenbar" style="width: 0%;"></span> 
+                                       <span class="invest_rate"><!-- (#)참여율 -->
+                                          0%
+                                       </span>
+                                    </c:if>
+                                 </div>
+                                 
+                              </div>
+                                       
+                                    
+                                   
+                                    
+                                   
                                 </div>
                             </div>
                         </div>
@@ -158,7 +181,7 @@
             </div>
                
         </div>
-       </div>	
+       </div>   
     <!-- popular_destination_area_start  -->
    <!--  <div class="popular_destination_area">  인기 게시글(블로그라서 일단 제외)
         <div class="container">

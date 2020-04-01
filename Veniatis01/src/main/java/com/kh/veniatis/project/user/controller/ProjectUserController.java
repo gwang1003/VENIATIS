@@ -76,14 +76,16 @@ public class ProjectUserController {
    @RequestMapping("projectList2.do")
    public ModelAndView ProjectList2(ModelAndView mv,
          @RequestParam(value="page", required = false) Integer page,
-         @RequestParam(value="cate", required = false) Integer cate) {
+         @RequestParam(value="cate", required = false) Integer cate,
+         @RequestParam(value="arrange", required = false) Integer arrange) {
 
       int currentPage = page != null ? page : 1;
       int currentCate = cate != null ? cate : 0;
+      int currentArrange = arrange != null ? arrange : 0;
       //System.out.println("카테고리 번호 확인 : " + currentCate);
       ArrayList<ProjectView> list = new ArrayList<ProjectView>();
       
-      list = pus.selectList2(currentPage, currentCate);
+      list = pus.selectList2(currentPage, currentCate, currentArrange);
       
       if(list != null) {
          /*for(ProjectView p : list) {
@@ -93,7 +95,7 @@ public class ProjectUserController {
          mv.addObject("projectListSize", list.size());
          mv.addObject("pi", ProjectPagination.getPageInfo());
          mv.addObject("currentCate", currentCate);
-         mv.setViewName("project_user/projectList");
+         mv.setViewName("project_user/projectList2");
          
       }else {
          //throw new BoardException("게시글 전체 조회 실패!!");

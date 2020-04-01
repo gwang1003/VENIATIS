@@ -28,20 +28,7 @@ public class ProjectUserDao {
 		return sqlSession.selectOne("puMapper.getListCount", cateName);
 	}
 	
-	public int getListCount2(int currentCate) {
-		String cateName = "";
-		switch(currentCate) {
-		case 1: cateName="공간/리빙"; break;
-		case 2: cateName="사회이슈"; break;
-		case 3: cateName="교육/출판"; break;
-		case 4: cateName="문화예술"; break;
-		case 5: cateName="지역재생"; break;
-		case 6: cateName="푸드"; break;
-		case 7: cateName="테크"; break;
-		case 8: cateName="뷰티/패션"; break;
-		case 9: cateName="여행"; break;
-		default: cateName=null; break;
-	}
+	public int getListCount2(String cateName) {
 		return sqlSession.selectOne("puMapper.getListCount2", cateName);
 	}
 	
@@ -66,24 +53,18 @@ public class ProjectUserDao {
 		
 	}
 	
-	public ArrayList<ProjectView> selectList2(PageInfo pi, int currentCate) {
+	public ArrayList<ProjectView> selectList2(PageInfo pi, String cateName, int currentArrange) {
 		// 마이바티스에서 페이징처리는 RowBounds를 이용
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		String cateName = "";
-		switch(currentCate) {
-			case 1: cateName="공간/리빙"; break;
-			case 2: cateName="사회이슈"; break;
-			case 3: cateName="교육/출판"; break;
-			case 4: cateName="문화예술"; break;
-			case 5: cateName="지역재생"; break;
-			case 6: cateName="푸드"; break;
-			case 7: cateName="테크"; break;
-			case 8: cateName="뷰티/패션"; break;
-			case 9: cateName="여행"; break;
-			default: cateName=null; break;
+		
+		switch(currentArrange) {
+		case 1:return (ArrayList)sqlSession.selectList("puMapper.selectList11", cateName, rowBounds);
+		case 2:return (ArrayList)sqlSession.selectList("puMapper.selectList12", cateName, rowBounds);
+		case 3:return (ArrayList)sqlSession.selectList("puMapper.selectList13", cateName, rowBounds);
+		/*case 4:return (ArrayList)sqlSession.selectList("puMapper.selectList04", cateName, rowBounds);*/
+		default:return (ArrayList)sqlSession.selectList("puMapper.selectList2", cateName, rowBounds);
 		}
-		return (ArrayList)sqlSession.selectList("puMapper.selectList2", cateName, rowBounds);
 	}
 
 	public ArrayList<Reward> selectRewardList(int pNo) {

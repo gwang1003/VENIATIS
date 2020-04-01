@@ -165,7 +165,7 @@
 		FROM V_PROJECT
 		WHERE P_STATUS='Y'
 		<if test="value != null and value != ''">
-		AND PC_NAME=#{cateName}
+		AND PC_NAME=#{value}
 		</if>
 		AND P_TYPE = 2
 	</select>
@@ -237,6 +237,51 @@
 		</if>
 		AND P_TYPE = 2
 		ORDER BY P_NO DESC
+	</select>
+	
+	<select id="selectList11" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 2
+		ORDER BY P_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectList12" resultMap="prjView" parameterType="string">
+		SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+		AND P_TYPE = 2
+		ORDER BY P_SUM_AMOUNT DESC
+	</select>
+	
+	<!-- 마감임박순 -->
+	<select id="selectList13" resultMap="prjView" parameterType="string">
+		SELECT * FROM(SELECT *
+		FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 2
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &gt;= 0
+        ORDER BY P_END_DATE)
+		UNION ALL
+		SELECT * FROM
+		(SELECT * FROM V_PROJECT
+		WHERE P_STATUS = 'Y'
+		AND P_TYPE = 2
+		<if test="value != null and value != ''">
+		AND PC_NAME=#{value}
+		</if>
+        AND (P_END_DATE - SYSDATE) &lt; 0
+		ORDER BY P_END_DATE)
 	</select>
 	
 	<select id="selectProject" parameterType="_int" resultMap="prjView">

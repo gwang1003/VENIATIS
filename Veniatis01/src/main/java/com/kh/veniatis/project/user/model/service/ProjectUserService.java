@@ -18,7 +18,7 @@ public interface ProjectUserService {
 	// 개인 프로젝트 리스트 조회
 	ArrayList<ProjectView> selectList(int currentPage, int currentCate, int currentArrange);
 	// 창업 프로젝트 리스트 조회
-	ArrayList<ProjectView> selectList2(int currentPage, int currentCate);
+	ArrayList<ProjectView> selectList2(int currentPage, int currentCate, int currentArrange);
 
 	// 프로젝트 1개 선택
 	ProjectView selectProject(int pNo);

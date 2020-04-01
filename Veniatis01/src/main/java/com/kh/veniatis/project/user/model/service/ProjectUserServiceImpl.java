@@ -50,14 +50,27 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 	
 	// 창업 프로젝트 리스트 조회
 	@Override
-	public ArrayList<ProjectView> selectList2(int currentPage, int currentCate) {
+	public ArrayList<ProjectView> selectList2(int currentPage, int currentCate, int currentArrange) {
 		// 1. 게시글 개수 조회
-		int listCount = pud.getListCount2(currentCate);
+		String cateName = "";
+		switch(currentCate) {
+		case 1: cateName="공간/리빙"; break;
+		case 2: cateName="사회이슈"; break;
+		case 3: cateName="교육/출판"; break;
+		case 4: cateName="문화예술"; break;
+		case 5: cateName="지역재생"; break;
+		case 6: cateName="푸드"; break;
+		case 7: cateName="테크"; break;
+		case 8: cateName="뷰티/패션"; break;
+		case 9: cateName="여행"; break;
+		default: cateName=null; break;
+		}
+		int listCount = pud.getListCount2(cateName);
 		
 		// 페이지 정보 저장
 		PageInfo pi = ProjectPagination.getPageInfo(currentPage, listCount);
 		// 2. 게시글 리스트 조회
-		return pud.selectList2(pi, currentCate);
+		return pud.selectList2(pi, cateName, currentArrange);
 	}
 
 	@Override

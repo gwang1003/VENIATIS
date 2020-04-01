@@ -615,7 +615,8 @@ public class MemberController {
 	       Descending descending = new Descending();
 	      ArrayList<ProjectTotal> pTotal = mService.pTotalList();
 	      ArrayList<ProjectTotal> pTotalSuccess = mService.pTotalSuccessList();
-	      
+	      System.out.println("pTotal : " + pTotal);
+	      System.out.println("pTotalSuccess : " + pTotalSuccess);
 	      for(int i = 0; i < pTotal.size(); i++) {
 	         for(int j = 0; j < pTotalSuccess.size(); j++) {
 	            if(pTotal.get(i).getPcNo() == pTotalSuccess.get(j).getPcNo()) {
@@ -624,6 +625,8 @@ public class MemberController {
 	            }
 	         }
 	      }
+	      System.out.println("pTotal : " + pTotal);
+	      System.out.println("pTotalSuccess : " + pTotalSuccess);
 	      
 	      ArrayList<ProjectTotal> pSolo = mService.pSoloList();
 	      ArrayList<ProjectTotal> pSoloSuccess = mService.pSoloSuccessList();

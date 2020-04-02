@@ -16,9 +16,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
    crossorigin="anonymous"></script>
 <!-- 최근소식용 스크립트 -->
-<script type="text/javascript" src="resources/smartEditor/js/jquery.js"></script>
-<script type="text/javascript" src="resources/smartEditor/js/jquery-ui.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/smartEditor/SE2/js/HuskyEZCreator.js"></script> 
 <title>VENIATIS : 후원형</title>
 <style>
 .div_hide{
@@ -232,14 +229,14 @@ function checkLogin(){
                                        // 초기 페이지 로딩 시 응원 불러오기
                                       getCheerList();
                                       getQnaList();
-                                      getPnoticeList();
+                                      getpNoticeList();
                                        // 지속적으로 얻어오기위함
                                       setInterval(function(){
                                          getCheerList();
                                          //getQnaList();
                                       }, 10000);
                                       
-                                        $(".main_image_nav img").on("click", function () {
+                                        $(".main_image_nav img").click(function () {
                                             var index = $(this).index();
                                             //alert(index);
                                             $(".uk-slideshow-items li").removeAttr("style");
@@ -404,7 +401,7 @@ function checkLogin(){
                                         <ul class="list_tab" id="detail_tabmenu">
                                             <li class="on"><a id="Intro" class="link_tab">소개</a></li>
                                             <li>
-                                                <a id="News" class="link_tab">최근소식<span class="num_count">1</span></a>
+                                                <a id="News" class="link_tab">최근소식<span class="num_count">0</span></a>
                                             </li>
                                             <li>
                                                 <a id="Qna" class="link_tab">Q&amp;A<span class="num_count">100</span></a>
@@ -456,41 +453,6 @@ function checkLogin(){
                                    }
                                    
                                    
-                                   /* 최근소식 */
-                                   var oEditors = []; // 개발되어 있는 소스에 맞추느라, 전역변수로 사용하였지만, 지역변수로 사용해도 전혀 무관 함.
-
-                                   $(document).ready(function() {
-                                   	// Editor Setting
-                                   	
-                                   	nhn.husky.EZCreator.createInIFrame({
-                                   		oAppRef : oEditors, // 전역변수 명과 동일해야 함.
-                                   		elPlaceHolder : "smarteditor", // 에디터가 그려질 textarea ID 값과 동일 해야 함.
-                                   		sSkinURI : "resources/smartEditor/SE2/SmartEditor2Skin.html", // Editor HTML
-                                   		fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
-                                   		htParams : {
-                                   			// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-                                   			bUseToolbar : true,
-                                   			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-                                   			bUseVerticalResizer : true,
-                                   			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-                                   			bUseModeChanger : true, 
-                                   		}
-                                   	});
-
-                                   	// 전송버튼 클릭이벤트
-                                   	$("#savebutton").click(function(){
-                                   		//if(confirm("저장하시겠습니까?")) {
-                                   			// id가 smarteditor인 textarea에 에디터에서 대입
-                                   			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
-
-                                   			// 이부분에 에디터 validation 검증
-                                   			/* if(validation()) {
-                                   				return true;
-                                   			} */
-                                   		//}
-                                   			
-                                   	})
-                                   });
                                    
                                    function fn_insertpNotice(){
                                 	   var pNo = ${project.pNo};
@@ -600,7 +562,6 @@ function getpNoticeList(){
         url:"getpNoticeList.do",
         data:{pNo:pNo},
         dataType:"json",
-        async: false,
         success:function(data){
         	$("#News .num_count").text(data.length);
         	var $NewsBox = $("#NewsBox");
@@ -654,7 +615,6 @@ function getpNoticeList(){
 function fn_pNoticeWrite(){
 	$("#noticeModal").modal('show');
 }
-
 
 </script>
 

@@ -207,8 +207,8 @@
 	</select>
 	
 	<insert id="pNoticeInsert">
-		INSERT iNTO P_NOTICE
-		VALUE(SEQ_PNID.NEXTVAL,#{pNo},#{pnTitle},#{pnContent},SYSDATE)
+		INSERT iNTO P_NOTICE(PN_NO, P_NO, PN_TITLE, PN_CONTENT, PN_ENROLL_DATE)
+		VALUES(SEQ_PNID.NEXTVAL,#{pNo},#{pnTitle},#{pnContent},SYSDATE)
 	</insert>
 
 	<select id="rewardSelect" resultMap="rewardResultSet">

@@ -418,6 +418,7 @@
 		AND P_TYPE = 1
 		ORDER BY P_NO DESC)
 		WHERE ROWNUM <=6
+		AND P_END_DATE >= SYSDATE
 			]]>
 	</select>
 	

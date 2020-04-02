@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
  <link rel="stylesheet" href="resources/css/guidecss.css">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>VENIATIS</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS here -->
@@ -40,6 +41,17 @@
          width:350px !important;
          height:350px !important;
         }
+        .graphTest {
+         position: relative;
+         width: 100%;
+         height: 4px;
+        
+         background-color: #e1e1e1; }
+         
+         .greenbar {
+           display: block;
+           height: 100%;
+            background-color: #40C8B5; }
     </style>
 
 </head>
@@ -74,7 +86,7 @@
                                 <h3 id="aa">후원하기</h3>
                                 <p>새로운 프로젝트를 확인해보세요!</p>
                                 <a href="projectList.do" class="boxed-btn3">개인</a>
-                                <a href="projectList2.do" class="boxed-btn3">기업</a>
+                                <a href="projectList2.do" class="boxed-btn3">창업</a>
                             </div>
                         </div>
                     </div>

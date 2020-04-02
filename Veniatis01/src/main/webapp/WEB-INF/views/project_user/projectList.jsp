@@ -362,7 +362,7 @@
 							<!-- [이전] -->
 							<c:if test="${ pi.currentPage <= 1 }">
 								<li class="page-item"><a class="page-link"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 								</a></li>
 							</c:if>
 							<c:if test="${ pi.currentPage > 1 }">
@@ -372,7 +372,7 @@
 									<c:param name="arrange" value="${ currentArrange }"/>
 								</c:url>
 								<li class="page-item"><a class="page-link" href="${ before }"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 								</a></li>
 							</c:if>
 							
@@ -400,7 +400,7 @@
 							<!-- [다음] -->
 							<c:if test="${ pi.currentPage >= pi.maxPage }">
 								<li class="page-item"><a class="page-link"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									aria-label="Next"> <span aria-hidden="true">&gt;</span>
 								</a></li>
 							</c:if>
 							<c:if test="${ pi.currentPage < pi.maxPage }">
@@ -410,7 +410,7 @@
 									<c:param name="arrange" value="${ currentArrange }"/>
 								</c:url> 
 								<li class="page-item"><a class="page-link" href="${ after }"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									aria-label="Next"> <span aria-hidden="true">&gt;</span>
 								</a></li>
 							</c:if>
 								<!-- <li class="page-item"><a class="page-link" href="#"

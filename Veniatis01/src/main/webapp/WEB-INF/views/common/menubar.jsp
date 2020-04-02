@@ -100,7 +100,7 @@ s0.parentNode.insertBefore(s1,s0);
                                             <li><a href="#">후원하기! <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li><a href="projectList.do">개인</a></li>
-                                                    <li><a href="projectList2.do">기업</a></li>
+                                                    <li><a href="projectList2.do">창업</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="projectSelect.do">프로젝트 시작하기</a></li>

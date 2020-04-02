@@ -238,7 +238,7 @@
                 }	
                 
                 if(!(/^[a-zA-Z][a-zA-Z\d]{8,13}$/.test($("#joinForm input[name=mPwd]").val()))){
-                    alert('비밀번호는 8자 이상 15자 미만으로 숫자와 영문(대, 소문자)만 입력해주세요(첫글자는영어만 사용가능)');
+                    alert('비밀번호는 9자 이상 15자 미만으로 숫자와 영문(대, 소문자)만 입력해주세요(첫글자는영어만 사용가능)');
                     $("#joinForm input[name=mPwd]").select();
                     return false;
                 }	 
